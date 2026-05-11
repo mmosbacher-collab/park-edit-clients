@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Pre-Edit · Jane Mosbacher Morris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FDF8F4;
+  --terracotta:#E8734A;
+  --brown:#5C3D2E;
+  --border:#EDE5DC;
+  --text:#2C2420;
+  --muted:#8C7B72;
+  --surface:#F5EFE8;
+  --shadow:#C4A898;
+  --done:#7AAE8E;
+  --gold:#F2C94C;
+  --sky:#5B8FA8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:80px;}
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.04) 0%,transparent 70%);}
+.brand-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#7A5530;margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.wrap{padding:16px 16px 0;}
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:20px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:white;padding:18px 20px 22px;color:var(--text);border-radius:20px 20px 0 0;border:1.5px solid var(--border);border-bottom:none;position:relative;overflow:hidden;box-shadow:4px 4px 0 var(--shadow);}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(92,61,46,0.04);}
+.bp-route-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;}
+.bp-origin-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.bp-arrow{font-size:11px;color:var(--terracotta);}
+.bp-dest-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta);font-weight:500;}
+.bp-headline{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;color:var(--text);}
+.bp-sub{font-size:12px;color:var(--muted);position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;color:var(--muted);line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--cream);}
+.bp-notch{width:18px;height:18px;background:white;flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;border:1.5px solid var(--border);border-left:none;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;border:1.5px solid var(--border);border-right:none;}
+.bp-dash{flex:1;border-top:2px dashed var(--border);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1.5px solid var(--border);border-top:none;overflow:hidden;padding:14px 18px 16px;box-shadow:4px 4px 0 var(--shadow);}
+.bp-chips-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.bp-chips{display:flex;flex-wrap:wrap;gap:6px;}
+.bp-chip{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s,border-color 0.12s,color 0.12s;}
+.bp-chip:active{background:var(--terracotta);border-color:var(--terracotta);color:white;}
+.section-head{padding:18px 16px 6px;}
+.section-title{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.section-subtitle{font-size:12px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;line-height:1.55;}
+.row-group{display:flex;flex-direction:column;margin-bottom:8px;}
+.drawer-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#FEFCFA;border-left:3px solid var(--border);border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s,border-color 0.12s;}
+.drawer-row:first-child{border-top:1px solid var(--border);}
+.drawer-row:last-child{border-bottom:1px solid var(--border);}
+@media(hover:hover) and (pointer:fine){.drawer-row:hover{background:var(--surface);border-left-color:var(--terracotta);}.drawer-row:hover .dr-title{color:var(--terracotta);}}
+.drawer-row.tapped{background:var(--surface);border-left-color:var(--terracotta);}
+.drawer-row.tapped .dr-title{color:var(--terracotta);}
+.dr-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;}
+.dr-content{flex:1;min-width:0;}
+.dr-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.3;transition:color 0.15s;}
+.dr-chev{font-size:18px;color:var(--terracotta);flex-shrink:0;opacity:0.7;}
+.section-block{margin-bottom:0;}
+.section-divider-notch{display:flex;align-items:center;background:var(--cream);margin:0 0 16px;}
+.sdn-notch{width:18px;height:18px;background:white;flex-shrink:0;}
+.sdn-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;border:1.5px solid var(--border);border-left:none;}
+.sdn-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;border:1.5px solid var(--border);border-right:none;}
+.sdn-dash{flex:1;border-top:2px dashed var(--border);margin:0 3px;}
+.ll-banner{margin:0 16px 0;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:11px 14px;margin-bottom:0;}
+.ll-banner-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:4px;}
+.ll-banner-text{font-size:13px;line-height:1.65;color:var(--text);font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon-wrap{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:rgba(232,115,74,0.1);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-body{padding:18px 22px 24px;overflow-y:auto;max-height:78vh;}
+.prose-p{font-size:15px;line-height:1.8;color:var(--text);margin-bottom:16px;}
+.prose-p:last-child{margin-bottom:0;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.prose-p strong{font-weight:600;}
+.section-divider{height:1px;background:rgba(232,115,74,0.2);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin:14px 0;}
+.callout-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.callout-text{font-size:14px;line-height:1.7;color:var(--text);}
+.callout-urgent{background:rgba(232,115,74,0.12);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin:14px 0;}
+.callout-urgent .callout-label{color:var(--terracotta);}
+.callout-urgent .callout-text{font-size:14px;line-height:1.7;color:var(--text);font-weight:500;}
+.link-placeholder{display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;margin:12px 0;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:0.05em;}
+.link-placeholder-icon{font-size:14px;}
+.ordered-list{margin:12px 0 0 0;padding:0;list-style:none;}
+.ordered-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:14px;line-height:1.65;color:var(--text);}
+.ordered-list li:last-child{border-bottom:none;}
+.ol-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--terracotta);font-weight:500;flex-shrink:0;margin-top:2px;min-width:16px;}
+.ll-option-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;}
+.ll-option-card:last-child{margin-bottom:0;}
+.ll-option-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.ll-option-name span{font-family:'DM Mono',monospace;font-size:9px;font-weight:400;color:var(--terracotta);letter-spacing:0.08em;text-transform:uppercase;margin-left:6px;}
+.ll-option-price{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:6px;}
+.ll-option-desc{font-size:14px;line-height:1.7;color:var(--muted);}
+.checklist{margin:10px 0;padding:0;list-style:none;}
+.checklist-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.check-item:last-child{border-bottom:none;}
+.check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.check-item.checked .check-box{background:var(--done);border-color:var(--done);}
+.check-item.checked .check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.check-item.checked .check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.check-label{font-size:14px;line-height:1.5;color:var(--text);transition:color 0.15s;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.add-own-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px dashed var(--border);margin-top:4px;}
+.add-own-input{flex:1;border:none;border-bottom:1.5px solid var(--border);background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);padding:4px 0;outline:none;}
+.add-own-input::placeholder{color:var(--muted);}
+.add-own-input:focus{border-bottom-color:var(--terracotta);}
+.add-own-btn{width:28px;height:28px;border-radius:50%;background:var(--terracotta);border:none;color:white;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;line-height:1;}
+.added-item{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px dashed var(--border);}
+.added-item .check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;cursor:pointer;}
+.added-item.checked .check-box{background:var(--done);border-color:var(--done);}
+.added-item.checked .check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.added-item.checked .check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.added-item .check-label{font-size:14px;color:var(--text);flex:1;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="brand-header">
+  <div class="brand-label">Jane Mosbacher Morris</div>
+  <div class="brand-name">The Pre-<span>Edit.</span></div>
+  <div class="brand-tagline">with JR &amp; Alyssa</div>
+</div>
+
+<div class="wrap">
+
+  <!-- BOARDING PASS -->
+  <div class="boarding-pass">
+    <div class="bp-top">
+      <div class="bp-route-row">
+        <span class="bp-origin-label">Delta 2824 · MCO 6:01am</span>
+        <span class="bp-arrow">→</span>
+        <span class="bp-dest-label">Walt Disney World</span>
+      </div>
+      <div class="bp-headline">Your trip, before the trip.</div>
+      <div class="bp-sub">Four Seasons Orlando · EPCOT · Hollywood Studios · Animal Kingdom</div>
+      <div class="bp-summary">Everything worth setting up in advance — and when to do it. Read once now, come back to the relevant parts when the timing is right.</div>
+    </div>
+    <div class="bp-divider">
+      <div class="bp-notch bp-notch-l"></div>
+      <div class="bp-dash"></div>
+      <div class="bp-notch bp-notch-r"></div>
+    </div>
+    <div class="bp-bottom">
+      <div class="bp-chips-label">What's in here</div>
+      <div class="bp-chips">
+        <span class="bp-chip" onclick="scrollToSection('sec-beforeyouarrive')">Before You Arrive</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-dining')">Dining</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-lightninglane')">Lightning Lane</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-ropedrop')">Rope Drop</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-virtualqueues')">Virtual Queues</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-packing')">Packing</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-familylogistics')">Family Logistics</span>
+        <span class="bp-chip" onclick="scrollToSection('babyToddlerSection')">Baby &amp; Toddler</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 1 · BEFORE YOU ARRIVE ═══ -->
+  <div class="section-block" id="sec-beforeyouarrive">
+    <div class="section-head">
+      <div class="section-title">Before You Arrive</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('mde')">
+      <div class="dr-icon">📱</div>
+      <div class="dr-content"><div class="dr-title">My Disney Experience</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('tickets')">
+      <div class="dr-icon">🎟️</div>
+      <div class="dr-content"><div class="dr-title">Link tickets &amp; make park reservations</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('magicbands')">
+      <div class="dr-icon">⌚</div>
+      <div class="dr-content"><div class="dr-title">MagicBands</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('memorymaker')">
+      <div class="dr-icon">📸</div>
+      <div class="dr-content"><div class="dr-title">Memory Maker</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('transport')">
+      <div class="dr-icon">🚗</div>
+      <div class="dr-content"><div class="dr-title">Getting to the parks</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" id="earlyEntryRow" onclick="openDrawer('earlyentry')">
+      <div class="dr-icon">🌅</div>
+      <div class="dr-content"><div class="dr-title">Early Entry</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 2 · DINING ═══ -->
+  <div class="section-block" id="sec-dining">
+    <div class="section-head">
+      <div class="section-title">Dining</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('adrs')">
+      <div class="dr-icon">📅</div>
+      <div class="dr-content"><div class="dr-title">Advanced Dining Reservations (ADRs)</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('yourdinning')">
+      <div class="dr-icon">⭐</div>
+      <div class="dr-content"><div class="dr-title">Your Dining</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('recommendations')">
+      <div class="dr-icon">🍽️</div>
+      <div class="dr-content"><div class="dr-title">Where to eat</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('quickvstable')">
+      <div class="dr-icon">🍽️</div>
+      <div class="dr-content"><div class="dr-title">Quick service vs table service</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 3 · LIGHTNING LANE ═══ -->
+  <div class="section-block" id="sec-lightninglane">
+    <div class="section-head">
+      <div class="section-title">Lightning Lane</div>
+    </div>
+    <div style="height:10px;"></div>
+
+    <!-- URGENT BOOKING BANNER -->
+    <div class="callout-urgent" style="margin:0 16px 14px;">
+      <div class="callout-label">⚡ Your booking window is open now</div>
+      <div class="callout-text">Your check-in is May 18 — so your 7-day Lightning Lane window opened today, May 11. Open MDE right now and book your pre-trip selections. The best return windows go fast.</div>
+    </div>
+
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('llplan')">
+      <div class="dr-icon">📋</div>
+      <div class="dr-content"><div class="dr-title">Your Lightning Lane plan</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('llwhat')">
+      <div class="dr-icon">⚡</div>
+      <div class="dr-content"><div class="dr-title">What it is and what it costs</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('multipass')">
+      <div class="dr-icon">🎯</div>
+      <div class="dr-content"><div class="dr-title">Multi Pass explained</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('singlepass')">
+      <div class="dr-icon">🎢</div>
+      <div class="dr-content"><div class="dr-title">Single Pass explained</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('7day')">
+      <div class="dr-icon">📆</div>
+      <div class="dr-content"><div class="dr-title">Your 7-day booking window</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('rolling')">
+      <div class="dr-icon">🔄</div>
+      <div class="dr-content"><div class="dr-title">Booking more rides on the day</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('riderswap')">
+      <div class="dr-icon">🔁</div>
+      <div class="dr-content"><div class="dr-title">Rider swap</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 4 · ROPE DROP ═══ -->
+  <div class="section-block" id="sec-ropedrop">
+    <div class="section-head">
+      <div class="section-title">Rope Drop</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('ropedrop')">
+      <div class="dr-icon">🏁</div>
+      <div class="dr-content"><div class="dr-title">Why it matters</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 5 · VIRTUAL QUEUES ═══ -->
+  <div class="section-block" id="sec-virtualqueues">
+    <div class="section-head">
+      <div class="section-title">Virtual Queues</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('virtualqueue')">
+      <div class="dr-icon">📲</div>
+      <div class="dr-content"><div class="dr-title">What they are — and why you won't need one</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 6 · PACKING ═══ -->
+  <div class="section-block" id="sec-packing">
+    <div class="section-head">
+      <div class="section-title">Packing</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('janepack')">
+      <div class="dr-icon">👩</div>
+      <div class="dr-content"><div class="dr-title">Jane's packing list</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('jrpack')">
+      <div class="dr-icon">👶</div>
+      <div class="dr-content"><div class="dr-title">JR's packing list</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('disneyprovides')">
+      <div class="dr-icon">🏨</div>
+      <div class="dr-content"><div class="dr-title">What Disney provides</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" id="theFlightRow" onclick="openDrawer('theflight')">
+      <div class="dr-icon">✈️</div>
+      <div class="dr-content"><div class="dr-title">Getting from the airport</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('parkbag')">
+      <div class="dr-icon">🎒</div>
+      <div class="dr-content"><div class="dr-title">Your park bag</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 7 · FAMILY LOGISTICS ═══ -->
+  <div class="section-block" id="sec-familylogistics">
+    <div class="section-head">
+      <div class="section-title">Family Logistics</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('groceries')">
+      <div class="dr-icon">🛒</div>
+      <div class="dr-content"><div class="dr-title">Groceries</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('separated')">
+      <div class="dr-icon">🚨</div>
+      <div class="dr-content"><div class="dr-title">If you get separated</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('middaybreak')">
+      <div class="dr-icon">🌴</div>
+      <div class="dr-content"><div class="dr-title">The midday break</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('linestrategy')">
+      <div class="dr-icon">🎪</div>
+      <div class="dr-content"><div class="dr-title">Keeping JR happy in lines</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 8 · BABY & TODDLER ═══ -->
+  <div class="section-block" id="babyToddlerSection">
+    <div class="section-head">
+      <div class="section-title">Baby &amp; Toddler</div>
+    </div>
+    <div class="row-group">
+    <div class="drawer-row" onclick="openDrawer('babycare')">
+      <div class="dr-icon">🏥</div>
+      <div class="dr-content"><div class="dr-title">Baby Care Centers</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('dininglittleones')">
+      <div class="dr-icon">🍽️</div>
+      <div class="dr-content"><div class="dr-title">Dining with little ones</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('strollerparking')">
+      <div class="dr-icon">🛺</div>
+      <div class="dr-content"><div class="dr-title">Stroller parking</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('babywearing')">
+      <div class="dr-icon">🎽</div>
+      <div class="dr-content"><div class="dr-title">Babywearing in the parks</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('diaperchanging')">
+      <div class="dr-icon">🚻</div>
+      <div class="dr-content"><div class="dr-title">Diaper changing locations</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    <div class="drawer-row" onclick="openDrawer('nursingpumping')">
+      <div class="dr-icon">🤱</div>
+      <div class="dr-content"><div class="dr-title">Nursing, pumping &amp; bottles</div></div>
+      <div class="dr-chev">›</div>
+    </div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER SHELL -->
+<div class="drawer" id="mainDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon-wrap" id="dIcon">📱</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="dTitle">Title</div>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="dBody"></div>
+</div>
+
+<script>
+var CLIENT = {
+  familyName:    'Jane Mosbacher Morris',
+  originCity:    'MCO',
+  travelMode:    'flying',
+  resortName:    'Four Seasons Orlando',
+  resortTier:    'deluxe',
+  resortType:    'bus',
+  onProperty:    true,
+  checkInDate:   'Sunday May 18',
+  checkOutDate:  'Thursday May 22',
+  llBookingDate: 'TODAY — Sunday May 11',
+  llBookingTime: '7am Eastern',
+  parks:         ['EPCOT', 'Hollywood Studios', 'Animal Kingdom'],
+  stroller:      'rental',
+  carrier:       true,
+  children:      [{ name: 'JR', age: 0 }],
+};
+
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var top = el.getBoundingClientRect().top + window.pageYOffset - 16;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
+var drawers = {
+
+  mde: {
+    icon: '📱',
+    title: 'My Disney Experience',
+    body: `
+      <div class="prose-p">My Disney Experience is the app that runs your entire trip — tickets, park entry, dining reservations, Lightning Lanes, mobile ordering, wait times, show times. Download it before anything else. Then create a profile for every person in your travel party — adults and Alyssa — and link each person's ticket to their individual profile. JR doesn't need a ticket (under 3) but add her as a profile in MDE so restaurants can seat the table correctly.</div>
+      <div class="prose-p">The app is functional but not particularly intuitive — worth spending twenty minutes clicking around before your trip so it's not the first time you're navigating it when booking windows open.</div>
+      <div class="callout">
+        <div class="callout-label">Good to know</div>
+        <div class="callout-text">Turn notifications on so Lightning Lane windows and dining reminders come through. Turn location permissions on or mobile ordering and Lightning Lane tap-stiles won't work properly.</div>
+      </div>
+    `
+  },
+
+  tickets: {
+    icon: '🎟️',
+    title: 'Link tickets & make park reservations',
+    body: `
+      <div class="prose-p">Once your tickets are in MDE you'll need to assign them to specific park days. This is called a park reservation — it comes with your ticket but it doesn't happen automatically. Make them as soon as your tickets are linked — popular dates do fill up and there's no advantage to waiting.</div>
+      <div class="prose-p">Your Lightning Lane booking window won't open until this step is done, so it's one of the first things worth sorting.</div>
+    `
+  },
+
+  magicbands: {
+    icon: '⌚',
+    title: 'MagicBands',
+    body: `
+      <div class="prose-p">MagicBands are waterproof wristbands that link to your MDE account and replace your phone for most things in the parks — park entry, hotel room door, dining reservations. They're not essential, your phone does everything a MagicBand does, but they're worth considering for keeping hands free on rides.</div>
+      <div class="prose-p">Disney sells their own through MDE but you don't need them — the basic ones on Amazon work exactly the same and are significantly cheaper. Order them before you arrive.</div>
+      <div class="callout">
+        <div class="callout-label">To link once they arrive</div>
+        <div class="callout-text">Open MDE → tap the three lines bottom right → MagicBands &amp; Cards → Link MagicBand.</div>
+      </div>
+    `
+  },
+
+  memorymaker: {
+    icon: '📸',
+    title: 'Memory Maker',
+    body: `
+      <div class="prose-p">You opted out of Memory Maker for this trip. Disney's park photographers are still out there — if you want a shot at a specific entrance or character moment, ask any photographer with a camera. They'll take the photo; you just won't get the download unless you purchase Memory Maker afterward.</div>
+      <div class="prose-p">If you change your mind before the trip, it's $230 bought in advance, $260 at the gate. Given JR's first Disney trip, it might be worth reconsidering — character meets at this age photograph beautifully and you won't be taking them yourself.</div>
+    `
+  },
+
+  transport: {
+    icon: '🚗',
+    title: 'Getting to the parks',
+    body: `
+      <div class="prose-p">Four Seasons Orlando is on Disney property but not a Disney-operated hotel, so Disney buses are not available. Your transport each day is rideshare — Uber or Lyft from the hotel entrance.</div>
+      <div class="callout">
+        <div class="callout-label">EPCOT — May 19</div>
+        <div class="callout-text">About 8 minutes from the Four Seasons. Drop-off is at the main entrance — no tram, no parking lot to cross. Order by 8:00am for an 8:15am arrival. Tip: use the carrier for the rope-drop sprint, pick up the rented stroller once the pace slows after your first ride.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Hollywood Studios — May 20</div>
+        <div class="callout-text">About 12 minutes from the Four Seasons. Drop-off at the main entrance. Order by 8:00am.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Animal Kingdom — May 21</div>
+        <div class="callout-text">About 15 minutes from the Four Seasons. Order by 8:00am. Note: the character breakfast at Ravello is 7:30am that morning — build in time to eat and travel.</div>
+      </div>
+    `
+  },
+
+  earlyentry: {
+    icon: '🌅',
+    title: 'Early Entry',
+    body: `
+      <div class="prose-p">Four Seasons Orlando qualifies for Disney's Early Entry benefit — you get 30 minutes inside the park before it opens to the public. Those 30 minutes are the quietest you'll see all day. Rides that have 45-minute waits by mid-morning are walk-ons at Early Entry.</div>
+      <div class="prose-p">Disney also lets resort guests through the main gates and onto Main Street before Early Entry officially begins. Arrive early, get through the gates, and you can be standing at the rope — already inside — up to an hour before the general public arrives.</div>
+      <div class="callout">
+        <div class="callout-label">How to check Early Entry times</div>
+        <div class="callout-text">Open MDE → tap the park → scroll to Park Hours → Early Theme Park Entry is listed separately.</div>
+      </div>
+    `
+  },
+
+  adrs: {
+    icon: '📅',
+    title: 'Advanced Dining Reservations (ADRs)',
+    body: `
+      <div class="prose-p">Your ADR window opened 60 days before your trip — that's already passed. You have one confirmed reservation. For anything else, the best approach is checking MDE daily for cancellations and using MouseDining to set alerts.</div>
+      <div class="prose-p">You can also call Disney dining at 407-WDW-DINE — it occasionally shows availability the app doesn't. Cancellations happen constantly, especially in the two weeks before a trip.</div>
+    `
+  },
+
+  yourdinning: {
+    icon: '⭐',
+    title: 'Your Dining',
+    body: `
+      <div class="prose-p">You have one confirmed reservation.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Good Morning Breakfast with Goofy and His Pals · Four Seasons Ravello</strong><br>Thursday May 21 · 7:30am<br>Character breakfast on AK day — Goofy and his pals come to your table. This is on-site at the Four Seasons so no travel required. Build in time between breakfast and your AK rideshare — the park opens at 8am for Early Entry (7:30am for resort guests). You won't make rope drop this day, and that's fine. The AK schedule is built around it.</div>
+    `
+  },
+
+  recommendations: {
+    icon: '🍽️',
+    title: 'Where to eat',
+    body: `
+      <div class="prose-p">The food at Disney is functional. A table service reservation is worth it for the experience and the sit-down break, not because the food demands it. These are the ones worth knowing about for your three parks.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Tiffins · Animal Kingdom</strong><br>Gets more consistent praise than anywhere else in Animal Kingdom. Beautiful space, serious food. Worth looking at for your AK day if you want a proper lunch.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Sci-Fi Dine-In Theater · Hollywood Studios</strong><br>You eat in cars watching classic sci-fi movie trailers under a night sky. Completely absurd. The experience is the point.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>50s Prime Time Café · Hollywood Studios</strong><br>Servers are in character as your aunt or mom and will give you grief for elbows on the table and not finishing your vegetables. Genuinely fun.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>San Angel Inn · EPCOT, Mexico Pavilion</strong><br>Inside the pyramid, under a night sky, with the Gran Fiesta Tour boat ride going past your table. The atmosphere is unlike anything else in the parks. Food is fine, environment is amazing. Line moves fast — shop the pavilion if you're waiting. Tequila bar nearby if you need it.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Couldn't get what you wanted?</strong> Check MDE first thing in the morning and before bed — cancellations surface at odd hours. Set alerts on MouseDining for whatever's on your list.</div>
+    `
+  },
+
+  quickvstable: {
+    icon: '🍽️',
+    title: 'Quick service vs table service',
+    body: `
+      <div class="prose-p">Table service means a reservation, a sit-down meal, and 60-90 minutes of your day. Right call for a special dinner or a character meal, not for every meal — especially with a 10-month-old.</div>
+      <div class="prose-p">Quick service is walk-up, order at a counter, find a table. Mobile order through MDE and skip the queue entirely. Order about 45 minutes before you want to eat, and avoid the 12-1pm window unless you're mobile ordering for pickup.</div>
+      <div class="callout">
+        <div class="callout-label">Breakfast tip</div>
+        <div class="callout-text">Breakfast in the parks is expensive and usually not worth it. Eat before you leave the hotel and save the money for something better. Bring snacks for JR from the Four Seasons or a grocery order.</div>
+      </div>
+    `
+  },
+
+  llplan: {
+    icon: '📋',
+    title: 'Your Lightning Lane plan',
+    body: `
+      <div class="prose-p">Your check-in is May 18, so your booking window opened <strong>today, May 11, at 7am Eastern.</strong> If you haven't booked yet — open MDE now. The best return windows go fast, and on a crowd-level-3 week, the Single Pass rides sell out before 9am.</div>
+      <div class="callout">
+        <div class="callout-label">Critical: Lightning Lane grace period</div>
+        <div class="callout-text">Disney's policy allows up to 119 minutes beyond your shown return window end time. So a 3:00–4:00pm window is actually valid until 4:59pm. You don't have to rush to make your window.</div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="prose-p"><strong>EPCOT · May 19</strong></div>
+      <div class="callout">
+        <div class="callout-label">Single Pass — book this first</div>
+        <div class="callout-text"><strong>Guardians of the Galaxy: Cosmic Rewind.</strong> The only Single Pass worth buying at EPCOT. Buy it first, at 7am. It sells out early on busy days.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Multi Pass — book these 3</div>
+        <div class="callout-text">1. <strong>Frozen Ever After</strong> (Tier 1: new audio-animatronics, very high demand)<br>2. <strong>Remy's Ratatouille Adventure</strong> (Tier 1)<br>3. <strong>Spaceship Earth</strong> (Tier 2: intentional — see insider move below)</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Rope drop strategy</div>
+        <div class="callout-text">Test Track is walkable at open — head there first before World Discovery fills up. Frozen and Remy are also walkable at rope drop if you go to World Showcase first. You may not need Multi Pass on those at all if rope drop goes well.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Insider move</div>
+        <div class="callout-text">Tap into Spaceship Earth early — the moment you scan in, tier restrictions disappear. Your very next booking can be any Tier 1 ride regardless of what you've already used. Book Soarin' or a second Frozen window right after tapping in.</div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="prose-p"><strong>Hollywood Studios · May 20</strong></div>
+      <div class="callout">
+        <div class="callout-label">Single Pass — book this first</div>
+        <div class="callout-text"><strong>Tower of Terror.</strong> High demand in mid-May, sells out early. Book at 7am.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Multi Pass — book these 3</div>
+        <div class="callout-text">1. <strong>Slinky Dog Dash</strong> (Tier 1: most popular ride in the park, hits 50+ min waits by 10am even on low crowd days)<br>2. <strong>Mickey &amp; Minnie's Runaway Railway</strong> (Tier 1 — use as rope drop first, then tap in for the tier unlock)<br>3. <strong>Toy Story Mania</strong> (Tier 2)</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Rope drop sequence</div>
+        <div class="callout-text">Slinky Dog Dash first — it hits long waits fastest. Then Toy Story Mania. Mickey & Minnie's is your Tier 1 tap-in to unlock rolling.</div>
+      </div>
+
+      <div class="section-divider"></div>
+
+      <div class="prose-p"><strong>Animal Kingdom · May 21</strong></div>
+      <div class="callout">
+        <div class="callout-label">Note on May 21</div>
+        <div class="callout-text">You have the 7:30am character breakfast at Ravello. You won't make rope drop this day — and that's the right call. The AK plan is built around a slightly later start. Safaris opens after Early Entry ends so nothing is lost.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Multi Pass — book these 3</div>
+        <div class="callout-text">1. <strong>Kilimanjaro Safaris</strong> — animals are most active in the morning; LL availability goes orange by mid-morning<br>2. <strong>Expedition Everest</strong><br>3. <strong>Na'vi River Journey</strong> — walkable at rope drop if timing works, so this is your flexible third booking</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Skip Single Pass at AK</div>
+        <div class="callout-text">Flight of Passage is Single Pass only and JR can't ride. Multi Pass covers everything else you need.</div>
+      </div>
+    `
+  },
+
+  llwhat: {
+    icon: '⚡',
+    title: 'What it is and what it costs',
+    body: `
+      <div class="prose-p">Disney charges extra to skip the lines they created. Technically optional — every ride still has a free standby queue — but on a busy day it's hard to get through without it.</div>
+      <div class="ll-option-card">
+        <div class="ll-option-name">Multi Pass <span>Most days</span></div>
+        <div class="ll-option-price">~$22–45 per person per day</div>
+        <div class="ll-option-desc">The day-of booking system for many popular rides. You pre-book up to three rides before your visit and keep booking throughout the day as you use them. Uses a tier system at most parks — one Tier 1, two Tier 2 for pre-books.</div>
+      </div>
+      <div class="ll-option-card">
+        <div class="ll-option-name">Single Pass <span>Key rides only</span></div>
+        <div class="ll-option-price">~$11–25 per person per ride</div>
+        <div class="ll-option-desc">Covers the handful of highly popular rides not included in Multi Pass. You can buy up to two per day. Save them for rides where standby waits hit 60–90 minutes regardless of when you arrive.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Before booking day</div>
+        <div class="callout-text">Have your payment method saved in MDE before 7am. You don't want to be fumbling for a card when the best return windows disappear in minutes.</div>
+      </div>
+    `
+  },
+
+  multipass: {
+    icon: '🎯',
+    title: 'Multi Pass explained',
+    body: `
+      <div class="prose-p">Multi Pass lets you pre-book up to three rides before your visit and book additional rides throughout the day as you use them.</div>
+      <div class="prose-p">EPCOT and Hollywood Studios use a tier system — you can pick one ride from Tier 1 and two from Tier 2, or all three from Tier 2. Tier 1 rides are the most popular ones with the highest demand. Animal Kingdom has no tiers.</div>
+      <div class="prose-p">You can only pre-book one Tier 1 ride per day. Choose carefully — it's the most contested booking and the return windows for popular Tier 1 rides disappear fast.</div>
+      <div class="callout">
+        <div class="callout-label">Morning strategy</div>
+        <div class="callout-text">Grab the earliest available return window for your first pre-book. The earlier you use it, the sooner you can book the next one — and the better the windows will be for the rest of the day.</div>
+      </div>
+    `
+  },
+
+  singlepass: {
+    icon: '🎢',
+    title: 'Single Pass explained',
+    body: `
+      <div class="prose-p">Single Pass covers the handful of highly popular rides not included in Multi Pass. You buy it per person per ride and get a return window just like Multi Pass.</div>
+      <div class="prose-p">You can buy up to two Single Pass rides per day. Save them for the rides that genuinely need them — the ones where standby waits hit 60–90 minutes by mid-morning regardless of what time you arrive.</div>
+      <div class="callout">
+        <div class="callout-label">Key rule</div>
+        <div class="callout-text">Book Single Pass in your 7-day window alongside Multi Pass — don't wait until the morning of. For the most popular rides, Single Pass can sell out before you're even in the park.</div>
+      </div>
+    `
+  },
+
+  '7day': {
+    icon: '📆',
+    title: 'Your 7-day booking window',
+    body: `
+      <div class="prose-p">Resort guests can book Lightning Lane up to 7 days before check-in for their entire stay — at 7am Eastern. Off-site guests only get a 3-day window.</div>
+      <div class="prose-p">Crucially, you can book all your park days in one session. You don't need to log back in each morning before a park day — you open the window once and lock in everything for the whole trip at once.</div>
+      <div class="callout">
+        <div class="callout-label">Your booking date</div>
+        <div class="callout-text">TODAY — May 11 at 7am Eastern. If you haven't booked yet, open MDE now. Have payment saved in advance. Your Lightning Lane plan has the full list of what to book and in what order.</div>
+      </div>
+    `
+  },
+
+  rolling: {
+    icon: '🔄',
+    title: 'Booking more rides on the day',
+    body: `
+      <div class="prose-p">After you tap into a Lightning Lane ride, you can immediately book the next one. You can hold a maximum of three active bookings at once — your pre-books count toward that total until you use them.</div>
+      <div class="prose-p">The goal is to redeem your first pre-booked ride as early as possible. The sooner you start rolling, the more rides you can fit in before the best return windows disappear.</div>
+      <div class="callout">
+        <div class="callout-label">Running late?</div>
+        <div class="callout-text">If you're running late for a return window, don't panic — windows stay valid for up to two hours after they expire.</div>
+      </div>
+    `
+  },
+
+  riderswap: {
+    icon: '🔁',
+    title: 'Rider swap',
+    body: `
+      <div class="prose-p">Rider swap is how you and Alyssa divide and conquer the adult rides. When you get to a ride JR can't do, tell the cast member at the entrance you want Rider Swap. Alyssa stays with JR while you ride. Once you're done, Alyssa gets to skip straight to the front — no standby, no Lightning Lane queue — and can bring one other person with her.</div>
+      <div class="prose-p">It's free, no reservation needed. Just tell the cast member at the entrance.</div>
+      <div class="callout">
+        <div class="callout-label">Worth knowing</div>
+        <div class="callout-text">Everyone who rides still needs their own Lightning Lane if the group is using one. Rider swap doesn't bypass the cost, just the wait.</div>
+      </div>
+    `
+  },
+
+  ropedrop: {
+    icon: '🏁',
+    title: 'Why it matters',
+    body: `
+      <div class="prose-p">Rope drop is the moment the park opens and the rides become accessible. Getting there early — ideally already inside the park before Early Entry begins — means you can walk straight onto rides that will have 45–60 minute waits by mid-morning.</div>
+      <div class="prose-p">Your Park Edit has exactly where to go first on each day — it's already factored in. The one exception is May 21 (AK day) where you have the 7:30am breakfast first. Your AK plan accounts for that.</div>
+    `
+  },
+
+  virtualqueue: {
+    icon: '📲',
+    title: 'What they are — and why you won\'t need one',
+    body: `
+      <div class="prose-p">Virtual queues replace the standby line for a small number of rides — instead of waiting physically, you join a digital queue through MDE and come back when your group is called.</div>
+      <div class="prose-p">The only rides currently using them are Guardians of the Galaxy at EPCOT (your Guardians is Single Pass, not virtual queue) and TRON at Magic Kingdom — which isn't one of your parks. You won't need to think about this on your trip.</div>
+    `
+  },
+
+  janepack: {
+    icon: '👩',
+    title: "Jane's packing list",
+    body: `
+      <div class="prose-p"><em>4 nights, 3 park days. Mid-May in Florida — warm and humid during the day, cool indoors.</em></div>
+      <div class="checklist-section-label">Clothes</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="jane-0"><div class="check-box"></div><span class="check-label">3 park outfits — loose and breathable</span></li>
+        <li class="check-item" data-key="jane-1"><div class="check-box"></div><span class="check-label">1 extra casual outfit for resort days</span></li>
+        <li class="check-item" data-key="jane-2"><div class="check-box"></div><span class="check-label">Underwear and socks for every day plus one spare</span></li>
+        <li class="check-item" data-key="jane-3"><div class="check-box"></div><span class="check-label">A light layer for evenings and air-conditioned restaurants</span></li>
+        <li class="check-item" data-key="jane-4"><div class="check-box"></div><span class="check-label">Supportive, broken-in walking shoes — the most important item on this list</span></li>
+        <li class="check-item" data-key="jane-5"><div class="check-box"></div><span class="check-label">Sandals or flip flops for the resort</span></li>
+        <li class="check-item" data-key="jane-6"><div class="check-box"></div><span class="check-label">Swimwear — the Four Seasons pool is exceptional</span></li>
+      </ul>
+      <div class="checklist-section-label">Personal</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="jane-7"><div class="check-box"></div><span class="check-label">Toiletries and medications</span></li>
+        <li class="check-item" data-key="jane-8"><div class="check-box"></div><span class="check-label">Sunscreen — reapply more aggressively than you would at home, Florida in May is stronger than it feels</span></li>
+        <li class="check-item" data-key="jane-9"><div class="check-box"></div><span class="check-label">SPF chapstick</span></li>
+      </ul>
+      <div class="checklist-section-label">For this trip</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="jane-10"><div class="check-box"></div><span class="check-label">Compression socks — your feet will thank you by day 2</span></li>
+        <li class="check-item" data-key="jane-11"><div class="check-box"></div><span class="check-label">Neck fan — May in Florida is no joke</span></li>
+      </ul>
+      <div class="add-own-row"><input class="add-own-input" placeholder="Add your own…" id="jane-add-input" /><button class="add-own-btn" onclick="addOwnItem('jane-add-input','jane-custom-list','jane-custom')">+</button></div>
+      <ul class="checklist" id="jane-custom-list"></ul>
+    `
+  },
+
+  jrpack: {
+    icon: '👶',
+    title: "JR's packing list",
+    body: `
+      <div class="prose-p"><em>10 months old. He's doing Disney World. Incredible.</em></div>
+      <div class="checklist-section-label">Clothes</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="jr-0"><div class="check-box"></div><span class="check-label">3 full park day outfits — breathable, easy to change on the go</span></li>
+        <li class="check-item" data-key="jr-1"><div class="check-box"></div><span class="check-label">2–3 spare outfits — accessible in the park bag, not buried</span></li>
+        <li class="check-item" data-key="jr-2"><div class="check-box"></div><span class="check-label">Socks for the carrier and for shoes</span></li>
+        <li class="check-item" data-key="jr-3"><div class="check-box"></div><span class="check-label">A light layer for very cold rides and air-conditioned restaurants</span></li>
+        <li class="check-item" data-key="jr-4"><div class="check-box"></div><span class="check-label">Swimwear for the Four Seasons pool</span></li>
+        <li class="check-item" data-key="jr-5"><div class="check-box"></div><span class="check-label">Sun hat with chin strap — Florida sun is intense</span></li>
+      </ul>
+      <div class="checklist-section-label">Feeding</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="jr-6"><div class="check-box"></div><span class="check-label">Formula or breast milk supply for the trip</span></li>
+        <li class="check-item" data-key="jr-7"><div class="check-box"></div><span class="check-label">Bottles and sippy cups — bring your own, Disney doesn't reliably provide lids</span></li>
+        <li class="check-item" data-key="jr-8"><div class="check-box"></div><span class="check-label">Age-appropriate snacks and pouches for the parks</span></li>
+        <li class="check-item" data-key="jr-9"><div class="check-box"></div><span class="check-label">Insulated bag with ice packs for keeping milk cold</span></li>
+      </ul>
+      <div class="checklist-section-label">Gear</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="jr-10"><div class="check-box"></div><span class="check-label">Baby carrier — essential for rope drop sprints and stroller-free transitions</span></li>
+        <li class="check-item" data-key="jr-11"><div class="check-box"></div><span class="check-label">Baby sunscreen (SPF 50) — separate from adult sunscreen, gentler formulation</span></li>
+        <li class="check-item" data-key="jr-12"><div class="check-box"></div><span class="check-label">Diapers and wipes — bring more than you think you need</span></li>
+        <li class="check-item" data-key="jr-13"><div class="check-box"></div><span class="check-label">Diaper cream — full days in the heat can cause irritation fast</span></li>
+        <li class="check-item" data-key="jr-14"><div class="check-box"></div><span class="check-label">Noise-reducing ear protection — rides at Disney are genuinely loud for little ears</span></li>
+        <li class="check-item" data-key="jr-15"><div class="check-box"></div><span class="check-label">A comfort item from home — hotels are unfamiliar and it helps</span></li>
+      </ul>
+      <div class="callout">
+        <div class="callout-label">Stroller note</div>
+        <div class="callout-text">You're renting at the park. Disney rentals are clunky but functional. If you have a travel stroller you love, it's worth bringing — Disney's rental stock varies. Pick up the rental after your first ride when the pace slows down.</div>
+      </div>
+      <div class="add-own-row"><input class="add-own-input" placeholder="Add your own…" id="jr-add-input" /><button class="add-own-btn" onclick="addOwnItem('jr-add-input','jr-custom-list','jr-custom')">+</button></div>
+      <ul class="checklist" id="jr-custom-list"></ul>
+    `
+  },
+
+  disneyprovides: {
+    icon: '🏨',
+    title: 'What Disney provides',
+    body: `
+      <div class="prose-p">The Four Seasons is a Disney Deluxe-tier resort — here's what's in the room and what's worth requesting.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Already in your room</strong><br>Mini fridge and standard toiletries. Rooms are well-appointed but not self-catering — no kitchen or in-room laundry.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Request on arrival</strong><br>Pack n Play, high chair, and bed rails are all available at no charge — ask at the front desk when you check in. They'll deliver to your room, usually within a couple of hours. Earlier is better.</div>
+      <div class="prose-p"><strong>Laundry</strong><br>Coin-operated laundry is available on-site. Useful on a 4-night trip with a baby going through multiple outfit changes a day.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Good to know</strong><br>Every Disney resort has a gift shop stocking pharmacy basics — sunscreen, diapers, formula, cold medicine. Disney prices, but it's there if you run out of something.</div>
+    `
+  },
+
+  theflight: {
+    icon: '✈️',
+    title: 'Getting from the airport',
+    body: `
+      <div class="prose-p">Delta 2824 arrives MCO at 6:01am. You have a private car service booked — the driver should meet you at baggage claim. Private car is the right call for a 6am arrival with a 10-month-old. No waiting for other passengers, no surge pricing, door to door.</div>
+      <div class="prose-p">From MCO to the Four Seasons Orlando is about 25–30 minutes. Check-in is May 18 — your room likely won't be ready at 6:30am. Bell services will hold your bags so you're not carrying them all day. You'll get a notification in MDE when the room is ready.</div>
+      <div class="callout">
+        <div class="callout-label">Day 1 plan</div>
+        <div class="callout-text">May 18 is your arrival day — no park planned. Use the morning to settle in, nap, get groceries delivered, and let JR adjust to the time zone before the first park day on May 19.</div>
+      </div>
+    `
+  },
+
+  parkbag: {
+    icon: '🎒',
+    title: 'Your park bag',
+    body: `
+      <div class="prose-p">Your Park Edit has a bag checklist at the top of each park day — a quick tap to confirm you've got everything before you leave the hotel.</div>
+      <div class="checklist-section-label">In the bag</div>
+      <ul class="checklist">
+        <li class="check-item" data-key="bag-0"><div class="check-box"></div><span class="check-label">Sunscreen (adult and baby SPF 50) — reapply mid-day</span></li>
+        <li class="check-item" data-key="bag-1"><div class="check-box"></div><span class="check-label">Water bottles — refill at any quick service location for free</span></li>
+        <li class="check-item" data-key="bag-2"><div class="check-box"></div><span class="check-label">Snacks — for you and for JR. Bring more than you think you need.</span></li>
+        <li class="check-item" data-key="bag-3"><div class="check-box"></div><span class="check-label">Portable charger — MDE running all day will drain your phone fast</span></li>
+        <li class="check-item" data-key="bag-4"><div class="check-box"></div><span class="check-label">Sanitizing wipes</span></li>
+        <li class="check-item" data-key="bag-5"><div class="check-box"></div><span class="check-label">2 spare outfits for JR — at the top, not at the bottom</span></li>
+        <li class="check-item" data-key="bag-6"><div class="check-box"></div><span class="check-label">Diapers and wipes</span></li>
+        <li class="check-item" data-key="bag-7"><div class="check-box"></div><span class="check-label">Insulated bag with ice packs for milk</span></li>
+        <li class="check-item" data-key="bag-8"><div class="check-box"></div><span class="check-label">Neck fan — one for you at minimum</span></li>
+        <li class="check-item" data-key="bag-9"><div class="check-box"></div><span class="check-label">JR's noise-reducing ear protection</span></li>
+        <li class="check-item" data-key="bag-10"><div class="check-box"></div><span class="check-label">Bandaids — specifically for blisters, keep them at the top</span></li>
+        <li class="check-item" data-key="bag-11"><div class="check-box"></div><span class="check-label">Ponchos — one per person, bought before you leave (see below)</span></li>
+        <li class="check-item" data-key="bag-12"><div class="check-box"></div><span class="check-label">Small trash bags — 2 or 3 folded flat at the bottom of the bag</span></li>
+      </ul>
+      <div class="callout">
+        <div class="callout-label">On ponchos</div>
+        <div class="callout-text">Florida afternoon rain arrives fast and leaves fast. Disney sells ponchos in every gift shop for around $15 each. Buy a multipack on Amazon before you leave home — same rain, fraction of the price.</div>
+      </div>
+      <div class="add-own-row"><input class="add-own-input" placeholder="Add your own…" id="bag-add-input" /><button class="add-own-btn" onclick="addOwnItem('bag-add-input','bag-custom-list','bag-custom')">+</button></div>
+      <ul class="checklist" id="bag-custom-list"></ul>
+    `
+  },
+
+  groceries: {
+    icon: '🛒',
+    title: 'Groceries',
+    body: `
+      <div class="prose-p">Order groceries to the Four Seasons before you arrive. Schedule delivery for May 18 — bell services accepts deliveries and holds everything refrigerated until your room is ready. Having breakfast supplies in the room every morning saves money and sidesteps any food court chaos before rope drop.</div>
+      <div class="prose-p">Order through Instacart or Amazon Fresh and schedule delivery for check-in day.</div>
+      <div class="callout">
+        <div class="callout-label">Snacks in the parks</div>
+        <div class="callout-text">You can bring any food into Disney parks — no restrictions. Pack more than you think you need for both of you. Disney snack prices are high.</div>
+      </div>
+    `
+  },
+
+  separated: {
+    icon: '🚨',
+    title: 'If you get separated',
+    body: `
+      <div class="prose-p">With Alyssa in the group, this mainly applies to you and Alyssa getting split between rides while one of you has JR. Agree on a meeting point at the start of each park day — the entrance is the safest default.</div>
+      <div class="prose-p">If JR were somehow separated: cast members handle this well and most families are reunited within minutes. Any child under 10 is escorted to the Baby Care Center. The moment you report a missing child to a cast member, a description goes out park-wide by radio. Don't search on your own — stay with that cast member.</div>
+      <div class="callout">
+        <div class="callout-label">Take a photo each morning</div>
+        <div class="callout-text">A photo of JR in whatever he's wearing that day, on your phone. If you need to describe him to a cast member, you have a current image ready.</div>
+      </div>
+    `
+  },
+
+  middaybreak: {
+    icon: '🌴',
+    title: 'The midday break',
+    body: `
+      <div class="prose-p">11am to 3pm is the hottest, most crowded window of a park day — and the window most likely to break a 10-month-old's schedule. You're targeting 1pm departure every day, so this isn't a decision you need to make on the fly. You're already building it in.</div>
+      <div class="prose-p">The Four Seasons makes this easy. Head back, use the lazy river, nap, and recharge. You won't be going back in the afternoons — the plan is parks in the morning, resort in the afternoon.</div>
+      <div class="callout">
+        <div class="callout-label">If you stay a little longer</div>
+        <div class="callout-text">Find air conditioning. A table service lunch in the midday window solves the heat and gets everyone off their feet without losing park time.</div>
+      </div>
+    `
+  },
+
+  linestrategy: {
+    icon: '🎪',
+    title: 'Keeping JR happy in lines',
+    body: `
+      <div class="prose-p">At 10 months, lines are mostly about keeping him comfortable rather than entertained. He'll track faces and movement — so the crowd itself is stimulation. You have bigger tools available though.</div>
+      <div class="prose-p"><strong>In the carrier:</strong> Being close to you at chest height is usually enough at this age. The motion as you walk the queue, the visual stimulation, the sounds — he'll likely be happy or sleeping.</div>
+      <div class="prose-p"><strong>In the stroller:</strong> A familiar toy that only comes out in lines. A pouch snack. A short downloaded video on your phone as a last resort. Avoid overstimulating him before a ride if you're trying to manage his mood for the rest of the morning.</div>
+      <div class="callout">
+        <div class="callout-label">The Lightning Lane advantage</div>
+        <div class="callout-text">Shorter waits mean shorter lines. This matters more with a baby than anyone else in the group. Prioritize using your LLs so lines stay under 20 minutes where possible.</div>
+      </div>
+    `
+  },
+
+  babycare: {
+    icon: '🏥',
+    title: 'Baby Care Centers',
+    body: `
+      <div class="prose-p">Every park has one. Air-conditioned, free to use, no reservation needed. For a trip with a 10-month-old, these are your best asset in the parks.</div>
+      <div class="prose-p"><strong>What's inside:</strong> Changing tables (4–6, clean and consistently maintained). Private nursing rooms with rocking chairs and electrical outlets. Bottle warmers and microwaves. Filtered water. High chairs. A seating area with Disney movies.</div>
+      <div class="callout">
+        <div class="callout-label">The one most people don't know</div>
+        <div class="callout-text">It's the only place in the parks where you can heat food you've brought yourself — including sealed commercial baby food. If JR needs warm food during a park day, this is where you go.</div>
+      </div>
+      <div class="prose-p"><strong>Breast milk storage:</strong> No fridge for storing milk, but First Aid is always right next door. They'll give you ice packs and can hold your pump while you're in the park.</div>
+      <div class="callout">
+        <div class="callout-label">Where to find them</div>
+        <div class="callout-text">EPCOT — Odyssey Pavilion near the World Showcase entrance. Hollywood Studios — Guest Services building at the park entrance. Animal Kingdom — near Creature Comforts (the Starbucks), before the bridge to Africa.</div>
+      </div>
+    `
+  },
+
+  dininglittleones: {
+    icon: '🍽️',
+    title: 'Dining with little ones',
+    body: `
+      <div class="prose-p">Worth knowing before you commit to a table service reservation with a 10-month-old: table service at Disney runs 60–90 minutes. It's not a reason to avoid it — it's a reason to pick the right ones and have a plan. Your one confirmed reservation is at the Four Seasons, not in a park, so the environment will be more controlled.</div>
+      <div class="prose-p"><strong>High chairs and boosters</strong> are standard at every table service restaurant. Ask when you arrive.</div>
+      <div class="callout">
+        <div class="callout-label">Bottles and sippy cups</div>
+        <div class="callout-text">Bring your own. Lids and straws are no longer automatically given out at Disney restaurants. Restaurants can give you hot water for warming but can't use their equipment on anything they haven't prepared — the Baby Care Center microwave is the reliable option for that.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Mobile ordering</div>
+        <div class="callout-text">Use it for every quick service meal. Order through MDE 45 minutes before you want to eat and tap "I'm here" on arrival. Avoid the 12–1pm window — pickup slows down considerably.</div>
+      </div>
+    `
+  },
+
+  strollerparking: {
+    icon: '🛺',
+    title: 'Stroller parking',
+    body: `
+      <div class="prose-p">Strollers can't go into ride lines or onto attractions. Every ride entrance has a designated parking area. You leave it before you line up and collect after you exit.</div>
+      <div class="prose-p">Cast members may move your stroller while you're on the ride — they reorganize the parking areas to manage space. It won't be gone, but it may not be exactly where you left it. This catches people off guard the first time.</div>
+      <div class="callout">
+        <div class="callout-label">Make yours easy to spot</div>
+        <div class="callout-text">Put something identifiable on it — a bag clip, a bright tag. Stroller parking areas aren't supervised — don't leave anything you'd be upset to lose. Everything worth keeping goes on the ride with you.</div>
+      </div>
+      <div class="prose-p">On rideshare to and from the park, you'll need to collapse the stroller for the car. Worth practicing before the trip if you're renting one you haven't used before — or consider your own lightweight travel stroller.</div>
+    `
+  },
+
+  babywearing: {
+    icon: '🎽',
+    title: 'Babywearing in the parks',
+    body: `
+      <div class="prose-p">The stroller gets parked outside every ride. The exit is sometimes a 5-minute walk from the entrance. A 10-month-old is not walking that gap. Use the carrier for ride exits, crowded transitions, and any moment the stroller is parked and you need to move.</div>
+      <div class="prose-p">Carrier is also the right call for the rope drop sprint — you need both hands free and you need to move fast.</div>
+      <div class="callout">
+        <div class="callout-label">Worth knowing</div>
+        <div class="callout-text">Florida in May is warm and babywearing generates heat. Use it for the moments it earns its place — not as an all-day solution.</div>
+      </div>
+    `
+  },
+
+  diaperchanging: {
+    icon: '🚻',
+    title: 'Diaper changing locations',
+    body: `
+      <div class="prose-p">You're not limited to the Baby Care Center. Every Disney restroom — including men's — has changing tables. They are clean, consistently maintained, and far more numerous than the Baby Care Centers.</div>
+      <div class="callout">
+        <div class="callout-label">Finding them fast</div>
+        <div class="callout-text">Open MDE, tap the park map, filter by restrooms. Every land has one within a short walk. Baby Care Centers show separately if you need the full facilities.</div>
+      </div>
+    `
+  },
+
+  nursingpumping: {
+    icon: '🤱',
+    title: 'Nursing, pumping & bottles',
+    body: `
+      <div class="prose-p">Florida law means you can nurse anywhere in the parks you're permitted to be. Disney is one of the more nursing-friendly environments you'll find and staff are trained.</div>
+      <div class="prose-p">For privacy, the Baby Care Center nursing rooms are the best option — rocking chairs, low lighting, outlets, and cast members at the door who are attentive about keeping it private.</div>
+      <div class="prose-p"><strong>Pumping:</strong> Nursing rooms in every Baby Care Center have electrical outlets for pumps. Hands-free pumps work anywhere in the parks, including in lines and at restaurants.</div>
+      <div class="callout">
+        <div class="callout-label">Keeping milk cold</div>
+        <div class="callout-text">Bring an insulated bag in the bottom of the stroller with reusable ice packs. Any quick service restaurant will give you a cup of ice to replenish them. First Aid next to every Baby Care Center also provides ice packs and can hold your pump while you're in the park.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Bringing milk or formula in</div>
+        <div class="callout-text">Both are allowed through security. Keep them at the top of the park bag — bags may be checked. Use plastic or silicone storage where possible.</div>
+      </div>
+    `
+  }
+
+};
+
+function openDrawer(key) {
+  var data = drawers[key];
+  if (!data) return;
+  document.getElementById('dIcon').textContent = data.icon;
+  document.getElementById('dTitle').textContent = data.title;
+  document.getElementById('dBody').innerHTML = data.body;
+  document.getElementById('dBody').scrollTop = 0;
+  document.getElementById('mainDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  var items = document.getElementById('dBody').querySelectorAll('.check-item');
+  items.forEach(function(item) {
+    var k = item.getAttribute('data-key');
+    if (localStorage.getItem('pe-check-' + k) === '1') item.classList.add('checked');
+    item.addEventListener('click', function() {
+      item.classList.toggle('checked');
+      localStorage.setItem('pe-check-' + k, item.classList.contains('checked') ? '1' : '0');
+    });
+  });
+  var customListEl = document.getElementById('dBody').querySelector('[id$="-custom-list"]');
+  if (customListEl) {
+    var prefix = customListEl.id.replace('-custom-list','');
+    var saved = JSON.parse(localStorage.getItem('pe-custom-' + prefix) || '[]');
+    saved.forEach(function(item) { renderCustomItem(customListEl, item.text, item.checked, prefix); });
+  }
+}
+
+function addOwnItem(inputId, listId, storagePrefix) {
+  var input = document.getElementById(inputId);
+  var list = document.getElementById(listId);
+  if (!input || !list || !input.value.trim()) return;
+  var text = input.value.trim();
+  renderCustomItem(list, text, false, storagePrefix);
+  var saved = JSON.parse(localStorage.getItem('pe-custom-' + storagePrefix) || '[]');
+  saved.push({text: text, checked: false});
+  localStorage.setItem('pe-custom-' + storagePrefix, JSON.stringify(saved));
+  input.value = '';
+}
+
+function renderCustomItem(list, text, checked, prefix) {
+  var li = document.createElement('li');
+  li.className = 'check-item' + (checked ? ' checked' : '');
+  li.setAttribute('data-custom', prefix);
+  li.innerHTML = '<div class="check-box"></div><span class="check-label">' + text + '</span>';
+  li.addEventListener('click', function() {
+    li.classList.toggle('checked');
+    var saved = JSON.parse(localStorage.getItem('pe-custom-' + prefix) || '[]');
+    var label = li.querySelector('.check-label').textContent;
+    saved = saved.map(function(i) { return i.text === label ? {text: i.text, checked: li.classList.contains('checked')} : i; });
+    localStorage.setItem('pe-custom-' + prefix, JSON.stringify(saved));
+  });
+  list.appendChild(li);
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.activeElement && document.activeElement.classList.contains('add-own-input')) {
+    var id = document.activeElement.id;
+    var prefix = id.replace('-add-input','');
+    addOwnItem(id, prefix + '-custom-list', prefix + '-custom');
+  }
+});
+
+function closeDrawer() {
+  document.getElementById('mainDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+
+(function(){
+  var sx, sy, tgt, mv;
+  document.addEventListener('touchstart', function(e) {
+    var row = e.target.closest('.drawer-row');
+    if (!row) return;
+    tgt = row; sx = e.touches[0].clientX; sy = e.touches[0].clientY; mv = false;
+  }, {passive: true});
+  document.addEventListener('touchmove', function(e) {
+    if (!tgt) return;
+    if (Math.abs(e.touches[0].clientX - sx) > 8 || Math.abs(e.touches[0].clientY - sy) > 8) { mv = true; tgt = null; }
+  }, {passive: true});
+  document.addEventListener('touchend', function() {
+    if (!tgt || mv) { tgt = null; return; }
+    var t = tgt; tgt = null;
+    t.classList.add('tapped');
+    setTimeout(function() { t.classList.remove('tapped'); }, 200);
+  }, {passive: true});
+})();
+
+(function(){
+  var el = document.getElementById('mainDrawer');
+  var sy = 0, lastY = 0, lastT = 0, vy = 0;
+  el.addEventListener('touchstart', function(e) {
+    sy = e.touches[0].clientY; lastY = sy; lastT = Date.now(); vy = 0;
+  }, {passive: true});
+  el.addEventListener('touchmove', function(e) {
+    var now = Date.now(); var dt = now - lastT;
+    var dy = e.touches[0].clientY - lastY;
+    if (dt > 0) vy = dy / dt;
+    lastY = e.touches[0].clientY; lastT = now;
+  }, {passive: true});
+  el.addEventListener('touchend', function(e) {
+    var totalDy = e.changedTouches[0].clientY - sy;
+    if (totalDy > 110 && vy > 0.3) closeDrawer();
+  }, {passive: true});
+})();
+</script>
+</body>
+</html>
