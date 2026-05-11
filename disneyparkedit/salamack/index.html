@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Park Edit · Salamack Lanphier Family</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;}
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
+.brand-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.wrap{padding:16px 16px 0;}
+.day-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{border-radius:10px;padding:7px 13px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.day-tab.tentative-tab{border-color:#C8A870;border-style:dashed;}
+.day-tab.tentative-tab.active{background:#7A5530;border-color:#7A5530;border-style:solid;box-shadow:3px 3px 0 #4A3218;}
+.day-tab-label{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;}
+.day-tab.active .day-tab-label{color:rgba(255,255,255,0.7);opacity:1;}
+.day-tab-day{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;margin-top:1px;}
+.pending-banner{background:#FFF8EE;border:1.5px dashed #C8A870;border-radius:12px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:flex-start;gap:9px;}
+.pending-banner-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.pending-banner-text{flex:1;}
+.pending-banner-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:#A07030;display:block;margin-bottom:3px;}
+.pending-banner-body{font-size:12px;color:var(--muted);line-height:1.55;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.bp-top.alt{background:#8B6340;}
+.bp-divider.alt{background:#8B6340;}
+
+/* ── WORTH KNOWING PILL ── */
+.worth-pill{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:9px 14px;margin-bottom:14px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;}
+.worth-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.worth-pill-icon{font-size:14px;flex-shrink:0;}
+.worth-pill-text{flex:1;}
+.worth-pill-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.worth-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-style:italic;color:var(--muted);}
+.worth-pill-chev{font-size:13px;color:var(--muted);flex-shrink:0;}
+
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:var(--terracotta);padding:18px 20px 22px;color:white;border-radius:20px 20px 0 0;position:relative;overflow:hidden;}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.park-name-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;flex-wrap:nowrap;min-width:0;}
+.park-day-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-left:2px;white-space:nowrap;flex-shrink:0;}
+.park-emoji{font-size:16px;line-height:1;}
+.park-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.bp-day-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;}
+.bp-park{font-size:12px;opacity:0.8;position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;opacity:0.9;line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--terracotta);}
+.bp-notch{width:18px;height:18px;background:var(--cream);flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;}
+.bp-dash{flex:1;border-top:2px dashed rgba(255,255,255,0.3);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1px solid var(--border);border-top:none;overflow:hidden;}
+
+/* ── PARK BAG ROW ── */
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity 0.3s ease,max-height 0.4s ease,padding 0.3s ease;}
+.bag-row-top.collapsing{opacity:0;max-height:0;padding-top:0;padding-bottom:0;border-bottom:none;overflow:hidden;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--brown);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.bag-row-bottom{display:flex;align-items:center;gap:8px;padding:8px 18px;border-top:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 0.4s ease;}
+.bag-row-bottom.visible{opacity:1;}
+.bag-row-bottom-title{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);flex:1;}
+.bag-row-done-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--done);letter-spacing:0.1em;text-transform:uppercase;}
+
+/* ── BAG DRAWER SPECIFICS ── */
+.packed-btn{display:block;width:calc(100% - 36px);margin:14px 18px 0;background:var(--terracotta);color:white;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item:last-child{border-bottom:none;}
+.bag-check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.bag-check-item.checked .bag-check-box{background:var(--done);border-color:var(--done);}
+.bag-check-item.checked .bag-check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.bag-check-item.checked .bag-check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.bag-check-label{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+.schedule-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.schedule-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.edit-btn{display:flex;align-items:center;gap:5px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);-webkit-tap-highlight-color:transparent;}
+.done-edit-btn{display:none;align-items:center;gap:5px;background:var(--done);border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:white;-webkit-tap-highlight-color:transparent;}
+.done-edit-btn.show{display:flex;}
+.edit-banner{display:none;padding:9px 18px;background:rgba(44,36,32,0.04);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;}
+.edit-banner.show{display:block;}
+.time-break{padding:6px 18px;background:var(--surface);border-bottom:1px solid var(--border);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.time-break-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.time-break-line{flex:1;height:1px;background:var(--border);}
+.edit-mode .time-break{display:none;}
+.midday-break{padding:12px 18px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.midday-break-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.midday-icon{font-size:13px;}
+.midday-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.midday-line{flex:1;height:1px;background:var(--border);}
+.midday-text{font-size:13px;color:var(--text);line-height:1.5;font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.edit-mode .midday-break{display:none;}
+.tl-item{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px dashed var(--border);background:#FEFCFA;border-left:3px solid transparent;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item::after{content:'';position:absolute;left:51px;top:27px;bottom:-12px;width:1px;background:var(--border);}
+.tl-item:last-child::after{display:none;}
+@media(hover:hover) and (pointer:fine){.tl-item:not(.done):hover{background:var(--surface);border-left-color:var(--terracotta);}.tl-item:not(.done):hover .tl-title{color:var(--terracotta);}}
+.tl-item.tapped{background:var(--surface);border-left-color:var(--terracotta);}
+.tl-item.tapped .tl-title{color:var(--terracotta);}
+.tl-item.optional .tl-time{opacity:0.65;}
+.tl-item.optional .tl-title{color:#6B5C54;font-weight:400;}
+.tl-item.done{background:#F8F5F2;border-left-color:var(--done);}
+.tl-item.done .tl-time{opacity:0.35;}
+.tl-item.done .tl-title{color:var(--muted);font-weight:400;text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.tl-item.done .tl-tags{opacity:0.35;}
+.tl-item.done .tl-dot{background:var(--done) !important;opacity:1 !important;}
+.tl-item.done:hover{background:#F8F5F2;border-left-color:var(--done);}
+.edit-mode .tl-item.fixed{opacity:0.45;cursor:default;}
+.edit-mode .tl-item.fixed .stepper{visibility:hidden;}
+.tl-item.moving{background:var(--surface);border-left-color:var(--terracotta);box-shadow:0 3px 12px rgba(44,36,32,0.1);transform:scale(1.01);z-index:2;}
+.tl-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);width:34px;text-align:right;flex-shrink:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;position:relative;z-index:1;}
+.dot-must{background:var(--terracotta);}
+.dot-ll{background:var(--sky);}
+.dot-food{background:var(--gold);}
+.dot-opt{background:#D5CAC2;opacity:0.5;}
+.dot-show{background:#B088C0;}
+.tl-content{flex:1;min-width:0;}
+.tl-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.3;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;text-decoration-thickness:1.5px;transition:color 0.15s;}
+.tl-note{display:none;}
+.tl-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+.tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;padding:2px 7px;border-radius:20px;text-transform:uppercase;}
+.tag-must{background:rgba(232,115,74,0.12);color:var(--terracotta);}
+.tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.tag-food{background:rgba(242,201,76,0.2);color:#9A7A00;}
+.tag-opt{background:#EDE0D6;color:#7A6058;}
+.tag-show{background:rgba(176,136,192,0.12);color:#8060A0;}
+.tag-meet{background:rgba(91,143,168,0.1);color:var(--sky);}
+.tag-ac{background:var(--ice);color:var(--ice-text);}
+.tag-split{background:rgba(122,174,142,0.15);color:#3A7A5A;}
+.done-check{width:18px;height:18px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0;opacity:0;transition:opacity 0.3s;}
+.tl-item.done .done-check{opacity:1;}
+.fixed-label{display:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:10px;flex-shrink:0;}
+.edit-mode .tl-item.fixed .fixed-label{display:none;}
+.stepper{display:none;align-items:center;flex-shrink:0;border:1.5px solid var(--terracotta);border-radius:20px;overflow:hidden;box-shadow:2px 2px 0 var(--shadow);}
+.edit-mode .stepper{display:flex;}
+.step-btn{width:40px;height:40px;border:none;background:rgba(232,115,74,0.08);color:var(--terracotta);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.step-btn:hover{background:rgba(232,115,74,0.18);}
+.step-btn:active{opacity:0.7;}
+.step-btn:disabled{opacity:0.2;cursor:default;pointer-events:none;}
+.step-divider{width:1px;height:18px;background:rgba(232,115,74,0.3);flex-shrink:0;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-tc{background:rgba(232,115,74,0.12);}
+.icon-sky{background:rgba(91,143,168,0.12);}
+.icon-gold{background:rgba(242,201,76,0.15);}
+.icon-show{background:rgba(176,136,192,0.12);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-tags{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.drawer-body{padding:18px 22px 0;overflow-y:auto;max-height:42vh;}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.section-divider{height:1px;background:rgba(232,115,74,0.25);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:16px;}
+.callout-text{font-size:13px;line-height:1.65;color:var(--text);}
+.drawer-footer{padding:16px 22px 0;border-top:1px solid var(--border);margin-top:16px;}
+.done-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.done-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.done-btn.completed{background:var(--done);box-shadow:3px 3px 0 #5A9070;}
+
+/* ── WORTH KNOWING DRAWER ── */
+.wk-park-tabs{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.wk-park-tabs::-webkit-scrollbar{display:none;}
+.wk-park-tab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:1px 1px 0 var(--shadow);-webkit-tap-highlight-color:transparent;}
+.wk-park-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:1px 1px 0 #3D2418;}
+.wk-body{padding:0 0 8px;overflow-y:auto;max-height:52vh;}
+.wk-group{padding:14px 22px 0;}
+.wk-group-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.wk-tip{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-tip:last-child{border-bottom:none;}
+.wk-tip-emoji{font-size:16px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.wk-tip-title{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text);}
+.wk-tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.wk-dining-note{margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;}
+.wk-dining-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-dining-item:last-child{border-bottom:none;}
+.wk-dining-emoji{font-size:18px;flex-shrink:0;margin-top:2px;}
+.wk-dining-park{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:3px;}
+.wk-dining-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.wk-dining-desc{font-size:13px;color:var(--muted);line-height:1.65;}
+
+.sos-menu-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px dashed var(--border);cursor:pointer;background:#FEFCFA;border-left:3px solid transparent;-webkit-tap-highlight-color:transparent;}
+.sos-menu-row:last-child{border-bottom:none;}
+@media(hover:hover) and (pointer:fine){.sos-menu-row:hover{background:var(--surface);border-left-color:var(--terracotta);}.sos-menu-row:hover .sos-menu-title{color:var(--terracotta);}}
+.sos-menu-emoji{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+.sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;transition:color 0.15s;}
+.sos-menu-chev{font-size:16px;color:var(--border);}
+.sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,opacity 0.2s;}
+.sos-sticky-btn:active{transform:scale(0.93);}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
+.tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+</style>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-family">The Salamack Lanphier Family</div>
+  <div class="brand-name">The Park<span>.</span>Edit</div>
+  <div class="brand-tagline">Disney is overwhelming. Your planning shouldn't be.</div>
+</div>
+
+<div class="wrap">
+  <div class="day-tabs" id="dayTabs">
+    <div class="day-tab active" onclick="switchDay(0)"><div style="font-size:13px;text-align:center;">🏰</div><div class="day-tab-label">Tue</div><div class="day-tab-day">1</div></div>
+    <div class="day-tab" onclick="switchDay(1)"><div style="font-size:13px;text-align:center;">🏰</div><div class="day-tab-label">Wed</div><div class="day-tab-day">2</div></div>
+    <div class="day-tab" onclick="switchDay(2)"><div style="font-size:13px;text-align:center;">🦁</div><div class="day-tab-label">Thu</div><div class="day-tab-day">3</div></div>
+    <div class="day-tab tentative-tab" onclick="switchDay(3)"><div style="font-size:13px;text-align:center;">🎬</div><div class="day-tab-label">Alt</div><div class="day-tab-day">3</div></div>
+  </div>
+
+  <!-- WORTH KNOWING PILL -->
+  <div class="worth-pill" id="worthPill" onclick="openWorthKnowing()">
+    <span class="worth-pill-icon">📍</span>
+    <div class="worth-pill-text">
+      <span class="worth-pill-label">Worth Knowing</span>
+      <span class="worth-pill-sub">In the park, right now</span>
+    </div>
+    <span class="worth-pill-chev">›</span>
+  </div>
+
+  <!-- DAY 1 · MAGIC KINGDOM · HALF DAY -->
+  <div class="day-panel active" id="day-0">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🏰</span><span class="park-name">Magic Kingdom</span><span class="park-day-label">· Day 1 · Tue · Apr 28</span></div>
+        <div class="bp-day-name">The First Look ✨</div>
+        <div class="bp-park">Arrive ~10am · No Lightning Lane today</div>
+        <div class="bp-summary">A gentle first day — no agenda, no pressure. Take it easy so you can really enjoy tomorrow.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-0">
+        <div class="bag-row-top" id="bag-top-0" onclick="openBagDrawer(0)">
+          <span style="font-size:16px;">🎒</span>
+          <span class="bag-row-top-title">Your park bag</span>
+          <span class="bag-row-top-label">Check</span>
+          <span style="font-size:16px;color:var(--terracotta);opacity:0.7;">›</span>
+        </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div><div style="display:flex;gap:6px;align-items:center;"><button class="edit-btn" id="editBtn-0" onclick="toggleEdit(0)">✏️ Edit</button><button class="done-edit-btn" id="doneEditBtn-0" onclick="toggleEdit(0)">✓ Done</button></div></div>
+        <div class="edit-banner" id="editBanner-0">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
+        <div id="timeline-0">
+          <div class="time-break"><div class="time-break-label">Arrival</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d0-arrive" onclick="openDrawer('mk1arrive')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Arrive · Main Street · You've made it!</div><div class="tl-tags"><span class="tag tag-must">⭐ First things first</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Storybook Circus</div><div class="time-break-line"></div></div>
+          <div class="tl-item" id="d0-dumbo" onclick="openDrawer('mk1dumbo')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Dumbo the Flying Elephant</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item" id="d0-barnstormer" onclick="openDrawer('mk1barnstormer')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">The Barnstormer</div><div class="tl-tags"><span class="tag tag-split">↔ Quick split · Rowe + adult</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-playground" onclick="openDrawer('mk1playground')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Storybook Circus Indoor Playground</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Fantasyland</div><div class="time-break-line"></div></div>
+          <div class="tl-item" id="d0-carousel" onclick="openDrawer('mk1carousel')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Cinderella's Carousel</div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-pooh" onclick="openDrawer('mk1pooh')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">The Many Adventures of Winnie the Pooh</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Wander · Optional</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d0-smallworld" onclick="openDrawer('mk1smallworld')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">It's a Small World</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-tiki" onclick="openDrawer('mk1tiki')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Walt Disney's Enchanted Tiki Room</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 10 min</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-peoplemover" onclick="openDrawer('mk1peoplemover')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Tomorrowland Transit Authority PeopleMover</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-buzz" onclick="openDrawer('mk1buzz')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Buzz Lightyear's Space Ranger Spin</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="midday-break"><div class="midday-break-top"><span class="midday-icon">🏠</span><span class="midday-label">Head Back · ~3pm</span><div class="midday-line"></div></div><div class="midday-text">Head back by 3pm for check-in and nap. Room may not be ready — bell services holds your bags if so. Rest up — Day 2 is the real thing.
+          <div class="time-break"><div class="time-break-label">End of Day</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d0-checkin" onclick="openDrawer('checkin')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Check in to Bay Lake Towers</div><div class="tl-tags"><span class="tag tag-must">⭐ Important</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-chefmickey" onclick="openDrawer('chefmickey')"><div class="tl-time">5:00</div><div class="tl-dot dot-food"></div><div class="tl-content"><div class="tl-title">Chef Mickey's Dinner</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-meet">👋 Mickey, Minnie, Donald, Goofy, Pluto</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 · MAGIC KINGDOM -->
+  <div class="day-panel" id="day-1">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🏰</span><span class="park-name">Magic Kingdom</span><span class="park-day-label">· Day 2 · Wed · Apr 29</span></div>
+        <div class="bp-day-name">The Main Event 🎠</div>
+        <div class="bp-park">Early Entry 8:00am · Lightning Lane active · Midday break non-negotiable</div>
+        <div class="bp-summary">Rope drop with purpose. Mine Train, Mickey, Peter Pan, Pirates — then home for nap. The evening is yours if the kids have anything left.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-1">
+        <div class="bag-row-top" id="bag-top-1" onclick="openBagDrawer(1)">
+          <span style="font-size:16px;">🎒</span>
+          <span class="bag-row-top-title">Your park bag</span>
+          <span class="bag-row-top-label">Check</span>
+          <span style="font-size:16px;color:var(--terracotta);opacity:0.7;">›</span>
+        </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div><div style="display:flex;gap:6px;align-items:center;"><button class="edit-btn" id="editBtn-1" onclick="toggleEdit(1)">✏️ Edit</button><button class="done-edit-btn" id="doneEditBtn-1" onclick="toggleEdit(1)">✓ Done</button></div></div>
+        <div class="edit-banner" id="editBanner-1">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
+        <div id="timeline-1">
+          <div class="time-break"><div class="time-break-label">Early Entry · 8:00am</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d1-enter" onclick="openDrawer('mkenter')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Enter Main Street · Straight to Mickey</div><div class="tl-tags"></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-mickey" onclick="openDrawer('mkmickey')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Meet Mickey Mouse — Town Square Theater</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-meet">👋 Character Meet</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-split" onclick="openDrawer('mkminetrain')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Split — Mine Train + Dumbo</div><div class="tl-tags"><span class="tag tag-ll">⚡ Single Pass option</span><span class="tag tag-split">↔ Group splits</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-carousel" onclick="openDrawer('mkcarousel')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Cinderella's Carousel · Regroup</div><div class="tl-tags"></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-pooh" onclick="openDrawer('mkpooh')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">The Many Adventures of Winnie the Pooh</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-philhar" onclick="openDrawer('mkphilhar')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Mickey's PhilharMagic · Whole Family</div><div class="tl-tags"><span class="tag tag-show">🎭 Show · 12 min</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-peterpan" onclick="openDrawer('mkpeterpan')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Peter Pan's Flight</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-pirates" onclick="openDrawer('mkpirates')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Pirates of the Caribbean</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-junglecruise" onclick="openDrawer('mkjungle')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Jungle Cruise</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item" id="d1-railroad" onclick="openDrawer('mkrailroad')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Walt Disney World Railroad</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🚂 Steam Train</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="midday-break"><div class="midday-break-top"><span class="midday-icon">🏠</span><span class="midday-label">Midday Break — Non-Negotiable</span><div class="midday-line"></div></div><div class="midday-text">Head back to Bay Lake Towers — it's a 5-minute walk from the park gate. Nap, pool, reset. You'll do far more this evening than if you'd pushed through. Aim to be back in the park by 4pm if you want the afternoon options below.</div></div>
+          <div class="time-break"><div class="time-break-label">Afternoon · Optional Flow</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d1-buzz" onclick="openDrawer('mkbuzz')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Buzz Lightyear's Space Ranger Spin</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-peoplemover" onclick="openDrawer('mkpeoplemover')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Tomorrowland Transit Authority PeopleMover</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-parade" onclick="openDrawer('mkparade')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Festival of Fantasy Parade</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎪 Parade</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Evening · Your Call</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d1-monsters" onclick="openDrawer('mkmonsters')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Monsters Inc. Laugh Floor</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 15 min</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item" id="d1-dinner" onclick="openDrawer('mkdinner')"><div class="tl-time"></div><div class="tl-dot dot-food"></div><div class="tl-content"><div class="tl-title">Dinner</div><div class="tl-tags"><span class="tag tag-must">⭐ Your call</span><span class="tag tag-food">🍽️ In park or head home</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-fireworks" onclick="openDrawer('mkfireworks')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Happily Ever After Fireworks</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎆 Fireworks</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 · ANIMAL KINGDOM -->
+  <div class="day-panel" id="day-2">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🦁</span><span class="park-name">Animal Kingdom</span><span class="park-day-label">· Day 3 · Thu · Apr 30</span></div>
+        <div class="bp-day-name">Charlie & Rowe's Wild Morning 🦒</div>
+        <div class="bp-park">Check out of the hotel first · Load car · Early Entry 8:30am</div>
+        <div class="bp-summary">Half day, no LLMP needed. Safari at rope drop, gorillas, Lion King, then on the road back to Naples.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-2">
+        <div class="bag-row-top" id="bag-top-2" onclick="openBagDrawer(2)">
+          <span style="font-size:16px;">🎒</span>
+          <span class="bag-row-top-title">Your park bag</span>
+          <span class="bag-row-top-label">Check</span>
+          <span style="font-size:16px;color:var(--terracotta);opacity:0.7;">›</span>
+        </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div><div style="display:flex;gap:6px;align-items:center;"><button class="edit-btn" id="editBtn-2" onclick="toggleEdit(2)">✏️ Edit</button><button class="done-edit-btn" id="doneEditBtn-2" onclick="toggleEdit(2)">✓ Done</button></div></div>
+        <div class="edit-banner" id="editBanner-2">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
+        <div id="timeline-2">
+          <div class="time-break"><div class="time-break-label">Before the Park</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d2-checkout" onclick="openDrawer('akcheckout')"><div class="tl-time">7:30</div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Check out · Load car · Eat breakfast</div><div class="tl-tags"><span class="tag tag-must">⭐ Important</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Early Entry · 8:30am</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d2-safari" onclick="openDrawer('aksafari')"><div class="tl-time">8:30</div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Kilimanjaro Safaris</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item" id="d2-gorilla" onclick="openDrawer('akgorilla')"><div class="tl-time">9:15</div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Gorilla Falls Exploration Trail</div><div class="tl-tags"></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d2-navi" onclick="openDrawer('aknavi')"><div class="tl-time">8:30</div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Na'vi River Journey · Mom + Charlie</div><div class="tl-tags"><span class="tag tag-opt">○ Mom's option</span><span class="tag tag-split">↔ During Safari</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d2-lionking" onclick="openDrawer('aklionking')"><div class="tl-time">10:15</div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Festival of the Lion King</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🎭 Show · 30 min</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d2-leave" onclick="openDrawer('akleave')"><div class="tl-time">11:30</div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Leave Animal Kingdom · Drive to Naples</div><div class="tl-tags"><span class="tag tag-must">⭐ Target time</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 4 · HOLLYWOOD STUDIOS · TENTATIVE -->
+  <div class="day-panel" id="day-3">
+    <div class="pending-banner">
+      <span class="pending-banner-icon">✨</span>
+      <div class="pending-banner-text">
+        <span class="pending-banner-label">Reservation Pending</span>
+        <span class="pending-banner-body">Still working on switching Day 3 to Hollywood Studios. This is the plan if it comes through — fingers crossed.</span>
+      </div>
+    </div>
+    <div class="boarding-pass">
+      <div class="bp-top alt">
+        <div class="park-name-row"><span class="park-emoji">🎬</span><span class="park-name">Hollywood Studios</span><span class="park-day-label">· Day 3 Alt · Thu · Apr 30</span></div>
+        <div class="bp-day-name">Rowe's Hollywood Adventure ✨</div>
+        <div class="bp-park">Check out of the hotel first · Load car · Early Entry 8:30am</div>
+        <div class="bp-summary">Half day with some great rides, then on the road back to Naples.</div>
+      </div>
+      <div class="bp-divider alt"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-3">
+        <div class="bag-row-top" id="bag-top-3" onclick="openBagDrawer(3)">
+          <span style="font-size:16px;">🎒</span>
+          <span class="bag-row-top-title">Your park bag</span>
+          <span class="bag-row-top-label">Check</span>
+          <span style="font-size:16px;color:var(--terracotta);opacity:0.7;">›</span>
+        </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div><div style="display:flex;gap:6px;align-items:center;"><button class="edit-btn" id="editBtn-3" onclick="toggleEdit(3)">✏️ Edit</button><button class="done-edit-btn" id="doneEditBtn-3" onclick="toggleEdit(3)">✓ Done</button></div></div>
+        <div class="edit-banner" id="editBanner-3">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
+        <div id="timeline-3">
+          <div class="time-break"><div class="time-break-label">On Arrival</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d3-tsm" onclick="openDrawer('tsm')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Toy Story Mania!</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item" id="d3-saucers" onclick="openDrawer('saucers')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Alien Swirling Saucers</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item" id="d3-woodybuzz" onclick="openDrawer('woodybuzz')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Meet Woody &amp; Buzz Lightyear</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-meet">👋 Character Meet</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d3-galaxysedge" onclick="openDrawer('galaxysedge')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Walk Star Wars: Galaxy's Edge</div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d3-railway" onclick="openDrawer('railway')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Mickey &amp; Minnie's Runaway Railway</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Show · AC Break</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d3-frozen" onclick="openDrawer('frozen')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Frozen Sing-Along Celebration</div><div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div><div class="done-check">✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()">🆘</button>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- SOS DRAWER -->
+<div class="drawer" id="sosDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div style="overflow-y:auto;max-height:60vh;">
+    <div class="sos-menu-row" onclick="openSOSFromMenu('missing')"><span class="sos-menu-emoji">🚨</span><span class="sos-menu-title">Child goes missing</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('medical')"><span class="sos-menu-emoji">🏥</span><span class="sos-menu-title">Medical or urgent care</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
+  </div>
+</div>
+
+<!-- ACTIVITY DRAWER -->
+<div class="drawer" id="activityDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon" id="drawerIcon"></div><div class="drawer-title-wrap"><div class="drawer-title" id="drawerTitle"></div><div class="drawer-time" id="drawerTime"></div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-tags" id="drawerTags"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter"></div>
+</div>
+
+<!-- WORTH KNOWING DRAWER -->
+<div class="drawer" id="wkDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">📍</div><div class="drawer-title-wrap"><div class="drawer-title">Worth Knowing</div><div class="drawer-time">In the park, right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="wk-park-tabs">
+    <div class="wk-park-tab active" onclick="switchWKPark(0,this)">🏰 Magic Kingdom</div>
+    <div class="wk-park-tab" onclick="switchWKPark(1,this)">🎬 Hollywood Studios</div>
+    <div class="wk-park-tab" onclick="switchWKPark(2,this)">🦁 Animal Kingdom</div>
+    <div class="wk-park-tab" onclick="switchWKPark(3,this)">🍽️ Dining</div>
+  </div>
+  <div class="wk-body" id="wkBody"></div>
+</div>
+
+<script>
+var STORAGE_KEY='park-edit-sl-v2';
+function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set(JSON.parse(s)):new Set();}catch(e){return new Set();}}
+function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
+var doneItems=loadDone();
+var currentDay=0;
+var editModes=[false,false,false,false];
+var currentWKPark=0;
+
+// ── WORTH KNOWING DATA ────────────────────────────────────────
+var wkData=[
+   {
+   intro:"The single best thing you can do is start early. The first two hours of any Disney park day are the quietest, coolest, and least crowded — you'll ride more, wait less, and the kids will be at their best. Everything else in this guide is built around that. If the morning doesn't go to plan, that's what the midday break and the SOS menu are for.",
+   groups:[
+    {label:'Food & Drink',tips:[
+      {e:'☕',t:'Best coffee',d:"Hot drip coffee is everywhere in the parks but quality varies wildly. These are the spots worth seeking out for a proper espresso or specialty drink. Every park has a Starbucks, she's just hiding. In Magic Kingdom, it's Main Street Bakery. Given you can be on Main Street 30-60 minutes before the park opens, getting a coffee, taking in the castle and enjoying Main Street before crowds arrive is, dare I say, pleasant. You can use the Starbucks app to pay and earn points, but mobile ordering through My Disney Experience doesn't work here. There's also Joffrey's in Tomorrowland, and cold brew can be ordered at Friar's Nook in Fantasyland."},
+      {e:'🍳',t:'Breakfast in the park',d:"Generally not worth it — eat at your hotel and save the money for something better later in the day."},
+      {e:'🍦',t:'Dole Whip',d:"Aloha Isle near Adventureland. Pineapple soft-serve that Disney fans are genuinely devoted to — it has a real following. Worth trying if you're curious."},
+      {e:'🥐',t:"Gaston's Cinnamon Roll",d:"Gaston's Tavern in Fantasyland. Genuinely enormous and people are devoted to it. Well worth sharing."},
+      {e:'🐟',t:'Best quick-service lunch',d:"Columbia Harbour House — seafood, hushpuppies, and lighter options. Go upstairs if you can, it's noticeably quieter. One of the better quick-service options in Magic Kingdom."},
+      {e:'📱',t:'Mobile ordering',d:"Use it wherever it's available. Order 30-45 minutes before you're hungry — noon is the busiest window so eating a little before or after makes everything easier."},
+      {e:'💧',t:'Free water',d:"Any quick-service counter will give you a cup of ice water at no charge. Just ask."}
+    ]},
+    {label:'Comfort & Logistics',tips:[
+      {e:'🧒',t:'Baby Care Center',d:"Next to the Crystal Palace on Main Street. Air conditioned, rocking chairs, proper changing tables, microwave."},
+      {e:'🌧️',t:'Rain or sun — stay covered',d:"If it's raining or you're baking in the sun, you can walk the entire length of Main Street USA inside via the connected shops on the left-hand side of the street when facing the castle. It requires a little more maneuvering, though."},
+      {e:'🤫',t:'Quiet spots',d:"East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Umbrellas, seating, almost no foot traffic. Rockettower Plaza near Space Mountain has covered seating and restrooms close by — calmer than it looks from the main path."},
+      {e:'🛝',t:'Playgrounds & play areas',d:"The Dumbo big top tent in Storybook Circus has an indoor air-conditioned playground — slides, climbing net, toddler section. You can use it without riding Dumbo, just walk in. There's also a playground in Storybook Circus near the Barnstormer. Splash pad heads-up: Casey Jr. Splash 'N' Soak Station is in the same area — worth knowing about if you want to plan for it or avoid it."},
+      {e:'🏠',t:'Midday break — build one in',d:"Don't try to push through the whole day. Go back to the hotel, let everyone reset. You'll do more in the evening than if you'd pushed through — and Bay Lake Towers is a 5-minute walk from the park gate."},
+      {e:'📱',t:'The app',d:"My Disney Experience is essential but it drains your battery. Bring a small portable charger."}
+    ]},
+    {label:'Getting There & Leaving',tips:[
+      {e:'🚗',t:'Driving? Resort guests park free',d:"All Disney resort hotel guests get complimentary standard parking — scan your MagicBand at the booth. Preferred parking costs a little extra and gets you closer to the entrance, which can be worth it with a stroller."},
+      {e:'🚌',t:'Leaving before the rush',d:"Leaving even 30-45 minutes before the end of the day makes a real difference — monorail and buses both get backed up at close. If you're at Bay Lake Towers you can walk home in 5 minutes and skip all of it."},
+      {e:'🚕',t:'Lyft',d:"It works but fares can be significant, especially when everyone's leaving at once. Better as a backup than a plan."}
+    ]}
+  ]},
+  {
+   intro:"The single best thing you can do is start early. The first two hours of any Disney park day are the quietest, coolest, and least crowded — you'll ride more, wait less, and the kids will be at their best. Everything else in this guide is built around that. If the morning doesn't go to plan, that's what the midday break and the SOS menu are for.",
+   groups:[
+    {label:'Food & Drink',tips:[
+      {e:'☕',t:'Best coffee',d:"Hot drip coffee is everywhere in the parks but quality varies wildly. These are the spots worth seeking out for a proper espresso or specialty drink. On the main drag, Trolley Car Cafe is Starbucks hiding in a cute outfit. While you can't order mobile, you can earn Starbucks points. If you want a quiet, enclosed spot to enjoy your coffee, there is a Joffrey's right next to the exit for Tower of Terror. Joffrey's right before you enter Toy Story Land has less forgiving shade options, but very convenient if you're spending time there."},
+      {e:'🍳',t:'Breakfast in the park',d:"Generally not worth it — save that money for a dinner reservation that actually earns it. Eat before you arrive or grab something quick at your hotel."},
+      {e:'🌯',t:'Ronto Wrap',d:"Ronto Roasters in Galaxy's Edge. Roasted pork, grilled sausage, slaw, peppercorn sauce in a warm pita — well reviewed and frequently mentioned as a highlight. "},
+      {e:'🍸',t:"Oga's Cantina",d:"Worth stepping into just for the atmosphere — it's unlike anything else in the park. Non-alcoholic options available so the whole group can enjoy it. You're not going for the drinks, you're going for the experience."},
+      {e:'📱',t:'Mobile ordering',d:"Use it wherever it's available in the My Disney Experience app. Order 30-45 minutes before you're actually hungry — noon is the busiest window so eating a little before or after makes everything easier. You can schedule a future pickup window rather than ordering for right now."},
+      {e:'💧',t:'Free water',d:"Any quick-service counter will give you a cup of ice water at no charge. Ask at the register."}
+    ]},
+    {label:'Comfort & Logistics',tips:[
+      {e:'🚻',t:'Best bathrooms',d:"Echo Lake side, past the Indiana Jones stunt show. Rarely busy and well maintained."},{e:'🤫',t:'Quiet spots',d:"The outdoor courtyard right outside the Tower of Terror gift shop — most guests walk straight past it, making it genuinely calm. Echo Lake, between Indiana Jones and 50\u2019s Prime Time, has shaded benches by the water. Walt Disney Presents, the small museum near Toy Story Land, has AC, seating, and dim lighting — almost always empty."},
+      {e:'🧒',t:'Baby Care Center',d:"Near the park entrance. Private, air conditioned, rocking chairs, changing tables. Ask any cast member to point you there."},
+      {e:'🌧️',t:'Rain or sun — stay covered',d:"If it's raining or the sun is too much, Hollywood Boulevard quite literally has you covered. The shops connect along the main drag so you can walk the full length without stepping outside."},
+      {e:'🏠',t:'Midday break',d:"Build one in. The families you see struggling late in the afternoon are usually the ones who skipped it. Go back to the hotel, let everyone reset — you'll enjoy the evening far more than if you'd pushed through."},
+      {e:'📱',t:'The app',d:"My Disney Experience runs your whole day — Lightning Lanes, mobile ordering, wait times, show schedules. It's essential and it drains your battery faster than you'd expect. Bring a small portable charger."}
+    ]},
+    {label:'Getting There & Leaving',tips:[
+      {e:'🚗',t:'Driving? Resort guests park free',d:"All Disney resort hotel guests get complimentary standard parking — scan your MagicBand or room card at the booth. Preferred parking costs a little extra depending on the season and gets you closer to the entrance, which is worth considering with a stroller."},
+      {e:'🚌',t:'Leaving before the rush',d:"Whenever you can, leave before the end of the day rather than waiting until close. Buses and trams get backed up and the parking lot empties slowly. Leaving even 30-45 minutes early makes a noticeable difference."},
+      {e:'🚕',t:'Lyft',d:"It exists and it works, but fares can be significant — especially when a lot of people are leaving at the same time. Good to have as a backup option rather than a plan."}
+    ]}
+  ]},
+   {
+   intro:"Animal Kingdom is a morning park. The animals are most active early, it's cooler, and it's quieter. By midday the heat is real and there's less shelter than anywhere else — which is a good reason to be done by then anyway.",
+   groups:[
+    {label:'Food & Drink',tips:[
+      {e:'☕',t:'Best coffee',d:"Hot drip coffee is everywhere in the parks but quality varies wildly. These are the spots worth seeking out for a proper espresso or specialty drink. If you're wanting a tried and true Starbucks appropriately themed, Creature Comforts near the entrance is the best place to stop before you get deep into the park. Isle of Java on Discovery Island has standards and some more creative fare. Iced coffee can be found at Harambe Market and Kusafiri Coffee Shop."},
+      {e:'🍳',t:'Breakfast in the park',d:"Skip it — you want to be at the safari gate at rope drop. Eat before you arrive."},
+      {e:'🥣',t:'Best quick-service lunch',d:"Satu'li Canteen in Pandora does build-your-own bowls with real ingredients and has indoor air-conditioned seating — well regarded as one of the better quick-service options across all the parks. Flame Tree Barbecue has good smoked meats and great views by the water if the weather is cooperating."},
+      {e:'🥟',t:'Pongu Lumpia',d:"Pongu Pongu in Pandora. Sounds odd, but it has a real following — worth a try if you're feeling adventurous."},
+      {e:'📱',t:'Mobile ordering',d:"Use it wherever available. Order 30-45 minutes before you're hungry — noon is the busiest window."},
+      {e:'💧',t:'Free water',d:"Any quick-service counter will give you a cup of ice water at no charge. Just ask."}
+    ]},
+    {label:'Comfort & Logistics',tips:[
+      {e:'🧒',t:'Baby Care Center',d:"Near the park entrance, opposite side from the ticket windows — less obvious than other parks. Ask any cast member if you can't find it."},
+      {e:'🦒',t:'Safari timing',d:"The animals are most active in the morning — going at rope drop makes a genuine difference. By late morning most have moved to shade."},
+      {e:'🏠',t:'Midday break',d:"Animal Kingdom gets very hot by midday and has less air conditioning to duck into than other parks. A break is especially worth it here — and if you're driving to Naples after, leaving by 11:30 is the right call anyway."},
+      {e:'📱',t:'The app',d:"Essential for wait times and mobile ordering. Bring a small portable charger — it drains faster than you'd expect."}
+    ]},
+    {label:'Getting There & Leaving',tips:[
+      {e:'🚗',t:'Driving? Resort guests park free',d:"All Disney resort hotel guests get complimentary standard parking — scan your MagicBand at the booth. Preferred parking costs a little extra and gets you closer to the entrance, worth considering on a hot morning."},
+      {e:'🚌',t:'Leaving before the rush',d:"Leaving before the end of the day is always worth it — buses and the parking lot both back up. For Animal Kingdom specifically, the heat is a good reason to wrap up by late morning anyway."},
+      {e:'🚕',t:'Lyft',d:"Works as a backup if you need it. Fares can be meaningful, especially at busy times."}
+    ]}
+  ]},
+   {dining:true,
+   note:"These are places I've actually been to and would go back to. There are plenty of options at Disney — these are the ones worth booking. All require reservations 60 days out.",
+   items:[
+    {e:'🎬',park:'Hollywood Studios',name:"Sci-Fi Dine-In Theater",desc:"You eat in fake cars watching old B-movie clips under a fake night sky. Completely absurd and the kids love it. Food is fine — the experience is the point."},
+    {e:'📺',park:'Hollywood Studios',name:"'50s Prime Time Café",desc:"Servers are in character as your aunt or mom and will give you grief for elbows on the table and not finishing your vegetables. Genuinely fun after a day in the parks."},
+    {e:'🚀',park:'EPCOT',name:"Space 220",desc:"You take a simulated space elevator 220 miles above Earth and dine inside a space station with views of the planet below. The theming is extraordinary — one of the most immersive dining experiences at Walt Disney World. Book 60 days out, it goes fast. Walk-ups are possible but not guaranteed — check in at the entrance near Mission: SPACE and ask."},
+    {e:'🥁',park:'EPCOT · Japan Pavilion',name:"Teppan Edo",desc:"Fun for kids, great energy, and a good view of the fireworks if the timing works out."},
+    {e:'🌮',park:'EPCOT · Mexico Pavilion',name:"San Angel Inn",desc:"Inside the Mexico Pavilion pyramid. You eat under a fake night sky next to the Gran Fiesta Tour boat ride. The atmosphere is the reason to go — it\'s unlike anything else in the parks. Worth popping in even if you don\'t eat there."},
+    {e:'🌃',park:'Contemporary Resort',name:"California Grill",desc:"Rooftop restaurant at the Contemporary Resort — 5 minutes from Bay Lake Towers. One of the best restaurants on property. Book a table at fireworks time and you watch Happily Ever After from the rooftop. The sushi and flatbreads are what people go back for."},
+    {e:'🦁',park:'Animal Kingdom Lodge',name:"Jiko",desc:"At Animal Kingdom Lodge, so a bit of a drive. Worth it. African-inspired menu, exceptional wine list, one of the quietest and most beautiful dining rooms at Disney World. Walk the resort grounds before or after dinner to see the animals on the savanna — giraffes, zebras, the works."},
+    {e:'🌊',park:'Grand Floridian Resort',name:"Narcoossee\'s",desc:"The reason to go is the Grand Floridian and the fireworks, not the food. Get there early, walk the lobby — the piano player, the chandeliers, the whole thing — and grab a drink at The Perch, the lobby bar. Then head to Narcoossee\'s for dinner and watch Happily Ever After from across the water."}
+  ]}
+];
+
+function buildWKContent(idx){
+  var park=wkData[idx];
+  var html='';
+  if(park.dining){
+    html+='<div class="wk-group"><p class="wk-dining-note">'+park.note+'</p></div>';
+    park.items.forEach(function(item){
+      html+='<div class="wk-dining-item"><div class="wk-dining-emoji">'+item.e+'</div><div>';
+      html+='<div class="wk-dining-park">'+item.park+'</div>';
+      html+='<div class="wk-dining-name">'+item.name+'</div>';
+      html+='<div class="wk-dining-desc">'+item.desc+'</div></div></div>';
+    });
+  } else {
+    if(park.intro){
+      html+='<div class="wk-group"><div class="wk-dining-note">'+park.intro+'</div></div>';
+    }
+    park.groups.forEach(function(group){
+      html+='<div class="wk-group"><div class="wk-group-label">'+group.label+'</div>';
+      group.tips.forEach(function(tip){
+        html+='<div class="wk-tip"><div class="wk-tip-emoji">'+tip.e+'</div><div>';
+        html+='<div class="wk-tip-title">'+tip.t+'</div>';
+        html+='<div class="wk-tip-text">'+tip.d+'</div></div></div>';
+      });
+      html+='</div>';
+    });
+  }
+  return html;
+}
+
+function openWorthKnowing(){
+  hideSOS();
+  var pill=document.getElementById('worthPill');
+  if(pill){pill.classList.add('pressed');setTimeout(function(){pill.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    document.getElementById('wkBody').innerHTML=buildWKContent(currentWKPark);
+    document.getElementById('wkDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  },120);
+}
+
+function switchWKPark(idx,tab){
+  currentWKPark=idx;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+  document.getElementById('wkBody').scrollTop=0;
+}
+
+// ── ACTIVITY DATA ────────────────────────────────────────────
+var activities={
+  mk1arrive:{icon:'🏰',iconClass:'icon-tc',title:'Arrive · Main Street · You\u2019ve made it!',time:'~10am · Walk from parking or hotel',tags:'<span class="tag tag-must">⭐ First things first</span>',body:'<div class="prose-p">Bay Lake Towers guests walk directly into Magic Kingdom — no bus, no boat, about 5 minutes. If arriving by car, the parking lot tram drops you at the entrance plaza.</div><div class="section-divider"></div><div class="prose-p">Don\u2019t rush Main Street. Let the kids take it in — the castle at the end of the street on a first morning is a real moment. Main Street Bakery (the Starbucks) is on the right when facing the castle if you need coffee.</div>',rowId:'d0-arrive'},
+  mk1dumbo:{icon:'🐘',iconClass:'icon-tc',title:'Dumbo the Flying Elephant',time:'~10:15am · Storybook Circus',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You fly in circles and control how high your elephant goes. No height requirement, both kids ride. One of those rides where the kids\u2019 faces are worth more than the ride itself.</div><div class="section-divider"></div><div class="prose-p">The indoor play area is attached to the queue — slides, climbing net, toddler section. If the wait looks long, the kids can play inside in the AC while you hold a spot.</div>',rowId:'d0-dumbo'},
+  mk1barnstormer:{icon:'✈️',iconClass:'icon-tc',title:'The Barnstormer',time:'~10:35am · Right next to Dumbo',tags:'<span class="tag tag-split">↔ Quick split · Rowe + adult</span>',body:'<div class="prose-p">Rowe\u2019s first real rollercoaster. Small, gentle dips, about 60 seconds in the air. He\u2019s 41" and clears the 35" requirement easily. Charlie doesn\u2019t ride — she\u2019s under the height requirement — so one adult stays with Charlie while Rowe goes with a grandparent.</div><div class="section-divider"></div><div class="prose-p">It\u2019s a short split. The queue moves fast and the ride is over in a minute. If Rowe has any interest in coasters at all, this is the perfect starter.</div>',rowId:'d0-barnstormer'},
+  mk1playground:{icon:'🛝',iconClass:'icon-sky',title:'Storybook Circus Indoor Playground',time:'Whenever · Storybook Circus big top tent',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Indoor air-conditioned playground inside the Dumbo big top tent — slides, climbing structures, a toddler section. You don\u2019t need to ride Dumbo to use it, just walk in.</div><div class="section-divider"></div><div class="prose-p">Worth checking the app for character meets in Storybook Circus while you\u2019re here — Minnie, Daisy, Donald, and Goofy sometimes meet in the area in circus costumes. Pete\u2019s Silly Sideshow is temporarily closed for refurbishment but the characters still appear nearby. Check the app for exact location and times.</div>',rowId:'d0-playground'},
+  mk1carousel:{icon:'🎠',iconClass:'icon-tc',title:'Cinderella\u2019s Carousel',time:'~11am · Heart of Fantasyland',tags:'',body:'<div class="prose-p">The carousel right in front of the castle. Beautiful, slow, no height requirement — everyone rides together. Good moment to get a whole group photo together with the castle behind you.</div>',rowId:'d0-carousel'},
+  mk1pooh:{icon:'🍯',iconClass:'icon-tc',title:'The Many Adventures of Winnie the Pooh',time:'~11:20am · Fantasyland',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">A gentle dark ride through the Hundred Acre Wood — Pooh, Tigger, Piglet, Eeyore. Everyone rides together, no height requirement. One of the genuinely great rides in Fantasyland.</div><div class="section-divider"></div><div class="prose-p">Check the standby wait before you join the queue. Morning waits are usually manageable. No Lightning Lane today — you\u2019ve got that covered tomorrow.</div><div class="callout"><div class="callout-text">If the wait is over 30 minutes, don\u2019t stress — you\u2019ll hit this with Lightning Lane tomorrow. Either way it gets done.</div></div>',rowId:'d0-pooh'},
+  mk1smallworld:{icon:'🌍',iconClass:'icon-sky',title:'It\u2019s a Small World',time:'Whenever · Fantasyland',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Slow boat ride past singing dolls representing children from around the world. No height requirement, fully gentle, everyone rides together. The song will be stuck in your head for days.</div><div class="section-divider"></div><div class="prose-p">Low-commitment yes if you\u2019re in Fantasyland. Skip it if energy is running low — it\u2019s here tomorrow too.</div>',rowId:'d0-smallworld'},
+  mk1tiki:{icon:'🌺',iconClass:'icon-show',title:'Walt Disney\u2019s Enchanted Tiki Room',time:'Whenever · Adventureland',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 10 min</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Singing animatronic birds, flowers, and tiki gods — a 10-minute show that\u2019s been running since 1963. Fully seated, air conditioned, walk-in.</div><div class="section-divider"></div><div class="prose-p">Rowe is at exactly the right age for this. The birds move and sing and do things birds shouldn\u2019t do and he\u2019s going to think it\u2019s the best thing in the park.</div>',rowId:'d0-tiki'},
+  mk1peoplemover:{icon:'🚡',iconClass:'icon-sky',title:'Tomorrowland Transit Authority PeopleMover',time:'Whenever · Tomorrowland',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Slow elevated tram that tours Tomorrowland from above. Always a walk-on, shaded, about 10 minutes. Good for tired legs and a fussy toddler who just needs movement without stimulation.</div><div class="section-divider"></div><div class="prose-p">No wait, no height requirement, no stress. Easy yes if you\u2019re in the area.</div>',rowId:'d0-peoplemover'},
+  mk1buzz:{icon:'🚀',iconClass:'icon-sky',title:'Buzz Lightyear\u2019s Space Ranger Spin',time:'Whenever · Tomorrowland',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Interactive dark ride — you shoot targets with a laser cannon and score points. No height requirement, fully AC, everyone goes together. Flagged on Day 2 as well if you don\u2019t get to it today.</div>',rowId:'d0-buzz'},
+  mkphilhar:{icon:'🎭',iconClass:'icon-show',title:'Mickey\u2019s PhilharMagic',time:'~10:00am · Whole family together',tags:'<span class="tag tag-show">🎭 Show · 12 min</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">12-minute 4D show — Mickey and Donald, classic Disney songs, the whole family sits together. No height requirement, great AC, zero wait most of the time.</div><div class="section-divider"></div><div class="prose-p">This is the family\u2019s first real moment all together in a Disney experience — no splits, no logistics, just everyone watching the same thing. Wind effects, bubbles, the works. Charlie will love it.</div>',rowId:'d1-philhar'},
+  mkmonsters:{icon:'👾',iconClass:'icon-show',title:'Monsters Inc. Laugh Floor',time:'~4:40pm · Tomorrowland',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 15 min</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Interactive comedy show where the monsters on screen actually interact with the audience. Fully seated, air conditioned, about 15 minutes. Good low-commitment afternoon option when energy is flagging. Right in Tomorrowland next to PeopleMover.</div>',rowId:'d1-monsters'},
+  checkin:{icon:'🏨',iconClass:'icon-sky',title:'Check in to Bay Lake Towers',time:'Return from the park · ~3pm',tags:'<span class="tag tag-must">⭐ Important</span>',body:'<div class="prose-p">You dropped your bags this morning — if the room is ready when you get back, great. If not, bell services still has them and you can head up whenever it\u2019s ready.</div><div class="section-divider"></div><div class="prose-p">Bay Lake Towers is a 5-minute walk from the park gate. Do online check-in before you leave Naples so everything is as smooth as possible.</div>',rowId:'d0-checkin'},
+  tsm:{icon:'🎯',iconClass:'icon-tc',title:'Toy Story Mania!',time:'On arrival · Head here first',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">You ride through a Toy Story cartoon and shoot targets — it\'s an interactive game the whole way through. Everyone rides together, no height requirement.</div><div class="section-divider"></div><div class="prose-p">Rowe is going to want to compare scores with everyone at the end.</div>',rowId:'d0-tsm'},
+  saucers:{icon:'🛸',iconClass:'icon-tc',title:'Alien Swirling Saucers',time:'~30 min after Toy Story Mania',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Spinning rocket pods in Toy Story Land — bright, colourful, gentle. Both kids will get a kick out of it.</div><div class="section-divider"></div><div class="prose-p">Check the standby wait before you join the queue. If it\'s over 20 minutes just come back later — it moves fast once you\'re in.</div>',rowId:'d0-saucers'},
+  woodybuzz:{icon:'🤠',iconClass:'icon-sky',title:'Meet Woody & Buzz Lightyear',time:'Toy Story Land · Check app for times',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-meet">👋 Character Meet</span>',body:'<div class="prose-p">Woody and Buzz meet in Toy Story Land itself — you\'re shrunk down to toy size in Andy\'s backyard. The theming is really well done.</div><div class="section-divider"></div><div class="prose-p">Check the app for meet times before heading over — they run on a schedule, not continuously. Memory Maker photographer is on site for this one.</div>',rowId:'d0-woodybuzz'},
+  galaxysedge:{icon:'🚀',iconClass:'icon-sky',title:"Star Wars: Galaxy's Edge",time:'~15 min · No rides · Just walk through',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Even if Star Wars isn\'t your thing, it\'s worth walking through. Disney went all-in on the theming — it genuinely feels like another world.</div><div class="section-divider"></div><div class="prose-p">No rides needed, just 15 minutes of walking around. Skip it if energy is running low — totally fine either way.</div>',rowId:'d0-galaxysedge'},
+  railway:{icon:'🚂',iconClass:'icon-tc',title:"Mickey & Minnie's Runaway Railway",time:'Use Lightning Lane return window',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">You step through the screen into a Mickey Mouse cartoon — the whole ride takes place inside the show. No height requirement, everyone goes together, and Mickey is front and centre the whole time.</div><div class="section-divider"></div><div class="prose-p">The visuals are genuinely impressive. Good one for the whole group.</div>',rowId:'d0-railway'},
+  frozen:{icon:'🎭',iconClass:'icon-show',title:'Frozen Sing-Along Celebration',time:'Pre-booked Lightning Lane showtime · ~25 min',tags:'<span class="tag tag-show">🎭 Show</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Live performers, big screens, all the Frozen songs, fully seated and air conditioned. Your Lightning Lane locks in the showtime so you just walk in and sit down.</div><div class="section-divider"></div><div class="prose-p">Good one for Charlie — she\'ll be completely locked in. A solid rest before you head to check-in.</div>',rowId:'d0-frozen'},
+  checkin:{icon:'🏨',iconClass:'icon-sky',title:'Check in to Bay Lake Towers',time:'Head over from DHS when ready',tags:'<span class="tag tag-must">⭐ Important</span>',body:'<div class="prose-p">About 20 minutes from Hollywood Studios by bus. If the room isn\'t ready, bell services holds your bags — you don\'t have to wait around.</div><div class="section-divider"></div><div class="prose-p">Do online check-in before you leave Naples so everything is ready when you get there.</div>',rowId:'d0-checkin'},
+  chefmickey:{icon:'🐭',iconClass:'icon-gold',title:"Chef Mickey's Dinner",time:'5:00–5:30pm · Contemporary Resort · 5-min walk',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-meet">👋 Mickey, Minnie, Donald, Goofy, Pluto</span>',body:'<div class="prose-p">Character dining buffet at the Contemporary — Mickey, Minnie, Donald, Goofy, and Pluto all come to your table. It\'s loud and chaotic in the best way.</div><div class="section-divider"></div><div class="prose-p">Not confirmed yet. If you want to book it, check availability soon — it fills up well in advance.</div>',rowId:'d0-chefmickey'},
+  mkenter:{icon:'🏰',iconClass:'icon-tc',title:'Enter Main Street · Rope Drop',time:'8:00am · Walk from Bay Lake Towers',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Bay Lake Towers is a short walk to the Magic Kingdom entrance — no bus, no boat, about 5 minutes. With Early Entry you\'re inside before the public opens.</div><div class="section-divider"></div><div class="prose-p">Grab a coffee at Main Street Bakery, let the kids take in the castle, then head to the Fantasyland rope drop position. Be through the gates, not just at the entrance, by 8:00am.</div>',rowId:'d1-enter'},
+  mkmickey:{icon:'🐭',iconClass:'icon-tc',title:'Meet Mickey Mouse — Town Square Theater',time:'8:15am · Right at rope drop',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-meet">👋 Character Meet</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Mickey meets in his own private dressing room at Town Square Theater — air conditioned, beautifully themed. At rope drop the wait is near zero. By 10am it\'s 45+ minutes.</div><div class="section-divider"></div><div class="prose-p">Memory Maker photographer is inside — good one to have your camera out for.</div>',rowId:'d1-mickey'},
+  mkdumbo:{icon:'🐘',iconClass:'icon-tc',title:'Dumbo the Flying Elephant',time:'8:45am · Stay in Fantasyland',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You fly in circles and control how high your elephant goes. No height requirement — both kids ride. Near walk-on this early in the morning.</div><div class="section-divider"></div><div class="prose-p">The indoor play area is attached to the queue — slides, climbing net, toddler section. If the wait looks long, the kids can play inside in the AC while you hold a spot.</div>',rowId:'d1-dumbo'},
+  mksplit:{icon:'↔️',iconClass:'icon-sky',title:'Split — Mine Train + Dumbo',time:'~8:20am · After Mickey · Group splits',tags:'<span class="tag tag-ll">⚡ Single Pass option</span><span class="tag tag-split">↔ Group splits</span>',body:'<div class="prose-p">Grandparents and Rowe head to Seven Dwarfs Mine Train. Mom and Charlie head to Dumbo — it\'s right there in Fantasyland, no height requirement, near walk-on this early.</div><div class="section-divider"></div><div class="prose-p">Rowe is 41" and cleared for Mine Train — and if he loves Heigh Ho, this ride is going to be a moment. The whole indoor section is the dwarfs mining with the music playing throughout. The queue itself is genuinely entertaining for a Snow White fan.</div><div class="section-divider"></div><div class="prose-p"><strong>Before you start walking — check the Mine Train standby wait in the app.</strong> Main Street to Mine Train is about 8–10 minutes, so add 10 minutes to whatever the app shows.</div><div class="prose-p">If the app shows <strong>20 minutes or under</strong> — just go, you\'ll likely arrive to a 25–30 minute wait which is worth it for this one.</div><div class="prose-p">If the app shows <strong>over 20 minutes</strong> — buy Single Pass right there before you start walking. Grab the earliest return window and don\'t think about it again. It typically runs $7–12 and removes all the stress.</div><div class="section-divider"></div><div class="prose-p">Regroup at Cinderella\'s Carousel when both groups are done.</div><div class="callout"><div class="callout-text"><strong>Before you start walking — check the Mine Train standby wait in the app.</strong> Main Street to Mine Train is 8–10 minutes. App shows 20 min or under: just go. App shows over 20 min: buy Single Pass right there before you start walking.</div></div>',rowId:'d1-split'},
+  mkcarousel:{icon:'🎠',iconClass:'icon-tc',title:"Cinderella's Carousel · Regroup",time:'~9:10am · Regroup here',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">The carousel right in front of the castle, and it\'s never more than a few minutes wait this early. Good spot to regroup after the Mine Train split. Good photo moment with the whole group and the castle behind you.</div>',rowId:'d1-carousel'},
+  mkpooh:{icon:'🍯',iconClass:'icon-tc',title:'The Many Adventures of Winnie the Pooh',time:'~9:20am · Whole family · Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">A gentle dark ride through the Hundred Acre Wood — Pooh, Tigger, Piglet, Eeyore. Everyone rides together, no height requirement.</div><div class="section-divider"></div><div class="prose-p">Use your Lightning Lane — standby for this builds fast. A nice whole-family moment after the split.</div>',rowId:'d1-pooh'},
+  mkphilhar:{icon:'🎭',iconClass:'icon-show',title:"Mickey's PhilharMagic",time:'~9:40am · Mom + Charlie · During Speedway',tags:'<span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">12-minute 4D show — Mickey and Donald, classic Disney songs, everyone sits together in the AC. No height requirement, virtually no wait. The wind and bubble effects tend to get a big reaction from kids Charlie\'s age: just a heads up so it doesn\'t catch anyone off guard.</div>',rowId:'d1-speedway'},
+  mkminetrain:{icon:'⛏️',iconClass:'icon-tc',title:'Seven Dwarfs Mine Train',time:'~8:20am · Grandparents + Rowe',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Single Pass option</span>',body:'<div class="prose-p">Rowe is 41" and cleared — and if he loves Heigh Ho, this is going to be a moment. The whole indoor section is the dwarfs mining with the music playing throughout. The mine carts swing gently side to side around curves — not scary, just fun.</div><div class="section-divider"></div><div class="prose-p"><strong>Check the standby wait in the app before you start walking.</strong> Main Street to Mine Train is 8–10 minutes — add that to whatever the app shows.</div><div class="prose-p">App shows <strong>20 min or under</strong> — just go.</div><div class="prose-p">App shows <strong>over 20 min</strong> — buy Single Pass right there, grab the earliest window, done.</div>',rowId:'d1-split'},
+  mkdumbo:{icon:'🐘',iconClass:'icon-tc',title:'Dumbo the Flying Elephant',time:'~8:20am · Mom + Charlie · During Mine Train',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You fly in circles and control how high your elephant goes. No height requirement, near walk-on this early in the morning.</div><div class="section-divider"></div><div class="prose-p">There\'s an indoor play area while you wait — the kids go play in the AC while you hold the spot in the queue. Worth knowing about.</div>',rowId:'d1-split'},
+  mkspeedway:{icon:'🏎️',iconClass:'icon-sky',title:'Split — Speedway + PhilharMagic',time:'~9:40am · Group splits again',tags:'<span class="tag tag-ll">⚡ Lightning Lane on Speedway</span><span class="tag tag-split">↔ Group splits</span>',body:'<div class="prose-p">Grandparents and Rowe head to Tomorrowland Speedway. Mom and Charlie head to Mickey\'s PhilharMagic — 12-minute 4D show, fully air conditioned, no height requirement.</div><div class="section-divider"></div><div class="prose-p">Speedway is Rowe getting behind the wheel of a real gas-powered car and driving around a track. Rowe is 41" — he rides with a grandparent who drives. It\'s not a thrilling ride but kids genuinely love it. At the end, ask for an Official Speedway Driver\'s License — it\'s a little keepsake Rowe will be very proud of.</div><div class="section-divider"></div><div class="prose-p">Use your Lightning Lane for Speedway — the queue is outdoors and uncovered, gets hot fast.</div>',rowId:'d1-speedway'},
+  mkpeterpan:{icon:'🚢',iconClass:'icon-tc',title:"Peter Pan's Flight",time:'~10:05am · Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">You fly over London and Neverland in a little pirate ship, in this sweet, slow ride with no height requirement. Use your Lightning Lane, as standby builds fast even in the morning.</div>',rowId:'d1-peterpan'},
+  mkpirates:{icon:'🏴‍☠️',iconClass:'icon-sky',title:'Pirates of the Caribbean',time:'~10:45am · Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">One of the best rides in Magic Kingdom and has no height requirement. It\'s a boat ride through pirate scenes that\'s dark, atmospheric, and has two small drops at the very start. Worth mentioning the drops before you get on; they\'re very gentle but come out of nowhere if you\'re not expecting them. Fine for both kids.</div>',rowId:'d1-pirates'},
+  mkjungle:{icon:'🌿',iconClass:'icon-sky',title:'Jungle Cruise',time:'~11:10am · Check standby first',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Boat tour through animatronic jungle scenes — the jokes from the skipper are intentionally terrible and somehow still funny. No height requirement.</div><div class="section-divider"></div><div class="prose-p">If standby is over 20 minutes just skip it — you\'ve hit everything that matters today.</div>',rowId:'d1-junglecruise'},
+  mkrailroad:{icon:'🚂',iconClass:'icon-sky',title:'Walt Disney World Railroad',time:'~11:30am · Board at Fantasyland station',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🚂 Steam Train</span>',body:'<div class="prose-p">A real steam-powered train that circles all of Magic Kingdom. Board at Fantasyland, and you\'ll ride back to Main Street in about 10 minutes. It\'s a nice way to close the morning that drops you right at the exit, five minutes from Bay Lake Towers. Strollers must be folded to board, so have it collapsed before you reach the front of the line.</div>',rowId:'d1-railroad'},
+  mkbuzz:{icon:'🚀',iconClass:'icon-sky',title:"Buzz Lightyear's Space Ranger Spin",time:'~3:30pm · Tomorrowland',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Interactive dark ride: you shoot targets with a laser cannon and score points. No height requirement, fully air conditioned. Your Park Edit has the right moment to book your next Lightning Lane so it lines up with the afternoon.</div>',rowId:'d1-buzz'},
+  mkpeoplemover:{icon:'🚡',iconClass:'icon-sky',title:'Tomorrowland Transit Authority PeopleMover',time:'~3:50pm · Right outside Buzz',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Slow elevated tram that tours Tomorrowland. Always a walk-on, shaded, about 10 minutes. Good for tired legs and a fussy toddler.</div><div class="section-divider"></div><div class="prose-p">Never a wait, never a bad moment. Easy yes if you\'re in the area.</div>',rowId:'d1-peoplemover'},
+  mkparade:{icon:'🎪',iconClass:'icon-show',title:'Festival of Fantasy Parade',time:'3:00pm · Town Square · Optional',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎪 Parade</span>',body:'<div class="prose-p">Disney\'s big daytime parade — giant floats, all the major characters, live music, and a fire-breathing Maleficent dragon. Confirmed at 3:00pm daily.</div><div class="section-divider"></div><div class="prose-p"><strong>Where to stand:</strong> When you re-enter the park, don\'t walk in at all — stay right in Town Square near the entrance. Find a spot along the curb near the park exit — you don\'t need to be in line of sight of the castle. The floats come all the way around and interact with guests right at the exit end of the route, which is the least crowded spot. Rowe will be right at character level.</div><div class="section-divider"></div><div class="prose-p">The parade takes about 15–20 minutes to reach Town Square from Frontierland where it starts — so the first float arrives around 3:15–3:20pm.</div>',rowId:'d1-parade'},
+  mkdinner:{icon:'🍽️',iconClass:'icon-gold',title:'Dinner',time:'~6:30–7pm · Your call',tags:'<span class="tag tag-must">⭐ Your call</span><span class="tag tag-food">🍽️ In park or head home</span>',body:'<div class="prose-p">Columbia Harbour House is a solid quick-service option in the park — go upstairs if you can, it\'s quieter. Or just walk the 5 minutes home to Bay Lake Towers.</div><div class="section-divider"></div><div class="prose-p">Bay Lake Towers has its own quick-service restaurant. If the kids are done, going home is the easier call.</div>',rowId:'d1-dinner'},
+  mkfireworks:{icon:'🎆',iconClass:'icon-show',title:'Happily Ever After Fireworks',time:'~9pm · Watch from Bay Lake Towers',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎆 Fireworks</span>',body:'<div class="prose-p">18 minutes of fireworks and projection mapping over the castle. You have one of the best views in all of Walt Disney World right from Bay Lake Towers — watch from the balcony or the resort grounds without the crowds.</div>',rowId:'d1-fireworks'},
+  akcheckout:{icon:'🧳',iconClass:'icon-sky',title:'Check Out · Load Car · Breakfast',time:'~7:30am · Before the park',tags:'<span class="tag tag-must">⭐ Important</span>',body:'<div class="prose-p">Check out and load the car before heading to Animal Kingdom — you\'re driving straight to Naples after so you don\'t want to double back.</div><div class="section-divider"></div><div class="prose-p">If the car is loaded and you\'re checked out before you leave, leaving Animal Kingdom at 11:30 is completely frictionless.</div>',rowId:'d2-checkout'},
+  aksafari:{icon:'🦒',iconClass:'icon-tc',title:'Kilimanjaro Safaris',time:'8:30am · Grandparents + kids · Rope drop',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Real safari — giraffes, elephants, lions, hippos, zebras — all in open savanna. Open-air truck, about 20 minutes, no height requirement.</div><div class="section-divider"></div><div class="prose-p">The animals are most active in the morning so going early makes a real difference. By 10am they\'ve mostly moved to shade.</div><div class="callout"><div class="callout-text">No Lightning Lane needed today. Early Entry at rope drop gets you on with almost no wait — save the money for Magic Kingdom or Hollywood Studios.</div></div><div class="section-divider"></div><div class="prose-p"><strong>Mom — Safari is on the pregnancy restricted list, so this one\'s for grandparents and the kids.</strong> While they\'re on the truck you have two good options: grab a coffee and find a spot to sit (there\'s a Starbucks near the park entrance, about a 5-minute walk back), or take Charlie on Na\'vi River Journey which is right here in Pandora — slow, gentle, and Charlie will be completely transfixed by the glowing forest. Either way, regroup at Gorilla Falls Trail after.</div>',rowId:'d2-safari'},
+  akgorilla:{icon:'🦍',iconClass:'icon-sky',title:'Gorilla Falls Exploration Trail',time:'~9:15am · Self-paced',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Self-guided walking trail — gorillas, hippos, meerkats, exotic birds. 20–30 minutes at your own pace, no queue, no rushing.</div><div class="section-divider"></div><div class="prose-p">Both kids are going to react differently to this one. Good one to let them lead.</div>',rowId:'d2-gorilla'},
+  aknavi:{icon:'🌺',iconClass:'icon-sky',title:"Na'vi River Journey",time:'~8:30am · Mom + Charlie · During Safari',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Slow boat ride through the glowing bioluminescent forest of Pandora. Fully gentle, no height requirement, pregnancy-safe. Charlie will be completely mesmerized by the lights.</div><div class="section-divider"></div><div class="prose-p">First thing at rope drop the standby is usually 10–15 minutes — no Lightning Lane needed. Times nicely with Safari so the group can regroup at Gorilla Falls Trail after.</div>',rowId:'d2-navi'},
+  aklionking:{icon:'🦁',iconClass:'icon-show',title:'Festival of the Lion King',time:'~10:15am · Arrive 15 min early',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🎭 Show · 30 min</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">30-minute theatrical show — acrobats, fire, giant puppets, live singers. Fully seated, air conditioned. One of the best shows at Walt Disney World.</div><div class="section-divider"></div><div class="prose-p">Arrive about 15 minutes early to get good seats — it\'s a round theatre so position matters.</div>',rowId:'d2-lionking'},
+  akleave:{icon:'🚗',iconClass:'icon-tc',title:'Leave Animal Kingdom · Drive to Naples',time:'Target 11:30am',tags:'<span class="tag tag-must">⭐ Target time</span>',body:'<div class="prose-p">Animal Kingdom is a morning park — everything worth doing is done by noon anyway. Leaving at 11:30 gets you out before the heat really kicks in.</div><div class="section-divider"></div><div class="prose-p">Naples is about 3.5 hours.</div>',rowId:'d2-leave'}
+};
+
+var sosItems={
+  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid in every park handles minor issues, free, on the spot. Ask any cast member for the nearest one.</div><div class="section-divider"></div><div class="prose-p"><strong>1. AdventHealth In-Room Care</strong> — nurse comes to your hotel room. 8am to 8pm. About 2 hours wait. Call <a href="tel:8773261463" style="color:var(--terracotta);">877-326-1463</a>.<br><br><strong>2. iCare Urgent Care</strong> — 24/7. About 90 min start to finish. Call <a href="tel:4078585422" style="color:var(--terracotta);">407-858-5422</a>.<br><br><strong>3. AdventHealth Urgent Care Celebration</strong> — 24/7, free transport from resort. Call <a href="tel:4079645499" style="color:var(--terracotta);">407-964-5499</a>.<br><br><strong>4. Buena Vista Walk-In Clinic</strong> — 7:45am to 8pm weekdays, 7:45am to 5pm weekends. 10 min drive. Call <a href="tel:4074651110" style="color:var(--terracotta);">407-465-1110</a>.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid first. Call 911 if it\'s severe.</div></div>'},
+  missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: Cast Members see this frequently and handle this well. Find a Cast Member immediately and report it. It\'s helpful to take a photo in the morning of what they\'re wearing. If you need to describe them quickly, you\'ll have both ready. A description goes out park-wide by radio the moment you do. That Cast Member will help reunite you.</div><div class="section-divider"></div><div class="prose-p">Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that\'s the fastest path back to each other.</div>'},
+  breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Just ask one of the cast members',body:'<div class="prose-p">Check the app first — Disney will often automatically convert your Lightning Lane to an anytime pass when a ride goes down. Look for a notification.</div><div class="section-divider"></div><div class="prose-p">If you don\'t get an automatic conversion, find a cast member at the ride and ask them to scan your MagicBand or card — this ensures the Lightning Lane actually transfers. What they can offer varies, but it\'s always worth asking.</div>'},
+  meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Every park has a Baby Care Center — private, quiet, AC, rocking chairs. Ask any cast member and they\'ll point you there.</div><div class="section-divider"></div><div class="prose-p">Check the Worth Knowing card for quiet spots in each park — there are a few specific places worth knowing about depending on where you are.</div>'},
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, no wait, everyone sits',body:'<div class="prose-p"><strong>Magic Kingdom</strong><br>Tomorrowland PeopleMover — always a walk-on, shaded, 10 min<br>Mickey\'s PhilharMagic — 12-min seated show, great AC<br>Walt Disney World Railroad — steam train around the park</div><div class="section-divider"></div><div class="prose-p"><strong>Hollywood Studios</strong><br>Frozen Sing-Along — fully seated, air conditioned, 25 min</div><div class="section-divider"></div><div class="prose-p"><strong>Animal Kingdom</strong><br>Gorilla Falls Trail — self-paced walking, no queue, shaded</div>'},
+  rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out — it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20–40 minutes then done. Duck into the nearest indoor ride or shop and wait it out.</div><div class="section-divider"></div><div class="prose-p">Check the Worth Knowing card for covered areas and good spots to kill time in each park. Right after it stops is a good time to ride outdoor things — crowds thin out fast. Ponchos are sold all over the parks.</div>'},
+  heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun now',body:'<div class="prose-p">Find the nearest AC building and stay for at least 15 minutes. Cold water on wrists and the back of the neck helps quickly.</div><div class="section-divider"></div><div class="prose-p">Every park has a First Aid station with free cold water, AC, and a nurse on staff. Ask any cast member — they know exactly where it is.</div><div class="callout"><div class="callout-text">If someone is dizzy, stopped sweating, or seems confused — go to First Aid right away.</div></div>'},
+  behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Figure out what matters most',body:'<div class="prose-p">Anything pre-booked — Lightning Lanes, reservations — keep those. Everything else is flexible.</div><div class="section-divider"></div><div class="prose-p">Lightning Lane windows have more grace than the app suggests — often up to an hour past your window. Try scanning in even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">Just pick the one thing Rowe would be most upset to miss and protect that. The rest can go.</div>'},
+  phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your bookings are safe',body:'<div class="prose-p">Your reservations and Lightning Lane bookings live in your account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some restaurants have outlets, First Aid usually has charging too. Guest Services can print your reservations if you need a hard copy.</div>'}
+};
+
+// ── DAY SWITCHING ─────────────────────────────────────────────
+function switchDay(idx){
+  currentDay=idx;
+  document.querySelectorAll('.day-panel').forEach(function(p,i){p.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.day-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+}
+
+// ── DRAWER ────────────────────────────────────────────────────
+function openDrawer(key){
+  hideSOS();
+  try{
+    var item=activities[key];
+    if(!item)throw new Error('Not found: '+key);
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML=item.tags;
+    document.getElementById('drawerBody').innerHTML=item.body;
+    var isDone=doneItems.has(item.rowId);
+    document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+item.rowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
+    document.getElementById('activityDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }catch(e){
+    document.getElementById('drawerIcon').textContent='⚠️';
+    document.getElementById('drawerIcon').className='drawer-icon icon-tc';
+    document.getElementById('drawerTitle').textContent='Something went wrong';
+    document.getElementById('drawerTime').textContent='Try tapping again';
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML='<div class="prose-p">We couldn\'t load the details for this item.</div>';
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+}
+
+function openSOS(key){
+  try{
+    var item=sosItems[key];if(!item)throw new Error();
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML=item.body;
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }catch(e){console.error(e);}
+}
+
+function toggleDone(rowId){
+  try{
+    var row=document.getElementById(rowId);if(!row)return;
+    var check=row.querySelector('.done-check');
+    var btn=document.querySelector('#drawerFooter .done-btn');
+    if(doneItems.has(rowId)){
+      doneItems.delete(rowId);row.classList.remove('done');
+      if(check){check.classList.remove('pop');check.style.opacity='0';}
+      if(btn){btn.className='done-btn';btn.textContent='✓ Mark as Done';}
+    }else{
+      doneItems.add(rowId);row.classList.add('done');
+      if(check){check.classList.remove('pop');void check.offsetWidth;check.classList.add('pop');check.style.opacity='1';}
+      if(btn){btn.className='done-btn completed';btn.textContent='✓ Done';}
+      setTimeout(function(){closeAll();},600);
+    }
+    saveDone();
+  }catch(e){console.error(e);}
+}
+
+function closeAll(){
+  document.getElementById('activityDrawer').classList.remove('open');
+  document.getElementById('sosDrawer').classList.remove('open');
+  document.getElementById('wkDrawer').classList.remove('open');
+  document.getElementById('bagDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  showSOS();
+}
+function hideSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='0';b.style.pointerEvents='none';}}
+function showSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='1';b.style.pointerEvents='';}}
+function openSOSMenu(){hideSOS();document.getElementById('sosDrawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function openSOSFromMenu(key){document.getElementById('sosDrawer').classList.remove('open');setTimeout(function(){openSOS(key);},150);}
+
+// ── EDIT MODE ─────────────────────────────────────────────────
+function toggleEdit(dayIdx){
+  editModes[dayIdx]=!editModes[dayIdx];
+  var on=editModes[dayIdx];
+  var c=document.getElementById('sc-'+dayIdx);
+  var eb=document.getElementById('editBtn-'+dayIdx);
+  var db=document.getElementById('doneEditBtn-'+dayIdx);
+  var bn=document.getElementById('editBanner-'+dayIdx);
+  if(on){c.classList.add('edit-mode');eb.style.display='none';db.classList.add('show');bn.classList.add('show');updateSteppers(dayIdx);}
+  else{c.classList.remove('edit-mode');eb.style.display='';db.classList.remove('show');bn.classList.remove('show');}
+}
+function getMovable(dayIdx){return Array.prototype.slice.call(document.querySelectorAll('#timeline-'+dayIdx+' .tl-item:not(.fixed)'));}
+function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx<=0)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx-1].parentNode.insertBefore(row,all[idx-1]);updateSteppers(dayIdx);}catch(e){}}
+function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
+function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(){moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(){moveDown(r,d);};})(row,dayIdx);});}
+
+// ── RESTORE DONE STATES ───────────────────────────────────────
+doneItems.forEach(function(rowId){var row=document.getElementById(rowId);if(row){row.classList.add('done');var c=row.querySelector('.done-check');if(c)c.style.opacity='1';}});
+
+// ── SCROLL ROULETTE FIX ───────────────────────────────────────
+(function(){var sx,sy,tgt,mv;document.addEventListener('touchstart',function(e){var item=e.target.closest('.tl-item');if(!item)return;tgt=item;sx=e.touches[0].clientX;sy=e.touches[0].clientY;mv=false;},{passive:true});document.addEventListener('touchmove',function(e){if(!tgt)return;if(Math.abs(e.touches[0].clientX-sx)>8||Math.abs(e.touches[0].clientY-sy)>8){mv=true;tgt=null;}},{passive:true});document.addEventListener('touchend',function(){if(!tgt||mv){tgt=null;return;}var t=tgt;tgt=null;t.classList.add('tapped');setTimeout(function(){t.classList.remove('tapped');},200);},{passive:true});})();
+
+// ── DRAWER SWIPE TO CLOSE ─────────────────────────────────────
+(function(){var sy=0,vy=0,lastY=0,lastT=0;['activityDrawer','sosDrawer','wkDrawer'].forEach(function(id){var el=document.getElementById(id);el.addEventListener('touchstart',function(e){sy=e.touches[0].clientY;lastY=sy;lastT=Date.now();vy=0;},{passive:true});el.addEventListener('touchmove',function(e){var now=Date.now();var dt=now-lastT;var dy=e.touches[0].clientY-lastY;if(dt>0)vy=dy/dt;lastY=e.touches[0].clientY;lastT=now;},{passive:true});el.addEventListener('touchend',function(e){var totalDy=e.changedTouches[0].clientY-sy;if(totalDy>110&&vy>0.3)closeAll();},{passive:true});});})();
+
+// ── INIT WORTH KNOWING ────────────────────────────────────────
+document.getElementById('wkBody').innerHTML=buildWKContent(0);
+
+// ── PARK BAG DRAWER ───────────────────────────────────────────
+var bagItems = [
+  'Diapers',
+  'Swim diapers — if heading to a splash pad',
+  'Baby wipes and pacifier wipes',
+  'Sanitising wipes',
+  'Changing pad',
+  'Sunscreen and SPF chapstick',
+  'Water bottles',
+  'Snacks',
+  'Ziploc bags',
+  'Portable charger',
+  'Stroller fan',
+  'Neck fan',
+  'Ear protection for both kids',
+  'Cash or card easily accessible',
+  'One change of clothes for Charlie',
+  'Baby carrier',
+  'Bandaids — top of the bag'
+];
+
+function openBagDrawer(dayIdx) {
+  var el = document.getElementById('bagDrawer');
+  var body = document.getElementById('bagDrawerBody');
+  el._dayIdx = dayIdx;
+  body.innerHTML = '';
+  bagItems.forEach(function(item, i) {
+    var key = 'bag-item-' + i;
+    var div = document.createElement('div');
+    div.className = 'bag-check-item' + (localStorage.getItem(key) === '1' ? ' checked' : '');
+    div.innerHTML = '<div class="bag-check-box"></div><span class="bag-check-label">' + item + '</span>';
+    div.addEventListener('click', function() {
+      div.classList.toggle('checked');
+      localStorage.setItem(key, div.classList.contains('checked') ? '1' : '0');
+    });
+    body.appendChild(div);
+  });
+  hideSOS();
+  el.classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function packedUp() {
+  var el = document.getElementById('bagDrawer');
+  var dayIdx = el._dayIdx;
+  closeAll();
+  var todayKey = 'bag-packed-day-' + dayIdx;
+  var dateKey = 'bag-packed-date-' + dayIdx;
+  var today = new Date().toDateString();
+  localStorage.setItem(todayKey, '1');
+  localStorage.setItem(dateKey, today);
+  animateBagRowDown(dayIdx);
+}
+
+function animateBagRowDown(dayIdx) {
+  var topRow = document.getElementById('bag-top-' + dayIdx);
+  var bpBottom = topRow ? topRow.closest('.bp-bottom') : null;
+  if (!topRow || !bpBottom) return;
+  topRow.classList.add('collapsing');
+  setTimeout(function() {
+    topRow.style.display = 'none';
+    var doneRow = document.createElement('div');
+    doneRow.className = 'bag-row-bottom';
+    doneRow.id = 'bag-bottom-' + dayIdx;
+    doneRow.innerHTML = '<span style="font-size:14px;">🎒</span><span class="bag-row-bottom-title">Your park bag</span><span class="bag-row-done-label">Packed ✓</span><span style="font-size:14px;color:var(--muted);opacity:0.5;">›</span>';
+    doneRow.addEventListener('click', function() { openBagDrawer(dayIdx); });
+    bpBottom.appendChild(doneRow);
+    setTimeout(function() { doneRow.classList.add('visible'); }, 50);
+  }, 350);
+}
+
+// restore packed state on load — resets each new calendar day
+(function() {
+  for (var i = 0; i < 4; i++) {
+    var todayKey = 'bag-packed-day-' + i;
+    var dateKey = 'bag-packed-date-' + i;
+    var savedDate = localStorage.getItem(dateKey);
+    var today = new Date().toDateString();
+    if (savedDate && savedDate !== today) {
+      localStorage.removeItem(todayKey);
+      localStorage.removeItem(dateKey);
+    }
+    if (localStorage.getItem(todayKey) === '1') {
+      (function(dayIdx) {
+        setTimeout(function() { animateBagRowDown(dayIdx); }, 100);
+      })(i);
+    }
+  }
+})();
+
+// swipe to close bag drawer
+(function(){
+  var el = document.getElementById('bagDrawer');
+  var sy = 0, vy = 0, lastY = 0, lastT = 0;
+  el.addEventListener('touchstart', function(e) { sy = e.touches[0].clientY; lastY = sy; lastT = Date.now(); vy = 0; }, {passive:true});
+  el.addEventListener('touchmove', function(e) { var now = Date.now(); var dt = now - lastT; var dy = e.touches[0].clientY - lastY; if (dt > 0) vy = dy / dt; lastY = e.touches[0].clientY; lastT = now; }, {passive:true});
+  el.addEventListener('touchend', function(e) { var totalDy = e.changedTouches[0].clientY - sy; if (totalDy > 110 && vy > 0.3) closeAll(); }, {passive:true});
+})();
+</script>
+
+<!-- ── BAG DRAWER ── -->
+<div class="drawer" id="bagDrawer" style="z-index:25;">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-tc">🎒</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title">Your park bag</div>
+      <div class="drawer-subtitle">Check before you leave the hotel</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="bagDrawerBody"></div>
+  <button class="packed-btn" onclick="packedUp()">Packed! 🎒</button>
+</div>
+
+</body>
+</html>

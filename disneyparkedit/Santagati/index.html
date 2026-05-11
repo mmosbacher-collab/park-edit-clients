@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Park Edit">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="manifest" href="/manifest.json">
+<title>The Park Edit · Santagati Monogyios</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;}
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
+.brand-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.wrap{padding:16px 16px 0;}
+.day-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{border-radius:10px;padding:7px 13px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.day-tab-label{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;}
+.day-tab.active .day-tab-label{color:rgba(255,255,255,0.7);opacity:1;}
+.day-tab-day{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;margin-top:1px;}
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:var(--terracotta);padding:18px 20px 22px;color:white;border-radius:20px 20px 0 0;position:relative;overflow:hidden;}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.park-name-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;flex-wrap:nowrap;min-width:0;}
+.park-day-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-left:2px;white-space:nowrap;flex-shrink:0;}
+.park-emoji{font-size:16px;line-height:1;}
+.park-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.bp-day-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;}
+.bp-park{font-size:12px;opacity:0.8;position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;opacity:0.9;line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--terracotta);}
+.bp-notch{width:18px;height:18px;background:var(--cream);flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;}
+.bp-dash{flex:1;border-top:2px dashed rgba(255,255,255,0.3);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1px solid var(--border);border-top:none;overflow:hidden;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.schedule-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border);}
+.schedule-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.bag-check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item:last-child{border-bottom:none;}
+.bag-check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.bag-check-item.checked .bag-check-box{background:var(--done);border-color:var(--done);}
+.bag-check-item.checked .bag-check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.bag-check-item.checked .bag-check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.bag-check-label{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+.packed-btn{display:block;width:calc(100% - 36px);margin:14px 18px 0;background:var(--terracotta);color:white;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity 0.3s ease,max-height 0.4s ease,padding 0.3s ease;}
+.bag-row-top.collapsing{opacity:0;max-height:0;padding-top:0;padding-bottom:0;border-bottom:none;overflow:hidden;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.bag-row-bottom{display:flex;align-items:center;gap:8px;padding:8px 18px;border-top:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 0.4s ease;}
+.bag-row-bottom.visible{opacity:1;}
+.bag-row-bottom-title{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);flex:1;}
+.bag-row-done-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--done);letter-spacing:0.1em;text-transform:uppercase;}
+.done-edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--terracotta);background:var(--terracotta);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;display:none;}
+.edit-mode .edit-btn{display:none;}
+.edit-mode .done-edit-btn{display:block;}
+.edit-banner{display:none;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;padding:7px 18px;background:var(--surface);border-bottom:1px solid var(--border);text-align:center;letter-spacing:0.04em;}
+.edit-mode .edit-banner{display:block;}
+.tl-item{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item.done{opacity:0.55;}
+.tl-item:active{background:var(--surface);}
+.tl-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);width:32px;flex-shrink:0;text-align:right;}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.dot-must{background:var(--terracotta);}
+.dot-ll{background:var(--sky);}
+.dot-show{background:#B088C0;}
+.dot-opt{background:var(--border);border:1.5px solid var(--muted);}
+.dot-food{background:var(--gold);}
+.dot-break{background:var(--done);}
+.tl-content{flex:1;min-width:0;}
+.tl-title-row{display:flex;align-items:center;gap:6px;margin-bottom:0;}
+.tl-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.3;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;text-decoration-thickness:1.5px;flex:1;}
+.dir-icons{display:flex;gap:4px;flex-shrink:0;}
+.dir-btn{background:none;border:none;cursor:pointer;padding:2px;opacity:0.65;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s;}
+.dir-btn:active{opacity:1;}
+.dir-legend{padding:10px 18px;background:var(--surface);border-bottom:1px solid var(--border);}
+.dir-legend-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600;}
+.dir-legend-row{display:flex;gap:18px;}
+.dir-legend-item{display:flex;align-items:center;gap:5px;}
+.dir-legend-text{font-size:11px;color:var(--text);}
+.tl-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.05em;padding:2px 7px;border-radius:6px;}
+.tag-must{background:rgba(232,115,74,0.12);color:var(--terracotta);}
+.tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.tag-opt{background:rgba(140,123,114,0.1);color:var(--muted);}
+.tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.tag-show{background:rgba(176,136,192,0.12);color:#8060A0;}
+.tag-meet{background:rgba(91,143,168,0.1);color:var(--sky);}
+.tag-ac{background:var(--ice);color:var(--ice-text);}
+.tag-split{background:rgba(122,174,142,0.15);color:#3A7A5A;}
+.done-check{width:18px;height:18px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0;opacity:0;transition:opacity 0.3s;}
+.tl-item.done .done-check{opacity:1;}
+.fixed-label{display:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:10px;flex-shrink:0;}
+.edit-mode .tl-item.fixed .fixed-label{display:block;}
+.stepper{display:none;align-items:center;flex-shrink:0;border:1.5px solid var(--terracotta);border-radius:20px;overflow:hidden;box-shadow:2px 2px 0 var(--shadow);}
+.edit-mode .stepper{display:flex;}
+.step-btn{width:40px;height:40px;border:none;background:rgba(232,115,74,0.08);color:var(--terracotta);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.step-btn:disabled{opacity:0.2;cursor:default;pointer-events:none;}
+.step-divider{width:1px;height:18px;background:rgba(232,115,74,0.3);flex-shrink:0;}
+.midday-break{background:linear-gradient(135deg,rgba(122,174,142,0.12),rgba(122,174,142,0.06));border:1.5px solid rgba(122,174,142,0.4);border-radius:14px;padding:14px 16px;margin:10px 14px;position:relative;}
+.midday-break-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.midday-icon{font-size:16px;}
+.midday-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#3A7A5A;font-weight:600;}
+.midday-line{flex:1;height:1px;background:rgba(122,174,142,0.3);}
+.midday-text{font-size:13px;color:var(--text);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.time-break{display:flex;align-items:center;gap:10px;padding:8px 18px;}
+.time-break-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.time-break-line{flex:1;height:1px;background:var(--border);}
+.worth-pill{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:9px 14px;margin-bottom:14px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;}
+.worth-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.worth-pill-icon{font-size:14px;flex-shrink:0;}
+.worth-pill-text{flex:1;}
+.worth-pill-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.worth-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-style:italic;color:var(--muted);}
+.worth-pill-chev{font-size:13px;color:var(--muted);flex-shrink:0;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-tc{background:rgba(232,115,74,0.12);}
+.icon-sky{background:rgba(91,143,168,0.12);}
+.icon-gold{background:rgba(242,201,76,0.15);}
+.icon-show{background:rgba(176,136,192,0.12);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-tags{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.drawer-body{padding:18px 22px 0;overflow-y:auto;max-height:42vh;}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.prose-p+.prose-p{margin-top:12px;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.section-divider{height:1px;background:rgba(232,115,74,0.25);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:16px;}
+.callout-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.callout-text{font-size:13px;line-height:1.65;color:var(--text);}
+.drawer-footer{padding:16px 22px 0;border-top:1px solid var(--border);margin-top:16px;}
+.done-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.done-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.done-btn.completed{background:var(--done);box-shadow:3px 3px 0 #5A9070;}
+.wk-park-tabs{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.wk-park-tabs::-webkit-scrollbar{display:none;}
+.wk-park-tab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:1px 1px 0 var(--shadow);-webkit-tap-highlight-color:transparent;}
+.wk-park-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;}
+.wk-body{padding:0 0 8px;overflow-y:auto;max-height:52vh;}
+.wk-group{padding:14px 22px 0;}
+.wk-group-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.wk-tip{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-tip:last-child{border-bottom:none;}
+.wk-tip-emoji{font-size:16px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.wk-tip-title{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text);}
+.wk-tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.sos-menu-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px dashed var(--border);cursor:pointer;background:#FEFCFA;border-left:3px solid transparent;-webkit-tap-highlight-color:transparent;}
+.sos-menu-row:last-child{border-bottom:none;}
+.sos-menu-emoji{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+.sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;}
+.sos-menu-chev{font-size:16px;color:var(--border);}
+.sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+.stub-message{padding:40px 24px;text-align:center;}
+.stub-icon{font-size:36px;margin-bottom:12px;}
+.stub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.stub-body{font-size:13px;color:var(--muted);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
+.tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+</style>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-family">Silvia, George &amp; Isabella</div>
+  <div class="brand-name">The Park<span>.</span>Edit</div>
+  <div class="brand-tagline">with Ana, Nemanja, Valentina &amp; Gigi</div>
+</div>
+
+<div class="wrap">
+  <div class="day-tabs" id="dayTabs">
+    <div class="day-tab active" onclick="switchDay(0)"><div style="font-size:13px;text-align:center;">🏰</div><div class="day-tab-label">Sat</div><div class="day-tab-day">May 23</div></div>
+    <div class="day-tab" onclick="switchDay(1)"><div style="font-size:13px;text-align:center;">🌍</div><div class="day-tab-label">Mon</div><div class="day-tab-day">May 25</div></div>
+    <div class="day-tab" onclick="switchDay(2)"><div style="font-size:13px;text-align:center;">🎬</div><div class="day-tab-label">Tue</div><div class="day-tab-day">May 26</div></div>
+  </div>
+
+  <div class="worth-pill" id="worthPill" onclick="openWorthKnowing()">
+    <span class="worth-pill-icon">📍</span>
+    <div class="worth-pill-text">
+      <span class="worth-pill-label">Worth Knowing</span>
+      <span class="worth-pill-sub">In the park, right now</span>
+    </div>
+    <span class="worth-pill-chev">›</span>
+  </div>
+
+  <!-- ═══ DAY 1 · MAGIC KINGDOM · SAT MAY 23 ═══ -->
+  <div class="day-panel active" id="day-0">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🏰</span><span class="park-name">Magic Kingdom</span><span class="park-day-label">· Sat · May 23</span></div>
+        <div class="bp-day-name">The Princess Day 👑</div>
+        <div class="bp-park">Early Entry 8:30am · Lightning Lane active · Midday break at the resort</div>
+        <div class="bp-summary">The girls are about to have a day fit for three princesses. The morning is about covering ground. The afternoon is all about feeling like royalty.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-0">
+        <div class="bag-row-top" id="bag-top-0" onclick="openBagDrawer(0)">
+          <span style="font-size:16px;">🎒</span>
+          <span class="bag-row-top-title">Your park bag</span>
+          <span class="bag-row-top-label">Check</span>
+          <span style="font-size:16px;color:var(--terracotta);opacity:0.7;">›</span>
+        </div>
+        <div class="schedule-header">
+          <div class="schedule-label">Today's Schedule</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button class="edit-btn" id="editBtn-0" onclick="toggleEdit(0)">✏️ Edit</button>
+            <button class="done-edit-btn" id="doneEditBtn-0" onclick="toggleEdit(0)">✓ Done</button>
+          </div>
+        </div>
+        <div class="edit-banner" id="editBanner-0">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
+        <div id="timeline-0">
+          <div class="time-break"><div class="time-break-label">Early Entry · 8:30am</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d0-monorail" onclick="openDrawer('mkmonorail')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Monorail from the Polynesian</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Polynesian+Village+Resort+Monorail+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Your advantage</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-minetrain" onclick="openDrawer('mkminetrain')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Seven Dwarfs Mine Train</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Seven+Dwarfs+Mine+Train+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Single Pass</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-dumbo" onclick="openDrawer('mkdumbo')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Dumbo the Flying Elephant</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Dumbo+the+Flying+Elephant+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+
+          <div class="tl-item fixed" id="d0-tiana" onclick="openDrawer('mktiana')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Tiana's Bayou Adventure</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Tiana%27s+Bayou+Adventure+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 1</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-bigthunder" onclick="openDrawer('mkbigthunder')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Big Thunder Mountain Railroad</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Big+Thunder+Mountain+Railroad+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-buzz" onclick="openDrawer('mkbuzz')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Buzz Lightyear's Space Ranger Spin</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Buzz+Lightyear%27s+Space+Ranger+Spin+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-pirates" onclick="openDrawer('mkpirates')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Pirates of the Caribbean</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Pirates+of+the+Caribbean+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-philhar" onclick="openDrawer('mkphilhar')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Mickey's PhilharMagic</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Mickey%27s+PhilharMagic+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 12 min</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="midday-break">
+            <div class="midday-break-top"><span class="midday-icon">🏝️</span><span class="midday-label">Midday Break — Back to the Polynesian</span><div class="midday-line"></div></div>
+            <div class="midday-text">Monorail back to the resort. Lunch, quiet time, let the little ones rest in the room. Target leaving the resort by 3:00pm. No pool today — the girls need clean, dry, product-free hair for Bibbidi Bobbidi Boutique.</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Afternoon · The Main Event</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d0-bbb" onclick="openDrawer('mkbbb')"><div class="tl-time">3:40pm</div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Bibbidi Bobbidi Boutique</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Bibbidi+Bobbidi+Boutique+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Reserved</span><span class="tag tag-meet">👑 Isabella, Valentina &amp; Gigi</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-crt" onclick="openDrawer('mkcrt')"><div class="tl-time">5:35pm</div><div class="tl-dot dot-food"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Cinderella's Royal Table · Dinner</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Cinderella%27s+Royal+Table+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Reserved</span><span class="tag tag-food">🍽️ Inside the Castle</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Evening · Your Call</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d0-parade" onclick="openDrawer('mkparade')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Festival of Fantasy Parade</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Festival+of+Fantasy+Parade+Magic+Kingdom+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎪 Parade</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-fireworks" onclick="openDrawer('mkfireworks')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Happily Ever After Fireworks</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Happily+Ever+After+Magic+Kingdom+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎆 ~9pm</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DAY 2 · EPCOT · MON MAY 25 ═══ -->
+  <div class="day-panel" id="day-1">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🌍</span><span class="park-name">EPCOT</span><span class="park-day-label">· Mon · May 25</span></div>
+        <div class="bp-day-name">Two Worlds in One Day</div>
+        <div class="bp-park">Early Entry 8:30am · Extended Evening Hours until 11pm · One dining decision needed</div>
+        <div class="bp-summary">Future World in the morning, World Showcase in the afternoon. Test Track at rope drop, Frozen and Remy locked, Extended Evening Hours give you flexibility on the back end.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-1">
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div><div style="display:flex;gap:6px;align-items:center;"><button class="edit-btn" id="editBtn-1" onclick="toggleEdit(1)">✏️ Edit</button><button class="done-edit-btn" id="doneEditBtn-1" onclick="toggleEdit(1)">✓ Done</button></div></div>
+        <div class="edit-banner" id="editBanner-1">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
+        <div id="timeline-1">
+          <div class="time-break"><div class="time-break-label">Early Entry · 8:30am</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d1-spaceship-tapin"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Spaceship Earth — Tap LL and Book Remy</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Spaceship+Earth+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Do This First</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-testtrack" onclick="openDrawer('epTestTrack')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Test Track</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Test+Track+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-frozen" onclick="openDrawer('epFrozen')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Frozen Ever After</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Frozen+Ever+After+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 1</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d1-soarin" onclick="openDrawer('epSoarin')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Soarin'</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Soarin+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane · Tier 2</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-figment" onclick="openDrawer('epFigment')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Journey Into Imagination with Figment</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Journey+Into+Imagination+Figment+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-nemo" onclick="openDrawer('epNemo')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">The Seas with Nemo & Friends</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=The+Seas+with+Nemo+and+Friends+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="midday-break"><div class="midday-break-top"><span class="midday-icon">🏝️</span><span class="midday-label">Midday Break — Back to the Polynesian</span><div class="midday-line"></div></div><div class="midday-text">Monorail back to the resort. Lunch, quiet time, rest. Target leaving by 3:00pm for World Showcase and the evening dining window.</div></div>
+          <div class="time-break"><div class="time-break-label">Afternoon · World Showcase</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d1-fiesta" onclick="openDrawer('epFiesta')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Gran Fiesta Tour Starring The Three Caballeros</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Gran+Fiesta+Tour+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-princesses" onclick="openDrawer('epPrincesses')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Disney Princess Character Meets</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Disney+Princess+Meet+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-meet">👑 World Showcase</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-remy" onclick="openDrawer('epRemy')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Remy's Ratatouille Adventure</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Remy%27s+Ratatouille+Adventure+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ll">⚡ Tier 1 (Booked After Spaceship Earth)</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-showcase" onclick="openDrawer('epShowcase')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">World Showcase — Walk and Explore</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=World+Showcase+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-space220" onclick="openDrawer('epSpace220')"><div class="tl-time">6:00pm</div><div class="tl-dot dot-food"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Space 220 Dinner</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Space+220+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-food">🍽️ Reserved</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-lahacienda" onclick="openDrawer('epLaHacienda')"><div class="tl-time">7:45pm</div><div class="tl-dot dot-food"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">La Hacienda de San Angel Dinner</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=La+Hacienda+de+San+Angel+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-food">🍽️ Reserved</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="time-break"><div class="time-break-label">Evening · Extended Hours</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d1-luminous" onclick="openDrawer('epLuminous')"><div class="tl-time">~8:30pm</div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Luminous The Magic Awaits</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Luminous+The+Magic+Awaits+EPCOT+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">✨ Nighttime Show</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d1-extended" onclick="openDrawer('epExtended')"><div class="tl-time">9–11pm</div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Extended Evening Hours — Park Thins Out</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=EPCOT+Extended+Evening+Hours+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DAY 3 · HOLLYWOOD STUDIOS · TUE MAY 26 ═══ -->
+  <div class="day-panel" id="day-2">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🎬</span><span class="park-name">Hollywood Studios</span><span class="park-day-label">· Tue · May 26</span></div>
+        <div class="bp-day-name">Opening Day in Toy Story Land 🎪</div>
+        <div class="bp-park">Early Entry 8:30am · Toy Story Land · Midday departure for Disney Springs</div>
+        <div class="bp-summary">May 26 is opening day for Rock 'n' Roller Coaster Starring The Muppets and Soarin' Across America. The park will be packed. Your advantage is rope drop and Lightning Lane — hit Toy Story Land hard in the first four hours, then head to the Boathouse for dinner.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-2">
+        <div class="bag-row-top" id="bag-top-2" onclick="openBagDrawer(2)">
+          <span style="font-size:16px;">🎒</span>
+          <span class="bag-row-top-title">Your park bag</span>
+          <span class="bag-row-top-label">Check</span>
+          <span style="font-size:16px;color:var(--terracotta);opacity:0.7;">›</span>
+        </div>
+        <div class="schedule-header">
+          <div class="schedule-label">Today's Schedule</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <button class="edit-btn" id="editBtn-2" onclick="toggleEdit(2)">✏️ Edit</button>
+            <button class="done-edit-btn" id="doneEditBtn-2" onclick="toggleEdit(2)">✓ Done</button>
+          </div>
+        </div>
+
+        <div id="timeline-2">
+        <div class="time-break"><div class="time-break-label">Morning · Rope Drop Strategy</div><div class="time-break-line"></div></div>
+        <div class="tl-item fixed" id="d2-runaway" onclick="openDrawer('dhsrunaway')"><div class="tl-time">8:30am</div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Mickey &amp; Minnie's Runaway Railway</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Mickey+and+Minnie%27s+Runaway+Railway+Hollywood+Studios+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Rope Drop</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+        <div class="tl-item fixed" id="d2-slinky" onclick="openDrawer('dhsslinky')"><div class="tl-time">9:00am</div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Slinky Dog Dash</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Slinky+Dog+Dash+Hollywood+Studios+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 1</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+        <div class="tl-item fixed" id="d2-toystory" onclick="openDrawer('dhstoystory')"><div class="tl-time">9:15am</div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Toy Story Mania</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Toy+Story+Mania+Hollywood+Studios+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 2</span></div></div><div class="fixed-label">Fixed</div><div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div><div class="done-check">✓</div></div>
+        <div class="tl-item optional" id="d2-alien" onclick="openDrawer('dhsalien')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">Alien Swirling Saucers</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Alien+Swirling+Saucers+Hollywood+Studios+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-opt">🚶 Short Standby</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+        <div class="tl-item optional" id="d2-frozen" onclick="openDrawer('dhsfrozen')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title-row"><div class="tl-title">For the First Time in Forever: A Frozen Sing-Along</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.open('https://www.google.com/maps/search/?api=1&query=Frozen+Sing-Along+Hollywood+Studios+Walt+Disney+World','_blank')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div><div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 15 min</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 2</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="stepper"><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'up')">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation();moveItem(this.closest('.tl-item'),'down')">↓</button></div><div class="done-check">✓</div></div>
+        <div class="midday-break">
+          <div class="midday-break-top"><span class="midday-icon">🚗</span><span class="midday-label">Midday Departure · Disney Springs for Dinner</span><div class="midday-line"></div></div>
+          <div class="midday-text">Rideshare from Hollywood Studios to The Boathouse at Disney Springs. Target leaving the park by noon to noon:30pm. The morning strategy gets you the major rides and keeps the afternoon flexible so you can head out without rushed decisions.</div>
+        </div>
+        </div><!-- /timeline-2 -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- HOME SCREEN INSTALL PROMPT -->
+<div id="homePrompt" style="display:none;position:fixed;bottom:96px;left:max(16px,calc(50% - 179px));right:max(16px,calc(50% - 179px));background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.13),0 2px 8px rgba(0,0,0,0.07);padding:22px 20px 18px;z-index:40;font-family:'DM Sans',sans-serif;">
+  <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#2C1810;margin-bottom:8px;">Save to your home screen</div>
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#5C3D2E;line-height:1.5;margin-bottom:18px;">Tap the share icon in the Safari bar below, then "Add to Home Screen." Opens full-screen with no browser in the way. Takes 10 seconds.</div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button onclick="dismissHomePrompt(true)" style="flex:1;background:#EA6E38;color:#fff;border:none;border-radius:10px;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Got it ✓</button>
+    <button onclick="dismissHomePrompt(false)" style="flex:0 0 auto;background:transparent;border:1.5px solid #C8B8A8;border-radius:10px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:13px;color:#8C7B6E;cursor:pointer;">Maybe later</button>
+  </div>
+</div>
+
+<button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()">🆘</button>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- SOS DRAWER -->
+<div class="drawer" id="sosDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div style="overflow-y:auto;max-height:60vh;">
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
+  </div>
+</div>
+
+<!-- ACTIVITY DRAWER -->
+<div class="drawer" id="activityDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon" id="drawerIcon"></div><div class="drawer-title-wrap"><div class="drawer-title" id="drawerTitle"></div><div class="drawer-time" id="drawerTime"></div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-tags" id="drawerTags"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter"></div>
+</div>
+
+<!-- WORTH KNOWING DRAWER -->
+<div class="drawer" id="wkDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">📍</div><div class="drawer-title-wrap"><div class="drawer-title">Worth Knowing</div><div class="drawer-time">In the park, right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="wk-park-tabs">
+    <div class="wk-park-tab active" onclick="switchWKPark(0,this)">🏰 Magic Kingdom</div>
+    <div class="wk-park-tab" onclick="switchWKPark(1,this)">🌍 EPCOT</div>
+    <div class="wk-park-tab" onclick="switchWKPark(2,this)">🎬 Hollywood Studios</div>
+    <div class="wk-park-tab" onclick="switchWKPark(3,this)">🍽️ Dining</div>
+  </div>
+  <div class="wk-body" id="wkBody"></div>
+</div>
+
+<!-- BAG DRAWER -->
+<div class="drawer" id="bagDrawer" style="z-index:25;">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon">🎒</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title">Your park bag</div>
+      <div class="drawer-subtitle">Check before you leave the hotel</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="bagDrawerBody"></div>
+  <button class="packed-btn" onclick="packedUp()">Packed! 🎒</button>
+</div>
+
+<script>
+var STORAGE_KEY='park-edit-sm-v1';
+function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set(JSON.parse(s)):new Set();}catch(e){return new Set();}}
+function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
+var doneItems=loadDone();
+var currentDay=0;
+var editModes=[false,false,false];
+var currentWKPark=0;
+
+// ── WORTH KNOWING DATA ────────────────────────────────────────
+var wkData=[
+  {
+    intro:"The Polynesian monorail is your single biggest advantage. You can be at the Magic Kingdom gate in 10 minutes from your room — use it. The families struggling at 3pm are the ones who tried to push through without a break.",
+    groups:[
+      {label:'Food & Drink',tips:[
+        {e:'🍍',t:'Dole Whip',d:'Aloha Isle near the entrance to Adventureland. Pineapple soft-serve with a genuine cult following — worth trying at least once. The girls will love it.'},
+        {e:'🥐',t:"Gaston's Cinnamon Roll",d:"Gaston's Tavern in Fantasyland. Genuinely enormous and well worth sharing. One of the most photographed snacks in the park."},
+        {e:'🐟',t:'Best quick-service lunch',d:'Columbia Harbour House — seafood, sandwiches, lighter options. Go upstairs if you can, it\'s noticeably quieter and has great views of Liberty Square.'},
+        {e:'💧',t:'Free water',d:'Any quick-service counter will give you a cup of ice water at no charge. Just ask. With three strollers and three little girls in May, you will use this constantly.'},
+        {e:'📱',t:'Mobile ordering',d:'Use it wherever available in MDE. Order 30–45 minutes before you\'re hungry. Noon is peak chaos — eating slightly before or after makes everything easier.'}
+      ]},
+      {label:'Comfort & Logistics',tips:[
+        {e:'🛝',t:'Stroller parking',d:'Every ride has a designated stroller parking area outside the entrance. Cast members may move strollers but always keep them together. Put something bright or distinctive on yours — three strollers that look similar is a recipe for confusion at the end of a ride.'},
+        {e:'🛁',t:'BBB hair reminder',d:'Clean, dry, product-free hair for all three girls this morning. No dry shampoo, no leave-in conditioner, no accessories. The Boutique is strict about this — it affects the styling.'},
+        {e:'🤫',t:'Quiet spots',d:'East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Umbrellas, seating, almost no foot traffic. Good for a moment to regroup without the noise of the main path.'},
+        {e:'🧒',t:'Baby Care Center',d:'Next to the Crystal Palace on Main Street. Air conditioned, rocking chairs, proper changing tables, microwave. Ask any cast member to point you there.'},
+        {e:'🌧️',t:'Rain',d:'Florida afternoon rain arrives fast and passes fast — usually 20–40 minutes. Duck into the nearest shop or ride and wait it out. Main Street shops connect end to end so you can walk the whole length without stepping outside.'}
+      ]},
+      {label:'Getting There & Back',tips:[
+        {e:'🚝',t:'The monorail is yours',d:'Polynesian guests board the monorail at the resort stop — no parking lot, no tram, no bus. It drops you directly at the Magic Kingdom Transportation & Ticket Center and you walk straight to the tapstiles. This is the fastest resort access to Magic Kingdom on property.'},
+        {e:'🚝',t:'Leaving — monorail or walk',d:'At the end of the night the monorail gets backed up. If the girls still have legs, the Polynesian is about a 10-minute walk along the Seven Seas Lagoon. Genuinely pleasant in the evening and you skip the crowd entirely.'}
+      ]}
+    ]
+  },
+  {
+    intro:"EPCOT is built in two halves — Future World and World Showcase — and they feel like completely different parks. Morning is about the big rides; afternoon and evening is about wandering.",
+    groups:[
+      {label:'Food & Drink',tips:[
+        {e:'🥐',t:'Best quick-service',d:"Les Halles in the France Pavilion — proper croissants, quiche, and pastries. Given that Silvia is Belgian and George is Greek, World Showcase is going to feel familiar in the best way."},
+        {e:'💧',t:'Free water',d:'Any quick-service counter will provide ice water at no charge.'},
+        {e:'🍴',t:'Dining reservation decision',d:"You have Space 220 at 6pm and La Hacienda at 7:45pm — cancel one before the 24-hour penalty window closes. La Hacienda has lagoon views of Luminous; Space 220 is pure theming."}
+      ]},
+      {label:'Comfort & Logistics',tips:[
+        {e:'🌡️',t:'Extended Evening Hours until 11pm',d:'As Polynesian guests you have access to EPCOT until 11pm. The park thins out significantly after Luminous. This is the best time to catch anything you missed.'},
+        {e:'🛝',t:'Stroller parking',d:'EPCOT has generous stroller parking areas throughout. Future World attractions tend to have more space than World Showcase pavilions — plan accordingly.'},
+        {e:'🌍',t:'World Showcase at your own pace',d:'This is not a checklist. Walk where the girls want to walk, stop for food or drinks wherever looks good, watch street entertainment. It opens up as the day goes on.'}
+      ]}
+    ]
+  },
+  {
+    intro:"EPCOT rewards families who move through it deliberately. The two halves — Future World and World Showcase — feel like completely different parks. The girls will love both for different reasons.",
+    groups:[
+      {label:'Food & Drink',tips:[
+        {e:'☕',t:'Best coffee',d:"EPCOT is your best bet for food and drink options, coffee being no exception. If you're there for rope drop, you can grab a Joffrey's at their kiosk located outside the park to be ready to go. Inside, EPCOT has what can only be described as a mega Starbucks aka Connections Café, centrally located with industrial-blasting AC. There's a Joffrey's next to Mission Space, but the best coffee is going to be on the World Showcase at Italy or France. Norway, America and Morocco have their own takes as well."},
+        {e:'🥐',t:'Best quick-service lunch',d:"Les Halles in the France Pavilion — proper croissants, quiche, and pastries. There's always a line but it moves quickly. Easy to access after Remy's Ratatouille Adventure timing-wise. No mobile ordering."},
+        {e:'🍦',t:'L\'Artisan des Glaces',d:"Macaron and gelato shop in the France Pavilion. Worth noting as a destination."},
+        {e:'🍽️',t:'Midday break (best value + variety)',d:"Sunshine Seasons in the Land Pavilion (Future World) — excellent quality quick service with a huge menu including wood-fired rotisserie chicken, salmon, stir-fries, salads, and sandwiches. One of the best dessert selections at EPCOT. Enormous seating area beneath the pavilion atrium. Hot food available lunch only (hot stations close at 4pm)."},
+        {e:'💧',t:'Free water',d:'Any quick-service counter will provide ice water at no charge.'},
+        {e:'📱',t:'Mobile ordering',d:'Use it wherever available in MDE. Order 30–45 minutes before you\'re hungry. Noon is peak chaos — eating slightly before or after makes everything easier.'}
+      ]},
+      {label:'Comfort & Logistics',tips:[
+        {e:'🛝',t:'Playgrounds & play areas',d:"ImageWorks (What If Labs) — interactive play space inside the Imagination pavilion after you exit Figment. Air-conditioned, touchscreens and games, and you can often meet Figment here with almost no wait. Advanced Training Lab — indoor air-conditioned playground inside the Mission Space exit with Space Base for ages 2-5 (crawl through wormholes) and digital games for older kids. The Seas playground — outdoor climbing area with a giant Bruce the shark outside Finding Nemo pavilion. Journey of Water — gentle interactive water trail inspired by Moana, good for a quiet break, no queue."},
+        {e:'🌡️',t:'Extended Evening Hours',d:'As Polynesian guests you have access to EPCOT until 11pm tonight. The park thins out significantly after Luminous — this is the best time to catch anything you missed during the day.'},
+        {e:'🧒',t:'Baby Care Center',d:'Located in Future World. Ask any cast member — they know the exact spot.'},
+        {e:'🤫',t:'Quiet spots',d:"Scattered throughout both halves. The pavilions in World Showcase each have pockets away from the main walkway — France and Japan tend to feel calmer than the busier ones."},
+        {e:'☀️',t:'Rain or sun coverage',d:'Future World pavilions provide full AC. World Showcase has overhangs and shaded areas throughout. If weather turns, any shop is a refuge.'}
+      ]}
+    ]
+  },
+  {
+    intro:"Hollywood Studios is built around two big immersive worlds — Star Wars and Toy Story. For this group, Toy Story Land is the anchor. Everything else is a bonus.",
+    groups:[
+      {label:'Food & Drink',tips:[
+        {e:'🌯',t:'Ronto Wrap',d:"Ronto Roasters in Galaxy's Edge. Roasted pork, grilled sausage, slaw, peppercorn sauce in a warm pita. One of the most talked-about quick-service items in any Disney park."},
+        {e:'💧',t:'Free water',d:'Any quick-service counter will provide ice water at no charge.'}
+      ]},
+      {label:'Comfort & Logistics',tips:[
+        {e:'🛝',t:'Stroller parking in Toy Story Land',d:"Toy Story Land stroller parking fills up fast. Get there early in the morning and leave strollers at the entrance — the land is small enough that you won't need them inside."},
+        {e:'🌧️',t:'Rain cover',d:"Hollywood Boulevard's connected shops let you walk the full main drag without going outside. Good place to wait out a Florida shower."}
+      ]}
+    ]
+  },
+  {
+    dining:true,
+    note:"Your reservations are exceptional. Every one of these was the right call.",
+    items:[
+      {e:'👑',park:"Magic Kingdom · Sat May 23 · 3:40pm",name:"Bibbidi Bobbidi Boutique",desc:"Check in at the entrance behind Cinderella Castle — not inside it. Arrive 5 minutes before your reservation, no earlier. The Fairy Godmother makes surprise appearances. As of October 2025 she is visiting regularly."},
+      {e:'🏰',park:"Magic Kingdom · Sat May 23 · 5:35pm",name:"Cinderella's Royal Table",desc:"Inside the castle. The three girls will walk in from BBB already in princess mode. Characters visit the tables throughout dinner. Worth arriving a few minutes early to take in the castle interior before you're seated."},
+      {e:'🌺',park:"Polynesian Village Resort · Sun May 24 · 9:35am",name:"'Ohana Breakfast",desc:"Polynesian's signature restaurant — family-style Hawaiian breakfast with Lilo, Stitch, Mickey, and Pluto. One of the best character breakfasts on property. The pineapple bread alone is worth it."},
+      {e:'🚀',park:"EPCOT · Mon May 25 · 6:00pm",name:"Space 220",desc:"Simulated elevator 220 miles above Earth into a space station with views of the planet below. One of the most immersive dining experiences at Disney World. The theming starts the moment you enter the queue."},
+      {e:'🌮',park:"EPCOT · Mon May 25 · 7:45pm",name:"La Hacienda de San Angel",desc:"World Showcase lagoon views right as Luminous begins. The timing is genuinely beautiful. Confirm which reservation you're keeping before the 24-hour cancellation window."},
+      {e:'⚓',park:"Disney Springs · Tue May 26",name:"The Boathouse",desc:"Waterfront dining on the Disney Springs lake. American seafood and steaks. The Amphicar tours leave from the dock — a classic wooden car that drives into the water. Worth watching even if you don't ride."}
+    ]
+  }
+];
+
+function buildWKContent(idx){
+  var park=wkData[idx];
+  var html='';
+  if(park.dining){
+    html+='<div class="wk-group"><p class="wk-dining-note" style="margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:\'Playfair Display\',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;">'+park.note+'</p></div>';
+    park.items.forEach(function(item){
+      html+='<div style="display:flex;gap:12px;padding:12px 22px;border-bottom:1px dashed var(--border);align-items:flex-start;">';
+      html+='<div style="font-size:18px;flex-shrink:0;margin-top:2px;">'+item.e+'</div><div>';
+      html+='<div style="font-family:\'DM Mono\',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:3px;">'+item.park+'</div>';
+      html+='<div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;">'+item.name+'</div>';
+      html+='<div style="font-size:13px;color:var(--muted);line-height:1.65;">'+item.desc+'</div></div></div>';
+    });
+  } else {
+    if(park.intro){
+      html+='<div class="wk-group"><div style="margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:\'Playfair Display\',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;">'+park.intro+'</div></div>';
+    }
+    park.groups.forEach(function(group){
+      html+='<div class="wk-group"><div class="wk-group-label">'+group.label+'</div>';
+      group.tips.forEach(function(tip){
+        html+='<div class="wk-tip"><div class="wk-tip-emoji">'+tip.e+'</div><div>';
+        html+='<div class="wk-tip-title">'+tip.t+'</div>';
+        html+='<div class="wk-tip-text">'+tip.d+'</div></div></div>';
+      });
+      html+='</div>';
+    });
+  }
+  return html;
+}
+
+// ── ACTIVITY DATA ─────────────────────────────────────────────
+var activities={
+  mkbag:{icon:'🎒',iconClass:'icon-tc',title:'Your park bag',time:'Check before you leave the resort',tags:'',body:'<div class="prose-p">Everything you need for today — including things that matter specifically for BBB afternoon.</div><div class="section-divider"></div><div class="prose-p"><strong>Standard kit</strong><br>Sunscreen and SPF chapstick, water bottles, snacks, portable charger, sanitising wipes, bandaids, light layer for AC and evenings.</div><div class="section-divider"></div><div class="prose-p"><strong>Today specifically</strong><br>Isabella\'s outfit for BBB and dinner. Small trash bags (2 or 3) — Tiana\'s Bayou Adventure ends with a drop and everyone gets wet.</div><div class="callout"><div class="callout-label">Hair</div><div class="callout-text">Clean, dry hair with no products and no accessories before leaving for the park. The Boutique doesn\'t accept styling products.</div></div>',rowId:'d0-bag'},
+
+  mkmonorail:{icon:'🚝',iconClass:'icon-sky',title:'Monorail from the Polynesian',time:'7:30–7:45am · Board at the resort stop',tags:'<span class="tag tag-must">⭐ Your advantage</span>',body:'<div class="prose-p">The Polynesian has its own monorail stop — board at the resort, ride directly to the Magic Kingdom Transportation & Ticket Center, walk straight to the tapstiles. No parking lot, no tram, no bus queue.</div><div class="section-divider"></div><div class="prose-p">On a busy Saturday in late May this is a genuine advantage. Most families are arriving via parking lot or bus at the same time. You\'re already through the gate while they\'re still on the tram.</div><div class="callout"><div class="callout-label">Stroller note</div><div class="callout-text">Three strollers board the monorail together. Fold them if the car is full — the ride is 5 minutes. Cast members will help. Put something distinctive on each stroller before you board so you can identify them quickly on the other side.</div></div>',rowId:'d0-monorail'},
+
+  mkdumbo:{icon:'🐘',iconClass:'icon-tc',title:'Dumbo the Flying Elephant',time:'Early morning · Fantasyland · Walk-on',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You fly in circles and control how high your elephant goes. No height requirement — all three girls ride, no questions asked. During Early Entry the wait is essentially zero.</div><div class="section-divider"></div><div class="prose-p">Dumbo is right in Fantasyland after Mine Train so there\'s no backtracking. Gigi at 4 is exactly the right age for this.</div><div class="callout"><div class="callout-label">Good to know</div><div class="callout-text">There\'s an indoor air-conditioned playground inside the queue that kids can play in while adults wait. If any of the girls want to go again, the adults can wait inside while one parent rides with the kids — no standing in the heat.</div></div>',rowId:'d0-dumbo'},
+
+  mkminetrain:{icon:'⛏️',iconClass:'icon-tc',title:'Seven Dwarfs Mine Train',time:'8:30am · Fantasyland · Single Pass',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Single Pass</span>',body:'<div class="prose-p">The most popular ride in Magic Kingdom — a family coaster through the diamond mine from Snow White. Smooth, not scary, perfectly calibrated for this age group. All three girls will love it.</div><div class="section-divider"></div><div class="prose-p"><strong>Height:</strong> 38 inches minimum. Gigi at 4 should clear this — confirm at the gate if you\'re unsure.</div><div class="section-divider"></div><div class="prose-p">You booked a Single Pass for this ride. The Lightning Lane entrance is on the left — standby can run 60–90 minutes on a Saturday.</div>',rowId:'d0-minetrain'},
+
+
+
+  mkbigthunder:{icon:'⛰️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Morning · Frontierland · Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The wildest ride in the wilderness — a mine train coaster through the red rock canyons of Frontierland. Just reopened after a 16-month refurbishment in May 2026. Brand new, high demand.</div><div class="section-divider"></div><div class="prose-p"><strong>Height:</strong> 38 inches. Gigi should clear it — confirm at the gate.</div><div class="section-divider"></div><div class="prose-p">No drops, no inversions — the thrill is speed and banking through the canyon. The theming is the main event.</div><div class="callout"><div class="callout-label">Stroller parking</div><div class="callout-text">Leave strollers at the designated area outside the entrance. Cast members may rearrange them but will keep them in the same zone. Put something distinctive on each one so they\'re easy to spot.</div></div>',rowId:'d0-bigthunder'},
+
+  mkbuzz:{icon:'🚀',iconClass:'icon-sky',title:"Buzz Lightyear's Space Ranger Spin",time:'Morning · Tomorrowland · Lightning Lane',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Interactive ride where you shoot targets with a laser gun to earn points. Fully air conditioned. Just back from its own refurbishment — updated ride vehicles and handheld blasters. High demand right now.</div><div class="section-divider"></div><div class="prose-p">No height requirement. All three girls can ride, all four parents can ride. Good competitive energy across the group — everyone gets a score at the end.</div><div class="section-divider"></div><div class="prose-p">Your Lightning Lane booking handles the queue. Scan into the LL entrance when you arrive.</div>',rowId:'d0-buzz'},
+
+  mkpirates:{icon:'🏴‍☠️',iconClass:'icon-tc',title:'Pirates of the Caribbean',time:'Mid-morning · Adventureland · Standby',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-must">⭐ Worth it</span>',body:'<div class="prose-p">One of Disney\'s great original dark rides — a boat journey through the pirate world with caves, cannon battles, atmospheric detail, and a small drop at the start.</div><div class="section-divider"></div><div class="prose-p">No height requirement. Gigi is fine. There is one small dark drop at the beginning — brief and mild. If Gigi has any concern about drops, prepare her: "There\'s one tiny swoosh and then it\'s all pirates."</div><div class="section-divider"></div><div class="prose-p">No Lightning Lane needed here — standby typically runs 20–30 minutes, which is manageable. If it\'s over 45 minutes when you check, skip it. You have a full morning already.</div>',rowId:'d0-pirates'},
+
+  mkphilhar:{icon:'🎭',iconClass:'icon-show',title:"Mickey's PhilharMagic",time:'Mid-morning · Fantasyland · Walk-in',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show · 12 min</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">12-minute 4D movie featuring Donald Duck careening through classic Disney songs — The Little Mermaid, Beauty and the Beast, The Lion King, Aladdin. Fully seated, air conditioned, no height requirement.</div><div class="section-divider"></div><div class="prose-p">Good midmorning reset if the group needs to sit down and cool off before the midday break. All three girls will recognise the songs.</div>',rowId:'d0-philhar'},
+
+  mkbbb:{icon:'👑',iconClass:'icon-tc',title:'Bibbidi Bobbidi Boutique',time:'3:40pm · Behind Cinderella Castle · Reserved',tags:'<span class="tag tag-must">⭐ Reserved</span><span class="tag tag-meet">👑 Isabella, Valentina & Gigi</span>',body:'<div class="prose-p">Check in at the boutique entrance <em>behind</em> Cinderella Castle — not inside it, not at the front. Arrive no more than 5 minutes before your reservation time. Late arrivals may be rescheduled.</div><div class="section-divider"></div><div class="prose-p">Each child gets their own Fairy Godmother\'s Apprentice. The transformation takes up to 90 minutes depending on packages — budget time accordingly before the 5:35pm dinner reservation.</div><div class="section-divider"></div><div class="prose-p">As of October 2025, the Fairy Godmother herself is making surprise visits. She may appear during your session.</div><div class="callout"><div class="callout-label">For the parents</div><div class="callout-text">Up to 2 adults may observe each child\'s transformation. Adults not observing may want to find a nearby spot — Gaston\'s Tavern is a short walk and a good place to wait. Regroup at the boutique exit when the girls are done.</div></div><div class="callout"><div class="callout-label">After BBB</div><div class="callout-text">The girls go straight from BBB to Cinderella\'s Royal Table dinner at 5:35pm in full princess mode. That walk through the castle grounds in their new look, on the way to dinner inside the castle, is the whole day in one moment.</div></div>',rowId:'d0-bbb'},
+
+  mkcrt:{icon:'🏰',iconClass:'icon-gold',title:"Cinderella's Royal Table",time:'5:35pm · Inside Cinderella Castle · Reserved',tags:'<span class="tag tag-must">⭐ Reserved</span><span class="tag tag-food">🍽️ Inside the Castle</span>',body:'<div class="prose-p">Dinner inside Cinderella Castle. The restaurant is on the second floor — you enter through the castle base and walk up. The interior is all stained glass, tapestries, and candlelight.</div><div class="section-divider"></div><div class="prose-p">Disney Princess characters visit the tables throughout the meal. Isabella, Valentina, and Gigi will be in full BBB princess mode when they walk in. It lands differently when the princesses meet kids who already look like them.</div><div class="section-divider"></div><div class="prose-p"><strong>Arrive a few minutes early</strong> to take in the castle interior before you\'re seated. The ground floor has beautiful detail most people walk straight past.</div><div class="callout"><div class="callout-label">For the adults</div><div class="callout-text">The food is solid — it\'s a prix fixe menu, not the most extraordinary meal you\'ll ever have, but nobody is here for the food. You\'re here because three little girls are having dinner inside a castle wearing their princess looks and meeting real princesses. That\'s the whole thing.</div></div>',rowId:'d0-crt'},
+
+  mkparade:{icon:'🎪',iconClass:'icon-show',title:'Festival of Fantasy Parade',time:'~3:00pm · Main Street · Optional',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎪 Parade</span>',body:'<div class="prose-p">Disney\'s big daytime parade — giant floats, all the major characters, live music, and a fire-breathing Maleficent dragon. Check the app for today\'s confirmed time.</div><div class="section-divider"></div><div class="prose-p">Note: the parade runs at around 3pm, which conflicts with BBB at 3:40pm. If you want to catch it, watch from Town Square near the park entrance — the floats come all the way around and this end of the route is the least crowded. You can leave from there and still make BBB comfortably.</div>',rowId:'d0-parade'},
+
+  mktiana:{icon:'🌿',iconClass:'icon-tc',title:"Tiana's Bayou Adventure",time:'Morning · Fantasyland · Lightning Lane Tier 1',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 1</span>',body:'<div class="prose-p">Disney\'s newest Magic Kingdom ride — a bayou boat journey through the world of The Princess and the Frog. Opened in 2024, replacing Splash Mountain. Beautiful, immersive, and a genuine princess experience for all three girls.</div><div class="section-divider"></div><div class="prose-p"><strong>Height:</strong> 40 inches minimum. Gigi at 4 may be close — confirm at the gate before queuing.</div><div class="section-divider"></div><div class="prose-p">You booked this as your Tier 1 Multi Pass pre-selection. Use the Lightning Lane entrance when your window opens.</div><div class="callout"><div class="callout-label">Worth knowing before you ride</div><div class="callout-text">This ride ends with a significant drop and everyone gets wet. Bring the trash bags from your park bag — wet clothes go in there while you continue the day. Bring your outfits for BBB when you return to the park.</div></div>',rowId:'d0-tiana'},
+
+  mkfireworks:{icon:'🎆',iconClass:'icon-show',title:'Happily Ever After Fireworks',time:'~9:00pm · In the park or from the resort',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎆 Fireworks</span>',body:'<div class="prose-p">18 minutes of fireworks and projection mapping over Cinderella Castle. One of the best fireworks shows in any theme park in the world.</div><div class="section-divider"></div><div class="prose-p"><strong>In the park:</strong> The hub in front of the castle is the prime viewing area. Arrive 30–45 minutes early to secure a spot. It gets extremely crowded.</div><div class="section-divider"></div><div class="prose-p"><strong>From the Polynesian:</strong> The resort has a direct view of the castle across the Seven Seas Lagoon. Watch from the beach or the Great Ceremonial House balcony. No crowd, no jostling, same sky — and everyone is home in five minutes when it ends.</div>',rowId:'d0-fireworks'},
+
+  epTestTrack:{icon:'🏎️',iconClass:'icon-tc',title:'Test Track',time:'8:30am · Early Entry Rope Drop · Future World',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Design your own car, then test it on a high-speed course through Future World. Brand new after May 2026 refurbishment — high demand.</div><div class="section-divider"></div><div class="prose-p">Rope drop Test Track instead of using a Lightning Lane on it. Most crowds go to Remy and Frozen first — Test Track is accessible early.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚠️ Watch out at the end</div><div class="callout-text">Near the end, you climb increasingly steep curves at faster speeds. At the top of one curve, it looks like you\'re heading straight into an oncoming semi-truck. It\'s loud and visually intense. Warn your kids and have them plug their ears if this would upset them.</div></div>',rowId:'d1-testtrack'},
+
+  epFrozen:{icon:'❄️',iconClass:'icon-tc',title:'Frozen Ever After',time:'Morning · Norway Pavilion · Lightning Lane Tier 1',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane · Tier 1</span>',body:'<div class="prose-p">Boat ride through all the major scenes from Frozen. Just refurbished, high demand.</div><div class="section-divider"></div><div class="prose-p"><strong>Height:</strong> No requirement. All three girls can ride.</div><div class="section-divider"></div><div class="prose-p">You booked this as your Tier 1 Multi Pass pre-selection. Use the Lightning Lane entrance when your window opens.</div>',rowId:'d1-frozen'},
+
+  epSoarin:{icon:'🛩️',iconClass:'icon-sky',title:'Soarin\'',time:'Morning · The Land Pavilion · Lightning Lane Tier 2',tags:'<span class="tag tag-ll">⚡ Lightning Lane · Tier 2</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Hang glide over world landmarks — California, Egypt, The Great Wall, the Eiffel Tower. Fully air conditioned, no height requirement.</div><div class="section-divider"></div><div class="prose-p">Your Lightning Lane gets you in without the standby queue.</div>',rowId:'d1-soarin'},
+
+  epSpaceship:{icon:'🌐',iconClass:'icon-sky',title:'Spaceship Earth',time:'Afternoon · Future World · Lightning Lane Tier 2 (Tap In Only)',tags:'<span class="tag tag-ll">⚡ Lightning Lane · Tier 2</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Slow dark ride through human communication history. Not the demographic crowd-pleaser.</div><div class="section-divider"></div><div class="prose-p"><strong>What matters:</strong> Tap in at Spaceship Earth with your Tier 2 Lightning Lane. You can skip the ride if you want, but you must tap in. The moment you tap, Tier 1 restrictions lift and you can book Remy\'s Ratatouille Adventure as your next selection.</div>',rowId:'d1-spaceship'},
+
+  epFigment:{icon:'🎨',iconClass:'icon-sky',title:'Journey Into Imagination with Figment',time:'Mid-morning · The Imagination Pavilion · Optional',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Figment has gone through a few iterations, but much of the silliness is back in this very low-key ride that almost never has a line. If you\'re a fan of whimsy, it\'s a fun feature.</div><div class="section-divider"></div><div class="prose-p">The area after the ride has great games and Figment is often there to meet, often with no line.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚠️ Watch out after the five senses</div><div class="callout-text">After they\'ve gone through the five senses and the ride gets totally dark, plug your or your kids\' ears or at least warn them. The burst of air and noise is highly startling given how gentle the rest of the ride is.</div></div>',rowId:'d1-figment'},
+
+  epNemo:{icon:'🐠',iconClass:'icon-sky',title:'The Seas with Nemo & Friends',time:'Mid-morning · The Seas Pavilion · Optional',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Boat ride through an aquarium with Finding Nemo scenes. No height requirement. The pavilion has a real aquarium viewing area worth seeing on its own.</div><div class="section-divider"></div><div class="prose-p">Ariel does character meets in this pavilion.</div>',rowId:'d1-nemo'},
+
+  epFiesta:{icon:'🎉',iconClass:'icon-sky',title:'Gran Fiesta Tour Starring The Three Caballeros',time:'Afternoon · Mexico Pavilion · Optional',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Boat ride through a Mexican celebration with Donald Duck, José Carioca, and Panchito. Cheerful, colorful, no height requirement.</div>',rowId:'d1-fiesta'},
+
+  epPrincesses:{icon:'👑',iconClass:'icon-tc',title:'Disney Princess Character Meets — World Showcase',time:'Various times throughout the day · Check app',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-meet">👑 Character Meets</span>',body:'<div class="prose-p">Princess character meets are scattered through World Showcase pavilions. Most princesses meet in the country related to their film.</div><div class="section-divider"></div><div class="prose-p"><strong>Anna & Elsa</strong> — Royal Sommerhus in Norway Pavilion. Usually open 9:15am–6:30pm. Lines get very long during peak times; wait times typically drop after 4pm.</div><div class="prose-p"><strong>Aurora & Belle</strong> — France Pavilion, alternating throughout the day.</div><div class="prose-p"><strong>Mulan</strong> — China Pavilion garden (right of Temple of Heaven). Late morning to mid-afternoon at set times.</div><div class="prose-p"><strong>Snow White</strong> — Germany Pavilion at her wishing well.</div><div class="prose-p"><strong>Jasmine</strong> — Morocco Pavilion.</div><div class="section-divider"></div><div class="prose-p">Character meet times shift throughout the day — check My Disney Experience app for exact times and current availability on your visit day.</div>',rowId:'d1-princesses'},
+
+  epLand:{icon:'🌿',iconClass:'icon-sky',title:'The Land Pavilion',time:'Mid-late morning · Optional exploration',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Multiple attractions inside: Living with the Land (gentle greenhouse ride), Sunshine Tree Terrace (the one with the orange slushie), and other food options. Rarely crowded.</div><div class="section-divider"></div><div class="prose-p">Good place to spend time if you want AC and a slower pace before the midday break. You\'ve already knocked out the big rides by then.</div>',rowId:'d1-soarinland'},
+
+  epRemy:{icon:'🐀',iconClass:'icon-tc',title:'Remy\'s Ratatouille Adventure',time:'Afternoon · France Pavilion · Tier 1 (Booked After Spaceship Earth)',tags:'<span class="tag tag-ll">⚡ Tier 1 Lightning Lane</span>',body:'<div class="prose-p">Trackless dark ride through a Parisian kitchen — you shrink down and move through the restaurant from the movie. Immersive, beautiful, high demand.</div><div class="section-divider"></div><div class="prose-p">Book this after you tap into Spaceship Earth. It\'s Tier 1 but the tier restrictions will be gone by then, so you get it with zero cost to your remaining selections.</div>',rowId:'d1-remy'},
+
+  epShowcase:{icon:'🌍',iconClass:'icon-sky',title:'World Showcase — Walk and Explore',time:'Afternoon/Evening · Your pace',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">Eleven country pavilions around the World Showcase lagoon — shops, restaurants, character appearances, entertainment. More of an experience than a to-do list.</div><div class="section-divider"></div><div class="prose-p">Walk at your own pace, stop where the girls want to stop, grab food or drinks wherever looks good. This is where EPCOT slows down and becomes more about wandering.</div>',rowId:'d1-showcase'},
+
+  epSpace220:{icon:'🚀',iconClass:'icon-gold',title:'Space 220 Dinner',time:'6:00pm · Reserved · Future World',tags:'<span class="tag tag-food">🍽️ Reserved · Dinner</span>',body:'<div class="prose-p">The theming is extraordinary here. You step into a space elevator that shoots you 220 miles above Earth for a meal on the first restaurant space station. The food is good, but the recent move to prix-fixe mandatory has pushed the price higher than it needs to be. You\'re really going to enjoy the environment, though.</div><div class="section-divider"></div><div class="prose-p">Reservation is for 6:00pm. You also have La Hacienda booked for 7:45pm. Cancel one before the 24-hour penalty window.</div>',rowId:'d1-space220'},
+
+  epLaHacienda:{icon:'🌮',iconClass:'icon-gold',title:'La Hacienda de San Angel',time:'7:45pm · Reserved · Mexico Pavilion',tags:'<span class="tag tag-food">🍽️ Reserved · Dinner</span>',body:'<div class="prose-p">This waterfront restaurant gives you an impressive view of the full World Showcase. Luminous The Magic Awaits starts at ~8:30pm. If you keep this reservation, you\'ll have a front-row seat with a margarita in hand. The margaritas are fantastic. The food is fine. The real magic is the setting and the drink.</div><div class="section-divider"></div><div class="prose-p">You have Space 220 at 6:00pm and this at 7:45pm. Cancel one before the 24-hour penalty window. If you keep this one, you eat and watch the nighttime show from the table.</div>',rowId:'d1-lahacienda'},
+
+  epLuminous:{icon:'✨',iconClass:'icon-show',title:'Luminous The Magic Awaits',time:'~8:30pm · World Showcase Lagoon',tags:'<span class="tag tag-show">✨ Nighttime Show</span>',body:'<div class="prose-p">Luminous is one of Disney\'s best fireworks shows. Production-wise, it vies for first with Magic Kingdom\'s Happily Ever After, but Luminous is slightly more grown up. The show includes favorite Disney songs coordinated with lights, lasers, fire and fireworks in an impressive 13 minutes.</div><div class="section-divider"></div><div class="prose-p">The circular lagoon space creates some reverberation, so if your kids don\'t like loud noises, warn them to cover their ears.</div><div class="section-divider"></div><div class="prose-p">If you keep La Hacienda at 7:45pm, you\'ll be eating dinner with a view when the show starts. Otherwise, find a spot along the lagoon to watch.</div>',rowId:'d1-luminous'},
+
+  epSpaceshipTapin:{icon:'🌐',iconClass:'icon-sky',title:'Spaceship Earth — Tap LL and Book Remy',time:'Afternoon · Future World',tags:'<span class="tag tag-ll">⚡ Tap In Only</span>',body:'<div class="prose-p">The sole purpose of this stop: tap in with your Tier 2 Lightning Lane, then immediately book Remy\'s Ratatouille Adventure from Tier 1. You can skip the ride itself.</div><div class="section-divider"></div><div class="prose-p">The moment you tap, tier restrictions lift. Open MDE and book Remy while you\'re still in or just exiting Spaceship Earth.</div>',rowId:'d1-spaceship-tapin'},
+
+  epExtended:{icon:'🌙',iconClass:'icon-sky',title:'Extended Evening Hours — 9–11pm',time:'After Luminous · If anyone still wants to',tags:'<span class="tag tag-opt">○ Optional</span>',body:'<div class="prose-p">As Polynesian guests you have access to EPCOT until 11pm. The park is significantly quieter after 9pm.</div><div class="section-divider"></div><div class="prose-p"><strong>If anyone still has legs:</strong> Spaceship Earth, Soarin\', The Seas, Frozen Ever After all have shorter waits by 10pm. World Showcase pavilions are peaceful to walk through. Otherwise, a quiet stroll and call it a night.</div>',rowId:'d1-extended'},
+
+  mkfireworks:{icon:'🎆',iconClass:'icon-show',title:'Happily Ever After Fireworks',time:'~9:00pm · In the park or from the resort',tags:'<span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎆 Fireworks</span>',body:'<div class="prose-p">18 minutes of fireworks and projection mapping over Cinderella Castle. One of the best fireworks shows in any theme park in the world.</div><div class="section-divider"></div><div class="prose-p"><strong>In the park:</strong> The hub in front of the castle is the prime viewing area. Arrive 30–45 minutes early to secure a spot. It gets extremely crowded.</div><div class="section-divider"></div><div class="prose-p"><strong>From the Polynesian:</strong> The resort has a direct view of the castle across the Seven Seas Lagoon. Watch from the beach or the Great Ceremonial House balcony. No crowd, no jostling, same sky — and everyone is home in five minutes when it ends.</div>',rowId:'d0-fireworks'}
+};
+
+var sosItems={
+  breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Check the app first',body:'<div class="prose-p">Disney will often automatically convert your Lightning Lane to an anytime pass when a ride goes down — look for a notification in MDE.</div><div class="section-divider"></div><div class="prose-p">If no automatic conversion, find a cast member at the ride entrance and ask them to note the issue on your account. What they can offer varies but it\'s always worth asking.</div>'},
+  meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Step away from whatever queue or area you\'re in. Find space first, then assess. The Baby Care Center next to the Crystal Palace on Main Street has AC, rocking chairs, and a quiet room.</div><div class="section-divider"></div><div class="prose-p">For three little girls in late May on a long day — the midday break at the Polynesian is your reset. If it\'s before noon and someone is already melting, go back early. The afternoon is worth protecting.</div>'},
+  rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out — it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20–40 minutes then done. Duck into the nearest indoor ride or shop and wait it out — do not try to push through it with three strollers.</div><div class="section-divider"></div><div class="prose-p">Main Street shops connect all the way along so you can walk the full length without stepping outside. Right after the rain stops is a good time to ride outdoor attractions — crowds thin out fast.</div>'},
+  heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun immediately',body:'<div class="prose-p">Find the nearest air-conditioned building and stay for at least 15 minutes. Cold water on wrists and the back of the neck helps quickly.</div><div class="section-divider"></div><div class="prose-p">Every park has a First Aid station with AC, free cold water, and a nurse. Ask any cast member — they know exactly where it is.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If someone has stopped sweating, feels dizzy, or seems confused — go to First Aid right away. Do not wait it out.</div></div>'},
+  behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Protect what matters most today',body:'<div class="prose-p">BBB at 3:40pm and CRT at 5:35pm are fixed. Everything else is flexible. If the morning falls apart, the afternoon is still intact.</div><div class="section-divider"></div><div class="prose-p">Lightning Lane windows have more grace than the app shows — often up to an hour past your window. Try scanning even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">If you\'re behind on the midday break timing, still go. A shorter break is better than no break before a 3:40pm reservation with three little girls.</div>'},
+  phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your reservations are safe',body:'<div class="prose-p">Your Lightning Lanes and dining reservations live in your Disney account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some table service restaurants have outlets, First Aid usually has charging available. Guest Services near the entrance can print reservation confirmations.</div>'},
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>Magic Kingdom</strong><br>Mickey\'s PhilharMagic — 12 min seated show, great AC, Fantasyland<br>Tomorrowland PeopleMover — always a walk-on, shaded, 10 min loop<br>Walt Disney World Railroad — steam train around the whole park</div><div class="section-divider"></div><div class="prose-p"><strong>If you need to go back to the resort</strong><br>The monorail is 10 minutes door to door. There is no penalty for going back early. The afternoon is the main event anyway.</div>'}
+};
+
+// ── CORE FUNCTIONS ────────────────────────────────────────────
+function switchDay(idx){
+  currentDay=idx;
+  document.querySelectorAll('.day-panel').forEach(function(p,i){p.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.day-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+}
+
+function openDrawer(key){
+  hideSOS();
+  var item=activities[key];
+  if(!item)return;
+  document.getElementById('drawerIcon').textContent=item.icon;
+  document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+  document.getElementById('drawerTitle').textContent=item.title;
+  document.getElementById('drawerTime').textContent=item.time;
+  document.getElementById('drawerTags').innerHTML=item.tags||'';
+  document.getElementById('drawerBody').innerHTML=item.body;
+  var isDone=doneItems.has(item.rowId);
+  document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+item.rowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
+  document.getElementById('activityDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function toggleDone(rowId){
+  var el=document.getElementById(rowId);
+  if(doneItems.has(rowId)){
+    doneItems.delete(rowId);
+    if(el){el.classList.remove('done');var dc=el.querySelector('.done-check');if(dc)dc.classList.remove('pop');}
+  } else {
+    doneItems.add(rowId);
+    if(el){el.classList.add('done');var dc=el.querySelector('.done-check');if(dc){dc.classList.remove('pop');void dc.offsetWidth;dc.classList.add('pop');}}
+  }
+  saveDone();
+  var btn=document.querySelector('#drawerFooter .done-btn');
+  if(btn){btn.classList.toggle('completed',doneItems.has(rowId));btn.textContent=doneItems.has(rowId)?'✓ Done':'✓ Mark as Done';}
+}
+
+function closeAll(){
+  document.getElementById('activityDrawer').classList.remove('open');
+  document.getElementById('wkDrawer').classList.remove('open');
+  document.getElementById('sosDrawer').classList.remove('open');
+  document.getElementById('bagDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  showSOS();
+}
+function hideSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='0';b.style.pointerEvents='none';}}
+function showSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='1';b.style.pointerEvents='';}}
+function openSOSMenu(){hideSOS();document.getElementById('sosDrawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function openSOSFromMenu(key){document.getElementById('sosDrawer').classList.remove('open');setTimeout(function(){openSOS(key);},150);}
+
+function openWorthKnowing(){
+  var pill=document.getElementById('worthPill');
+  if(pill){pill.classList.add('pressed');setTimeout(function(){pill.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    document.getElementById('wkBody').innerHTML=buildWKContent(currentWKPark);
+    document.getElementById('wkDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  },120);
+}
+
+function switchWKPark(idx,tab){
+  currentWKPark=idx;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+  document.getElementById('wkBody').scrollTop=0;
+}
+
+function openSOSMenu(){
+  document.getElementById('sosDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openSOSFromMenu(key){
+  var item=sosItems[key];
+  if(!item)return;
+  document.getElementById('sosDrawer').classList.remove('open');
+  setTimeout(function(){
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML=item.body;
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+  },200);
+}
+
+function toggleEdit(dayIdx){
+  editModes[dayIdx]=!editModes[dayIdx];
+  var tl=document.getElementById('timeline-'+dayIdx);
+  if(tl)tl.classList.toggle('edit-mode',editModes[dayIdx]);
+}
+
+function moveItem(el,direction){
+  var tl=el.closest('[id^="timeline-"]');
+  if(!tl)return;
+  var items=Array.from(tl.querySelectorAll('.tl-item.optional'));
+  var idx=items.indexOf(el);
+  if(direction==='up'&&idx>0){
+    tl.insertBefore(el,items[idx-1]);
+  } else if(direction==='down'&&idx<items.length-1){
+    tl.insertBefore(items[idx+1],el);
+  }
+}
+
+// ── BAG DATA ──────────────────────────────────────────────────────
+var bagItems=[
+  'Clean, dry hair for all three girls (no dry shampoo or products) — ready for BBB',
+  'Sanitizing wipes',
+  'Snacks (non-perishable)',
+  'Water bottles (refillable)',
+  'Portable charger',
+  'Stroller fan',
+  'Neck fan for adults',
+  'Ear protection for kids (if needed)',
+  'Band-aids',
+  'Sunscreen (SPF 50+)',
+  'SPF chapstick',
+  'Hats for all three girls',
+  'Sunglasses for all three girls',
+  'Change of clothes for each girl (BBB timing)'
+];
+
+function openBagDrawer(dayIdx){
+  var el=document.getElementById('bagDrawer');
+  var body=document.getElementById('bagDrawerBody');
+  el._dayIdx=dayIdx;
+  body.innerHTML='';
+  bagItems.forEach(function(item,i){
+    var key='bag-item-'+i;
+    var div=document.createElement('div');
+    div.className='bag-check-item'+(localStorage.getItem(key)==='1'?' checked':'');
+    div.innerHTML='<div class="bag-check-box"></div><span class="bag-check-label">'+item+'</span>';
+    div.addEventListener('click',function(){
+      div.classList.toggle('checked');
+      localStorage.setItem(key,div.classList.contains('checked')?'1':'0');
+    });
+    body.appendChild(div);
+  });
+  el.classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function packedUp(){
+  closeAll();
+}
+
+(function(){
+  for(var i=0;i<bagItems.length;i++){
+    var key='bag-item-'+i;
+    if(localStorage.getItem(key)==='1'){
+      var el=document.getElementById('bagDrawer');
+      if(!el)return;
+      var items=el.querySelectorAll('.bag-check-item');
+      if(items[i])items[i].classList.add('checked');
+    }
+  }
+})();
+
+// ── INIT ──────────────────────────────────────────────────────
+doneItems.forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.add('done');
+});
+document.getElementById('wkBody').innerHTML=buildWKContent(0);
+</script>
+
+<script>
+(function() {
+  var FLAG = 'pe-home-prompt-dismissed';
+  var isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (isStandalone) return;
+  if (localStorage.getItem(FLAG)) return;
+  var el = document.getElementById('homePrompt');
+  if (!el) return;
+  setTimeout(function() { el.style.display = 'block'; }, 2000);
+})();
+
+function dismissHomePrompt(permanent) {
+  var el = document.getElementById('homePrompt');
+  if (el) el.style.display = 'none';
+  if (permanent) localStorage.setItem('pe-home-prompt-dismissed', '1');
+}
+</script>
+</body>
+</html>
