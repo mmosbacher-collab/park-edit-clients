@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Park Edit">
+<meta name="apple-mobile-web-app-title" content="My Park Edit">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
 <link rel="manifest" href="/manifest.json">
 <title>The Park Edit · Mosbacher Morris</title>
@@ -190,7 +190,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 .sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;}
 .sos-menu-chev{font-size:16px;color:var(--border);}
 .sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;}
-.day-panel{display:none;}
+.day-panel{display:none;padding-bottom:80px;}
 .day-panel.active{display:block;}
 .stub-message{padding:40px 24px;text-align:center;}
 .stub-icon{font-size:36px;margin-bottom:12px;}
@@ -199,6 +199,33 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
 .tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+.index-panel{display:none;padding:4px 0 0;}
+.index-panel.active{display:block;}
+.aag-cards{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.aag-card{background:white;border-radius:16px;border:1.5px solid var(--border);box-shadow:3px 3px 0 var(--shadow);overflow:hidden;}
+.aag-card-head{display:flex;align-items:center;gap:10px;padding:12px 16px 10px;}
+.aag-card-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;}
+.aag-card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
+.aag-card-title{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:var(--text);}
+.aag-card-body{padding:0 16px 14px;border-top:1px solid var(--border);}
+.aag-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px dashed var(--border);}
+.aag-row:last-child{border-bottom:none;}
+.aag-row-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0;margin-top:1px;}
+.aag-row-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.aag-row-value{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.aag-row-sub{font-size:11px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.aag-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.08em;text-transform:uppercase;padding:2px 6px;border-radius:4px;margin-top:3px;}
+.aag-tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.aag-tag-food{background:rgba(242,201,76,0.15);color:#B8960A;}
+.idx-section{margin-bottom:4px;}
+.idx-section-head{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted);padding:14px 0 8px;border-bottom:1px solid var(--border);margin-bottom:2px;}
+.idx-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.idx-row:last-child{border-bottom:none;}
+.idx-row-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0;}
+.idx-row-content{flex:1;min-width:0;}
+.idx-row-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.idx-row-sub{font-size:12px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.idx-row-chev{color:var(--muted);font-size:16px;flex-shrink:0;}
 </style>
 </head>
 <body>
@@ -214,6 +241,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
     <div class="day-tab active" onclick="switchDay(0)"><div style="font-size:13px;text-align:center;">🌍</div><div class="day-tab-label">Tue</div><div class="day-tab-day">May 19</div></div>
     <div class="day-tab" onclick="switchDay(1)"><div style="font-size:13px;text-align:center;">🎬</div><div class="day-tab-label">Wed</div><div class="day-tab-day">May 20</div></div>
     <div class="day-tab" onclick="switchDay(2)"><div style="font-size:13px;text-align:center;">🦁</div><div class="day-tab-label">Thu</div><div class="day-tab-day">May 21</div></div>
+    <div class="day-tab" onclick="switchIndex()"><div style="font-size:13px;text-align:center;">📖</div><div class="day-tab-label">Index</div><div class="day-tab-day" style="font-size:11px;margin-top:2px;">Guide</div></div>
   </div>
 
   <div class="worth-pill" id="worthPill" onclick="openWorthKnowing()">
@@ -270,8 +298,6 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
         <div class="dir-legend">
           <div class="dir-legend-label">Getting Around</div>
           <div class="dir-legend-row">
-            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="dir-legend-text">Google Maps</span></div>
-            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="var(--sky)" opacity="0.3"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span class="dir-legend-text">My Disney Experience</span></div>
           </div>
         </div>
         <div class="edit-banner" id="editBanner-0">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
@@ -334,8 +360,6 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
         <div class="dir-legend">
           <div class="dir-legend-label">Getting Around</div>
           <div class="dir-legend-row">
-            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="dir-legend-text">Google Maps</span></div>
-            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="var(--sky)" opacity="0.3"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span class="dir-legend-text">My Disney Experience</span></div>
           </div>
         </div>
         <div class="edit-banner" id="editBanner-1">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
@@ -398,8 +422,6 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
         <div class="dir-legend">
           <div class="dir-legend-label">Getting Around</div>
           <div class="dir-legend-row">
-            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="dir-legend-text">Google Maps</span></div>
-            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="var(--sky)" opacity="0.3"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg><span class="dir-legend-text">My Disney Experience</span></div>
           </div>
         </div>
         <div class="edit-banner" id="editBanner-2">Tap ↑ ↓ to reorder · Fixed items cannot be moved</div>
@@ -430,6 +452,234 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
   </div>
 </div>
 
+
+<div class="index-panel" id="indexPanel">
+
+  <!-- AT-A-GLANCE CARDS -->
+  <div class="aag-cards">
+
+    <!-- YOUR TRIP -->
+    <div class="aag-card">
+      <div class="aag-card-head">
+        <div class="aag-card-icon">🏨</div>
+        <div>
+          <span class="aag-card-label">Your Trip</span>
+          <div class="aag-card-title">Four Seasons Orlando</div>
+        </div>
+      </div>
+      <div class="aag-card-body">
+        <div class="aag-row">
+          <div class="aag-row-icon">📅</div>
+          <div>
+            <div class="aag-row-label">Dates</div>
+            <div class="aag-row-value">May 18 – 22 · 4 nights</div>
+          </div>
+        </div>
+        <div class="aag-row">
+          <div class="aag-row-icon">👥</div>
+          <div>
+            <div class="aag-row-label">Party</div>
+            <div class="aag-row-value">Jane · JR (10 months) · Alyssa</div>
+            <div class="aag-row-sub">Alyssa joins at the parks each day</div>
+          </div>
+        </div>
+        <div class="aag-row">
+          <div class="aag-row-icon">✈️</div>
+          <div>
+            <div class="aag-row-label">Arrival</div>
+            <div class="aag-row-value">Delta 2824 · 6:01am · MCO</div>
+            <div class="aag-row-sub">Private car service to resort</div>
+          </div>
+        </div>
+        <div class="aag-row">
+          <div class="aag-row-icon">🎟️</div>
+          <div>
+            <div class="aag-row-label">Tickets</div>
+            <div class="aag-row-value">Date-based · One park per day</div>
+            <div class="aag-row-sub">Purchased and linked in MDE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUR LIGHTNING LANE -->
+    <div class="aag-card">
+      <div class="aag-card-head">
+        <div class="aag-card-icon">⚡</div>
+        <div>
+          <span class="aag-card-label">Your Lightning Lane</span>
+          <div class="aag-card-title">Single Pass · 3 targets</div>
+        </div>
+      </div>
+      <div class="aag-card-body">
+        <div class="aag-row">
+          <div class="aag-row-icon">🚀</div>
+          <div>
+            <div class="aag-row-value">Guardians of the Galaxy</div>
+            <div class="aag-row-sub">EPCOT · May 19</div>
+            <span class="aag-tag aag-tag-ll">Single Pass</span>
+          </div>
+        </div>
+        <div class="aag-row">
+          <div class="aag-row-icon">🐕</div>
+          <div>
+            <div class="aag-row-value">Slinky Dog Dash</div>
+            <div class="aag-row-sub">Hollywood Studios · May 20</div>
+            <span class="aag-tag aag-tag-ll">Single Pass</span>
+          </div>
+        </div>
+        <div class="aag-row">
+          <div class="aag-row-icon">🗼</div>
+          <div>
+            <div class="aag-row-value">Tower of Terror</div>
+            <div class="aag-row-sub">Hollywood Studios · May 20</div>
+            <span class="aag-tag aag-tag-ll">Single Pass</span>
+          </div>
+        </div>
+        <div class="aag-row">
+          <div class="aag-row-icon">📅</div>
+          <div>
+            <div class="aag-row-label">Booking window</div>
+            <div class="aag-row-value">May 16 · 7:00am ET</div>
+            <div class="aag-row-sub">Four Seasons is 3-day window · Book all parks in one session</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUR DINING -->
+    <div class="aag-card">
+      <div class="aag-card-head">
+        <div class="aag-card-icon">🍽️</div>
+        <div>
+          <span class="aag-card-label">Your Dining</span>
+          <div class="aag-card-title">1 reservation</div>
+        </div>
+      </div>
+      <div class="aag-card-body">
+        <div class="aag-row">
+          <div class="aag-row-icon">🐾</div>
+          <div>
+            <div class="aag-row-value">Good Morning Breakfast with Goofy and His Pals</div>
+            <div class="aag-row-sub">Four Seasons Ravello · Thu May 21 · 7:30am</div>
+            <span class="aag-tag aag-tag-food">Character Dining</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /aag-cards -->
+
+  <!-- INDEX SECTIONS -->
+  <div class="idx-section">
+    <div class="idx-section-head">LL &amp; Queues</div>
+    <div class="idx-row" onclick="openDrawer('idxMultiPass')">
+      <div class="idx-row-icon">⚡</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Multi Pass</div>
+        <div class="idx-row-sub">How it works, when to book, what to skip</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxSinglePass')">
+      <div class="idx-row-icon">🎯</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Single Pass</div>
+        <div class="idx-row-sub">Your three targets and how to book them</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxRiderSwap')">
+      <div class="idx-row-icon">🔄</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Rider Swap</div>
+        <div class="idx-row-sub">How Jane and Alyssa use it with JR</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxRolling')">
+      <div class="idx-row-icon">📲</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Rolling Lightning Lane</div>
+        <div class="idx-row-sub">Booking more rides once you're in the park</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+  </div>
+
+  <div class="idx-section">
+    <div class="idx-section-head">Logistics</div>
+    <div class="idx-row" onclick="openDrawer('idxWhereToEat')">
+      <div class="idx-row-icon">🍴</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Where to Eat</div>
+        <div class="idx-row-sub">Table service picks across all three parks</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxGroceries')">
+      <div class="idx-row-icon">🛒</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Groceries</div>
+        <div class="idx-row-sub">Getting supplies to the Four Seasons</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+  </div>
+
+  <div class="idx-section">
+    <div class="idx-section-head">Baby &amp; Toddler</div>
+    <div class="idx-row" onclick="openDrawer('idxBabyCare')">
+      <div class="idx-row-icon">🍼</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Baby Care Centers</div>
+        <div class="idx-row-sub">Locations and what's inside</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxStroller')">
+      <div class="idx-row-icon">🛺</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Stroller</div>
+        <div class="idx-row-sub">Renting at the park, parking, what to know</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxCarrier')">
+      <div class="idx-row-icon">🤱</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Babywearing</div>
+        <div class="idx-row-sub">Rides JR can do in carrier, what to know</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxDiapers')">
+      <div class="idx-row-icon">🧷</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Diaper Changing</div>
+        <div class="idx-row-sub">Changing locations across all three parks</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxDiningBaby')">
+      <div class="idx-row-icon">🥄</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Dining with JR</div>
+        <div class="idx-row-sub">High chairs, food, feeding in the parks</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+    <div class="idx-row" onclick="openDrawer('idxNursing')">
+      <div class="idx-row-icon">🤫</div>
+      <div class="idx-row-content">
+        <div class="idx-row-title">Quiet Spaces</div>
+        <div class="idx-row-sub">For feeding, pacifier breaks, reset moments</div>
+      </div>
+      <div class="idx-row-chev">›</div>
+    </div>
+  </div>
+
+</div><!-- /index-panel -->
 <button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()">🆘</button>
 <div class="overlay" id="overlay" onclick="closeAll()"></div>
 
@@ -439,13 +689,14 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
   <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
   <div style="overflow-y:auto;max-height:60vh;">
     <div class="sos-menu-row" onclick="openSOSFromMenu('missing')"><span class="sos-menu-emoji">🚨</span><span class="sos-menu-title">Child goes missing</span><span class="sos-menu-chev">›</span></div>
+
+    <div class="sos-menu-row" onclick="openSOSFromMenu('sick')"><span class="sos-menu-emoji">🤒</span><span class="sos-menu-title">Someone is sick</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
-    <div class="sos-menu-row" onclick="openSOSFromMenu('medical')"><span class="sos-menu-emoji">🏥</span><span class="sos-menu-title">Medical or urgent care</span><span class="sos-menu-chev">›</span></div>
     <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
   </div>
 </div>
@@ -678,8 +929,7 @@ var activities={
 
 
 var sosItems={
-  missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: Cast Members see this frequently and handle this well. Find a Cast Member immediately and report it. It\'s helpful to take a photo in the morning of what they\'re wearing. If you need to describe them quickly, you\'ll have both ready. A description goes out park-wide by radio the moment you do. That Cast Member will help reunite you.</div><div class="section-divider"></div><div class="prose-p">Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that\'s the fastest path back to each other.</div>'},
-  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid in every park handles minor issues, free, on the spot. Ask any cast member for the nearest one.</div><div class="section-divider"></div><div class="prose-p"><strong>1. AdventHealth In-Room Care</strong> — nurse comes to your hotel room. 8am to 8pm. About 2 hours wait. Call <a href="tel:8773261463" style="color:var(--terracotta);">877-326-1463</a>.<br><br><strong>2. iCare Urgent Care</strong> — 24/7. About 90 min start to finish. Call <a href="tel:4078585422" style="color:var(--terracotta);">407-858-5422</a>.<br><br><strong>3. AdventHealth Urgent Care Celebration</strong> — 24/7, free transport from resort. Call <a href="tel:4079645499" style="color:var(--terracotta);">407-964-5499</a>.<br><br><strong>4. Buena Vista Walk-In Clinic</strong> — 7:45am to 8pm weekdays, 7:45am to 5pm weekends. 10 min drive. Call <a href="tel:4074651110" style="color:var(--terracotta);">407-465-1110</a>.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid first. Call 911 if it\'s severe.</div></div>'},
+    missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: Cast Members see this frequently and handle it well.</div><div class="section-divider"></div><div class="prose-p">Find a Cast Member immediately and report it. If you took a picture of your child today, this is helpful. A description goes out park-wide by radio the moment you do. That Cast Member will help reunite you.</div><div class="section-divider"></div><div class="prose-p"><strong>Where they go:</strong> Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations.</div>'},
   breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Check the app first',body:'<div class="prose-p">Disney often automatically converts your Lightning Lane to an anytime pass when a ride goes down. Look for a notification in MDE before doing anything else.</div><div class="section-divider"></div><div class="prose-p">If no automatic conversion, find a cast member at the ride entrance and ask them to note the issue on your account. What they can offer varies but it\'s always worth asking.</div>'},
   meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Step away from whatever queue or area you\'re in. Find space first, then assess. Every park has a Baby Care Center with AC, rocking chairs, changing tables, and a quiet feeding room — Cast Members will point you there.</div><div class="section-divider"></div><div class="prose-p">For JR specifically: the carrier solves a lot of meltdowns the stroller can\'t. If he\'s overstimulated, get him close to you and start walking somewhere shaded.</div><div class="section-divider"></div><div class="prose-p">If it\'s already past 11am and you\'re heading downhill, the rideshare back to the Four Seasons is 10–15 minutes. There\'s no penalty for going back early. The hotel pool exists for exactly this.</div>'},
   rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out, it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20 to 40 minutes then done. Duck into the nearest indoor ride or shop and wait it out.</div><div class="section-divider"></div><div class="prose-p">Hollywood Boulevard\'s connected shops let you walk the full main drag without going outside. EPCOT pavilions and Future World rides all have indoor queues. Right after the rain stops is a good time to ride outdoor attractions — crowds thin out fast.</div>'},
@@ -687,6 +937,22 @@ var sosItems={
   behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Protect what matters most today',body:'<div class="prose-p">Your Single Pass times are the only hard fixed points. Single Pass windows have more grace than the app shows — often up to an hour past the listed window. Try scanning even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">Everything else is flexible. If the morning falls apart, pick the one ride that matters most and walk straight to it. Skip the warm-up rides without guilt.</div><div class="section-divider"></div><div class="prose-p">Out-by-1pm is a target, not a deadline. If JR is happy and the day is going well, push to 1:30. If he\'s done at 11:30, leave at 11:30.</div>'},
   phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your reservations are safe',body:'<div class="prose-p">Your Lightning Lanes and dining reservations live in your Disney account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some table-service restaurants, and First Aid usually has charging available. Guest Services near the entrance can print confirmations on paper if you need them.</div>'},
   breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>EPCOT</strong><br>Spaceship Earth — 15 min ride, all dark and quiet, AC<br>Living with the Land — slow boat, gentle, almost never a wait<br>Gran Fiesta Tour (Mexico) — slow boat, AC, opens with World Showcase at 11am<br>ImageWorks play area — soft floors, AC, behind the Figment ride</div><div class="section-divider"></div><div class="prose-p"><strong>Hollywood Studios</strong><br>Frozen Sing-Along — 30 min seated show, AC, kids can sing along<br>Walt Disney Presents — air-conditioned walk-through, almost always empty</div><div class="section-divider"></div><div class="prose-p"><strong>Animal Kingdom</strong><br>Festival of the Lion King — 30 min show, AC, big production<br>Gorilla Falls Trail — self-paced shaded walk<br>Zootopia: Better Zoogether! — 9 min seated show inside the Tree of Life</div><div class="section-divider"></div><div class="prose-p"><strong>Or just go back</strong><br>Rideshare to the Four Seasons is 10 to 15 minutes. The pool, the room, lunch at Plancha. The day will not be ruined.</div>'}
+,
+  sick:{icon:'🤒',iconClass:'icon-sky',title:'Someone is Sick',time:'You have options',body:'<div class="prose-p"><strong>AdventHealth — In-Room Doctor</strong><br>8am–8pm · Arrives within 2 hours<br><a href="tel:4079397480" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Call (407) 939-7480</a> · <a href="https://www.adventhealth.com/adventhealth-world-wellness" target="_blank" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Website</a></div><div class="section-divider"></div><div class="prose-p"><strong>iCare — In-Room Doctor</strong><br>Available 24/7 · Arrives within 90 minutes<br><a href="https://icaremm.com/disney-world" target="_blank" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Website</a></div><div class="section-divider"></div><div class="prose-p"><strong>AdventHealth Centra Care</strong><br>Urgent care clinic · Free transport via your front desk · Open 7am–midnight<br><a href="tel:4079347273" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Call (407) 934-2273</a> · <a href="https://centracare.adventhealth.com/urgent-care/lake-buena-vista" target="_blank" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Website</a></div><div class="section-divider"></div><div class="prose-p"><strong>Buena Vista Urgent Care</strong><br>Walk-in clinic · About 10 minutes by Uber · Open daily<br><a href="tel:4074651110" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Call (407) 465-1110</a> · <a href="https://buenavistaurgentcare.com" target="_blank" style="color:var(--terracotta);text-decoration:none;font-weight:600;">Website</a></div>'},
+
+  idxMultiPass:{icon:'🎯',iconClass:'icon-sky',title:'Multi Pass explained',time:'Lightning Lane · EPCOT and Hollywood Studios',tags:'',body:'<div class="prose-p">Multi Pass lets you pre-book up to three rides before your visit and book additional rides throughout the day as you use them.</div><div class="prose-p">EPCOT and Hollywood Studios use a tier system — you can pick one ride from Tier 1 and two from Tier 2, or all three from Tier 2. Tier 1 rides are the most popular ones with the highest demand. Animal Kingdom has no tiers.</div><div class="prose-p">You can only pre-book one Tier 1 ride per day. Choose carefully — it\'s the most contested booking and the return windows for popular Tier 1 rides disappear fast.</div><div class="callout"><div class="callout-label">Morning strategy</div><div class="callout-text">Grab the earliest available return window for your first pre-book. The earlier you use it, the sooner you can book the next one — and the better the windows will be for the rest of the day.</div></div>'},
+  idxSinglePass:{icon:'🎢',iconClass:'icon-tc',title:'Single Pass explained',time:'Lightning Lane · Individual ride access',tags:'',body:'<div class="prose-p">Single Pass covers the handful of highly popular rides not included in Multi Pass. You buy it per person per ride and get a return window just like Multi Pass.</div><div class="prose-p">You can buy up to two Single Pass rides per day. Save them for the rides that genuinely need them — the ones where standby waits hit 60–90 minutes by mid-morning regardless of what time you arrive.</div><div class="callout"><div class="callout-label">Key rule</div><div class="callout-text">Book Single Pass in your 3-day window alongside Multi Pass — don\'t wait until the morning of. For the most popular rides, Single Pass can sell out before you\'re even in the park.</div></div>'},
+  idxRiderSwap:{icon:'🔁',iconClass:'icon-done',title:'Rider swap',time:'JR is 10 months · Under most height requirements',tags:'',body:'<div class="prose-p">Rider swap is how you and Alyssa divide and conquer the adult rides. When you get to a ride JR can\'t do, tell the cast member at the entrance you want Rider Swap. Alyssa stays with JR while you ride. Once you\'re done, Alyssa gets to skip straight to the front — no standby, no Lightning Lane queue — and can bring one other person with her.</div><div class="prose-p">It\'s free, no reservation needed. Just tell the cast member at the entrance.</div><div class="callout"><div class="callout-label">Worth knowing</div><div class="callout-text">Everyone who rides still needs their own Lightning Lane if the group is using one. Rider swap doesn\'t bypass the cost, just the wait.</div></div>'},
+  idxRolling:{icon:'🔄',iconClass:'icon-sky',title:'Booking more rides on the day',time:'After your first tap-in each day',tags:'',body:'<div class="prose-p">After you tap into a Lightning Lane ride, you can immediately book the next one. You can hold a maximum of three active bookings at once — your pre-books count toward that total until you use them.</div><div class="prose-p">The goal is to redeem your first pre-booked ride as early as possible. The sooner you start rolling, the more rides you can fit in before the best return windows disappear.</div><div class="callout"><div class="callout-label">Running late?</div><div class="callout-text">If you\'re running late for a return window, don\'t panic — windows stay valid for up to two hours after they expire.</div></div>'},
+  idxGroceries:{icon:'🛒',iconClass:'icon-sky',title:'Groceries',time:'Four Seasons Orlando',tags:'',body:'<div class="prose-p">Order groceries to the Four Seasons before you arrive. Schedule delivery for May 18 — bell services accepts deliveries and holds everything refrigerated until your room is ready. Having breakfast supplies in the room every morning saves money and sidesteps any food court chaos before rope drop.</div><div class="prose-p">Order through Instacart or Amazon Fresh and schedule delivery for check-in day.</div><div class="callout"><div class="callout-label">Snacks in the parks</div><div class="callout-text">You can bring any food into Disney parks — no restrictions. Pack more than you think you need for both of you. Disney snack prices are high.</div></div>'},
+  idxBabyCare:{icon:'🏥',iconClass:'icon-tc',title:'Baby Care Centers',time:'All three parks · Air conditioned',tags:'',body:'<div class="prose-p">Every park has one. Air-conditioned, free to use, no reservation needed. For a trip with a 10-month-old, these are your best asset in the parks.</div><div class="prose-p"><strong>What\'s inside:</strong> Changing tables (4–6, clean and consistently maintained). Private nursing rooms with rocking chairs and electrical outlets. Bottle warmers and microwaves. Filtered water. High chairs. A seating area with Disney movies.</div><div class="callout"><div class="callout-label">The one most people don\'t know</div><div class="callout-text">It\'s the only place in the parks where you can heat food you\'ve brought yourself — including sealed commercial baby food. If JR needs warm food during a park day, this is where you go.</div></div><div class="prose-p"><strong>Where to find them:</strong> EPCOT — Odyssey Pavilion near the World Showcase entrance. Hollywood Studios — Guest Services building at the park entrance. Animal Kingdom — near Creature Comforts (the Starbucks), before the bridge to Africa.</div>'},
+  idxStroller:{icon:'🛺',iconClass:'icon-sky',title:'Stroller parking',time:'Renting at the park',tags:'',body:'<div class="prose-p">Strollers can\'t go into ride lines or onto attractions. Every ride entrance has a designated parking area. You leave it before you line up and collect after you exit.</div><div class="prose-p">Cast members may move your stroller while you\'re on the ride — they reorganize the parking areas to manage space. It won\'t be gone, but it may not be exactly where you left it. This catches people off guard the first time.</div><div class="callout"><div class="callout-label">Make yours easy to spot</div><div class="callout-text">Put something identifiable on it — a bag clip, a bright tag. Stroller parking areas aren\'t supervised — don\'t leave anything you\'d be upset to lose.</div></div><div class="prose-p">On rideshare to and from the park, you\'ll need to collapse the stroller for the car. Worth practicing before the trip if you\'re renting one you haven\'t used before.</div>'},
+  idxCarrier:{icon:'🎽',iconClass:'icon-done',title:'Babywearing in the parks',time:'Carrier cleared for most rides JR can do',tags:'',body:'<div class="prose-p">The stroller gets parked outside every ride. The exit is sometimes a 5-minute walk from the entrance. A 10-month-old is not walking that gap. Use the carrier for ride exits, crowded transitions, and any moment the stroller is parked and you need to move.</div><div class="prose-p">Carrier is also the right call for the rope drop sprint — you need both hands free and you need to move fast.</div><div class="callout"><div class="callout-label">Worth knowing</div><div class="callout-text">Florida in May is warm and babywearing generates heat. Use it for the moments it earns its place — not as an all-day solution.</div></div>'},
+  idxDiapers:{icon:'🚻',iconClass:'icon-sky',title:'Diaper changing locations',time:'All three parks',tags:'',body:'<div class="prose-p">You\'re not limited to the Baby Care Center. Every Disney restroom — including men\'s — has changing tables. They are clean, consistently maintained, and far more numerous than the Baby Care Centers.</div><div class="callout"><div class="callout-label">Finding them fast</div><div class="callout-text">Open MDE, tap the park map, filter by restrooms. Every land has one within a short walk. Baby Care Centers show separately if you need the full facilities.</div></div>'},
+  idxDiningBaby:{icon:'🍽️',iconClass:'icon-gold',title:'Dining with little ones',time:'10 months · High chairs and space',tags:'',body:'<div class="prose-p">Worth knowing before you commit to a table service reservation with a 10-month-old: table service at Disney runs 60–90 minutes. It\'s not a reason to avoid it — it\'s a reason to pick the right ones and have a plan. Your one confirmed reservation is at the Four Seasons, not in a park, so the environment will be more controlled.</div><div class="prose-p"><strong>High chairs and boosters</strong> are standard at every table service restaurant. Ask when you arrive.</div><div class="callout"><div class="callout-label">Mobile ordering</div><div class="callout-text">Use it for every quick service meal. Order through MDE 45 minutes before you want to eat and tap "I\'m here" on arrival. Avoid the 12–1pm window — pickup slows down considerably.</div></div>'},
+  idxNursing:{icon:'🤱',iconClass:'icon-muted',title:'Nursing, pumping & bottles',time:'For feeding and quiet moments',tags:'',body:'<div class="prose-p">Florida law means you can nurse anywhere in the parks you\'re permitted to be. Disney is one of the more nursing-friendly environments you\'ll find and staff are trained.</div><div class="prose-p">For privacy, the Baby Care Center nursing rooms are the best option — rocking chairs, low lighting, outlets, and cast members at the door who are attentive about keeping it private.</div><div class="callout"><div class="callout-label">Keeping milk cold</div><div class="callout-text">Bring an insulated bag in the bottom of the stroller with reusable ice packs. Any quick service restaurant will give you a cup of ice to replenish them. First Aid next to every Baby Care Center also provides ice packs and can hold your pump while you\'re in the park.</div></div>'},
+  idxWhereToEat:{icon:'🍴',iconClass:'icon-gold',title:'Where to Eat',time:'Table service across all three parks',tags:'',body:'<div class="prose-p">Since you missed the ADR window, most table service will be walk-up only. A few options worth trying day-of via the MDE app.</div><div class="section-divider"></div><div class="prose-p"><strong>EPCOT:</strong> San Angel Inn (Mexico Pavilion) — dark, atmospheric, sits inside the pyramid next to the Gran Fiesta boat ride. Walk-up availability is better than it looks. Biergarten (Germany) — family-style German food, communal tables, live band. Good with a baby because the noise level hides everything.</div><div class="section-divider"></div><div class="prose-p"><strong>Hollywood Studios:</strong> Sci-Fi Dine-In — you eat in cars facing a drive-in movie screen. Kitsch factor is high. Walk-up often available mid-morning for lunch seatings.</div><div class="section-divider"></div><div class="prose-p"><strong>Animal Kingdom:</strong> Tiffins — the best restaurant in AK, genuinely excellent food, calmer atmosphere. Worth a walk-up attempt but it fills early.</div>'},
+
 };
 
 // ── CORE FUNCTIONS ────────────────────────────────────────────
@@ -708,7 +974,7 @@ function openDrawer(key){
   document.getElementById('drawerBody').innerHTML=item.body;
   var isDone=doneItems.has(item.rowId);
   document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+item.rowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
-  document.getElementById('activityDrawer').classList.add('open');
+  hideSOS();document.getElementById('activityDrawer').classList.add('open');
   document.getElementById('overlay').classList.add('open');
 }
 
@@ -790,6 +1056,8 @@ function toggleEdit(dayIdx){
 
 // ── BAG DATA ──────────────────────────────────────────────────────
 var bagItems=[
+  'Photo of kids in today\'s outfit or write your number on their arm in marker',
+  'Black trash bag — doubles as rain cover for your stroller and keeps your bag dry on Kali River Rapids',
   'Baby carrier (worn in or in the bag)',
   'Diapers (8+ for the morning)',
   'Wipes',
@@ -956,6 +1224,16 @@ doneItems.forEach(function(id){
   if(el)el.classList.add('done');
 });
 document.getElementById('wkBody').innerHTML=buildWKContent(0);
+
+function switchIndex(){
+  document.querySelectorAll('.day-panel').forEach(function(p){p.classList.remove('active');});
+  var ip=document.getElementById('indexPanel');
+  if(ip)ip.classList.add('active');
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active');});
+  var tabs=document.querySelectorAll('.day-tab');
+  tabs[tabs.length-1].classList.add('active');
+}
+
 </script>
 
 <script>
