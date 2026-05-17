@@ -1,22 +1,9 @@
 // The Park Edit — Service Worker
-// Caches the app on first load for full offline use in the parks.
-
-const CACHE = 'park-edit-v4';
-
-const PRECACHE = [
-  '/salamack/',
-  '/salamack/index.html',
-  'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap'
-];
+// Generic across all client subfolders.
+const CACHE = 'park-edit-v5';
 
 self.addEventListener('install', function(e) {
-  e.waitUntil(
-    caches.open(CACHE).then(function(cache) {
-      return cache.addAll(PRECACHE);
-    }).then(function() {
-      return self.skipWaiting();
-    })
-  );
+  e.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', function(e) {
@@ -33,11 +20,17 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
-  // Network-first for navigation, cache-first for assets
   if (e.request.mode === 'navigate') {
     e.respondWith(
       fetch(e.request).catch(function() {
-        return caches.match('/salamack/index.html');
+        // Fall back to the same subfolder's index.html
+        const url = new URL(e.request.url);
+        const parts = url.pathname.split('/').filter(Boolean);
+        const folder = parts.length > 0 ? '/' + parts[0] + '/' : '/';
+        return caches.match(folder + 'index.html')
+          .then(function(cached) {
+            return cached || fetch(folder + 'index.html');
+          });
       })
     );
   } else {
