@@ -2194,7 +2194,7 @@ ${notes}`;
     applyExtraction(extracted);
 
   } catch(e) {
-    status.textContent = 'Extraction failed — fill in manually or try again';
+    status.textContent = 'Extraction failed: ' + e.message;
     status.style.color = 'var(--terracotta)';
     btn.disabled = false;
     btnText.textContent = '✦ Extract to fields';
