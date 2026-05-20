@@ -2133,6 +2133,19 @@ async function extractCallNotes() {
 
 Extract whatever you can find. Use null for anything not mentioned. For arrays, use empty arrays if nothing found.
 
+For selection fields, use EXACT values from these options:
+- transport: "Flying" | "Driving" | "Both"
+- llmp: "Already planned" | "Open to it" | "Not interested"
+- llsp: "Already planned" | "Open to it" | "Not interested"
+- ropeDrop: "Yes — we're in" | "Maybe" | "No thanks"
+- afternoonBreak: "Yes — planning on it" | "Likely" | "No — pushing through"
+- strollerYN: "Bringing own" | "Renting at park" | "No stroller"
+- diningPriority: "Mostly table service" | "A mix" | "Quick service mostly"
+- disneyBefore: "First time" | "Been once or twice" | "Regular visitors"
+- bedtime: "Strict — in bed by 8pm" | "Flexible — 9ish" | "No set bedtime"
+- mobility: "No mobility needs" | "Stroller as wheelchair" | "Wheelchair/ECV" | "Limited walking"
+- das: "Yes — have DAS" | "Not applicable"
+
 Return this exact structure:
 {
   "people": [{"name":"","role":"","age":"","ageUnit":"years","height":"","chars":"","allergies":"","food":"","likes":"","ride":""}],
@@ -2179,7 +2192,7 @@ ${notes}`;
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
+        model: 'claude-sonnet-4-6',
         max_tokens: 2000,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -2218,15 +2231,22 @@ function applyExtraction(d) {
     return false;
   }
 
-  // Selection setter
+  // Selection setter — case-insensitive, partial match
   function setSelection(group, value) {
     if (!value) return;
-    window._selections[group] = value;
+    const valLower = value.toLowerCase().trim();
+    let matched = null;
     document.querySelectorAll('.option-btn').forEach(btn => {
-      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + group + "'") && btn.textContent.trim() === value) {
-        btn.classList.add('selected');
-      }
+      const onclick = btn.getAttribute('onclick');
+      if (!onclick || !onclick.includes("'" + group + "'")) return;
+      const btnText = btn.textContent.trim().toLowerCase();
+      if (btnText === valLower) matched = btn;
+      else if (!matched && (btnText.includes(valLower) || valLower.includes(btnText))) matched = btn;
     });
+    if (matched) {
+      matched.classList.add('selected');
+      window._selections[group] = matched.textContent.trim();
+    }
   }
 
   // People
@@ -2302,6 +2322,10 @@ function applyExtraction(d) {
       if (pd.lateStart === 'Yes') setSelection('pdLateStart' + parkDayCount, 'Yes');
     });
     summaryLines.push(`✓ ${d.parkDays.length} park day${d.parkDays.length !== 1 ? 's' : ''}`);
+    // Auto-fetch hours for each park day after extraction
+    setTimeout(() => {
+      for (let i = 1; i <= parkDayCount; i++) fetchParkHours(i);
+    }, 300);
   }
 
   // Character priorities
@@ -2771,6 +2795,44 @@ function selectHotel(name, type) {
 function hideHotelDropdown() {
   setTimeout(() => { const d = document.getElementById('hotelDropdown'); if(d) d.style.display='none'; }, 200);
 }
+
+// ===================== PARK HOURS AUTO-FETCH =====================
+async function fetchParkHours(dayIndex) {
+  const dateEl = document.getElementById('pdDate' + dayIndex);
+  const parkEl = document.getElementById('pdPark' + dayIndex);
+  const openEl = document.getElementById('pdOpen' + dayIndex);
+  const closeEl = document.getElementById('pdClose' + dayIndex);
+  if (!dateEl || !parkEl || !openEl || !closeEl) return;
+
+  const date = dateEl.value;
+  const park = parkEl.value;
+  if (!date || !park || park === 'Disney Springs' || park === 'Water park') return;
+  if (openEl.value && closeEl.value) return; // already filled
+
+  try {
+    const res = await fetch('/.netlify/functions/park-hours', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ park, date })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.open && !openEl.value) openEl.value = data.open;
+    if (data.close && !closeEl.value) closeEl.value = data.close;
+    autoSave();
+  } catch(e) {
+    // Silent fail — user can fill manually
+  }
+}
+
+// Hook park day date/park changes to auto-fetch hours
+document.addEventListener('change', function(e) {
+  const id = e.target.id || '';
+  const matchDate = id.match(/^pdDate(\d+)$/);
+  const matchPark = id.match(/^pdPark(\d+)$/);
+  if (matchDate) fetchParkHours(matchDate[1]);
+  if (matchPark) fetchParkHours(matchPark[1]);
+});
 
 // ===================== AIRLINE / FLIGHT LOOKUP =====================
 const AIRLINE_CODES = {
