@@ -1,0 +1,3735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Park Edit · Client Intake</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --terracotta: #E8734A;
+  --terracotta-dark: #C45A2E;
+  --terracotta-light: rgba(232,115,74,0.1);
+  --cream: #FDF8F4;
+  --cream-dark: #F5EDE4;
+  --brown: #5C3D2E;
+  --muted: #8C7B72;
+  --border: #E8DDD6;
+  --text: #2C2420;
+  --surface: #FAF5F0;
+  --done: #7BAE7F;
+  --shadow: rgba(92,61,46,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+/* HEADER */
+.header {
+  background: var(--brown);
+  padding: 20px 20px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(44,36,32,0.2);
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.brand {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 17px;
+  color: var(--cream);
+  letter-spacing: 0.02em;
+}
+.brand span { color: var(--terracotta); }
+.header-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(253,248,244,0.5);
+}
+
+/* NAV TABS */
+.nav-tabs {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(253,248,244,0.5);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  background: transparent;
+}
+.nav-tab.active {
+  color: var(--cream);
+  background: rgba(232,115,74,0.25);
+  border-color: rgba(232,115,74,0.4);
+}
+.nav-tab:hover:not(.active) {
+  color: rgba(253,248,244,0.8);
+  background: rgba(255,255,255,0.06);
+}
+
+/* SECTIONS */
+.section {
+  display: none;
+  padding: 0 16px;
+  animation: fadeIn 0.25s ease;
+}
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+.section-header {
+  padding: 20px 0 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--brown);
+  margin-bottom: 4px;
+}
+.section-subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* CARDS */
+.card {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.card-header {
+  padding: 12px 16px 10px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brown);
+  font-weight: 500;
+}
+.card-body { padding: 14px 16px; }
+
+/* PERSON CARDS */
+.person-card {
+  background: white;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px var(--shadow);
+}
+.person-card-header {
+  background: var(--terracotta-light);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.person-number {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+}
+.remove-person {
+  font-size: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+.remove-person:hover { color: var(--terracotta); background: var(--terracotta-light); }
+
+/* FIELDS */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.field-row.single { grid-template-columns: 1fr; }
+.field-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.field-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: var(--terracotta);
+  background: white;
+}
+textarea {
+  resize: vertical;
+  min-height: 70px;
+  line-height: 1.5;
+}
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238C7B72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+/* RADIO / CHECKBOX GROUPS */
+.option-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.option-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--muted);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.option-btn.selected {
+  color: var(--terracotta);
+  background: var(--terracotta-light);
+  border-color: var(--terracotta);
+  font-weight: 500;
+}
+
+/* TOOLTIP */
+.info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--border);
+  color: var(--muted);
+  font-size: 8px;
+  font-family: 'DM Mono', monospace;
+  cursor: pointer;
+  font-style: normal;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.info-btn:hover { background: var(--terracotta); color: white; }
+
+.tooltip-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(44,36,32,0.5);
+  z-index: 200;
+  align-items: flex-end;
+  justify-content: center;
+}
+.tooltip-overlay.open { display: flex; }
+.tooltip-card {
+  background: white;
+  border-radius: 20px 20px 0 0;
+  padding: 24px 20px 36px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 75vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+.tooltip-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  margin-bottom: 8px;
+}
+.tooltip-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  color: var(--brown);
+  margin-bottom: 12px;
+}
+.tooltip-body {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.tooltip-body p { margin-bottom: 10px; }
+.tooltip-body p:last-child { margin-bottom: 0; }
+.tooltip-close {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background: var(--terracotta);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* PARK DAY ROWS */
+.park-day-row {
+  display: grid;
+  grid-template-columns: 110px 1fr auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+  border-radius: 6px;
+}
+.remove-btn:hover { color: var(--terracotta); background: var(--terracotta-light); }
+
+/* ADD BUTTON */
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 9px 14px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.15s;
+  margin-top: 4px;
+}
+.add-btn:hover { border-color: var(--terracotta); color: var(--terracotta); background: var(--terracotta-light); }
+
+/* RESERVATION ROWS */
+.reservation-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+/* RESOURCES */
+.resource-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.resource-link:hover { border-color: var(--terracotta); background: var(--terracotta-light); }
+.resource-emoji { font-size: 18px; flex-shrink: 0; }
+.resource-info { flex: 1; }
+.resource-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.resource-desc {
+  font-size: 11px;
+  color: var(--muted);
+}
+.resource-arrow { color: var(--muted); font-size: 14px; }
+
+/* EXPORT */
+.export-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--brown);
+  padding: 12px 16px;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+  box-shadow: 0 -2px 12px rgba(44,36,32,0.2);
+}
+.export-btn {
+  flex: 1;
+  background: var(--terracotta);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.export-btn:hover { background: var(--terracotta-dark); }
+.save-file-btn {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.save-file-btn:hover { background: rgba(255,255,255,0.18); }
+.clear-btn {
+  background: rgba(255,255,255,0.1);
+  color: rgba(253,248,244,0.6);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0;
+}
+
+/* ADMIN STATUS */
+.status-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.status-dot.pending { background: var(--border); }
+.status-dot.active { background: var(--terracotta); }
+.status-dot.done { background: var(--done); }
+
+
+
+/* FIELD INDICATORS */
+.req-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--terracotta);
+  margin-left: 4px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.opt-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  margin-left: 4px;
+  flex-shrink: 0;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+.field-legend {
+  display: flex;
+  gap: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 0 4px;
+  align-items: center;
+}
+.field-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.section-gap { height: 16px; }
+.note {
+  font-size: 12px;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.6;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: 8px;
+  border-left: 3px solid var(--border);
+  margin-bottom: 12px;
+}
+
+/* ROPE DROP RANKED LIST */
+.rdl-input-row { display: flex; gap: 6px; margin-bottom: 8px; }
+.rdl-input-row input { flex: 1; }
+.rdl-add-btn { background: var(--terracotta); color: white; border: none; border-radius: 8px; padding: 8px 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
+.rdl-add-btn:hover { background: var(--terracotta-dark); }
+.rdl-list { list-style: none; margin-bottom: 8px; }
+.rdl-item { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; margin-bottom: 5px; cursor: grab; transition: box-shadow 0.15s, background 0.15s; user-select: none; }
+.rdl-item:active { cursor: grabbing; }
+.rdl-item.dragging { opacity: 0.4; }
+.rdl-item.drag-over { background: var(--terracotta-light); border-color: var(--terracotta); }
+.rdl-rank { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--terracotta); font-weight: 500; width: 18px; flex-shrink: 0; text-align: right; }
+.rdl-drag-handle { color: var(--border); font-size: 14px; flex-shrink: 0; cursor: grab; }
+.rdl-name { flex: 1; font-size: 13px; color: var(--text); }
+.rdl-remove { background: none; border: none; color: var(--muted); font-size: 16px; cursor: pointer; padding: 0 2px; line-height: 1; border-radius: 4px; flex-shrink: 0; }
+.rdl-remove:hover { color: var(--terracotta); }
+</style>
+</head>
+<body>
+
+<!-- TOOLTIP OVERLAY -->
+<div class="tooltip-overlay" id="tooltipOverlay" onclick="closeTooltip(event)">
+  <div class="tooltip-card">
+    <div class="tooltip-label" id="tooltipLabel"></div>
+    <div class="tooltip-title" id="tooltipTitle"></div>
+    <div class="tooltip-body" id="tooltipBody"></div>
+    <button class="tooltip-close" onclick="closeTooltipDirect()">Got it</button>
+  </div>
+</div>
+
+<!-- EXPORT MODAL (hidden, used as data store) -->
+<div id="exportOutput" style="display:none;"></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div class="brand">The Park<span>.</span>Edit</div>
+    <div class="header-label">Client Intake</div>
+  </div>
+  <div class="nav-tabs" id="navTabs">
+    <div class="nav-tab active" onclick="showSection('callnotes')">Call Notes</div>
+    <div class="nav-tab" onclick="showSection('people')">People</div>
+    <div class="nav-tab" onclick="showSection('trip')">Trip</div>
+    <div class="nav-tab" onclick="showSection('tickets')">Tickets</div>
+    <div class="nav-tab" onclick="showSection('reservations')">Reservations</div>
+    <div class="nav-tab" onclick="showSection('preferences')">Preferences</div>
+    <div class="nav-tab" onclick="showSection('dynamics')">Dynamics</div>
+    <div class="nav-tab" onclick="showSection('admin')">Admin</div>
+    <div class="nav-tab" onclick="showSection('intelligence')">Intelligence</div>
+    <div class="nav-tab" onclick="showSection('resources')">Resources</div>
+  </div>
+</div>
+
+<!-- ======================== CALL NOTES ======================== -->
+<div class="section active" id="section-callnotes">
+  <div class="section-header">
+    <div class="section-title">Call Notes</div>
+    <div class="section-subtitle">Freeform — extract to fields after the call</div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-header"><div class="card-title">Raw Call Notes</div></div>
+    <div class="card-body">
+      <div class="note" style="margin-bottom:12px;">Just talk to your client. Write everything down here after — names, ages, hotel, flights, what the kids are obsessed with, what the parents are anxious about, anything they mentioned. The more detail the better. Then hit Extract.</div>
+      <div class="field-row single">
+        <div class="field">
+          <textarea id="callNotes" placeholder="e.g. Family of 4 — Sarah and Mike, kids Lily (6) and Noah (3). Staying at Pop Century. Flying Southwest from Chicago on the 14th, arriving around noon. Open to rope drop but Noah naps at 1pm. Lily is obsessed with Elsa — that's the whole trip for her. Mike has never been, Sarah has been twice as a kid. They're nervous about the heat and crowds. Budget is flexible but not unlimited. Want to do a character dining — leaning toward Akershus. Have Park Hoppers already purchased, 5-day tickets..." style="min-height:280px; font-size:13px; line-height:1.7;"></textarea>
+        </div>
+      </div>
+      <button onclick="extractCallNotes()" id="extractBtn" style="width:100%;margin-top:10px;background:var(--terracotta);color:white;border:none;border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <span id="extractBtnText">✦ Extract to fields</span>
+      </button>
+      <div id="extractStatus" style="display:none;margin-top:10px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-align:center;"></div>
+    </div>
+  </div>
+
+  <div class="card" id="extractResultCard" style="display:none;">
+    <div class="card-header">
+      <div class="card-title">Extraction Summary</div>
+    </div>
+    <div class="card-body">
+      <div id="extractSummary" style="font-size:13px;line-height:1.8;color:var(--text);"></div>
+      <button onclick="runPreBuildChecklist()" style="width:100%;margin-top:14px;background:var(--surface);color:var(--brown);border:1px solid var(--border);border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;">Run checklist to see what's missing →</button>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== PEOPLE ======================== -->
+<div class="section" id="section-people">
+  <div class="section-header">
+    <div class="section-title">People</div>
+    <div class="section-subtitle">Everyone on the trip</div>
+  </div>
+
+  <div class="field-legend">
+    <div class="field-legend-item"><span class="req-dot"></span> Essential for build</div>
+    <div class="field-legend-item"><span class="opt-dot"></span> Nice to have</div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-header"><div class="card-title">Family Overview</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Pregnancy status <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'pregnancy')">Not pregnant</div>
+            <div class="option-btn" onclick="toggle(this,'pregnancy')">Pregnant — early</div>
+            <div class="option-btn" onclick="toggle(this,'pregnancy')">Pregnant — third trimester</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Grandparents travelling <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'grandparents')">Yes</div>
+            <div class="option-btn" onclick="toggle(this,'grandparents')">No</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" id="grandparentDetailRow" style="margin-top:10px; display:none;">
+        <div class="field">
+          <div class="field-label">Grandparent notes <span class="opt-dot"></span></div>
+          <input type="text" id="grandparentNotes" placeholder="e.g. mobility considerations, pace expectations, own room...">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Stroller <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'strollerYN')">Bringing own</div>
+            <div class="option-btn" onclick="toggle(this,'strollerYN')">Renting at park</div>
+            <div class="option-btn" onclick="toggle(this,'strollerYN')">No stroller</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" id="strollerTypeRow" style="margin-top:10px; display:none;">
+        <div class="field">
+          <div class="field-label">Stroller type <span class="opt-dot"></span></div>
+          <select id="strollerType">
+            <option value="">Select...</option>
+            <option>Single umbrella / lightweight</option>
+            <option>Single full-size</option>
+            <option>Double side-by-side</option>
+            <option>Double tandem</option>
+            <option>Travel system (with infant seat)</option>
+            <option>Wagon-style</option>
+          </select>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Baby carrier <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'carrier')">Yes — bringing one</div>
+            <div class="option-btn" onclick="toggle(this,'carrier')">No</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="peopleContainer"></div>
+  <button class="add-btn" onclick="addPerson()">+ Add person</button>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== TRIP ======================== -->
+<div class="section" id="section-trip">
+  <div class="section-header">
+    <div class="section-title">Trip</div>
+    <div class="section-subtitle">Dates, hotel, parks, transport</div>
+  </div>
+
+  <div class="field-legend">
+    <div class="field-legend-item"><span class="req-dot"></span> Essential for build</div>
+    <div class="field-legend-item"><span class="opt-dot"></span> Nice to have</div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-header"><div class="card-title">Travel Dates</div></div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Arrival date <span class="req-dot"></span></div>
+          <input type="date" id="arrivalDate">
+        </div>
+        <div class="field">
+          <div class="field-label">Departure date <span class="req-dot"></span></div>
+          <input type="date" id="departureDate">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Trip stage <span class="info-btn" onclick="showTooltip('tripStage')">i</span> <span class="req-dot"></span></div>
+          <select id="tripStage">
+            <option value="">Select...</option>
+            <option>6+ months out</option>
+            <option>3–6 months out</option>
+            <option>6 weeks out</option>
+            <option>2 weeks out</option>
+            <option>Less than 2 weeks</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Hotel</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Hotel name <span class="req-dot"></span></div>
+          <input type="text" id="hotelName" placeholder="Type to search..." oninput="filterHotels(this.value)" onblur="hideHotelDropdown()" autocomplete="off">
+          <div id="hotelDropdown" style="display:none;position:absolute;z-index:50;background:white;border:1px solid var(--border);border-radius:8px;box-shadow:0 4px 12px var(--shadow);max-height:200px;overflow-y:auto;width:calc(100% - 32px);margin-top:2px;"></div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Check-in <span class="req-dot"></span></div>
+          <input type="date" id="checkIn">
+        </div>
+        <div class="field">
+          <div class="field-label">Check-out <span class="req-dot"></span></div>
+          <input type="date" id="checkOut">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Hotel booked by</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'hotelBookedBy')">Me (Park Edit)</div>
+            <div class="option-btn" onclick="toggle(this,'hotelBookedBy')">Client</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Resort type <span class="req-dot"></span></div>
+          <input type="text" id="resortType" readonly placeholder="Auto-filled from hotel selection" style="background:var(--surface);color:var(--muted);cursor:default;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Transport</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Getting there <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'transport');showTransport()">Flying</div>
+            <div class="option-btn" onclick="toggle(this,'transport');showTransport()">Driving</div>
+            <div class="option-btn" onclick="toggle(this,'transport');showTransport()">Both</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="flightFields" style="display:none;">
+        <div class="divider"></div>
+        <div class="note" style="margin-bottom:10px;">✈️ Flight details — affects arrival time and first park day logistics</div>
+        <div class="field-row">
+          <div class="field">
+            <div class="field-label">Airline <span class="opt-dot"></span></div>
+            <select id="airline" onchange="handleAirlineChange()">
+              <option value="">Select...</option>
+              <option value="AA">American Airlines</option>
+              <option value="AS">Alaska Airlines</option>
+              <option value="B6">JetBlue</option>
+              <option value="DL">Delta</option>
+              <option value="F9">Frontier</option>
+              <option value="NK">Spirit</option>
+              <option value="UA">United</option>
+              <option value="WN">Southwest</option>
+              <option value="OTHER">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="field-label">Flight number <span class="opt-dot"></span></div>
+            <input type="text" id="flightNumber" placeholder="e.g. 1234">
+          </div>
+        </div>
+        <div id="airlineOtherRow" style="display:none;margin-bottom:10px;">
+          <div class="field">
+            <div class="field-label">Airline name</div>
+            <input type="text" id="airlineOther" placeholder="Enter airline name">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field" style="grid-column:1/-1;">
+            <button type="button" onclick="lookupFlight()" style="width:100%;background:var(--terracotta);color:white;border:none;border-radius:8px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;" id="flightLookupBtn">Look up flight</button>
+            <div id="flightLookupStatus" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:6px;display:none;"></div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <div class="field-label">Arrival airport <span class="req-dot"></span></div>
+            <select id="arrivalAirport">
+              <option value="">Select...</option>
+              <option>MCO — Orlando International</option>
+              <option>SFB — Sanford International</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="field-label">Arrival time <span class="req-dot"></span></div>
+            <input type="text" id="flightArrivalTime" placeholder="e.g. 11:30am">
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <div class="field-label">Ground transport to resort <span class="opt-dot"></span></div>
+            <select id="groundTransport">
+              <option value="">Select...</option>
+              <option>Rental car</option>
+              <option>Uber / Lyft</option>
+              <option>Disney shuttle (Mears)</option>
+              <option>Private car service</option>
+              <option>Family pickup</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="driveFields" style="display:none;">
+        <div class="divider"></div>
+        <div class="note" style="margin-bottom:10px;">🚗 Drive details — feeds "The car" section of the Pre-Edit</div>
+        <div class="field-row">
+          <div class="field">
+            <div class="field-label">Origin city <span class="req-dot"></span></div>
+            <input type="text" id="originCity" placeholder="e.g. Naples, FL">
+          </div>
+          <div class="field">
+            <div class="field-label">Approx. drive time <span class="opt-dot"></span></div>
+            <input type="text" id="driveTime" placeholder="e.g. 3.5 hours">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Park Days</div>
+    </div>
+    <div class="card-body">
+      <div id="parkDaysContainer"></div>
+      <button class="add-btn" onclick="addParkDay()">+ Add park day</button>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== TICKETS ======================== -->
+<div class="section" id="section-tickets">
+  <div class="section-header">
+    <div class="section-title">Tickets</div>
+    <div class="section-subtitle">What they have or need</div>
+  </div>
+
+  <div class="field-legend">
+    <div class="field-legend-item"><span class="req-dot"></span> Essential for build</div>
+    <div class="field-legend-item"><span class="opt-dot"></span> Nice to have</div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-header"><div class="card-title">Park Tickets</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Tickets purchased? <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'ticketsPurchased')">Yes</div>
+            <div class="option-btn" onclick="toggle(this,'ticketsPurchased')">No — I'll book</div>
+            <div class="option-btn" onclick="toggle(this,'ticketsPurchased')">No — they'll book</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Ticket type <span class="info-btn" onclick="showTooltip('ticketTypes')">i</span> <span class="req-dot"></span></div>
+          <select id="ticketType">
+            <option value="">Select...</option>
+            <option>Date-based (one park per day)</option>
+            <option>Park Hopper</option>
+            <option>Park Hopper Plus</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Ticket days <span class="req-dot"></span></div>
+          <input type="number" id="ticketDays" min="1" max="10" placeholder="e.g. 5">
+        </div>
+        <div class="field">
+          <div class="field-label">Ticket restrictions <span class="opt-dot"></span></div>
+          <input type="text" id="ticketRestrictions" placeholder="e.g. FL resident, blackout dates...">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Linked to Disney account? <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'ticketsLinked')">Yes</div>
+            <div class="option-btn" onclick="toggle(this,'ticketsLinked')">No</div>
+            <div class="option-btn" onclick="toggle(this,'ticketsLinked')">Not sure</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Add-ons</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Memory Maker <span class="info-btn" onclick="showTooltip('memoryMaker')">i</span> <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'memoryMaker')">Purchased</div>
+            <div class="option-btn" onclick="toggle(this,'memoryMaker')">Interested</div>
+            <div class="option-btn" onclick="toggle(this,'memoryMaker')">Not interested</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Lightning Lane Multi Pass <span class="info-btn" onclick="showTooltip('llmp')">i</span> <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'llmp')">Already planned</div>
+            <div class="option-btn" onclick="toggle(this,'llmp')">Open to it</div>
+            <div class="option-btn" onclick="toggle(this,'llmp')">Not interested</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Multi Pass notes <span class="opt-dot"></span></div>
+          <textarea id="llMultiNotes" placeholder="e.g. throwaway trick candidate, tier strategy, specific rides they want via Multi Pass..."></textarea>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Lightning Lane Single Pass <span class="info-btn" onclick="showTooltip('llsp')">i</span> <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'llsp')">Already planned</div>
+            <div class="option-btn" onclick="toggle(this,'llsp')">Open to it</div>
+            <div class="option-btn" onclick="toggle(this,'llsp')">Not interested</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Target Single Pass rides <span class="opt-dot"></span></div>
+          <textarea id="llSingleTargets" placeholder="e.g. TRON, Guardians, Slinky Dog Dash — which rides are they most set on?"></textarea>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">LL budget (if known) <span class="opt-dot"></span></div>
+          <input type="text" id="llBudget" placeholder="e.g. $50/day, flexible, none">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Lightning Lane Booking Window</div></div>
+    <div class="card-body">
+      <div class="note" style="margin-bottom:12px;">Calculated from check-in date. On-property guests book 7 days out; off-site guests book 3 days out.</div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">7-day window opens <span class="req-dot"></span></div>
+          <input type="date" id="llWindow7" placeholder="Check-in minus 7 days">
+        </div>
+        <div class="field" id="llWindow3Row" style="display:none;">
+          <div class="field-label">3-day window opens <span class="opt-dot"></span></div>
+          <input type="date" id="llWindow3" placeholder="Check-in minus 3 days">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">ADR window date <span class="req-dot"></span></div>
+          <input type="date" id="adrWindow" placeholder="Check-in minus 60 days">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">ADR bookings made? <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'adrStatus')">All done</div>
+            <div class="option-btn" onclick="toggle(this,'adrStatus')">Partially booked</div>
+            <div class="option-btn" onclick="toggle(this,'adrStatus')">Not yet — window coming up</div>
+            <div class="option-btn" onclick="toggle(this,'adrStatus')">Missed window</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Priority restaurants mentioned <span class="opt-dot"></span></div>
+          <textarea id="priorityDining" placeholder="e.g. Cinderella's Royal Table, Space 220, California Grill — anything they specifically want..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== RESERVATIONS ======================== -->
+<div class="section" id="section-reservations">
+  <div class="section-header">
+    <div class="section-title">Reservations</div>
+    <div class="section-subtitle">Dining and special experiences</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Dining Reservations</div>
+    </div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Overall dining status <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'diningStatus')">All booked</div>
+            <div class="option-btn" onclick="toggle(this,'diningStatus')">Partially booked</div>
+            <div class="option-btn" onclick="toggle(this,'diningStatus')">None booked — window open</div>
+            <div class="option-btn" onclick="toggle(this,'diningStatus')">None booked — window passed</div>
+            <div class="option-btn" onclick="toggle(this,'diningStatus')">Not doing table service</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="diningContainer"></div>
+      <button class="add-btn" onclick="addDining()">+ Add dining reservation</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Character Dining</div>
+    </div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Character dining booked?</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'charDining')">Yes</div>
+            <div class="option-btn" onclick="toggle(this,'charDining')">Interested</div>
+            <div class="option-btn" onclick="toggle(this,'charDining')">No</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Which experience</div>
+          <select id="charDiningVenue">
+            <option value="">Select if applicable...</option>
+            <optgroup label="Magic Kingdom">
+              <option>Cinderella's Royal Table — Magic Kingdom</option>
+              <option>Crystal Palace — Magic Kingdom</option>
+              <option>Be Our Guest — Magic Kingdom (dinner only)</option>
+            </optgroup>
+            <optgroup label="Magic Kingdom Area Resorts">
+              <option>Chef Mickey's — Contemporary Resort</option>
+              <option>1900 Park Fare — Grand Floridian</option>
+              <option>Ohana — Polynesian Village Resort</option>
+              <option>Cape May Cafe — Beach Club Resort</option>
+            </optgroup>
+            <optgroup label="EPCOT">
+              <option>Garden Grill — EPCOT (The Land)</option>
+              <option>Akershus Royal Banquet Hall — EPCOT Norway</option>
+              <option>Space 220 — EPCOT (no characters)</option>
+            </optgroup>
+            <optgroup label="Hollywood Studios">
+              <option>Hollywood & Vine — Hollywood Studios</option>
+            </optgroup>
+            <optgroup label="Animal Kingdom">
+              <option>Tusker House — Animal Kingdom</option>
+            </optgroup>
+            <optgroup label="Disney Springs Area">
+              <option>Ravello — Four Seasons Orlando (seasonal)</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Character Meet Priorities</div>
+    </div>
+    <div class="card-body">
+      <div class="note" style="margin-bottom:12px;">Add characters the family specifically wants to meet. Flag whether they're worth a standby wait or only worth doing if it's easy.</div>
+      <div id="charPriorityContainer"></div>
+      <button class="add-btn" onclick="addCharPriority()">+ Add character</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Special Experiences</div>
+    </div>
+    <div class="card-body">
+      <div class="note">Tick anything booked or being considered.</div>
+      <div id="specialExpContainer">
+        <div class="field-row single" style="margin-bottom:8px;">
+          <div class="field">
+            <div class="field-label">Bibbidi Bobbidi Boutique <span class="info-btn" onclick="showTooltip('bbb')">i</span></div>
+            <div class="option-group">
+              <div class="option-btn" onclick="toggle(this,'bbb')">Booked</div>
+              <div class="option-btn" onclick="toggle(this,'bbb')">Interested</div>
+              <div class="option-btn" onclick="toggle(this,'bbb')">Not applicable</div>
+            </div>
+          </div>
+        </div>
+        <div class="field-row single" style="margin-bottom:8px;">
+          <div class="field">
+            <div class="field-label">After Hours Event <span class="info-btn" onclick="showTooltip('afterHours')">i</span></div>
+            <div class="option-group">
+              <div class="option-btn" onclick="toggle(this,'afterHours')">Booked</div>
+              <div class="option-btn" onclick="toggle(this,'afterHours')">Interested</div>
+              <div class="option-btn" onclick="toggle(this,'afterHours')">No</div>
+            </div>
+          </div>
+        </div>
+        <div class="field-row single" style="margin-bottom:8px;">
+          <div class="field">
+            <div class="field-label">Early Morning Magic <span class="info-btn" onclick="showTooltip('emm')">i</span></div>
+            <div class="option-group">
+              <div class="option-btn" onclick="toggle(this,'emm')">Booked</div>
+              <div class="option-btn" onclick="toggle(this,'emm')">Interested</div>
+              <div class="option-btn" onclick="toggle(this,'emm')">No</div>
+            </div>
+          </div>
+        </div>
+        <div class="field-row single" style="margin-bottom:8px;">
+          <div class="field">
+            <div class="field-label">Dessert Party / Fireworks Viewing <span class="info-btn" onclick="showTooltip('dessertParty')">i</span></div>
+            <div class="option-group">
+              <div class="option-btn" onclick="toggle(this,'dessertParty')">Booked</div>
+              <div class="option-btn" onclick="toggle(this,'dessertParty')">Interested</div>
+              <div class="option-btn" onclick="toggle(this,'dessertParty')">No</div>
+            </div>
+          </div>
+        </div>
+        <div class="field-row single" style="margin-bottom:8px;">
+          <div class="field">
+            <div class="field-label">Keys to the Kingdom Tour <span class="info-btn" onclick="showTooltip('kttk')">i</span></div>
+            <div class="option-group">
+              <div class="option-btn" onclick="toggle(this,'kttk')">Booked</div>
+              <div class="option-btn" onclick="toggle(this,'kttk')">Interested</div>
+              <div class="option-btn" onclick="toggle(this,'kttk')">No</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Other special experiences</div>
+          <textarea id="otherExperiences" placeholder="Anything else booked or being considered..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== PREFERENCES ======================== -->
+<div class="section" id="section-preferences">
+  <div class="section-header">
+    <div class="section-title">Preferences</div>
+    <div class="section-subtitle">Pacing, rides, food, style</div>
+  </div>
+
+  <div class="field-legend">
+    <div class="field-legend-item"><span class="req-dot"></span> Essential for build</div>
+    <div class="field-legend-item"><span class="opt-dot"></span> Nice to have</div>
+  </div>
+
+  <div class="card" style="margin-top:12px;">
+    <div class="card-header"><div class="card-title">Pacing & Schedule</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Rope drop — general intent <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'ropeDrop')">Yes — we're in</div>
+            <div class="option-btn" onclick="toggle(this,'ropeDrop')">Maybe</div>
+            <div class="option-btn" onclick="toggle(this,'ropeDrop')">No thanks</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:10px;">
+        <div class="field">
+          <div class="field-label">Rope drop per park <span class="opt-dot"></span></div>
+          <textarea id="ropeDropPerPark" placeholder="e.g. Magic Kingdom — yes / Hollywood Studios — maybe / Animal Kingdom — no..."></textarea>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Afternoon break</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'afternoonBreak')">Likely</div>
+            <div class="option-btn" onclick="toggle(this,'afternoonBreak')">Maybe</div>
+            <div class="option-btn" onclick="toggle(this,'afternoonBreak')">Unlikely</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Nap schedule</div>
+          <textarea id="napSchedule" placeholder="e.g. 1pm nap, usually 90 mins / strict / flexible..."></textarea>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Nursing / pumping <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'nursing')">Nursing on demand</div>
+            <div class="option-btn" onclick="toggle(this,'nursing')">Nursing on schedule</div>
+            <div class="option-btn" onclick="toggle(this,'nursing')">Pumping</div>
+            <div class="option-btn" onclick="toggle(this,'nursing')">Formula / bottle</div>
+            <div class="option-btn" onclick="toggle(this,'nursing')">Not applicable</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:10px;">
+        <div class="field">
+          <div class="field-label">Nursing / feeding notes <span class="opt-dot"></span></div>
+          <input type="text" id="nursingNotes" placeholder="e.g. every 3 hours, strict schedule, pumping once midday...">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Pacifier use <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'pacifier')">Yes</div>
+            <div class="option-btn" onclick="toggle(this,'pacifier')">No</div>
+            <div class="option-btn" onclick="toggle(this,'pacifier')">Not applicable</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Medication schedule</div>
+          <textarea id="medSchedule" placeholder="Any medications that create fixed time commitments in the day..."></textarea>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Bedtime</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'bedtime')">Hard cutoff — strict</div>
+            <div class="option-btn" onclick="toggle(this,'bedtime')">Flexible on holiday</div>
+            <div class="option-btn" onclick="toggle(this,'bedtime')">No set bedtime</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:10px;">
+        <div class="field">
+          <div class="field-label">Bedtime notes</div>
+          <input type="text" id="bedtimeNotes" placeholder="e.g. 8pm hard stop / kids happy to stay for fireworks">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Evening flexibility</div>
+          <input type="text" id="eveningNotes" placeholder="e.g. happy to stay for evening shows / prefer to leave before crowds">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Sleep setup at hotel</div>
+          <textarea id="sleepSetup" placeholder="e.g. pack n play needed / kids sharing bed / early checkout..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Queues & Crowds</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Comfortable waiting up to</div>
+          <select id="queueTolerance">
+            <option value="">Select...</option>
+            <option>15 minutes</option>
+            <option>30 minutes</option>
+            <option>45 minutes</option>
+            <option>60 minutes</option>
+            <option>However long it takes</option>
+          </select>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Crowd tolerance</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'crowdTolerance')">Fine anywhere</div>
+            <div class="option-btn" onclick="toggle(this,'crowdTolerance')">Needs some breathing room</div>
+            <div class="option-btn" onclick="toggle(this,'crowdTolerance')">Crowds are a real issue</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Heat sensitivity</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'heat')">Fine all day</div>
+            <div class="option-btn" onclick="toggle(this,'heat')">Needs indoors by midday</div>
+            <div class="option-btn" onclick="toggle(this,'heat')">Significant sensitivity</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Food & Dining</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Dining priority</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'diningPriority')">Big part of the trip</div>
+            <div class="option-btn" onclick="toggle(this,'diningPriority')">A mix</div>
+            <div class="option-btn" onclick="toggle(this,'diningPriority')">Purely functional</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Service preference</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'serviceType')">Table service focus</div>
+            <div class="option-btn" onclick="toggle(this,'serviceType')">Mix of both</div>
+            <div class="option-btn" onclick="toggle(this,'serviceType')">Quick service mostly</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Must-do restaurants</div>
+          <textarea id="mustDoDining" placeholder="Any restaurants they've specifically mentioned wanting..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Style & Structure</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Photography priority</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'photos')">Stop for everything</div>
+            <div class="option-btn" onclick="toggle(this,'photos')">Selective</div>
+            <div class="option-btn" onclick="toggle(this,'photos')">Minimal</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Plan preference</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'planStyle')">Every hour planned</div>
+            <div class="option-btn" onclick="toggle(this,'planStyle')">Loose framework</div>
+            <div class="option-btn" onclick="toggle(this,'planStyle')">Somewhere in between</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Group splits</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'groupSplits')">Yes — likely</div>
+            <div class="option-btn" onclick="toggle(this,'groupSplits')">Maybe</div>
+            <div class="option-btn" onclick="toggle(this,'groupSplits')">No — staying together</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:10px;">
+        <div class="field">
+          <div class="field-label">Rider swap notes <span class="info-btn" onclick="showTooltip('riderSwap')">i</span></div>
+          <textarea id="riderSwapNotes" placeholder="Any planned rider swap situations — who's sitting out, which rides..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Tech</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Google Maps installed on their phone?</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'googleMaps')">Yes</div>
+            <div class="option-btn" onclick="toggle(this,'googleMaps')">No — using Apple Maps</div>
+            <div class="option-btn" onclick="toggle(this,'googleMaps')">Not sure</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title">Virtual Queues</div></div>
+    <div class="card-body">
+      <div class="note" style="margin-bottom:12px;">Currently only TRON (Magic Kingdom) uses a virtual queue. Confirm status before each client's trip — Disney changes this without notice.</div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Virtual queue rides in scope <span class="req-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'vqTron')">TRON</div>
+            <div class="option-btn" onclick="toggle(this,'vqNone')">Not relevant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+<div class="section" id="section-dynamics">
+  <div class="section-header">
+    <div class="section-title">Dynamics</div>
+    <div class="section-subtitle">The stuff that shapes everything</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Experience & Expectations</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Been to Disney before?</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'disneyBefore')">First trip</div>
+            <div class="option-btn" onclick="toggle(this,'disneyBefore')">Been once or twice</div>
+            <div class="option-btn" onclick="toggle(this,'disneyBefore')">Regular visitors</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Mixed experience in the group? <span class="opt-dot"></span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'mixedExperience')">Yes — one adult has been, one hasn't</div>
+            <div class="option-btn" onclick="toggle(this,'mixedExperience')">No — same level</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:8px;" id="mixedExperienceNotes" style="display:none;">
+        <div class="field">
+          <div class="field-label">Details <span class="opt-dot"></span></div>
+          <input type="text" id="mixedExperienceDetail" placeholder="e.g. Mum has been 3 times, Dad never / Grandparent first timer...">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Is everyone equally excited about the trip?</div>
+          <textarea id="groupExcitement" placeholder="e.g. partner coming along mainly for the kids / grandparent joining with different pace expectations..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Aversions & Anxieties</div></div>
+    <div class="card-body">
+      <div class="note">Consider: dark rides, loud/sudden noises, drops/heights, enclosed spaces, motion sickness, intense visuals, character meet anxiety (masked vs. face characters), sensory overwhelm, crowds.</div>
+      <div id="aversionContainer"></div>
+      <button class="add-btn" onclick="addAversion()">+ Add aversion or anxiety</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Accessibility</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Mobility aids</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'mobility')">Stroller as wheelchair</div>
+            <div class="option-btn" onclick="toggle(this,'mobility')">Wheelchair</div>
+            <div class="option-btn" onclick="toggle(this,'mobility')">ECV</div>
+            <div class="option-btn" onclick="toggle(this,'mobility')">None</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">DAS Pass <span class="info-btn" onclick="showTooltip('das')">i</span></div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'das')">Have it</div>
+            <div class="option-btn" onclick="toggle(this,'das')">Likely eligible</div>
+            <div class="option-btn" onclick="toggle(this,'das')">Not applicable</div>
+          </div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Other accessibility notes</div>
+          <textarea id="accessibilityNotes" placeholder="Anything else that affects how the day needs to be structured..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Trip Anchors</div></div>
+    <div class="card-body">
+      <div class="note" style="margin-bottom:10px;">The 2–3 moments this trip is built around. The emotional centerpieces that shape everything else.</div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Anchors <span class="req-dot"></span></div>
+          <textarea id="tripAnchors" placeholder="e.g. Elsa meet at EPCOT / riding TRON as a family / fireworks on the last night..." style="min-height:80px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Celebrating</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Celebrating anything on this trip?</div>
+          <textarea id="celebrating" placeholder="e.g. birthday, anniversary, end of treatment, first Disney trip, graduation, a hard year..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Anything else?</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Anything else you'd like me to know</div>
+          <textarea id="anythingElse" placeholder="The stuff that doesn't fit anywhere else — always the most useful..." style="min-height:100px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== ADMIN ======================== -->
+<div class="section" id="section-admin">
+  <div class="section-header">
+    <div class="section-title">Admin</div>
+    <div class="section-subtitle">Package, payment, status</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Package & Payment</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Package</div>
+          <select id="package">
+            <option value="">Select...</option>
+            <option>Standard (5 days or fewer)</option>
+            <option>Add-on: extra park day</option>
+            <option>Custom</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row single" id="addOnParkRow" style="display:none;">
+        <div class="field">
+          <div class="field-label">Add-on park</div>
+          <select id="addOnPark">
+            <option value="">Select park...</option>
+            <option>Magic Kingdom</option>
+            <option>EPCOT</option>
+            <option>Hollywood Studios</option>
+            <option>Animal Kingdom</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Payment status</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'paymentStatus')">Paid in full</div>
+            <div class="option-btn" onclick="toggle(this,'paymentStatus')">Deposit paid</div>
+            <div class="option-btn" onclick="toggle(this,'paymentStatus')">Unpaid</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Referral</div>
+          <input type="text" id="referral" placeholder="How did they find you?">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Build Status</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Pre-Edit status</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'preEditStatus')">Not started</div>
+            <div class="option-btn" onclick="toggle(this,'preEditStatus')">In progress</div>
+            <div class="option-btn" onclick="toggle(this,'preEditStatus')">Sent</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:8px;">
+        <div class="field">
+          <div class="field-label">Pre-Edit sent date</div>
+          <input type="date" id="preEditSentDate">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Park Edit status</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'parkEditStatus')">Not started</div>
+            <div class="option-btn" onclick="toggle(this,'parkEditStatus')">In progress</div>
+            <div class="option-btn" onclick="toggle(this,'parkEditStatus')">Sent</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single" style="margin-top:8px;">
+        <div class="field">
+          <div class="field-label">Park Edit sent date</div>
+          <input type="date" id="parkEditSentDate">
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Hotel booked?</div>
+          <div class="option-group">
+            <div class="option-btn" onclick="toggle(this,'hotelBooked')">Yes — done</div>
+            <div class="option-btn" onclick="toggle(this,'hotelBooked')">In progress</div>
+            <div class="option-btn" onclick="toggle(this,'hotelBooked')">Not yet</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Notes</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <textarea id="adminNotes" placeholder="Internal notes — anything relevant to building or managing this client..." style="min-height:100px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== INTELLIGENCE ======================== -->
+<div class="section" id="section-intelligence">
+  <div class="section-header">
+    <div class="section-title">Intelligence</div>
+    <div class="section-subtitle">Thrill Data inputs — per park day</div>
+  </div>
+
+  <div class="note" style="margin:12px 0 16px;">Built from Thrill Data research. Fill in after park days are set on the Trip tab. Exports with the main JSON.</div>
+
+  <div id="intelligenceContainer"></div>
+  <button class="add-btn" onclick="addIntelligenceDay()" id="addIntelligenceBtn">+ Add park day intelligence</button>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-header"><div class="card-title">Global Notes</div></div>
+    <div class="card-body">
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Overall trip crowd context <span class="opt-dot"></span></div>
+          <textarea id="intelGlobalNotes" placeholder="e.g. school holiday week, EPCOT festival, runDisney weekend — anything affecting all park days..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- ======================== RESOURCES ======================== -->
+<div class="section" id="section-resources">
+  <div class="section-header">
+    <div class="section-title">Resources</div>
+    <div class="section-subtitle">Quick links for client conversations</div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Crowd Calendars</div></div>
+    <div class="card-body" style="padding: 10px 12px;">
+      <a class="resource-link" href="https://touringplans.com/crowd-calendar" target="_blank">
+        <div class="resource-emoji">📊</div>
+        <div class="resource-info">
+          <div class="resource-name">Touring Plans</div>
+          <div class="resource-desc">Most data-driven — crowd level by park by day</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+      <a class="resource-link" href="https://www.undercovertourist.com/crowd-calendar" target="_blank">
+        <div class="resource-emoji">🗓️</div>
+        <div class="resource-info">
+          <div class="resource-name">Undercover Tourist</div>
+          <div class="resource-desc">Good visual layout, reliable ratings</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+      <a class="resource-link" href="https://www.thrilldata.com" target="_blank">
+        <div class="resource-emoji">⏱️</div>
+        <div class="resource-info">
+          <div class="resource-name">Thrill Data</div>
+          <div class="resource-desc">Historical wait times by ride</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Events & What's On</div></div>
+    <div class="card-body" style="padding: 10px 12px;">
+      <a class="resource-link" href="https://disneyworld.disney.go.com/events-tours/" target="_blank">
+        <div class="resource-emoji">🏰</div>
+        <div class="resource-info">
+          <div class="resource-name">Disney Events & Tours</div>
+          <div class="resource-desc">Official source — special ticketed events, tours</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+      <a class="resource-link" href="https://disneyworld.disney.go.com/events-tours/epcot/" target="_blank">
+        <div class="resource-emoji">🌍</div>
+        <div class="resource-info">
+          <div class="resource-name">EPCOT Festival Calendar</div>
+          <div class="resource-desc">Festivals run almost year-round — check what's on</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+      <a class="resource-link" href="https://allears.net/plan/festivals/" target="_blank">
+        <div class="resource-emoji">👂</div>
+        <div class="resource-info">
+          <div class="resource-name">AllEars — Festival Guide</div>
+          <div class="resource-desc">Digestible summaries of what's worth doing</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-title">Planning & Booking</div></div>
+    <div class="card-body" style="padding: 10px 12px;">
+      <a class="resource-link" href="https://disneyworld.disney.go.com/dining/" target="_blank">
+        <div class="resource-emoji">🍽️</div>
+        <div class="resource-info">
+          <div class="resource-name">Disney Dining Reservations</div>
+          <div class="resource-desc">Official ADR booking — opens 60 days out</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+      <a class="resource-link" href="https://disneyworld.disney.go.com/destinations/hotels/" target="_blank">
+        <div class="resource-emoji">🏨</div>
+        <div class="resource-info">
+          <div class="resource-name">Disney Resort Hotels</div>
+          <div class="resource-desc">Official hotel booking and availability</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+      <a class="resource-link" href="https://www.undercovertourist.com" target="_blank">
+        <div class="resource-emoji">🎟️</div>
+        <div class="resource-info">
+          <div class="resource-name">Undercover Tourist — Tickets</div>
+          <div class="resource-desc">Discounted Disney tickets — legitimate source</div>
+        </div>
+        <div class="resource-arrow">→</div>
+      </a>
+    </div>
+  </div>
+  <div class="section-gap"></div>
+</div>
+
+<!-- SAVE INDICATOR -->
+<div id="saveIndicator" style="position:fixed;top:0;left:0;right:0;text-align:center;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:white;background:var(--done);padding:6px;z-index:200;opacity:0;transition:opacity 0.4s;pointer-events:none;">Saved</div>
+
+<!-- EXPORT BAR -->
+<div class="export-bar">
+  <button class="export-btn" onclick="generateExport()">Export Brief</button>
+  <button class="save-file-btn" onclick="runPreBuildChecklist()" title="Pre-build checklist" style="font-size:13px;font-family:'DM Mono',monospace;letter-spacing:0.06em;padding:12px 10px;">Check</button>
+  <button class="save-file-btn" onclick="saveToFile()" title="Save to file">💾</button>
+  <button class="save-file-btn" onclick="loadFromFile()" title="Load from file">📂</button>
+  <button class="clear-btn" onclick="clearAll()">Clear</button>
+</div>
+
+<script>
+// ===================== TOOLTIPS =====================
+const tooltips = {
+  tripStage: {
+    label: 'Planning Window',
+    title: 'Trip Stage',
+    body: `<p><strong>6+ months out</strong> — Ideal. Hotel, tickets, and dining reservations can all be booked. Disney resort hotel bookings open ~500 days out. ADRs open 60 days before check-in (for resort guests, that's 60 days from arrival + the length of stay).</p>
+    <p><strong>3–6 months out</strong> — Still good. Hotel likely sorted. ADR window is coming up or open now. Lightning Lane strategy is the main conversation.</p>
+    <p><strong>6 weeks out</strong> — ADR window has passed for most dates but cancellations come up daily. Worth checking at 7am and 6pm. Hotel options are narrowing.</p>
+    <p><strong>2 weeks or less</strong> — Focus on what's still actionable: Lightning Lane Single Pass, walk-up waitlists for dining, and making the most of what's already booked.</p>`
+  },
+  ticketTypes: {
+    label: 'Ticket Options',
+    title: 'Park Ticket Types',
+    body: `<p><strong>Date-based (one park per day)</strong> — The standard ticket. Valid for one park on a specific date. Generally the best value if the itinerary is set.</p>
+    <p><strong>Park Hopper</strong> — Allows visiting multiple parks in one day, but only after 2pm. Worth it if they want flexibility or a second park in the evening (e.g. Animal Kingdom morning + EPCOT for dinner).</p>
+    <p><strong>Park Hopper Plus</strong> — Adds access to water parks and mini-golf. Rarely worth it for families focused on the main parks.</p>`
+  },
+  memoryMaker: {
+    label: 'Photo Package',
+    title: 'Memory Maker',
+    body: `<p>Disney's photo package. Includes unlimited digital downloads of photos taken by Disney photographers throughout the parks, plus on-ride photos.</p>
+    <p>Costs around $200 if bought in advance (cheaper than at the park). Worth it for families who want to be in photos together without asking strangers, or who will do multiple ride photos.</p>
+    <p>One purchase covers the whole party. Links to MagicBand or ticket.</p>`
+  },
+  llmp: {
+    label: 'Lightning Lane',
+    title: 'Lightning Lane Multi Pass',
+    body: `<p>The replacement for the old FastPass system. Costs per person per day (around $15–$35 depending on date and park — price fluctuates).</p>
+    <p>Allows booking one Lightning Lane return time at a time, from a selection of eligible attractions. Once you've tapped in, you can book the next one. Works well for popular but not ultra-premium rides.</p>
+    <p>Book at 7am on the day of your visit (resort guests) or park open (off-site guests). Tier 1 attractions go fastest.</p>`
+  },
+  llsp: {
+    label: 'Lightning Lane',
+    title: 'Lightning Lane Single Pass',
+    body: `<p>Purchased separately per person per ride. Covers the top-tier attractions not included in Multi Pass — things like Tron, Guardians of the Galaxy, TRON Lightcycle Run, Slinky Dog Dash.</p>
+    <p>Prices vary significantly — typically $10–$25+ per person per ride depending on demand. Can only buy 2 per day total.</p>
+    <p>Worth it for the rides with consistently long waits that the family really wants. Not worth it for rides they're only mildly interested in.</p>`
+  },
+  riderSwap: {
+    label: 'Rider Swap',
+    title: 'Rider Swap (also called Baby Swap)',
+    body: `<p>A free service for families where one person can't or doesn't want to ride (young child, baby, someone sitting out). The first group rides while the other waits with the non-rider, then they swap — the second group uses the Lightning Lane entrance without waiting again.</p>
+    <p>Request it at the ride entrance before the first group goes in. Completely free, no pre-booking needed.</p>
+    <p>Changes the LL calculation significantly — if rider swap is in play, you may not need to buy LL Single Pass for those rides.</p>`
+  },
+  bbb: {
+    label: 'Special Experience',
+    title: 'Bibbidi Bobbidi Boutique',
+    body: `<p>A princess (or knight) makeover experience for children. Fairy godmothers-in-training do hair, makeup, and costume styling. Located inside Cinderella Castle at Magic Kingdom and in Disney Springs.</p>
+    <p>Packages start around $100 and go up significantly for full costume packages. Books out well in advance — 60 days out for resort guests.</p>
+    <p>Age 3–12 typically. Not just for girls — knight packages available.</p>`
+  },
+  afterHours: {
+    label: 'Special Ticketed Event',
+    title: 'After Hours Event',
+    body: `<p>Separately ticketed events held after regular park closing — usually 9pm or 10pm to 1am. Much lower crowd levels, often with special entertainment, character meet-and-greets, and complimentary snacks.</p>
+    <p>Prices typically $149–$199+ per person. Not every night — check the calendar for available dates during their trip.</p>
+    <p>Particularly good for families who want to hit the big rides with minimal waits, or who want rare character meets not available during the day.</p>`
+  },
+  emm: {
+    label: 'Special Ticketed Event',
+    title: 'Early Morning Magic',
+    body: `<p>Separately ticketed early morning access to a specific land before the park officially opens — usually Fantasyland at Magic Kingdom or Toy Story Land at Hollywood Studios.</p>
+    <p>Typically 7:30am–9am with walk-on access to the key rides in that area, plus breakfast included.</p>
+    <p>Good for families with young kids who want to do the big Fantasyland rides without long waits. Tires kids out early — factor that into the rest of the day plan.</p>`
+  },
+  dessertParty: {
+    label: 'Special Experience',
+    title: 'Dessert Party / Fireworks Viewing',
+    body: `<p>Reserved viewing areas for the nightly fireworks shows, typically including desserts and drinks. Removes the need to stake out a spot hours in advance.</p>
+    <p>Various packages available at Magic Kingdom (Enchantment) and EPCOT (Harmonious). Prices around $99–$149 per person.</p>
+    <p>Worth considering for families who want a guaranteed good spot without the logistics of arriving early and waiting. Not worth it if the family is happy watching from further back.</p>`
+  },
+  kttk: {
+    label: 'Tour',
+    title: 'Keys to the Kingdom',
+    body: `<p>A 5-hour walking tour of Magic Kingdom that includes access to the underground Utilidors — the tunnels beneath the park that cast members use to move between areas without being seen.</p>
+    <p>$110 per person. Adults only (age 16+). Runs multiple times daily.</p>
+    <p>Fascinating for Disney enthusiasts and anyone who wants to understand how the park operates. Not suitable for families with young children.</p>`
+  },
+  das: {
+    label: 'Accessibility Service',
+    title: 'Disability Access Service (DAS)',
+    body: `<p>A free Disney accommodation for guests who have difficulty tolerating extended waits in a conventional queue environment — typically due to a developmental disability such as autism.</p>
+    <p>Register in advance via video chat (recommended — appointments go fast) or at Guest Relations on arrival. Once registered, the pass allows the party to return to an attraction at a later time rather than waiting in the standby queue.</p>
+    <p>Changes the entire day plan — if DAS is in play, Lightning Lane strategy shifts significantly. Worth knowing before building the guide.</p>`
+  }
+};
+
+function showTooltip(key) {
+  const t = tooltips[key];
+  if (!t) return;
+  document.getElementById('tooltipLabel').textContent = t.label;
+  document.getElementById('tooltipTitle').textContent = t.title;
+  document.getElementById('tooltipBody').innerHTML = t.body;
+  document.getElementById('tooltipOverlay').classList.add('open');
+}
+function closeTooltip(e) {
+  if (e.target === document.getElementById('tooltipOverlay')) closeTooltipDirect();
+}
+function closeTooltipDirect() {
+  document.getElementById('tooltipOverlay').classList.remove('open');
+}
+
+// ===================== NAVIGATION =====================
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ===================== OPTION BUTTONS =====================
+function toggle(el, group) {
+  const parent = el.closest('.option-group') || el.parentElement;
+  const btns = parent.querySelectorAll('.option-btn');
+  const wasSelected = el.classList.contains('selected');
+  btns.forEach(b => b.classList.remove('selected'));
+  if (!wasSelected) el.classList.add('selected');
+}
+
+// ===================== PEOPLE =====================
+let personCount = 0;
+function addPerson() {
+  personCount++;
+  const container = document.getElementById('peopleContainer');
+  const div = document.createElement('div');
+  div.className = 'person-card';
+  div.id = 'person-' + personCount;
+  div.innerHTML = `
+    <div class="person-card-header">
+      <div class="person-number">Person ${personCount}</div>
+      <button class="remove-person" onclick="removePerson(${personCount})">×</button>
+    </div>
+    <div class="card-body">
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Name</div>
+          <input type="text" id="pName${personCount}" placeholder="First name">
+        </div>
+        <div class="field">
+          <div class="field-label">Relationship</div>
+          <select id="pRole${personCount}" onchange="toggleChildFields(${personCount})">
+            <option value="">Select...</option>
+            <option>Lead booker</option>
+            <option>Partner / spouse</option>
+            <option>Child</option>
+            <option>Grandparent</option>
+            <option>Friend / other adult</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Age</div>
+          <div style="display:flex;gap:6px;">
+            <input type="number" id="pAge${personCount}" placeholder="Age" min="0" max="100" style="flex:1;">
+            <select id="pAgeUnit${personCount}" style="width:90px;flex-shrink:0;">
+              <option value="years">years</option>
+              <option value="months">months</option>
+              <option value="weeks">weeks</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-label">Height (inches)</div>
+          <input type="number" id="pHeight${personCount}" placeholder='e.g. 44"' min="20" max="84">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Ride preference</div>
+          <div class="option-group" id="pRide${personCount}">
+            <div class="option-btn" onclick="toggle(this)">Thrill seeker</div>
+            <div class="option-btn" onclick="toggle(this)">Mixed</div>
+            <div class="option-btn" onclick="toggle(this)">Gentle only</div>
+            <div class="option-btn" onclick="toggle(this)">Not riding</div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Favourite characters</div>
+          <input type="text" id="pChars${personCount}" placeholder="e.g. Elsa, Mickey, Woody...">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Allergies</div>
+          <input type="text" id="pAllergies${personCount}" placeholder="e.g. peanuts, dairy, none">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Food preferences</div>
+          <input type="text" id="pFood${personCount}" placeholder="e.g. vegetarian, gluten-free, picky eater">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Likes / interests</div>
+          <input type="text" id="pLikes${personCount}" placeholder="e.g. Star Wars, princesses, dinosaurs, thrill rides">
+        </div>
+      </div>
+      <div id="childFields${personCount}" style="display:none;">
+        <div class="divider"></div>
+        <div class="field-row single">
+          <div class="field">
+            <div class="field-label">Packing list label <span style="font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);">used in Pre-Edit</span></div>
+            <div class="option-group" id="pPackList${personCount}">
+              <div class="option-btn" onclick="toggle(this,'pPackListSel${personCount}')">Baby / toddler list</div>
+              <div class="option-btn" onclick="toggle(this,'pPackListSel${personCount}')">Child list</div>
+              <div class="option-btn" onclick="toggle(this,'pPackListSel${personCount}')">Adult list</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  container.appendChild(div);
+}
+function removePerson(id) {
+  const el = document.getElementById('person-' + id);
+  if (el) el.remove();
+}
+
+// ===================== CALL NOTES EXTRACTION =====================
+async function extractCallNotes() {
+  const notes = val('callNotes');
+  if (!notes || notes.trim().length < 20) {
+    const status = document.getElementById('extractStatus');
+    status.textContent = 'Add some call notes first';
+    status.style.display = 'block';
+    status.style.color = 'var(--terracotta)';
+    return;
+  }
+
+  const btn = document.getElementById('extractBtn');
+  const btnText = document.getElementById('extractBtnText');
+  const status = document.getElementById('extractStatus');
+  btn.disabled = true;
+  btnText.textContent = 'Extracting...';
+  status.style.display = 'block';
+  status.style.color = 'var(--muted)';
+  status.textContent = 'Reading your notes...';
+
+  const prompt = `You are helping populate a Disney World trip planning intake form. Extract structured data from the following call notes and return ONLY a valid JSON object with no preamble, explanation, or markdown.
+
+Extract whatever you can find. Use null for anything not mentioned. For arrays, use empty arrays if nothing found.
+
+Return this exact structure:
+{
+  "people": [{"name":"","role":"","age":"","ageUnit":"years","height":"","chars":"","allergies":"","food":"","likes":"","ride":""}],
+  "arrivalDate": "",
+  "departureDate": "",
+  "checkIn": "",
+  "checkOut": "",
+  "hotelName": "",
+  "transport": "",
+  "airline": "",
+  "flightNumber": "",
+  "flightArrivalTime": "",
+  "arrivalAirport": "",
+  "originCity": "",
+  "ticketType": "",
+  "ticketDays": "",
+  "llmp": "",
+  "llsp": "",
+  "llSingleTargets": "",
+  "ropeDrop": "",
+  "afternoonBreak": "",
+  "napSchedule": "",
+  "bedtime": "",
+  "queueTolerance": "",
+  "diningPriority": "",
+  "charDiningVenue": "",
+  "tripAnchors": "",
+  "celebrating": "",
+  "disneyBefore": "",
+  "mixedExperience": "",
+  "mixedExperienceDetail": "",
+  "strollerYN": "",
+  "parkDays": [{"date":"","park":"","lateStart":""}],
+  "charPriorities": [{"name":"","park":"","waitWorthy":""}],
+  "dining": [{"name":"","date":"","time":"","party":""}],
+  "anythingElse": ""
+}
+
+Call notes:
+${notes}`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    if (!response.ok) throw new Error('API error');
+    const data = await response.json();
+    const text = data.content[0].text.replace(/```json|```/g, '').trim();
+    const extracted = JSON.parse(text);
+
+    status.textContent = 'Populating fields...';
+    applyExtraction(extracted);
+
+  } catch(e) {
+    status.textContent = 'Extraction failed — fill in manually or try again';
+    status.style.color = 'var(--terracotta)';
+    btn.disabled = false;
+    btnText.textContent = '✦ Extract to fields';
+    return;
+  }
+
+  btn.disabled = false;
+  btnText.textContent = '✦ Extract to fields';
+  status.textContent = 'Done — review fields and run checklist';
+  status.style.color = 'var(--done)';
+}
+
+function applyExtraction(d) {
+  const summaryLines = [];
+
+  // Simple field setter
+  function setField(id, value) {
+    if (!value) return;
+    const el = document.getElementById(id);
+    if (el) { el.value = value; return true; }
+    return false;
+  }
+
+  // Selection setter
+  function setSelection(group, value) {
+    if (!value) return;
+    window._selections[group] = value;
+    document.querySelectorAll('.option-btn').forEach(btn => {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + group + "'") && btn.textContent.trim() === value) {
+        btn.classList.add('selected');
+      }
+    });
+  }
+
+  // People
+  if (d.people && d.people.length > 0) {
+    document.getElementById('peopleContainer').innerHTML = '';
+    personCount = 0;
+    d.people.forEach(p => {
+      addPerson();
+      setField('pName' + personCount, p.name);
+      setField('pRole' + personCount, p.role);
+      setField('pAge' + personCount, p.age);
+      setField('pAgeUnit' + personCount, p.ageUnit || 'years');
+      setField('pHeight' + personCount, p.height);
+      setField('pChars' + personCount, p.chars);
+      setField('pAllergies' + personCount, p.allergies);
+      setField('pFood' + personCount, p.food);
+      setField('pLikes' + personCount, p.likes);
+      if (p.role) toggleChildFields(personCount);
+    });
+    summaryLines.push(`✓ ${d.people.length} person${d.people.length !== 1 ? 's' : ''} added`);
+  }
+
+  // Trip fields
+  if (setField('arrivalDate', d.arrivalDate)) summaryLines.push('✓ Arrival date');
+  if (setField('departureDate', d.departureDate)) summaryLines.push('✓ Departure date');
+  if (setField('checkIn', d.checkIn)) summaryLines.push('✓ Check-in date');
+  setField('checkOut', d.checkOut);
+  if (d.hotelName) { setField('hotelName', d.hotelName); filterHotels(d.hotelName); setTimeout(() => { const match = HOTEL_DATA.find(h => h.name.toLowerCase().includes(d.hotelName.toLowerCase())); if (match) selectHotel(match.name, match.type); else { document.getElementById('hotelDropdown').style.display='none'; } }, 100); summaryLines.push('✓ Hotel: ' + d.hotelName); }
+
+  // Transport
+  if (d.transport) { setSelection('transport', d.transport); showTransport(); summaryLines.push('✓ Transport: ' + d.transport); }
+  setField('airline', d.airline);
+  setField('flightNumber', d.flightNumber);
+  setField('flightArrivalTime', d.flightArrivalTime);
+  setField('arrivalAirport', d.arrivalAirport);
+  setField('originCity', d.originCity);
+
+  // Tickets
+  if (setField('ticketType', d.ticketType)) summaryLines.push('✓ Ticket type: ' + d.ticketType);
+  setField('ticketDays', d.ticketDays);
+  if (d.llmp) { setSelection('llmp', d.llmp); summaryLines.push('✓ LL Multi Pass: ' + d.llmp); }
+  if (d.llsp) { setSelection('llsp', d.llsp); }
+  setField('llSingleTargets', d.llSingleTargets);
+
+  // Preferences
+  if (d.ropeDrop) setSelection('ropeDrop', d.ropeDrop);
+  if (d.afternoonBreak) setSelection('afternoonBreak', d.afternoonBreak);
+  setField('napSchedule', d.napSchedule);
+  if (d.bedtime) setSelection('bedtime', d.bedtime);
+  if (d.queueTolerance) setField('queueTolerance', d.queueTolerance);
+  if (d.diningPriority) setSelection('diningPriority', d.diningPriority);
+  if (d.strollerYN) setSelection('strollerYN', d.strollerYN);
+
+  // Dynamics
+  if (setField('tripAnchors', d.tripAnchors)) summaryLines.push('✓ Trip anchors captured');
+  setField('celebrating', d.celebrating);
+  if (d.disneyBefore) setSelection('disneyBefore', d.disneyBefore);
+  if (d.mixedExperience) setSelection('mixedExperience', d.mixedExperience);
+  setField('mixedExperienceDetail', d.mixedExperienceDetail);
+  setField('anythingElse', d.anythingElse);
+
+  // Character dining
+  if (d.charDiningVenue) { setField('charDiningVenue', d.charDiningVenue); setSelection('charDining', 'Yes'); summaryLines.push('✓ Character dining: ' + d.charDiningVenue); }
+
+  // Park days
+  if (d.parkDays && d.parkDays.length > 0) {
+    document.getElementById('parkDaysContainer').innerHTML = '';
+    parkDayCount = 0;
+    d.parkDays.forEach(pd => {
+      addParkDay();
+      setField('pdDate' + parkDayCount, pd.date);
+      setField('pdPark' + parkDayCount, pd.park);
+      if (pd.lateStart === 'Yes') setSelection('pdLateStart' + parkDayCount, 'Yes');
+    });
+    summaryLines.push(`✓ ${d.parkDays.length} park day${d.parkDays.length !== 1 ? 's' : ''}`);
+  }
+
+  // Character priorities
+  if (d.charPriorities && d.charPriorities.length > 0) {
+    const cpContainer = document.getElementById('charPriorityContainer');
+    if (cpContainer) cpContainer.innerHTML = '';
+    charPriorityCount = 0;
+    d.charPriorities.forEach(cp => {
+      addCharPriority();
+      setField('cpName' + charPriorityCount, cp.name);
+      setField('cpPark' + charPriorityCount, cp.park);
+      if (cp.waitWorthy) setSelection('cpWait' + charPriorityCount, cp.waitWorthy);
+    });
+    summaryLines.push(`✓ ${d.charPriorities.length} character meet${d.charPriorities.length !== 1 ? 's' : ''}`);
+  }
+
+  // Dining reservations
+  if (d.dining && d.dining.length > 0) {
+    document.getElementById('diningContainer').innerHTML = '';
+    diningCount = 0;
+    d.dining.forEach(res => {
+      addDining();
+      setField('dName' + diningCount, res.name);
+      setField('dDate' + diningCount, res.date);
+      setField('dTime' + diningCount, res.time);
+      setField('dParty' + diningCount, res.party);
+    });
+    summaryLines.push(`✓ ${d.dining.length} dining reservation${d.dining.length !== 1 ? 's' : ''}`);
+  }
+
+  // Show summary
+  const card = document.getElementById('extractResultCard');
+  const summary = document.getElementById('extractSummary');
+  if (card && summary) {
+    summary.innerHTML = summaryLines.map(l => `<div style="margin-bottom:4px;">${l}</div>`).join('') +
+      (summaryLines.length === 0 ? '<div style="color:var(--muted);">Nothing extracted — notes may need more detail.</div>' : '');
+    card.style.display = 'block';
+  }
+
+  autoSave();
+}
+
+
+function rdlAdd(dayId) {
+  const input = document.getElementById('intelRopeDropInput' + dayId);
+  const list = document.getElementById('intelRopeDropList' + dayId);
+  if (!input || !list || !input.value.trim()) return;
+  const name = input.value.trim();
+  input.value = '';
+  rdlAppendItem(list, dayId, name);
+  rdlRenumber(list);
+  autoSave();
+}
+
+function rdlAppendItem(list, dayId, name) {
+  const li = document.createElement('li');
+  li.className = 'rdl-item';
+  li.draggable = true;
+  li.innerHTML = `
+    <span class="rdl-drag-handle">⠿</span>
+    <span class="rdl-rank"></span>
+    <span class="rdl-name">${name}</span>
+    <button class="rdl-remove" onclick="this.closest('li').remove();rdlRenumber(document.getElementById('intelRopeDropList${dayId}'));autoSave();">×</button>`;
+  li.addEventListener('dragstart', rdlDragStart);
+  li.addEventListener('dragover', rdlDragOver);
+  li.addEventListener('dragleave', rdlDragLeave);
+  li.addEventListener('drop', rdlDrop);
+  li.addEventListener('dragend', rdlDragEnd);
+  list.appendChild(li);
+}
+
+function rdlRenumber(list) {
+  if (!list) return;
+  list.querySelectorAll('.rdl-rank').forEach((el, i) => el.textContent = (i + 1) + '.');
+}
+
+let rdlDragged = null;
+
+function rdlDragStart(e) {
+  rdlDragged = this;
+  setTimeout(() => this.classList.add('dragging'), 0);
+}
+function rdlDragOver(e) {
+  e.preventDefault();
+  if (this !== rdlDragged) this.classList.add('drag-over');
+}
+function rdlDragLeave() { this.classList.remove('drag-over'); }
+function rdlDrop(e) {
+  e.preventDefault();
+  this.classList.remove('drag-over');
+  if (this !== rdlDragged) {
+    const list = this.parentNode;
+    const items = Array.from(list.children);
+    const dragIdx = items.indexOf(rdlDragged);
+    const dropIdx = items.indexOf(this);
+    if (dragIdx < dropIdx) list.insertBefore(rdlDragged, this.nextSibling);
+    else list.insertBefore(rdlDragged, this);
+    rdlRenumber(list);
+    autoSave();
+  }
+}
+function rdlDragEnd() {
+  this.classList.remove('dragging');
+  rdlDragged = null;
+}
+
+function rdlGetSequence(dayId) {
+  const list = document.getElementById('intelRopeDropList' + dayId);
+  if (!list) return [];
+  return Array.from(list.querySelectorAll('.rdl-name')).map(el => el.textContent.trim());
+}
+
+// ===================== TRIP INTELLIGENCE =====================
+let intelDayCount = 0;
+function addIntelligenceDay() {
+  intelDayCount++;
+  const container = document.getElementById('intelligenceContainer');
+  const div = document.createElement('div');
+  div.id = 'intel-' + intelDayCount;
+  div.className = 'card';
+  div.style.marginBottom = '12px';
+  div.innerHTML = `
+    <div class="card-header" style="justify-content:space-between;">
+      <div class="card-title">Park Day ${intelDayCount}</div>
+      <button class="remove-btn" onclick="document.getElementById('intel-${intelDayCount}').remove()">×</button>
+    </div>
+    <div class="card-body">
+      <div class="field-row single" style="margin-bottom:12px;">
+        <div class="field">
+          <div class="field-label">Raw research notes <span class="opt-dot"></span></div>
+          <textarea id="intelRaw${intelDayCount}" placeholder="Paste Thrill Data / WDW Tours notes here — anything you pulled for this park day..." style="min-height:80px;font-size:12px;line-height:1.6;"></textarea>
+        </div>
+      </div>
+      <div style="height:1px;background:var(--border);margin-bottom:12px;"></div>
+      <div class="field-row">
+        <div class="field">
+          <div class="field-label">Park</div>
+          <select id="intelPark${intelDayCount}">
+            <option value="">Select park...</option>
+            <option>Magic Kingdom</option>
+            <option>EPCOT</option>
+            <option>Hollywood Studios</option>
+            <option>Animal Kingdom</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label">Crowd level (1–10) <span class="opt-dot"></span></div>
+          <input type="number" id="intelCrowd${intelDayCount}" min="1" max="10" placeholder="e.g. 7">
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Rope drop sequence <span class="opt-dot"></span></div>
+          <div class="rdl-input-row">
+            <input type="text" id="intelRopeDropInput${intelDayCount}" placeholder="Add ride name..." onkeydown="if(event.key==='Enter'){event.preventDefault();rdlAdd(${intelDayCount});}">
+            <button class="rdl-add-btn" onclick="rdlAdd(${intelDayCount})">+ Add</button>
+          </div>
+          <ul class="rdl-list" id="intelRopeDropList${intelDayCount}"></ul>
+          <div class="field-label" style="margin-bottom:5px;margin-top:4px;">Rope drop notes <span class="opt-dot"></span></div>
+          <textarea id="intelRopeDropNotes${intelDayCount}" placeholder="e.g. head straight past the hub, skip castle photos until afternoon..." style="min-height:50px;"></textarea>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">LL adjustments <span class="opt-dot"></span></div>
+          <textarea id="intelLL${intelDayCount}" placeholder="e.g. Skip Haunted Mansion on Multi Pass (short wait all day) / Add Buzz on Single Pass (post-refurb demand high)..." style="min-height:60px;"></textarea>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Wait time flags <span class="opt-dot"></span></div>
+          <textarea id="intelWaits${intelDayCount}" placeholder="e.g. Frozen spikes after 10am / Test Track walk-on until noon / avoid MK after 11am on Saturdays..." style="min-height:60px;"></textarea>
+        </div>
+      </div>
+      <div class="field-row single">
+        <div class="field">
+          <div class="field-label">Additional notes <span class="opt-dot"></span></div>
+          <textarea id="intelNotes${intelDayCount}" placeholder="Anything else from Thrill Data research for this park day..."></textarea>
+        </div>
+      </div>
+    </div>`;
+  container.appendChild(div);
+  autoSave();
+}
+
+function collectIntelligence() {
+  const days = [];
+  for (let i = 1; i <= intelDayCount; i++) {
+    const parkEl = document.getElementById('intelPark' + i);
+    if (!parkEl) continue;
+    days.push({
+      id: i,
+      park: parkEl.value,
+      rawNotes: val('intelRaw' + i),
+      crowdLevel: val('intelCrowd' + i),
+      ropeDropSequence: rdlGetSequence(i),
+      ropeDropNotes: val('intelRopeDropNotes' + i),
+      llAdjustments: val('intelLL' + i),
+      waitTimeFlags: val('intelWaits' + i),
+      notes: val('intelNotes' + i)
+    });
+  }
+  return { days, globalNotes: val('intelGlobalNotes') };
+}
+
+// ===================== PRE-BUILD CHECKLIST =====================
+function runPreBuildChecklist() {
+  const issues = [];
+  const state = collectState();
+
+  // People checks
+  if (!state.people || state.people.length === 0) issues.push({ sev: 'error', msg: 'No people added' });
+  state.people.forEach(p => {
+    if (!p.name) issues.push({ sev: 'error', msg: `Person ${p.id}: missing name` });
+    if (!p.age) issues.push({ sev: 'warn', msg: `${p.name || 'Person ' + p.id}: no age entered` });
+    if (p.role === 'Child' && !p.height) issues.push({ sev: 'warn', msg: `${p.name || 'Child ' + p.id}: no height — needed for ride eligibility` });
+  });
+
+  // Trip checks
+  if (!state.fields.arrivalDate) issues.push({ sev: 'error', msg: 'No arrival date' });
+  if (!state.fields.departureDate) issues.push({ sev: 'error', msg: 'No departure date' });
+  if (!state.fields.hotelName) issues.push({ sev: 'error', msg: 'No hotel name' });
+  if (!state.fields.resortType) issues.push({ sev: 'warn', msg: 'Resort type not set — affects LL booking window advice' });
+  if (!state.parkDays || state.parkDays.length === 0) issues.push({ sev: 'error', msg: 'No park days added' });
+
+  // Nights vs park days reconciliation
+  if (state.fields.checkIn && state.fields.checkOut) {
+    const cin = new Date(state.fields.checkIn); const cout = new Date(state.fields.checkOut);
+    const nights = Math.round((cout - cin) / (1000 * 60 * 60 * 24));
+    if (nights > 0 && state.parkDays.length > 0) {
+      const nonParkNights = nights - state.parkDays.length;
+      if (nonParkNights < 0) issues.push({ sev: 'error', msg: `More park days (${state.parkDays.length}) than resort nights (${nights}) — check dates` });
+      else if (nonParkNights > 2) issues.push({ sev: 'warn', msg: `${nonParkNights} non-park days — intentional? (${nights} nights, ${state.parkDays.length} park days)` });
+    }
+  }
+
+  // Ticket count vs park days
+  const ticketDays = parseInt(state.fields.ticketDays);
+  if (ticketDays && state.parkDays.length > ticketDays) {
+    issues.push({ sev: 'error', msg: `More park days (${state.parkDays.length}) than ticket days (${ticketDays})` });
+  }
+
+  // Park day detail checks
+  state.parkDays.forEach((d, idx) => {
+    if (!d.park) issues.push({ sev: 'error', msg: `Park day ${idx + 1}: no park selected` });
+    if (!d.date) issues.push({ sev: 'warn', msg: `Park day ${idx + 1}: no date set` });
+    if (!d.parkOpen || !d.parkClose) issues.push({ sev: 'warn', msg: `${d.park || 'Park day ' + (idx+1)}: no park hours — departure time context missing` });
+    if (d.hopperDay && !d.hopPark) issues.push({ sev: 'warn', msg: `${d.park || 'Park day ' + (idx+1)}: Park Hopper flagged but no second park set` });
+    if (d.lateStart === 'Yes' && !d.ropeDropIntent) issues.push({ sev: 'warn', msg: `${d.park || 'Park day ' + (idx+1)}: late start flagged — rope drop strategy needs adjustment` });
+  });
+
+  // Hopper ticket check
+  const ticketType = state.fields.ticketType;
+  const hopperDays = state.parkDays.filter(d => d.hopperDay);
+  if (hopperDays.length > 0 && ticketType && ticketType === 'Date-based (one park per day)') {
+    issues.push({ sev: 'error', msg: `Park Hopper days set but ticket type is date-based (no hopping)` });
+  }
+
+  // Flying + late start on day 1
+  const transport = state.selections.transport;
+  if (!transport) issues.push({ sev: 'warn', msg: 'Transport method not set' });
+  if ((transport === 'Flying' || transport === 'Both') && !state.fields.flightArrivalTime) {
+    issues.push({ sev: 'warn', msg: 'Flying selected but no arrival time — affects first park day build' });
+  }
+  if (state.fields.flightArrivalTime && state.parkDays.length > 0) {
+    const firstPark = state.parkDays[0];
+    if (firstPark && firstPark.lateStart !== 'Yes') {
+      issues.push({ sev: 'warn', msg: `Flight day has a park day — confirm late start is flagged on ${firstPark.park || 'park day 1'}` });
+    }
+  }
+
+  // Ticket checks
+  if (!state.fields.ticketType) issues.push({ sev: 'error', msg: 'No ticket type selected' });
+  if (!state.fields.ticketDays) issues.push({ sev: 'warn', msg: 'Ticket day count not set — can\'t cross-check against park days' });
+  if (!state.selections.llmp) issues.push({ sev: 'warn', msg: 'LL Multi Pass status not set' });
+  if (!state.selections.llsp) issues.push({ sev: 'warn', msg: 'LL Single Pass status not set' });
+  if (!state.fields.llWindow7) issues.push({ sev: 'warn', msg: '7-day LL window not calculated — check check-in date' });
+  if (!state.fields.adrWindow) issues.push({ sev: 'warn', msg: 'ADR window not calculated — check check-in date' });
+
+  // Reservations
+  if (!state.diningStatus) issues.push({ sev: 'warn', msg: 'Dining status not set' });
+
+  // Character meets vs park days
+  if (state.charPriorities && state.charPriorities.length > 0) {
+    state.charPriorities.forEach(cp => {
+      if (cp.park && cp.park !== 'Multiple / varies') {
+        const hasParkDay = state.parkDays.find(d => d.park === cp.park);
+        if (!hasParkDay) issues.push({ sev: 'warn', msg: `${cp.name} meet is at ${cp.park} — no ${cp.park} day in itinerary` });
+      }
+    });
+  }
+
+  // Trip anchors
+  if (!state.fields.tripAnchors) issues.push({ sev: 'warn', msg: 'Trip anchors not set — useful for guide tone and priorities' });
+
+  // Preferences
+  if (!state.selections.ropeDrop) issues.push({ sev: 'warn', msg: 'Rope drop intent not set' });
+  if (!state.selections.strollerYN) issues.push({ sev: 'warn', msg: 'Stroller status not set' });
+
+  // Intelligence — cross-check park days vs intel entries
+  const intel = collectIntelligence();
+  if (state.parkDays.length > 0 && intel.days.length === 0) {
+    issues.push({ sev: 'warn', msg: 'No Intelligence entries — Thrill Data research not added yet' });
+  }
+  const parksInItinerary = [...new Set(state.parkDays.map(d => d.park).filter(Boolean))];
+  parksInItinerary.forEach(park => {
+    if (!intel.days.find(d => d.park === park)) {
+      issues.push({ sev: 'warn', msg: `No intelligence entry for ${park}` });
+    }
+  });
+
+  showChecklistModal(issues);
+}
+
+function showChecklistModal(issues) {
+  const errors = issues.filter(i => i.sev === 'error');
+  const warns = issues.filter(i => i.sev === 'warn');
+
+  const html = `
+    <div style="position:fixed;inset:0;background:rgba(44,36,32,0.6);z-index:300;display:flex;align-items:flex-end;justify-content:center;" id="checklistOverlay" onclick="closeChecklist(event)">
+      <div style="background:white;border-radius:20px 20px 0 0;padding:24px 20px 36px;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;">Pre-Build Checklist</div>
+        <div style="font-family:'Playfair Display',Georgia,serif;font-size:20px;color:var(--brown);margin-bottom:16px;">${issues.length === 0 ? 'All clear' : `${errors.length} issue${errors.length !== 1 ? 's' : ''}, ${warns.length} warning${warns.length !== 1 ? 's' : ''}`}</div>
+        ${issues.length === 0 ? '<div style="color:var(--done);font-size:14px;margin-bottom:16px;">Everything looks good. Ready to build.</div>' : ''}
+        ${errors.length > 0 ? `
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;">Must fix</div>
+          ${errors.map(i => `<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px 12px;background:#fff5f2;border-radius:8px;border-left:3px solid var(--terracotta);font-size:13px;color:var(--text);">⚠️ ${i.msg}</div>`).join('')}
+        ` : ''}
+        ${warns.length > 0 ? `
+          <div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;margin-top:${errors.length ? '16px' : '0'};">Worth checking</div>
+          ${warns.map(i => `<div style="display:flex;gap:10px;margin-bottom:8px;padding:10px 12px;background:var(--surface);border-radius:8px;border-left:3px solid var(--border);font-size:13px;color:var(--muted);">· ${i.msg}</div>`).join('')}
+        ` : ''}
+        <button onclick="document.getElementById('checklistOverlay').remove()" style="display:block;width:100%;margin-top:20px;padding:12px;background:var(--terracotta);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Done</button>
+      </div>
+    </div>`;
+
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  document.body.appendChild(el.firstElementChild);
+}
+
+function closeChecklist(e) {
+  if (e.target.id === 'checklistOverlay') document.getElementById('checklistOverlay').remove();
+}
+
+
+let charPriorityCount = 0;
+function addCharPriority() {
+  charPriorityCount++;
+  const container = document.getElementById('charPriorityContainer');
+  const div = document.createElement('div');
+  div.id = 'charPriority-' + charPriorityCount;
+  div.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;';
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+      <input type="text" id="cpName${charPriorityCount}" placeholder="Character name (e.g. Elsa, Mickey, Buzz)" style="flex:1;">
+      <button class="remove-btn" onclick="document.getElementById('charPriority-${charPriorityCount}').remove()">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+      <div>
+        <div class="field-label" style="margin-bottom:4px;">Park <span class="opt-dot"></span></div>
+        <select id="cpPark${charPriorityCount}">
+          <option value="">Select park...</option>
+          <option>Magic Kingdom</option>
+          <option>EPCOT</option>
+          <option>Hollywood Studios</option>
+          <option>Animal Kingdom</option>
+          <option>Multiple / varies</option>
+        </select>
+      </div>
+      <div>
+        <div class="field-label" style="margin-bottom:4px;">Location / meet spot <span class="opt-dot"></span></div>
+        <input type="text" id="cpLocation${charPriorityCount}" placeholder="e.g. Norway Pavilion, Town Square">
+      </div>
+    </div>
+    <div class="field-label" style="margin-bottom:5px;">Wait worthy? <span class="opt-dot"></span></div>
+    <div class="option-group">
+      <div class="option-btn" onclick="toggle(this,'cpWait${charPriorityCount}')">Yes — will wait</div>
+      <div class="option-btn" onclick="toggle(this,'cpWait${charPriorityCount}')">Only if quick</div>
+      <div class="option-btn" onclick="toggle(this,'cpWait${charPriorityCount}')">Only if free / walk-up</div>
+    </div>`;
+  container.appendChild(div);
+}
+
+// ===================== HOTEL LOOKUP DATA =====================
+const HOTEL_DATA = [
+  // Value Resorts
+  { name: "All-Star Movies Resort", type: "Disney Value Resort" },
+  { name: "All-Star Music Resort", type: "Disney Value Resort" },
+  { name: "All-Star Sports Resort", type: "Disney Value Resort" },
+  { name: "Art of Animation Resort", type: "Disney Value Resort" },
+  { name: "Pop Century Resort", type: "Disney Value Resort" },
+  // Moderate Resorts
+  { name: "Caribbean Beach Resort", type: "Disney Moderate Resort" },
+  { name: "Coronado Springs Resort", type: "Disney Moderate Resort" },
+  { name: "Port Orleans Resort — French Quarter", type: "Disney Moderate Resort" },
+  { name: "Port Orleans Resort — Riverside", type: "Disney Moderate Resort" },
+  // Deluxe Resorts
+  { name: "Animal Kingdom Lodge", type: "Disney Deluxe Resort" },
+  { name: "Beach Club Resort", type: "Disney Deluxe Resort" },
+  { name: "Boardwalk Inn", type: "Disney Deluxe Resort" },
+  { name: "Contemporary Resort", type: "Disney Deluxe Resort" },
+  { name: "Grand Floridian Resort & Spa", type: "Disney Deluxe Resort" },
+  { name: "Polynesian Village Resort", type: "Disney Deluxe Resort" },
+  { name: "Wilderness Lodge", type: "Disney Deluxe Resort" },
+  { name: "Yacht Club Resort", type: "Disney Deluxe Resort" },
+  // Deluxe Villas
+  { name: "Animal Kingdom Villas — Jambo House", type: "Disney Deluxe Villa" },
+  { name: "Animal Kingdom Villas — Kidani Village", type: "Disney Deluxe Villa" },
+  { name: "Bay Lake Tower", type: "Disney Deluxe Villa" },
+  { name: "Beach Club Villas", type: "Disney Deluxe Villa" },
+  { name: "Boardwalk Villas", type: "Disney Deluxe Villa" },
+  { name: "Boulder Ridge Villas at Wilderness Lodge", type: "Disney Deluxe Villa" },
+  { name: "Copper Creek Villas at Wilderness Lodge", type: "Disney Deluxe Villa" },
+  { name: "Grand Floridian Villas", type: "Disney Deluxe Villa" },
+  { name: "Old Key West Resort", type: "Disney Deluxe Villa" },
+  { name: "Riviera Resort", type: "Disney Deluxe Villa" },
+  { name: "Saratoga Springs Resort & Spa", type: "Disney Deluxe Villa" },
+  { name: "Treehouse Villas at Saratoga Springs", type: "Disney Deluxe Villa" },
+  // Disney Springs Area
+  { name: "B Resort & Spa", type: "Disney Springs Area Hotel" },
+  { name: "DoubleTree Suites by Hilton", type: "Disney Springs Area Hotel" },
+  { name: "Hilton Orlando Buena Vista Palace", type: "Disney Springs Area Hotel" },
+  { name: "Hilton Orlando Lake Buena Vista", type: "Disney Springs Area Hotel" },
+  { name: "Holiday Inn Orlando — Disney Springs", type: "Disney Springs Area Hotel" },
+  { name: "Wyndham Garden Lake Buena Vista", type: "Disney Springs Area Hotel" },
+  // Off-site notable
+  { name: "Four Seasons Orlando at Walt Disney World", type: "Off-site hotel" },
+  { name: "Swan Reserve", type: "Off-site hotel" },
+  { name: "Swan Hotel", type: "Off-site hotel" },
+  { name: "Dolphin Hotel", type: "Off-site hotel" },
+  { name: "Shades of Green", type: "Off-site hotel" },
+];
+
+function filterHotels(query) {
+  const dropdown = document.getElementById('hotelDropdown');
+  if (!query || query.length < 2) { dropdown.style.display = 'none'; return; }
+  const matches = HOTEL_DATA.filter(h => h.name.toLowerCase().includes(query.toLowerCase()));
+  if (!matches.length) { dropdown.style.display = 'none'; return; }
+  dropdown.innerHTML = matches.map(h =>
+    `<div onclick="selectHotel('${h.name.replace(/'/g,"\\'")}','${h.type}')"
+      style="padding:9px 12px;cursor:pointer;font-size:13px;border-bottom:1px solid var(--border);"
+      onmouseover="this.style.background='var(--terracotta-light)'"
+      onmouseout="this.style.background=''"
+    >${h.name} <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);margin-left:6px;">${h.type}</span></div>`
+  ).join('');
+  dropdown.style.display = 'block';
+}
+
+function selectHotel(name, type) {
+  document.getElementById('hotelName').value = name;
+  document.getElementById('resortType').value = type;
+  document.getElementById('hotelDropdown').style.display = 'none';
+  // Show 3-day window only for off-site guests
+  const row = document.getElementById('llWindow3Row');
+  if (row) {
+    const isOffSite = type && type.toLowerCase().includes('non-disney');
+    row.style.display = isOffSite ? 'block' : 'none';
+    if (!isOffSite) {
+      const f3 = document.getElementById('llWindow3');
+      if (f3) f3.value = '';
+    }
+  }
+  autoSave();
+}
+
+function hideHotelDropdown() {
+  setTimeout(() => { const d = document.getElementById('hotelDropdown'); if(d) d.style.display='none'; }, 200);
+}
+
+// ===================== AIRLINE / FLIGHT LOOKUP =====================
+const AIRLINE_CODES = {
+  'AA': 'American Airlines', 'AS': 'Alaska Airlines', 'B6': 'JetBlue',
+  'DL': 'Delta', 'F9': 'Frontier', 'NK': 'Spirit', 'UA': 'United', 'WN': 'Southwest'
+};
+
+function handleAirlineChange() {
+  const val = document.getElementById('airline').value;
+  const otherRow = document.getElementById('airlineOtherRow');
+  if (otherRow) otherRow.style.display = val === 'OTHER' ? 'block' : 'none';
+}
+
+async function lookupFlight() {
+  const airlineEl = document.getElementById('airline');
+  const flightNumEl = document.getElementById('flightNumber');
+  const statusEl = document.getElementById('flightLookupStatus');
+  const btn = document.getElementById('flightLookupBtn');
+
+  const airlineCode = airlineEl ? airlineEl.value : '';
+  const flightNum = flightNumEl ? flightNumEl.value.trim().replace(/\D/g,'') : '';
+
+  if (!airlineCode || airlineCode === 'OTHER' || !flightNum) {
+    statusEl.textContent = 'Enter airline and flight number first';
+    statusEl.style.display = 'block';
+    statusEl.style.color = 'var(--terracotta)';
+    return;
+  }
+
+  // Get date from arrival date field
+  const dateEl = document.getElementById('arrivalDate');
+  const flightDate = dateEl && dateEl.value ? dateEl.value : new Date().toISOString().slice(0,10);
+
+  btn.textContent = 'Looking up...';
+  btn.disabled = true;
+  statusEl.style.display = 'none';
+
+  try {
+    const iataFlight = airlineCode + flightNum;
+    const apiKey = '892e0ed75bdf18c1d9ca9545e35c8732';
+    const url = `https://api.aviationstack.com/v1/flights?access_key=${apiKey}&flight_iata=${iataFlight}&flight_date=${flightDate}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error('Network error');
+    const data = await resp.json();
+
+    if (data.data && data.data.length > 0) {
+      const flight = data.data[0];
+      const arrTime = flight.arrival && flight.arrival.scheduled
+        ? new Date(flight.arrival.scheduled).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit',hour12:true})
+        : '';
+      const depTime = flight.departure && flight.departure.scheduled
+        ? new Date(flight.departure.scheduled).toLocaleTimeString('en-US', {hour:'numeric',minute:'2-digit',hour12:true})
+        : '';
+      const arrAirport = flight.arrival && flight.arrival.iata ? flight.arrival.iata : '';
+
+      if (arrTime) {
+        const arrEl = document.getElementById('flightArrivalTime');
+        if (arrEl && !arrEl.value) arrEl.value = arrTime;
+      }
+      if (arrAirport) {
+        const airportEl = document.getElementById('arrivalAirport');
+        if (airportEl) {
+          const opts = Array.from(airportEl.options);
+          const match = opts.find(o => o.value.startsWith(arrAirport));
+          if (match) airportEl.value = match.value;
+        }
+      }
+      statusEl.textContent = `Found: ${AIRLINE_CODES[airlineCode] || airlineCode} ${iataFlight} — arrives ${arrTime || 'time unavailable'}`;
+      statusEl.style.color = 'var(--done)';
+      autoSave();
+    } else {
+      statusEl.textContent = 'Flight not found — fill in manually';
+      statusEl.style.color = 'var(--muted)';
+    }
+  } catch(e) {
+    statusEl.textContent = 'Lookup unavailable — fill in manually';
+    statusEl.style.color = 'var(--muted)';
+  }
+
+  statusEl.style.display = 'block';
+  btn.textContent = 'Look up flight';
+  btn.disabled = false;
+}
+
+
+let parkDayCount = 0;
+function addParkDay() {
+  parkDayCount++;
+  const container = document.getElementById('parkDaysContainer');
+  const div = document.createElement('div');
+  div.id = 'parkDay-' + parkDayCount;
+  div.style.cssText = 'background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 12px;margin-bottom:8px;';
+  div.innerHTML = `
+    <div style="display:grid;grid-template-columns:110px 1fr auto;gap:8px;align-items:center;margin-bottom:8px;">
+      <input type="date" id="pdDate${parkDayCount}">
+      <select id="pdPark${parkDayCount}">
+        <option value="">Select park...</option>
+        <option>Magic Kingdom</option>
+        <option>EPCOT</option>
+        <option>Hollywood Studios</option>
+        <option>Animal Kingdom</option>
+        <option>Disney Springs</option>
+        <option>Water park</option>
+      </select>
+      <button class="remove-btn" onclick="document.getElementById('parkDay-${parkDayCount}').remove()">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Park open <span class="opt-dot"></span></div>
+        <input type="text" id="pdOpen${parkDayCount}" placeholder="e.g. 9am">
+      </div>
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Park close <span class="opt-dot"></span></div>
+        <input type="text" id="pdClose${parkDayCount}" placeholder="e.g. 10pm">
+      </div>
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Family leaves <span class="opt-dot"></span></div>
+        <input type="text" id="pdDepart${parkDayCount}" placeholder="e.g. 1pm">
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Rope drop? <span class="opt-dot"></span></div>
+        <div class="option-group" id="pdRopeDrop${parkDayCount}">
+          <div class="option-btn" onclick="toggle(this,'pdRopeDropSel${parkDayCount}')">Yes</div>
+          <div class="option-btn" onclick="toggle(this,'pdRopeDropSel${parkDayCount}')">No</div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Late start? <span class="opt-dot"></span></div>
+        <div class="option-group">
+          <div class="option-btn" onclick="toggle(this,'pdLateStart${parkDayCount}')">Yes</div>
+          <div class="option-btn" onclick="toggle(this,'pdLateStart${parkDayCount}')">No</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Resort transport <span class="opt-dot"></span></div>
+        <select id="pdTransport${parkDayCount}">
+          <option value="">Select...</option>
+          <option>Monorail</option>
+          <option>Skyliner</option>
+          <option>Boat / water taxi</option>
+          <option>Bus</option>
+          <option>Walking</option>
+          <option>Personal vehicle</option>
+          <option>Rideshare</option>
+        </select>
+      </div>
+      <div class="field">
+        <div class="field-label" style="margin-bottom:4px;">Target departure <span class="opt-dot"></span></div>
+        <input type="text" id="pdDepart${parkDayCount}" placeholder="e.g. 3pm, after fireworks">
+      </div>
+    </div>
+    <div id="pdHopperRow${parkDayCount}" style="display:none;margin-top:4px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div class="field">
+          <div class="field-label" style="margin-bottom:4px;">Hop to <span class="opt-dot"></span></div>
+          <select id="pdHopPark${parkDayCount}">
+            <option value="">Second park...</option>
+            <option>Magic Kingdom</option>
+            <option>EPCOT</option>
+            <option>Hollywood Studios</option>
+            <option>Animal Kingdom</option>
+          </select>
+        </div>
+        <div class="field">
+          <div class="field-label" style="margin-bottom:4px;">Hop time <span class="opt-dot"></span></div>
+          <input type="text" id="pdHopTime${parkDayCount}" placeholder="e.g. 5pm">
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:6px;">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--muted);">
+        <input type="checkbox" id="pdHopper${parkDayCount}" onchange="document.getElementById('pdHopperRow${parkDayCount}').style.display=this.checked?'block':'none';" style="width:auto;border-radius:3px;">
+        Park Hopper day
+      </label>
+    </div>`;
+  container.appendChild(div);
+}
+
+// ===================== DINING =====================
+let diningCount = 0;
+function addDining() {
+  diningCount++;
+  const container = document.getElementById('diningContainer');
+  const div = document.createElement('div');
+  div.id = 'dining-' + diningCount;
+  div.className = 'reservation-row';
+  div.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+      <div class="field-label">Reservation ${diningCount}</div>
+      <button class="remove-btn" onclick="document.getElementById('dining-${diningCount}').remove()">×</button>
+    </div>
+    <div class="field-row single" style="margin-bottom:8px;">
+      <input type="text" id="dName${diningCount}" placeholder="Restaurant name">
+    </div>
+    <div class="field-row triple">
+      <input type="date" id="dDate${diningCount}">
+      <input type="text" id="dTime${diningCount}" placeholder="Time">
+      <input type="number" id="dParty${diningCount}" placeholder="Party" min="1" max="20">
+    </div>
+    <div style="margin-top:8px;">
+      <input type="text" id="dConfirm${diningCount}" placeholder="Confirmation # (optional)" style="font-family:'DM Mono',monospace;font-size:11px;">
+    </div>
+    <div style="margin-top:8px;">
+      <div class="field-label" style="margin-bottom:5px;">Character dining?</div>
+      <div class="option-group">
+        <div class="option-btn" onclick="toggle(this,'dCharacter${diningCount}')">Yes</div>
+        <div class="option-btn" onclick="toggle(this,'dCharacter${diningCount}')">No</div>
+      </div>
+    </div>`;
+  container.appendChild(div);
+}
+
+// ===================== AVERSIONS =====================
+let aversionCount = 0;
+function addAversion() {
+  aversionCount++;
+  const container = document.getElementById('aversionContainer');
+  const div = document.createElement('div');
+  div.id = 'aversion-' + aversionCount;
+  div.style.marginBottom = '8px';
+  div.innerHTML = `
+    <div style="display:flex;gap:8px;align-items:center;">
+      <select id="avPerson${aversionCount}" style="width:110px;flex-shrink:0;">
+        <option value="">Who</option>
+        ${getPeopleOptions()}
+      </select>
+      <input type="text" id="avDetail${aversionCount}" placeholder="What — e.g. dark rides, character masks, loud noises..." style="flex:1;">
+      <button class="remove-btn" onclick="document.getElementById('aversion-${aversionCount}').remove()">×</button>
+    </div>`;
+  container.appendChild(div);
+}
+function getPeopleOptions() {
+  let opts = '';
+  for (let i = 1; i <= personCount; i++) {
+    const name = document.getElementById('pName' + i);
+    if (name && name.value) opts += `<option>${name.value}</option>`;
+  }
+  return opts || '<option>Person 1</option>';
+}
+
+// ===================== EXPORT =====================
+function generateExport() {
+  let out = '═══════════════════════════════\n';
+  out += '  THE PARK EDIT · CLIENT BRIEF\n';
+  out += '═══════════════════════════════\n\n';
+
+  // People
+  out += '── PEOPLE ──────────────────────\n';
+  for (let i = 1; i <= personCount; i++) {
+    const el = document.getElementById('person-' + i);
+    if (!el) continue;
+    const name = val('pName' + i);
+    if (!name) continue;
+    const role = val('pRole' + i);
+    const age = val('pAge' + i);
+    const height = val('pHeight' + i);
+    const chars = val('pChars' + i);
+    const allergies = val('pAllergies' + i);
+    const food = val('pFood' + i);
+    const likes = val('pLikes' + i);
+    const ageUnit = val('pAgeUnit' + i) || 'years';
+    const ride = selectedOption('pRide' + i);
+    const packList = selectedBtnText('pPackListSel' + i);
+    out += `${name}${role ? ' · ' + role : ''}${age ? ' · Age ' + age + (ageUnit !== 'years' ? ' ' + ageUnit : '') : ''}${height ? ' · ' + height + '"' : ''}\n`;
+    if (ride) out += `  Ride preference: ${ride}\n`;
+    if (packList) out += `  Packing list: ${packList}\n`;
+    if (chars) out += `  Characters: ${chars}\n`;
+    if (allergies) out += `  Allergies: ${allergies}\n`;
+    if (food) out += `  Food: ${food}\n`;
+    if (likes) out += `  Likes: ${likes}\n`;
+    out += '\n';
+  }
+
+  // Family overview
+  const pregnancy = selectedBtnText('pregnancy');
+  const grandparents = selectedBtnText('grandparents');
+  const grandparentNotes = val('grandparentNotes');
+  const strollerYN = selectedBtnText('strollerYN');
+  const strollerType = val('strollerType');
+  const carrier = selectedBtnText('carrier');
+  const familyLines = [];
+  if (pregnancy && pregnancy !== 'Not pregnant') familyLines.push(`Pregnancy: ${pregnancy}`);
+  if (grandparents === 'Yes') familyLines.push(`Grandparents travelling${grandparentNotes ? ' — ' + grandparentNotes : ''}`);
+  if (strollerYN) familyLines.push(`Stroller: ${strollerYN}${strollerType ? ' (' + strollerType + ')' : ''}`);
+  if (carrier === 'Yes — bringing one') familyLines.push('Baby carrier: Yes');
+  if (familyLines.length) {
+    out += '── FAMILY ───────────────────────\n';
+    familyLines.forEach(l => out += l + '\n');
+    out += '\n';
+  }
+
+  // Trip
+  out += '── TRIP ─────────────────────────\n';
+  const arrival = val('arrivalDate');
+  const departure = val('departureDate');
+  const stage = val('tripStage');
+  const hotel = val('hotelName');
+  const hotelFlag = val('hotelFlag');
+  const resortType = val('resortType');
+  const checkIn = val('checkIn');
+  const checkOut = val('checkOut');
+  const hotelBookedBy = selectedBtnText('hotelBookedBy');
+  if (arrival) out += `Arrival: ${arrival}\n`;
+  if (departure) out += `Departure: ${departure}\n`;
+  if (stage) out += `Stage: ${stage}\n`;
+  if (hotel) out += `Hotel: ${hotel}${hotelFlag && hotelFlag !== 'None / standard' ? ' [' + hotelFlag + ']' : ''}${resortType ? ' (' + resortType + ')' : ''}\n`;
+  if (checkIn) out += `Check-in: ${checkIn} → Check-out: ${checkOut}\n`;
+  if (hotelBookedBy) out += `Hotel booked by: ${hotelBookedBy}\n`;
+
+  // Transport
+  const transport = selectedBtnText('transport');
+  if (transport) {
+    out += `Transport: ${transport}\n`;
+    if (transport === 'Flying' || transport === 'Both') {
+      const airline = val('airline');
+      const flightNum = val('flightNumber');
+      const airport = val('arrivalAirport');
+      const flightTime = val('flightArrivalTime');
+      const groundT = val('groundTransport');
+      if (airline || flightNum) out += `  Flight: ${airline || ''}${flightNum ? ' ' + flightNum : ''}\n`;
+      if (airport) out += `  Arrives: ${airport}${flightTime ? ' at ' + flightTime : ''}\n`;
+      if (groundT) out += `  Ground transport: ${groundT}\n`;
+    }
+    if (transport === 'Driving' || transport === 'Both') {
+      const origin = val('originCity');
+      const drive = val('driveTime');
+      if (origin) out += `  From: ${origin}${drive ? ' (~' + drive + ')' : ''}\n`;
+    }
+  }
+
+  out += '\nPark days:\n';
+  for (let i = 1; i <= parkDayCount; i++) {
+    const dateEl = document.getElementById('pdDate' + i);
+    const parkEl = document.getElementById('pdPark' + i);
+    if (!dateEl || !parkEl) continue;
+    if (dateEl.value || parkEl.value) {
+      const rdSel = window._selections['pdRopeDropSel' + i] || '';
+      const lateStart = window._selections['pdLateStart' + i] || '';
+      const depart = val('pdDepart' + i);
+      const openT = val('pdOpen' + i);
+      const closeT = val('pdClose' + i);
+      const transport = val('pdTransport' + i);
+      const hopperEl = document.getElementById('pdHopper' + i);
+      const isHopper = hopperEl && hopperEl.checked;
+      const hopPark = val('pdHopPark' + i);
+      const hopTime = val('pdHopTime' + i);
+      let line = `  ${dateEl.value || '—'} · ${parkEl.value || '—'}`;
+      if (openT || closeT) line += ` (${openT || '?'} – ${closeT || '?'})`;
+      if (transport) line += ` · ${transport}`;
+      if (rdSel) line += ` · Rope drop: ${rdSel}`;
+      if (lateStart === 'Yes') line += ` · LATE START`;
+      if (isHopper) line += ` → HOP to ${hopPark || '?'}${hopTime ? ' at ' + hopTime : ''}`;
+      if (depart) line += ` · Out by: ${depart}`;
+      out += line + '\n';
+    }
+  }
+  out += '\n';
+
+  // Tickets & LL
+  out += '── TICKETS & LIGHTNING LANE ─────\n';
+  const ticketsPurchased = selectedBtnText('ticketsPurchased');
+  const ticketType = val('ticketType');
+  const ticketDaysExport = val('ticketDays');
+  const ticketsLinked = selectedBtnText('ticketsLinked');
+  const memMaker = selectedBtnText('memoryMaker');
+  const llmpStatus = selectedBtnText('llmp');
+  const llspStatus = selectedBtnText('llsp');
+  const llSingleTargets = val('llSingleTargets');
+  const llBudget = val('llBudget');
+  const llWindow7 = val('llWindow7');
+  const llWindow3 = val('llWindow3');
+  const adrWindow = val('adrWindow');
+  const adrStatus = selectedBtnText('adrStatus');
+  const priorityDining = val('priorityDining');
+  if (ticketsPurchased) out += `Tickets: ${ticketsPurchased}\n`;
+  if (ticketType) out += `Type: ${ticketType}${ticketDaysExport ? ' · ' + ticketDaysExport + ' days' : ''}\n`;
+  const ticketRestrictions = val('ticketRestrictions');
+  if (ticketRestrictions) out += `Ticket restrictions: ${ticketRestrictions}\n`;
+  if (ticketsLinked) out += `Linked to account: ${ticketsLinked}\n`;
+  if (memMaker) out += `Memory Maker: ${memMaker}\n`;
+  if (llmpStatus) out += `LL Multi Pass: ${llmpStatus}\n`;
+  const llMultiNotes = val('llMultiNotes');
+  if (llMultiNotes) out += `Multi Pass notes: ${llMultiNotes}\n`;
+  if (llspStatus) out += `LL Single Pass: ${llspStatus}${llSingleTargets ? ' — targets: ' + llSingleTargets : ''}\n`;
+  if (llBudget) out += `LL budget: ${llBudget}\n`;
+  if (llWindow7) out += `7-day LL window: ${llWindow7}\n`;
+  if (llWindow3) out += `3-day LL window: ${llWindow3}\n`;
+  if (adrWindow) out += `ADR window: ${adrWindow}\n`;
+  if (adrStatus) out += `ADR bookings: ${adrStatus}\n`;
+  if (priorityDining) out += `Priority restaurants: ${priorityDining}\n`;
+  out += '\n';
+
+  // Reservations
+  out += '── RESERVATIONS ─────────────────\n';
+  const diningStatusExport = selectedBtnText('diningStatus');
+  if (diningStatusExport) out += `Dining status: ${diningStatusExport}\n`;
+  for (let i = 1; i <= diningCount; i++) {
+    const nameEl = document.getElementById('dName' + i);
+    if (!nameEl || !nameEl.value) continue;
+    const date = val('dDate' + i);
+    const time = val('dTime' + i);
+    const party = val('dParty' + i);
+    const confirm = val('dConfirm' + i);
+    out += `  ${nameEl.value}${date ? ' · ' + date : ''}${time ? ' · ' + time : ''}${party ? ' · Party of ' + party : ''}${confirm ? ' · Conf: ' + confirm : ''}\n`;
+  }
+  const charDining = selectedBtnText('charDining');
+  const charVenue = val('charDiningVenue');
+  if (charDining) out += `Character dining: ${charDining}${charVenue ? ' — ' + charVenue : ''}\n`;
+  // Character meet priorities
+  const cpLines = [];
+  for (let i = 1; i <= charPriorityCount; i++) {
+    const nameEl = document.getElementById('cpName' + i);
+    if (nameEl && nameEl.value) {
+      const wait = window._selections['cpWait' + i] || '';
+      cpLines.push(`  ${nameEl.value}${wait ? ' — ' + wait : ''}`);
+    }
+  }
+  if (cpLines.length) out += `Character meets:\n${cpLines.join('\n')}\n`;
+  const specExps = ['bbb','afterHours','emm','dessertParty','kttk'];
+  const specNames = {'bbb':'Bibbidi Bobbidi Boutique','afterHours':'After Hours','emm':'Early Morning Magic','dessertParty':'Dessert Party','kttk':'Keys to the Kingdom'};
+  specExps.forEach(k => {
+    const s = selectedBtnText(k);
+    if (s && s !== 'Not applicable' && s !== 'No') out += `${specNames[k]}: ${s}\n`;
+  });
+  const other = val('otherExperiences');
+  if (other) out += `Other: ${other}\n`;
+  out += '\n';
+
+  // Preferences
+  out += '── PREFERENCES ──────────────────\n';
+  const ropeDrop = selectedBtnText('ropeDrop');
+  const ropeDropPerPark = val('ropeDropPerPark');
+  const afternoonBreak = selectedBtnText('afternoonBreak');
+  const nap = val('napSchedule');
+  const nursingType = selectedBtnText('nursing');
+  const nursingNotes = val('nursingNotes');
+  const pacifier = selectedBtnText('pacifier');
+  const meds = val('medSchedule');
+  const bedtime = selectedBtnText('bedtime');
+  const bedtimeNotes = val('bedtimeNotes');
+  const evening = val('eveningNotes');
+  const sleep = val('sleepSetup');
+  if (ropeDrop) out += `Rope drop: ${ropeDrop}\n`;
+  if (ropeDropPerPark) out += `Rope drop per park: ${ropeDropPerPark}\n`;
+  if (afternoonBreak) out += `Afternoon break: ${afternoonBreak}\n`;
+  if (nap) out += `Nap schedule: ${nap}\n`;
+  if (nursingType) out += `Nursing/feeding: ${nursingType}${nursingNotes ? ' — ' + nursingNotes : ''}\n`;
+  if (pacifier && pacifier !== 'Not applicable') out += `Pacifier: ${pacifier}\n`;
+  if (meds) out += `Medication schedule: ${meds}\n`;
+  if (bedtime) out += `Bedtime: ${bedtime}${bedtimeNotes ? ' — ' + bedtimeNotes : ''}\n`;
+  if (evening) out += `Evening: ${evening}\n`;
+  if (sleep) out += `Sleep setup: ${sleep}\n`;
+
+  const queue = val('queueTolerance');
+  const crowd = selectedBtnText('crowdTolerance');
+  const heat = selectedBtnText('heat');
+  if (queue) out += `Queue tolerance: ${queue}\n`;
+  if (crowd) out += `Crowd tolerance: ${crowd}\n`;
+  if (heat) out += `Heat sensitivity: ${heat}\n`;
+
+  const diningPriority = selectedBtnText('diningPriority');
+  const serviceType = selectedBtnText('serviceType');
+  const mustDo = val('mustDoDining');
+  if (diningPriority) out += `Dining priority: ${diningPriority}\n`;
+  if (serviceType) out += `Service preference: ${serviceType}\n`;
+  if (mustDo) out += `Must-do dining: ${mustDo}\n`;
+
+  const photos = selectedBtnText('photos');
+  const planStyle = selectedBtnText('planStyle');
+  const groupSplits = selectedBtnText('groupSplits');
+  const riderSwap = val('riderSwapNotes');
+  if (photos) out += `Photography: ${photos}\n`;
+  if (planStyle) out += `Plan style: ${planStyle}\n`;
+  if (groupSplits) out += `Group splits: ${groupSplits}\n`;
+  if (riderSwap) out += `Rider swap: ${riderSwap}\n`;
+
+  const vqTron = selectedBtnText('vqTron');
+  const vqNone = selectedBtnText('vqNone');
+  const vqRides = [];
+  if (vqTron) vqRides.push('TRON');
+  if (vqNone) out += `Virtual queues: Not relevant\n`;
+  else if (vqRides.length) out += `Virtual queues in scope: ${vqRides.join(', ')}\n`;
+
+  const googleMaps = selectedBtnText('googleMaps');
+  if (googleMaps) out += `Google Maps installed: ${googleMaps}\n`;
+  out += '\n';
+
+  // Dynamics
+  out += '── DYNAMICS ─────────────────────\n';
+  const tripAnchorsExport = val('tripAnchors');
+  if (tripAnchorsExport) out += `Trip anchors: ${tripAnchorsExport}\n`;
+  const disneyBefore = selectedBtnText('disneyBefore');
+  const mixedExp = selectedBtnText('mixedExperience');
+  const mixedExpDetail = val('mixedExperienceDetail');
+  const excitement = val('groupExcitement');
+  const mobility = selectedBtnText('mobility');
+  const das = selectedBtnText('das');
+  const accessNotes = val('accessibilityNotes');
+  const celebrating = val('celebrating');
+  const anythingElse = val('anythingElse');
+  if (disneyBefore) out += `Disney experience: ${disneyBefore}\n`;
+  if (mixedExp === 'Yes — one adult has been, one hasn\'t') out += `Mixed experience: Yes${mixedExpDetail ? ' — ' + mixedExpDetail : ''}\n`;
+  if (excitement) out += `Group dynamics: ${excitement}\n`;
+
+  // Aversions
+  let aversions = [];
+  for (let i = 1; i <= aversionCount; i++) {
+    const personEl = document.getElementById('avPerson' + i);
+    const detailEl = document.getElementById('avDetail' + i);
+    if (!detailEl || !detailEl.value) continue;
+    aversions.push(`${personEl && personEl.value ? personEl.value + ': ' : ''}${detailEl.value}`);
+  }
+  if (aversions.length) out += `Aversions/anxieties:\n${aversions.map(a => '  · ' + a).join('\n')}\n`;
+
+  if (mobility) out += `Mobility: ${mobility}\n`;
+  if (das) out += `DAS Pass: ${das}\n`;
+  if (accessNotes) out += `Accessibility notes: ${accessNotes}\n`;
+  if (celebrating) out += `Celebrating: ${celebrating}\n`;
+  if (anythingElse) out += `Anything else: ${anythingElse}\n`;
+  out += '\n';
+
+  // Admin
+  out += '── ADMIN ────────────────────────\n';
+  const pkg = val('package');
+  const addOnPark = val('addOnPark');
+  const payment = selectedBtnText('paymentStatus');
+  const referral = val('referral');
+  const preEdit = selectedBtnText('preEditStatus');
+  const preEditSent = val('preEditSentDate');
+  const parkEdit = selectedBtnText('parkEditStatus');
+  const parkEditSent = val('parkEditSentDate');
+  const hotelBooked = selectedBtnText('hotelBooked');
+  const adminNotes = val('adminNotes');
+  if (pkg) out += `Package: ${pkg}${addOnPark ? ' — ' + addOnPark : ''}\n`;
+  if (payment) out += `Payment: ${payment}\n`;
+  if (referral) out += `Referral: ${referral}\n`;
+  if (preEdit) out += `Pre-Edit: ${preEdit}${preEditSent ? ' (sent ' + preEditSent + ')' : ''}\n`;
+  if (parkEdit) out += `Park Edit: ${parkEdit}${parkEditSent ? ' (sent ' + parkEditSent + ')' : ''}\n`;
+  if (hotelBooked) out += `Hotel booked: ${hotelBooked}\n`;
+  if (adminNotes) out += `Notes: ${adminNotes}\n`;
+
+  openBriefInNewTab(out);
+}
+
+function formatBriefAsHTML(text) {
+  const sections = text.split(/\n(?=── )/);
+  return sections.map(section => {
+    const lines = section.trim().split('\n');
+    const header = lines[0].replace(/^── /, '').replace(/ ─+$/, '').trim();
+    const body = lines.slice(1).join('\n').trim();
+    if (!body) return '';
+    return `<div class="section-block">
+      <div class="section-label">${header}</div>
+      <div class="brief-pre">${body.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    </div>`;
+  }).join('');
+}
+
+function openBriefInNewTab(out) {
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Brief · The Park Edit</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #FDF8F4; color: #2C2420; font-family: 'DM Sans', sans-serif; padding: 24px 20px 80px; max-width: 600px; margin: 0 auto; }
+.brief-header { border-bottom: 2px solid #E8734A; padding-bottom: 16px; margin-bottom: 28px; }
+.brief-eyebrow { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: #E8734A; margin-bottom: 6px; }
+.brief-title { font-family: 'Playfair Display', Georgia, serif; font-size: 28px; color: #5C3D2E; }
+.section-block { margin-bottom: 28px; }
+.section-label { font-family: 'DM Mono', monospace; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: #8C7B72; padding-bottom: 8px; border-bottom: 1px solid #E8DDD6; margin-bottom: 12px; }
+.brief-pre { font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.9; color: #2C2420; white-space: pre-wrap; word-break: break-word; }
+.copy-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #5C3D2E; padding: 12px 20px; display: flex; gap: 10px; max-width: 100%; }
+.copy-btn { flex: 1; background: #E8734A; color: white; border: none; border-radius: 10px; padding: 13px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; }
+.print-btn { background: rgba(255,255,255,0.1); color: rgba(253,248,244,0.7); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 13px 18px; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; white-space: nowrap; }
+@media print { .copy-bar { display: none; } body { padding-bottom: 20px; } }
+</style>
+</head>
+<body>
+<div class="brief-header">
+  <div class="brief-eyebrow">The Park Edit · Internal</div>
+  <div class="brief-title">Client Brief</div>
+</div>
+${formatBriefAsHTML(out)}
+<textarea id="rawText" style="position:absolute;left:-9999px;" readonly>${out}</textarea>
+<div class="copy-bar">
+  <button class="copy-btn" id="copyBtn" onclick="document.getElementById('rawText').select();document.execCommand('copy');this.textContent='Copied ✓';setTimeout(()=>this.textContent='Copy to clipboard',2000)">Copy to clipboard</button>
+  <button class="print-btn" onclick="window.print()">Print</button>
+</div>
+</body>
+</html>`;
+
+  const blob = new Blob([html], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+}
+
+function val(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+function selectedOption(groupId) {
+  const el = document.getElementById(groupId);
+  if (!el) return '';
+  const sel = el.querySelector('.option-btn.selected');
+  return sel ? sel.textContent : '';
+}
+function selectedBtnText(groupId) {
+  // find by data attribute or search all option groups
+  const groups = document.querySelectorAll('.option-group');
+  for (const g of groups) {
+    const sel = g.querySelector('.option-btn.selected');
+    if (sel && g.id === groupId) return sel.textContent;
+  }
+  // fallback — search by proximity to matching option buttons
+  return '';
+}
+
+// ===================== SELECTIONS =====================
+window._selections = {};
+
+function toggle(el, group) {
+  const parent = el.parentElement;
+  const btns = parent.querySelectorAll('.option-btn');
+  const wasSelected = el.classList.contains('selected');
+  btns.forEach(b => b.classList.remove('selected'));
+  if (!wasSelected) {
+    el.classList.add('selected');
+    if (group) window._selections[group] = el.textContent;
+  } else {
+    if (group) delete window._selections[group];
+  }
+  autoSave();
+}
+
+function selectedBtnText(group) {
+  return window._selections[group] || '';
+}
+
+// ===================== AUTOSAVE =====================
+const AUTOSAVE_KEY = 'parkedit_intake_autosave';
+let autoSaveTimer = null;
+
+function autoSave() {
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    const data = collectState();
+    try {
+      localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(data));
+      showSaveIndicator();
+    } catch(e) { console.warn('Autosave failed', e); }
+  }, 800);
+}
+
+function showSaveIndicator() {
+  const el = document.getElementById('saveIndicator');
+  if (!el) return;
+  el.textContent = 'Saved';
+  el.style.opacity = '1';
+  setTimeout(() => el.style.opacity = '0', 2000);
+}
+
+// ===================== STATE COLLECTION =====================
+function collectState() {
+  const people = [];
+  for (let i = 1; i <= personCount; i++) {
+    const el = document.getElementById('person-' + i);
+    if (!el) continue;
+    people.push({
+      id: i,
+      name: val('pName' + i),
+      role: val('pRole' + i),
+      age: val('pAge' + i),
+      ageUnit: val('pAgeUnit' + i) || 'years',
+      height: val('pHeight' + i),
+      ride: selectedBtnText('pRide' + i) || getOptionBtnSelected('person-' + i, 'pRide'),
+      chars: val('pChars' + i),
+      allergies: val('pAllergies' + i),
+      food: val('pFood' + i),
+      likes: val('pLikes' + i)
+    });
+  }
+
+  const parkDays = [];
+  for (let i = 1; i <= parkDayCount; i++) {
+    const dateEl = document.getElementById('pdDate' + i);
+    const parkEl = document.getElementById('pdPark' + i);
+    if (dateEl || parkEl) parkDays.push({
+      id: i,
+      date: dateEl ? dateEl.value : '',
+      park: parkEl ? parkEl.value : '',
+      parkOpen: val('pdOpen' + i),
+      parkClose: val('pdClose' + i),
+      parkDepart: val('pdDepart' + i),
+      ropeDropIntent: window._selections['pdRopeDropSel' + i] || '',
+      lateStart: window._selections['pdLateStart' + i] || '',
+      resortTransport: val('pdTransport' + i),
+      targetDepart: val('pdDepart' + i),
+      hopperDay: document.getElementById('pdHopper' + i) ? document.getElementById('pdHopper' + i).checked : false,
+      hopPark: val('pdHopPark' + i),
+      hopTime: val('pdHopTime' + i)
+    });
+  }
+
+  const dining = [];
+  for (let i = 1; i <= diningCount; i++) {
+    const nameEl = document.getElementById('dName' + i);
+    if (nameEl) dining.push({ id: i, name: nameEl.value, date: val('dDate' + i), time: val('dTime' + i), party: val('dParty' + i), confirmation: val('dConfirm' + i) });
+  }
+
+  const aversions = [];
+  for (let i = 1; i <= aversionCount; i++) {
+    const personEl = document.getElementById('avPerson' + i);
+    const detailEl = document.getElementById('avDetail' + i);
+    if (detailEl) aversions.push({ id: i, person: personEl ? personEl.value : '', detail: detailEl.value });
+  }
+
+  const fields = {};
+  document.querySelectorAll('input[id], textarea[id], select[id]').forEach(el => {
+    fields[el.id] = el.value;
+  });
+
+  const charPriorities = [];
+  for (let i = 1; i <= charPriorityCount; i++) {
+    const nameEl = document.getElementById('cpName' + i);
+    if (nameEl && nameEl.value) {
+      charPriorities.push({
+        id: i,
+        name: nameEl.value,
+        park: val('cpPark' + i),
+        location: val('cpLocation' + i),
+        waitWorthy: window._selections['cpWait' + i] || ''
+      });
+    }
+  }
+
+  const intelligence = collectIntelligence();
+
+  return {
+    version: 1,
+    savedAt: new Date().toISOString(),
+    personCount, parkDayCount, diningCount, aversionCount, charPriorityCount, intelDayCount,
+    selections: {...window._selections},
+    carrier: window._selections['carrier'] || '',
+    diningStatus: window._selections['diningStatus'] || '',
+    callNotes: val('callNotes'),
+    people, parkDays, dining, aversions, charPriorities, intelligence, fields
+  };
+}
+
+// ===================== STATE RESTORE =====================
+function restoreState(data) {
+  if (!data || data.version !== 1) return;
+
+  // Restore dynamic rows first
+  document.getElementById('peopleContainer').innerHTML = '';
+  document.getElementById('parkDaysContainer').innerHTML = '';
+  document.getElementById('diningContainer').innerHTML = '';
+  document.getElementById('aversionContainer').innerHTML = '';
+  const cpContainer = document.getElementById('charPriorityContainer');
+  if (cpContainer) cpContainer.innerHTML = '';
+  const intelContainer = document.getElementById('intelligenceContainer');
+  if (intelContainer) intelContainer.innerHTML = '';
+  personCount = 0; parkDayCount = 0; diningCount = 0; aversionCount = 0; charPriorityCount = 0; intelDayCount = 0;
+  window._selections = data.selections || {};
+
+  // Restore people
+  (data.people || []).forEach(() => addPerson());
+  // Restore park days
+  (data.parkDays || []).forEach(() => addParkDay());
+  // Restore dining
+  (data.dining || []).forEach(() => addDining());
+  // Restore aversions
+  (data.aversions || []).forEach(() => addAversion());
+  // Restore character priorities
+  (data.charPriorities || []).forEach(() => addCharPriority());
+  // Restore intelligence days
+  const intelDays = (data.intelligence && data.intelligence.days) ? data.intelligence.days : [];
+  intelDays.forEach(() => addIntelligenceDay());
+
+  // Restore all field values
+  setTimeout(() => {
+    const fields = data.fields || {};
+    Object.keys(fields).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = fields[id];
+    });
+
+    // Restore rope drop ranked lists
+    intelDays.forEach((day, idx) => {
+      const dayId = idx + 1;
+      const list = document.getElementById('intelRopeDropList' + dayId);
+      if (list && day.ropeDropSequence && Array.isArray(day.ropeDropSequence)) {
+        day.ropeDropSequence.forEach(rideName => rdlAppendItem(list, dayId, rideName));
+        rdlRenumber(list);
+      }
+    });
+
+    // Restore option button selections
+    Object.keys(window._selections).forEach(group => {
+      const val = window._selections[group];
+      document.querySelectorAll('.option-btn').forEach(btn => {
+        if (btn.textContent === val && btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + group + "'")) {
+          btn.classList.add('selected');
+        }
+      });
+    });
+  }, 50);
+}
+
+// ===================== SAVE TO FILE =====================
+function saveToFile() {
+  const data = collectState();
+  const clientName = val('pName1') || 'client';
+  const filename = 'parkedit-' + clientName.toLowerCase().replace(/\s+/g,'-') + '-' + new Date().toISOString().slice(0,10) + '.json';
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ===================== LOAD FROM FILE =====================
+function loadFromFile() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const data = JSON.parse(ev.target.result);
+        restoreState(data);
+        showSaveIndicator();
+      } catch(err) {
+        alert('Could not read that file. Make sure it\'s a Park Edit intake file.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+// ===================== CLEAR =====================
+function clearAll() {
+  if (!confirm('Clear all data for this client?')) return;
+  document.querySelectorAll('input, textarea').forEach(el => el.value = '');
+  document.querySelectorAll('select').forEach(el => el.selectedIndex = 0);
+  document.querySelectorAll('.option-btn').forEach(el => el.classList.remove('selected'));
+  document.getElementById('peopleContainer').innerHTML = '';
+  document.getElementById('parkDaysContainer').innerHTML = '';
+  document.getElementById('diningContainer').innerHTML = '';
+  document.getElementById('aversionContainer').innerHTML = '';
+  personCount = 0; parkDayCount = 0; diningCount = 0; aversionCount = 0;
+  window._selections = {};
+  try { localStorage.removeItem(AUTOSAVE_KEY); } catch(e) {}
+  addPerson();
+  addParkDay();
+}
+
+function getOptionBtnSelected(cardId, prefix) { return ''; }
+
+// ===================== CHILD FIELDS TOGGLE =====================
+function toggleChildFields(id) {
+  const role = document.getElementById('pRole' + id);
+  const childFields = document.getElementById('childFields' + id);
+  if (!role || !childFields) return;
+  childFields.style.display = role.value === 'Child' ? 'block' : 'none';
+}
+
+// ===================== TRANSPORT SHOW/HIDE =====================
+function showTransport() {
+  const sel = window._selections['transport'] || '';
+  const flight = document.getElementById('flightFields');
+  const drive = document.getElementById('driveFields');
+  if (!flight || !drive) return;
+  flight.style.display = (sel === 'Flying' || sel === 'Both') ? 'block' : 'none';
+  drive.style.display = (sel === 'Driving' || sel === 'Both') ? 'block' : 'none';
+}
+
+// ===================== GRANDPARENT NOTES SHOW/HIDE =====================
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('option-btn')) {
+    setTimeout(() => {
+      const gpSel = window._selections['grandparents'];
+      const gpRow = document.getElementById('grandparentDetailRow');
+      if (gpRow) gpRow.style.display = gpSel === 'Yes' ? 'block' : 'none';
+
+      const strollerSel = window._selections['strollerYN'];
+      const strollerRow = document.getElementById('strollerTypeRow');
+      if (strollerRow) strollerRow.style.display = (strollerSel === 'Bringing own') ? 'block' : 'none';
+    }, 50);
+  }
+});
+
+// ===================== PACKAGE ADD-ON SHOW/HIDE =====================
+document.addEventListener('change', function(e) {
+  if (e.target.id === 'package') {
+    const addOnRow = document.getElementById('addOnParkRow');
+    if (addOnRow) addOnRow.style.display = e.target.value === 'Add-on: extra park day' ? 'block' : 'none';
+  }
+
+  // Auto-calculate LL windows from check-in date
+  if (e.target.id === 'checkIn' && e.target.value) {
+    const parts = e.target.value.split('-');
+    const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    const fmt = d2 => {
+      const yr = d2.getFullYear();
+      const mo = String(d2.getMonth() + 1).padStart(2, '0');
+      const dy = String(d2.getDate()).padStart(2, '0');
+      return `${yr}-${mo}-${dy}`;
+    };
+
+    const w7 = new Date(d); w7.setDate(w7.getDate() - 7);
+    const w3 = new Date(d); w3.setDate(w3.getDate() - 3);
+    const adr = new Date(d); adr.setDate(adr.getDate() - 60);
+
+    const f7 = document.getElementById('llWindow7');
+    const f3 = document.getElementById('llWindow3');
+    const fa = document.getElementById('adrWindow');
+    if (f7 && !f7.value) f7.value = fmt(w7);
+    if (f3 && !f3.value) f3.value = fmt(w3);
+    if (fa && !fa.value) fa.value = fmt(adr);
+  }
+});
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded', function() {
+  // Try to restore autosaved data
+  try {
+    const saved = localStorage.getItem(AUTOSAVE_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      restoreState(data);
+      return;
+    }
+  } catch(e) {}
+
+  // Fresh start
+  addPerson();
+  addParkDay();
+
+  // Hook up autosave to all static inputs
+  document.querySelectorAll('input, textarea, select').forEach(el => {
+    el.addEventListener('input', autoSave);
+    el.addEventListener('change', autoSave);
+  });
+});
+</script>
+</body>
+</html>
