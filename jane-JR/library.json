@@ -1,0 +1,1428 @@
+{
+  "meta": {
+    "totalEntries": 76,
+    "byPark": {
+      "MK": 20,
+      "EP": 21,
+      "DHS": 16,
+      "AK": 19
+    },
+    "byType": {
+      "ride": 44,
+      "character": 11,
+      "show": 21
+    },
+    "placeholders": [
+      "dhs-rock-n-roller-coaster-starring-the-muppets",
+      "ep-test-track",
+      "ep-soarin-across-america"
+    ]
+  },
+  "entries": {
+    "mk-dumbo-the-flying-elephant": {
+      "id": "mk-dumbo-the-flying-elephant",
+      "title": "Dumbo the Flying Elephant",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "For whatever reason, young kids absolutely love this one. It is very sweet and nostalgic. You fly in circles and control how high your elephant goes. No height requirement \u2014 all kids ride. Near walk-on first thing in the morning, so do it then if you have a kid who wants to do this! If the line is too long, Astro Orbiter and the Magic Carpets of Aladdin have the same basic structure.\n\nHidden playground! There is an indoor area attached to the queue with slides, climbing net and a toddler section. Kids can play in the AC while adults hold the spot in line. Most people walk right past this without noticing it.\n\n---"
+    },
+    "mk-cinderellas-carousel": {
+      "id": "mk-cinderellas-carousel",
+      "title": "Cinderella's Carousel",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "While this isn't a must do, it's another one that young kids enjoy more than you would expect because of the setting. Plus, there's never more than a five minute wait (don't do it if there is!). Cinderella's Castle makes a great backdrop for a photo if you're sitting together!\n\n---"
+    },
+    "mk-peter-pans-flight": {
+      "id": "mk-peter-pans-flight",
+      "title": "Peter Pan's Flight",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Take a beautiful ride over London and Neverland in your own pirate ship. This is a beloved ride, particularly for young ones (teens might find it a bit dull). With little kids, Lightning Lane is worth it here as the line gets long quickly, even in the morning.\n\n---"
+    },
+    "mk-its-a-small-world": {
+      "id": "mk-its-a-small-world",
+      "title": "It's a Small World",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A Disney World classic and a reliable crowd pleaser for little ones. The costumes and set are beautiful. The song is an earworm; if you don't want it stuck in your head for the rest of the day, it might be worth a skip. The queue can look intimidating but it moves fast as it's one of the highest capacity rides in the park.\n\n---"
+    },
+    "mk-the-many-adventures-of-winnie-the-pooh": {
+      "id": "mk-the-many-adventures-of-winnie-the-pooh",
+      "title": "The Many Adventures of Winnie the Pooh",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A sweet, slow-moving ride through Hundred Acre Wood with all of Pooh's friends. No height requirement and one of the better toddler rides in Fantasyland because the scenes are bright and cheery. The line builds fast so Lightning Lane is worth it here. The queue includes interactive honeypots to spin which helps keep little ones busy while waiting.\n\n---"
+    },
+    "mk-walt-disneys-enchanted-tiki-room": {
+      "id": "mk-walt-disneys-enchanted-tiki-room",
+      "title": "Walt Disney's Enchanted Tiki Room",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "One of the original park attractions and the first Disney ride with Audio-Animatronics (don't expect an update to those). This is a good we-need-a-break option. It's 15 minutes sitting in the AC watching charming birds sing, and it works for the whole family.\n\n---"
+    },
+    "mk-tomorrowland-speedway": {
+      "id": "mk-tomorrowland-speedway",
+      "title": "Tomorrowland Speedway",
+      "park": "MK",
+      "type": "ride",
+      "icon": "🎠",
+      "tags": [],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Kids get to drive their own go-kart with a working pedal, steering wheel, and a guide rail between the wheels to literally keep them on track. They don't know about the guide rail, so as far as they're concerned, they're driving.\n\nIf you have a feeling your kid would like this, odds are high they will.\n\nIf you do take the wheel, do so in the morning before it heats up as the track heats up and the line has little to no shade.\n\nNo Lightning Lane needed.\n\n---"
+    },
+    "mk-jungle-cruise": {
+      "id": "mk-jungle-cruise",
+      "title": "Jungle Cruise",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "This boat tour takes you through an animatronic jungle, narrated by a skipper with some serious Dad Joke Energy. No height requirement. If standby is over 20 minutes, skip it.\n\n---"
+    },
+    "mk-pirates-of-the-caribbean": {
+      "id": "mk-pirates-of-the-caribbean",
+      "title": "Pirates of the Caribbean",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "One of the best rides in Magic Kingdom with no height requirement. A boat ride through pirate scenes that's dark, atmospheric, and has two small drops at the very start. Worth mentioning the drops before you get on \u2014 they're very gentle but come out of nowhere if you're not expecting them. After that it's completely flat and slow the rest of the way through.\n\n---"
+    },
+    "mk-tomorrowland-transit-authority-peoplemover": {
+      "id": "mk-tomorrowland-transit-authority-peoplemover",
+      "title": "Tomorrowland Transit Authority PeopleMover",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "I have no idea why, but I love this ride so much. Is it a must do? No. Is it a surprisingly pleasant break? Yes. The what-once-looked futuristic tram gives a good intro into Tomorrowland, including ducking into Space Mountain. There's usually no wait, and the speed gives you a much-needed breeze when it's hot.\n\n---"
+    },
+    "mk-buzz-lightyears-space-ranger-spin": {
+      "id": "mk-buzz-lightyears-space-ranger-spin",
+      "title": "Buzz Lightyear's Space Ranger Spin",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "This tends to be a hit with everyone in the family. You use laser blasters to shoot at robot enemies, and people can get competitive! Worth noting: Buzz is seeing unusually high Lightning Lane demand in 2026 due to a refurbishment.\n\n---"
+    },
+    "mk-mickeys-philharmagic": {
+      "id": "mk-mickeys-philharmagic",
+      "title": "Mickey's PhilharMagic",
+      "park": "MK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A 12-minute 4D show squarely aimed at little kids with classic Disney songs, Mickey and Donald, wind and bubble effects. No height requirement, virtually no wait, and fully air conditioned. For parents and older kids it's a good excuse to sit down. Worth knowing: it's louder than it looks and the 4D effects can spook toddlers who aren't expecting them.\n\n---"
+    },
+    "mk-walt-disney-world-railroad": {
+      "id": "mk-walt-disney-world-railroad",
+      "title": "Walt Disney World Railroad",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A real steam-powered train that circles all of Magic Kingdom with stops at Main Street, Fantasyland, and Frontierland. Board at Fantasyland, and you'll ride back to Main Street in about 10 minutes. A nice way to close the morning that drops you right at the exit. Strollers must be folded to board, so have it collapsed before you reach the front of the line.\n\n---"
+    },
+    "mk-festival-of-fantasy-parade": {
+      "id": "mk-festival-of-fantasy-parade",
+      "title": "Festival of Fantasy Parade",
+      "park": "MK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "This isn't a standard character wave-from-a-float parade. The floats are enormous and elaborately designed, with live performers, dancers, and original music composed specifically for the parade. Little kids tend to love it. The Maleficent dragon float alone is worth seeing \u2014 one of the most impressive pieces of parade engineering Disney has ever built.\n\nBest spot: Stay near Town Square at the park entrance. It's the least crowded section of the route and characters interact with guests right at ground level. The first float takes about 15-20 minutes to reach Town Square from where the parade starts, so plan accordingly.\n\n---"
+    },
+    "mk-happily-ever-after-fireworks": {
+      "id": "mk-happily-ever-after-fireworks",
+      "title": "Happily Ever After Fireworks",
+      "park": "MK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Widely regarded as one of the best fireworks shows in the world. It came back by popular demand and earns it \u2014 Disney's greatest musical hits, images and scenes projected directly onto the castle, lasers, and incredible fireworks. I'd try to see this if it won't cause bedtime or meltdown issues. It runs 18 minutes, which may be longer than you'd expect, so plan accordingly.\n\nWhere to watch: The hub in front of the castle gives you the best view of the images projected onto the castle. Main Street closer to the entrance gives you a slightly smaller view but a much easier exit when it ends \u2014 which matters a lot with tired kids at 9pm. Pick your priority.\n\n\n\n---",
+      "conditional": "Staying at the Polynesian, Grand Floridian, or Contemporary? Watch from your resort beach or balcony. Direct view of the castle across the lagoon, no crowd, and you're home in five minutes when it ends."
+    },
+    "mk-haunted-mansion": {
+      "id": "mk-haunted-mansion",
+      "title": "Haunted Mansion",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "The theming of this ride from start to finish is phenomenal. You move through a house haunted with ghosts of all times singing, dancing and spooking. Despite being 50 years old (with some notable updates), it really holds up.\n\nAll of that being said, this can be too spooky for young kids. Sensitive little ones may find it genuinely scary rather than fun-scary. The scariest part is the pre-show stretching room (octagonal, striped room). If you're worried, ask a cast member at the entrance \u2014 they can let you bypass it and go straight to the ride. After that, it's silly spooky, but better to play it safe if you're on the fence.\n\n\n\n---",
+      "takeNote": "The exterior of Haunted Mansion is currently under refurbishment \u2014 expect scaffolding and construction wrap on the outside. The ride itself is fully operational."
+    },
+    "mk-monsters-inc-laugh-floor": {
+      "id": "mk-monsters-inc-laugh-floor",
+      "title": "Monsters Inc. Laugh Floor",
+      "park": "MK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "This is a live \"comedy\" show where Mike Wazowski and friends riff on the audience. The humor is improv-driven and interactive, so it often lands better for adults than young kids, but it's still a nice break from midday heat where you can sit down in an air-conditioned room.\n\nYou can text in a joke from the queue for a chance to have it read during the show.\n\nSkip the Lightning Lane. The theater is big, the line moves fast, and while cute this isn't a must-do.\n\n---"
+    },
+    "mk-space-mountain": {
+      "id": "mk-space-mountain",
+      "title": "Space Mountain",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 44,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "One of the original Magic Kingdom rides, and it does not feel dated. A dark, fast ride through space in a rocket ship. It's a classic for a reason.\n\nSit in the middle if you want a calmer experience. The front feels like your head might get knocked off by the scaffolding, which is either thrilling or not, depending on who you ask.\n\n\n\nThis one is worth a Lightning Lane.\n\n---",
+      "takeNote": "Not a great ride for anyone with neck problems \u2014 you get whipped around a bit. At the start of the ride there's a tunnel that builds with a charging sound and ends with a loud blast. Worth knowing if anyone in your group is sensitive to that."
+    },
+    "mk-the-barnstormer": {
+      "id": "mk-the-barnstormer",
+      "title": "The Barnstormer",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": 35,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A short, simple roller coaster in Fantasyland. If you have a preschooler or young kid, it's worth considering. If you don't, skip it.\n\nIt's faster than it looks \u2014 just a heads up.\n\nSkip the Lightning Lane.\n\n---"
+    },
+    "mk-seven-dwarfs-mine-train": {
+      "id": "mk-seven-dwarfs-mine-train",
+      "title": "Seven Dwarfs Mine Train",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 38,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "single",
+      "body": "This is one of the most popular rides at Magic Kingdom. The theming is exceptional: detailed animatronics, a beautifully designed queue, and a smooth ride through the dwarfs' mine with Snow White scenes woven throughout. It's part roller coaster, part dark ride, which gives it broad appeal across ages. Height requirement is 38\".\n\nIf you're staying onsite, rope drop this during Early Entry and skip the Lightning Lane purchase. If you don't have Early Entry, the Lightning Lane Single Pass is worth it. Standby waits regularly hit 60 to 90 minutes and don't ease much throughout the day.\n\n---"
+    },
+    "mk-under-the-sea-journey-of-the-little-mermaid": {
+      "id": "mk-under-the-sea-journey-of-the-little-mermaid",
+      "title": "Under the Sea \u2014 Journey of the Little Mermaid",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A slow, gentle clamshell ride through the story of The Little Mermaid. No height requirement, fully indoor and air-conditioned. The animatronics are on the sparser side as this is an older ride, but the movie's music still stands up.\n\nThe Ursula cave scene is darker and a bit creepy \u2014 just a heads up for sensitive little ones.\n\nWorth doing if you have a Little Mermaid fan in the group, particularly younger kids. Skip the Lightning Lane. This ride almost never has a meaningful wait, and if it's over 15 minutes, it's not worth stressing over.\n\n---"
+    },
+    "ak-kilimanjaro-safaris": {
+      "id": "ak-kilimanjaro-safaris",
+      "title": "Kilimanjaro Safaris",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "An open-air truck safari through 110 acres of savanna with real African animals \u2014 giraffes, elephants, lions, hippos, rhinos and more. No height requirement, and little ones can sit on your lap. The animals are most active in the morning before the heat sets in, so this is a rope drop priority. The ride is genuinely bumpy by design, which most kids love but can unsettle very young toddlers. Sit toward the front of the vehicle for the smoothest ride. The safari typically closes before the rest of the park, so don't save it for the end of the day.\n\n---"
+    },
+    "ak-gorilla-falls-exploration-trail": {
+      "id": "ak-gorilla-falls-exploration-trail",
+      "title": "Gorilla Falls Exploration Trail",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A self-guided trail that starts at the safari exit and most people walk right past it. The gorilla viewing area has large glass panels that put you within a few feet of a real family group, and the hippo underwater viewing is worth a stop, too. No wait, no height requirement. The full trail takes about 15-20 minutes to walk. If your kids are serious animal lovers, don't skip this. If you've got a great zoo at home, it's an easy pass.\n\n---"
+    },
+    "ak-navi-river-journey": {
+      "id": "ak-navi-river-journey",
+      "title": "Na'vi River Journey",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Slow boat ride through the glowing forest of Pandora. Fully gentle, no height requirement, really beautiful visuals. The animatronic Shaman at the end is one of the most technically advanced Disney has ever built, which can impress even a skeptic. Check the app first: only worth doing if standby is 15 minutes or under.\n\n---"
+    },
+    "ak-festival-of-the-lion-king": {
+      "id": "ak-festival-of-the-lion-king",
+      "title": "Festival of the Lion King",
+      "park": "AK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "top-pick",
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "One of the best shows at Walt Disney World and a real production. Live vocals, acrobats, stilt walkers, giant character puppets, and a fire performer. Little kids tend to go wild for it. Runs about 30 minutes and plays multiple times daily so you have flexibility on timing. Arrive 15 minutes early to choose your section \u2014 it's a round theater and some sections face the main stage more directly than others.\n\n---"
+    },
+    "ak-avatar-flight-of-passage": {
+      "id": "ak-avatar-flight-of-passage",
+      "title": "Avatar: Flight of Passage",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 44,
+      "motionWarning": true,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "This is consistently rated one of the best rides at Walt Disney World. You don't need to be an Avatar fan to enjoy it.\n\nYou straddle a banshee-style seat (like a bike) and fly over Pandora on a full wraparound 3D screen with wind, mist, and scent effects. It's a simulator, not a coaster, but it's more intense than it sounds. If you're prone to motion sickness, this might not be ideal for you. Height requirement is 44\". Use a Lightning Lane Multi Pass, and aim for evening rather than rope drop if you're skipping the Lightning Lane. This is one of the few rides at Animal Kingdom where waits actually get shorter as the day goes on.\n\n---"
+    },
+    "ak-expedition-everest": {
+      "id": "ak-expedition-everest",
+      "title": "Expedition Everest",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 44,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "Expedition Everest is, in my opinion, the best ride at Animal Kingdom. It's great start to finish. It has the largest animatronic at Disney World, and you're so impressed by it that it's hard to be scared as an adult.\n\nYou're on the hunt for the Yeti when your train tracks end and the second half of the ride goes backwards. There's some serious speed and a big drop, but it's a lot of fun.\n\n\n\n---",
+      "takeNote": "This is one of the more intense rides at Disney World. If you don't like roller coasters, skip it. The Yeti animatronic appears when the train stops mid-ride, so keep an eye out if you have a sensitive kid. Height requirement is 44\". Use a Lightning Lane Multi Pass."
+    },
+    "ak-kali-river-rapids": {
+      "id": "ak-kali-river-rapids",
+      "title": "Kali River Rapids",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": 38,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A whitewater raft ride through a rainforest. There's nice theming that tells a story about illegal logging and its impact on habitats (in a non-boring way). It's a short ride that isn't thrilling, but it can be refreshing on a hot afternoon because you will get wet. Potentially soaked \u2014 it really depends on where the water hits the raft on that ride. Stash valuables in the free lockers right outside the queue before you get in line. Height requirement is 38\".\n\nSkip the Lightning Lane. Save your selections for Flight of Passage and Expedition Everest.\n\n---",
+      "takeNote": "The trash bag in your park bag is your poncho here. Slip it over your clothes before you board and you'll stay mostly dry."
+    },
+    "ak-zootopia-better-zoogether": {
+      "id": "ak-zootopia-better-zoogether",
+      "title": "Zootopia: Better Zoogether!",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A 9-minute 4D show inside the Tree of Life theater, starring Judy Hopps (bunny) and Nick Wilde (fox). You wear 3D glasses, an Audio-Animatronic of Clawhauser sits in the audience with you. 4D effects include wind, mist, and something scurrying under your seat. A good midday reset when everyone needs to sit in the AC for a few minutes. Check the app before you go \u2014 it can build a wait on busy days.\n\n---"
+    },
+    "ak-maharajah-jungle-trek": {
+      "id": "ak-maharajah-jungle-trek",
+      "title": "Maharajah Jungle Trek",
+      "park": "AK",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A self-guided walking trail through crumbling palace ruins \u2014 tigers, Komodo dragons, giant fruit bats, and a large aviary at the end. No wait, no height requirement, 20 to 25 minutes. Best for families with kids who genuinely love animals. Go early if you want the tigers active \u2014 they're usually napping by midday. One heads-up: the bat section is open-air with no glass. There's a bypass if anyone finds that uncomfortable.\n\n---"
+    },
+    "dhs-tower-of-terror": {
+      "id": "dhs-tower-of-terror",
+      "title": "Tower of Terror",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 40,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "Few rides at Walt Disney World commit this hard to a concept. The Hollywood Tower Hotel is a fully realized place: a spooky 1920s hotel crumbling with neglect and a fun sort of spooky! There's a Rod Serling video introduction that Twilight Zone fans will genuinely love. The people who work this ride are dedicated to being as serious but silly as possible, and it's great to see them having fun with their roles. The drop itself is computer randomized, so you'll never get the same ride twice.\n\nMulti Pass is the right call here.\n\n\n\n---",
+      "takeNote": "In the library, the lights cut out and a TV blares on without warning. This is not a ride for people who don't like heights or sudden drops. The 40\" height requirement feels low for what's inside \u2014 use your judgment on kids who meet it technically but startle easily."
+    },
+    "dhs-slinky-dog-dash": {
+      "id": "dhs-slinky-dog-dash",
+      "title": "Slinky Dog Dash",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 38,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "A short but genuine roller coaster. People underestimate how fast this thing moves. In the queue you are toy-sized in Andy's backyard, and the scale of everything around you sells it completely. Slinky Dog himself talks to you through the whole ride which is a great added detail.\n\nFor kids who want a little thrill but haven't done a real coaster yet, this is a great entry point. If there's any trepidation, skip it; it moves faster than it looks from the ground.\n\nGood rope drop target if you're not using Lightning Lane on other rides first. Waits build fast.\n\nMulti Pass, Tier 1. Grab it early.\n\n\n\n---",
+      "takeNote": "38\" height requirement. The ride moves faster than it appears from the outside, so it might be harder for kids who meet the height requirement but are on the fence about coasters."
+    },
+    "dhs-alien-swirling-saucers": {
+      "id": "dhs-alien-swirling-saucers",
+      "title": "Alien Swirling Saucers",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\ud83c\udfa2",
+      "tags": [],
+      "heightReq": 32,
+      "motionWarning": true,
+      "riderSwap": false,
+      "llType": null,
+      "body": "The least intense of the three Toy Story Land rides, but a genuinely good option for little kids. The theming is fun \u2014 you're tiny, the aliens are piloting saucers around you, and the Toy Story music makes the whole thing feel celebratory.\n\nWorth knowing how it works: this isn't a spinner like the teacups. Your rocket gets pulled by a saucer and whips side to side in a figure-8 pattern. 32\" height requirement \u2014 but if someone in your group is prone to motion sickness, keep that in mind.\n\nNo Lightning Lane needed. Standby moves fast.\n\n---"
+    },
+    "dhs-toy-story-mania": {
+      "id": "dhs-toy-story-mania",
+      "title": "Toy Story Mania!",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "A carnival-style shooting game where you and the ride vehicle do the work \u2014 you're pulling a slingshot and firing at targets while the car moves between game screens. Every Toy Story character shows up across the different scenes and the targets have point values, which means adults get competitive fast. I always try to hunt down the high-value targets hiding in each scene \u2014 you can look them up before you go, but honestly it's also just fun to smash everything.\n\nNo height requirement, air conditioned, fun for every age in the group.\n\nMulti Pass is worth grabbing if you have young kids and aren't prioritizing Tower of Terror or Rock 'n' Roller Coaster with your selections.\n\n---"
+    },
+    "dhs-star-tours-the-adventures-continue": {
+      "id": "dhs-star-tours-the-adventures-continue",
+      "title": "Star Tours \u2014 The Adventures Continue",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": 40,
+      "motionWarning": true,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A classic that holds up. This is a 3D motion simulator set in the Star Wars universe \u2014 C-3PO accidentally ends up as your pilot, things go sideways immediately, and it's genuinely funny. The missions have been updated to include characters and scenes from the newer films, and with over 50 combinations the ride is different almost every time.\n\nThe theming in the queue alone is worth the walk-through. If you can't get Smugglers Run or the line is too long, this is a legitimate Star Wars alternative and one of the shortest waits in the park.\n\nNo Lightning Lane needed on most days. Just go.\n\n\n\n---",
+      "takeNote": "Motion simulator \u2014 if anyone in your group is prone to motion sickness, keep that in mind."
+    },
+    "dhs-millennium-falcon-smugglers-run": {
+      "id": "dhs-millennium-falcon-smugglers-run",
+      "title": "Millennium Falcon: Smugglers Run",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 38,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "This really feels like you're flying in a spaceship. The scale and detail are impeccable. This is a fun one because your family is your crew, and every seat has a job. Pilots steer, gunners shoot, engineers keep the ship running. The newest mission features Mando and Grogu. What your crew does actually changes how the mission goes.\n\nLines are running longer than usual right now. Grab Multi Pass.\n\n\n\n---",
+      "takeNote": "Pilots have the most control, engineers the least. Worth knowing before anyone argues over seats."
+    },
+    "dhs-star-wars-rise-of-the-resistance": {
+      "id": "dhs-star-wars-rise-of-the-resistance",
+      "title": "Star Wars: Rise of the Resistance",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 40,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "single",
+      "body": "This ride is awesome in the original definition of the word. The scale, the detail, the fact that it uses four different ride systems in a single experience: there is nothing else like it. Seeing the stormtroopers on the Star Destroyer alone is worth it, even if you are not a Star Wars fan.\n\nThe experience is about 20 minutes start to finish, and the storytelling starts in the queue.\n\nSingle Pass books up fast, often before the park opens, so buy it at 7am when your booking window opens. If you're staying on property, rope drop is the free version of that strategy.\n\n\n\n---",
+      "takeNote": "40\" height requirement. The ride is intense in atmosphere \u2014 dark, loud, and immersive in a way that can catch young kids off guard even if they're tall enough to ride. Use your judgment."
+    },
+    "dhs-mickey-minnies-runaway-railway": {
+      "id": "dhs-mickey-minnies-runaway-railway",
+      "title": "Mickey & Minnie's Runaway Railway",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "The only Mickey ride at Walt Disney World, and it's a good one. You watch a short cartoon in the theater before the screen literally opens up and you step into the animated world. From there, it's a trackless ride through a series of cartoon scenes, the car waltzes at one point, and the whole thing is genuinely impressive in a way that surprises a lot of adults.\n\nNo height requirement. Kids love it, parents are impressed by it.\n\nGood rope drop target \u2014 waits build fast. If you have young kids and aren't using Lightning Lane on rides elsewhere, it's worth grabbing.\n\n\n\n---",
+      "takeNote": "The moment the screen opens is loud \u2014 it happens at the end of the intro when the train crashes through. Worth a heads up for kids who startle easily."
+    },
+    "dhs-for-the-first-time-in-forever-a-frozen-sing-along-celebration": {
+      "id": "dhs-for-the-first-time-in-forever-a-frozen-sing-along-celebration",
+      "title": "For the First Time in Forever: A Frozen Sing-Along Celebration",
+      "park": "DHS",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "This is exactly what it sounds like \u2014 the audience sings along to Frozen songs while two comedic live performers retell the story of the film. Anna, Elsa, and Kristoff appear on stage. If your kids love Frozen, this is a genuine highlight.\n\nThe key word is sing-along, not show. Go in ready to participate and it's a great time, especially for preschoolers and early grade school kids.\n\nAir conditioned, 1,000 seats, runs throughout the day. Good midday break. No Lightning Lane needed.",
+      "scheduleWorthy": "Check show times in MDE before you enter the park and build one showing into your morning. The 10-11am window is the sweet spot. Seats fill up so arrive 10 minutes before showtime.\n\n---"
+    },
+    "dhs-indiana-jones-epic-stunt-spectacular": {
+      "id": "dhs-indiana-jones-epic-stunt-spectacular",
+      "title": "Indiana Jones Epic Stunt Spectacular",
+      "park": "DHS",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A live stunt show recreating scenes from Raiders of the Lost Ark \u2014 real stunts, real explosions, real fire effects, on some of the largest moving sets ever built. It's genuinely impressive and extremely well done. The show walks you through how the stunts work, which adds a layer that makes it more than just spectacle.\n\nCovered but not air conditioned, so time it for a cooler part of the day. No Lightning Lane needed on most days \u2014 the theater holds 2,000 people.\n\nBest for older kids and adults. At 35 minutes with loud pyrotechnics throughout, it's a tough sit for kids under 5.\n\n\n\n---",
+      "takeNote": "The explosions and fire effects are loud and sudden. Not a great fit for kids who startle easily or anyone sensitive to noise."
+    },
+    "dhs-disney-villains-unfairly-ever-after": {
+      "id": "dhs-disney-villains-unfairly-ever-after",
+      "title": "Disney Villains: Unfairly Ever After",
+      "park": "DHS",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A live stage show where Cruella, Captain Hook, and Maleficent each make their case for who's been treated most unfairly. The audience votes. The staging and projections are impressive and the performances are fun, but the humor skews older \u2014 younger kids will enjoy the spectacle but likely miss the jokes.\n\nAir conditioned, high capacity, runs every 30-40 minutes. A solid midday break option if you need to get out of the heat.\n\nNo Lightning Lane needed.\n\n\n\n---",
+      "takeNote": "Kids who find villains frightening in general may find this uncomfortable \u2014 the tone is campy rather than scary, but Maleficent and Cruella are front and center."
+    },
+    "dhs-rock-n-roller-coaster-starring-the-muppets": {
+      "id": "dhs-rock-n-roller-coaster-starring-the-muppets",
+      "title": "Rock 'n' Roller Coaster Starring The Muppets",
+      "park": "DHS",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 48,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "single",
+      "body": "*Post June 5 \u2014 write after firsthand visit.*\n\nOpens May 26, 2026. Include only for clients visiting after May 26.\n\n---",
+      "placeholder": true
+    },
+    "ep-journey-into-imagination-with-figment": {
+      "id": "ep-journey-into-imagination-with-figment",
+      "title": "Journey Into Imagination with Figment",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Figment has gone through a few iterations, but much of the silliness is back in this very low-key ride that almost never has a line. Eric Idle plays the serious professor to Figment, and his delivery is great. Adults tend to find it underwhelming but little kids enjoy it.\n\nThe area after the ride has great interactive activities \u2014 worth stopping for regardless of how you felt about the ride. Check the app for Figment meet times while you're there.\n\n\n\n---",
+      "takeNote": "Towards the end, the ride gets totally dark. Plug your or your kids' ears or at least warn them. The burst of air and noise is highly startling given how gentle the rest of the ride is."
+    },
+    "ep-test-track": {
+      "id": "ep-test-track",
+      "title": "Test Track",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 40,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "You're in a test car running through a series of challenges \u2014 a forest drive, extreme conditions, a futuristic dome \u2014 before the car hits the outside track at 65mph. It's the fastest ride at Walt Disney World and the speed at the end genuinely delivers.\n\nOne of the longest waits at EPCOT consistently. Rope drop is the best free strategy. If you're not rope dropping, grab it as your Tier 1 Multi Pass selection at 7am. Height requirement is 40\".\n\n[FLAG FOR REVISION \u2014 personal visit pending June 2026. Confirm scene sequence and any TAKE NOTE moments after visit.]\n\n---",
+      "placeholder": true
+    },
+    "ep-mission-space": {
+      "id": "ep-mission-space",
+      "title": "Mission: SPACE",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional"
+      ],
+      "heightReq": 40,
+      "motionWarning": true,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "Disney worked with NASA to make this as realistic as possible, and it showed \u2014 guests got sick in impressive numbers when it opened. It's been dialed back significantly since, but it's still a genuine simulator. Worth doing if space is your thing; easy to skip if it isn't.\n\nYou choose your mission at the entrance. Green orbits Earth and doesn't spin \u2014 manageable for most people, including those who are mildly motion sensitive. Orange goes to Mars with full centrifuge G-forces. If you're not sure, choose Green.\n\nTier 2 LLMP. Worth grabbing as a pre-book.\n\n\n\n---",
+      "takeNote": "The capsule closes around you and the lights dim before launch. Anyone claustrophobic should know this before they get in line."
+    },
+    "ep-guardians-of-the-galaxy-cosmic-rewind": {
+      "id": "ep-guardians-of-the-galaxy-cosmic-rewind",
+      "title": "Guardians of the Galaxy: Cosmic Rewind",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 42,
+      "motionWarning": true,
+      "riderSwap": false,
+      "llType": "single",
+      "body": "There is nothing else like this at Disney World. Fast, loud, visually stunning, perfectly timed to a rotating soundtrack of classic hits \u2014 it's an incredible ride. The effects alone are worth riding.\n\nThis is an all-around crowd pleaser for older kids, teens, and adults. For younger kids, use your judgment regardless of height \u2014 the reverse launch and constant rotation are genuinely disorienting even for kids who handle other coasters well.\n\nLightning Lane Single Pass only. Buy it at 7am when your booking window opens.\n\n\n\n---",
+      "takeNote": "Motion sickness is a real concern here \u2014 more so than almost any other Disney ride. The ride vehicle rotates constantly in a dark environment, which fools the brain in a way that hits people who are otherwise fine on coasters. If anyone in your group is prone to motion sickness, consider skipping it or taking precautions beforehand. The loudness is also significant \u2014 headphones for sensitive kids are worth considering."
+    },
+    "ep-frozen-ever-after": {
+      "id": "ep-frozen-ever-after",
+      "title": "Frozen Ever After",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "A boat ride through the world of Frozen \u2014 Anna, Elsa, Kristoff, the full soundtrack. The 2026 refurbishment replaced projected character faces with fully sculpted Audio-Animatronics, and the early word is that they're impressive. Little kids love this one, and the music alone carries it.\n\nTier 1 LLMP. One of the fastest-selling selections at EPCOT \u2014 book it first at 7am or use the throwaway LL strategy to grab it same-day after tap-in.\n\n\n\n---",
+      "takeNote": "There's a brief moment where the boat goes backwards down a small hill. It's quick but worth knowing if anyone in your group is sensitive to that."
+    },
+    "ep-remys-ratatouille-adventure": {
+      "id": "ep-remys-ratatouille-adventure",
+      "title": "Remy's Ratatouille Adventure",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": true,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "A beautiful, immersive ride \u2014 you're rat-sized, scurrying through the kitchen of Gusteau's restaurant at night with the whole Parisian world towering around you. The theming is exceptional, and little kids tend to love it. A genuine crowd pleaser across ages.\n\nTier 1 LLMP. Sells out fast \u2014 book it the moment your window opens at 7am.\n\n\n\n---",
+      "takeNote": "Motion sickness is a real concern for some guests. The ride vehicle spins and the large screens can be disorienting in combination. If anyone in your group is prone to motion sickness, take precautions beforehand."
+    },
+    "ep-spaceship-earth": {
+      "id": "ep-spaceship-earth",
+      "title": "Spaceship Earth",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "I love this ride. Is it boring? Arguably yes. But the scope of what it covers \u2014 the entire history of human communication from cave paintings to the internet \u2014 inside the iconic geodesic sphere that is the symbol of EPCOT, narrated by Judi Dench, makes it a classic Disney experience that's hard to replicate anywhere else.\n\nAt the end of the ride you descend backwards through space while designing your own silly little future on a touchscreen. The video uses photos of your face taken during the ride \u2014 they'll tell you when to smile, though choosing another expression can make for a funnier video.\n\nNo Lightning Lane needed. Waits are usually short and it's right at the park entrance.\n\n---"
+    },
+    "ep-the-seas-with-nemo-friends": {
+      "id": "ep-the-seas-with-nemo-friends",
+      "title": "The Seas with Nemo & Friends",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A gentle clamshell ride through Finding Nemo scenes, ending in a real 5.7 million gallon saltwater aquarium. The ride itself is sweet and perfectly fine for little kids \u2014 the aquarium after is the real draw. Sharks, rays, manatees, sea turtles. In Bruce's Shark World just off the aquarium, kids can pose inside the mouth of a giant Bruce the shark for a photo.\n\nWorth knowing: you don't need to ride to access the aquarium. If the wait is long, enter through the pavilion exit instead.\n\nNo Lightning Lane needed. Waits are usually short.\n\n---"
+    },
+    "ep-turtle-talk-with-crush": {
+      "id": "ep-turtle-talk-with-crush",
+      "title": "Turtle Talk with Crush",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "top-pick",
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A live interactive show where Crush from Finding Nemo talks directly with the audience in real time \u2014 he takes questions, riffs with kids, and genuinely seems to know what's happening in the room. The technology behind it is impressive but what lands is how natural it feels. Little kids are completely caught off guard by it in the best way.\n\nNo Lightning Lane needed. Check the app for showtimes.\n\n---"
+    },
+    "ep-living-with-the-land": {
+      "id": "ep-living-with-the-land",
+      "title": "Living with the Land",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A slow boat ride through working greenhouses where Disney actually grows produce used in restaurants across the resort. Calm, air conditioned, and genuinely interesting if food and agriculture are your thing. If they're not, it's an easy skip.\n\nThe Land Pavilion itself is a lovely place to take a break regardless \u2014 Sunshine Seasons, the quick service food court inside, is one of the better healthy options in the park and worth knowing about.\n\nAlmost no wait most of the day. No Lightning Lane needed.\n\n---"
+    },
+    "ep-gran-fiesta-tour-starring-the-three-caballeros": {
+      "id": "ep-gran-fiesta-tour-starring-the-three-caballeros",
+      "title": "Gran Fiesta Tour Starring the Three Caballeros",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u25cb",
+      "tags": [
+        "optional",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A gentle boat ride through animated scenes of Mexico with Donald Duck and the Three Caballeros. Little kids tend to love this one. The Mexico pavilion pyramid is already such an immersive environment, and the perpetual nighttime atmosphere inside makes everything feel a bit more magical than it otherwise would.\n\nA good option while you're waiting for a dining reservation at San Angel Inn, or anytime you need to cool off and sit down.\n\nNo Lightning Lane. Check the wait before you commit \u2014 if it's more than 10 minutes, come back later.\n\n---"
+    },
+    "ep-soarin-across-america": {
+      "id": "ep-soarin-across-america",
+      "title": "Soarin' Across America",
+      "park": "EP",
+      "type": "ride",
+      "icon": "\u2b50",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 40,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "body": "A hang-glider simulator that takes you over American landmarks \u2014 you're suspended in front of a giant wraparound screen with wind, scent, and movement effects that make it genuinely feel like flying. One of the most consistently beloved rides at EPCOT regardless of age. No drops, no intensity \u2014 just a beautiful, immersive experience that works for almost everyone.\n\n40\" height requirement. Tier 1 LLMP \u2014 book it as your pre-selection or grab it rolling after your first tap-in.\n\n[Personal take to be added after June visit.]\n\n\n\n---",
+      "takeNote": "If anyone in your group is afraid of heights, this one can be surprisingly uncomfortable. The screen is immersive enough that it feels very real, even though you're not actually far off the ground.",
+      "placeholder": true
+    },
+    "ep-daisy-duck": {
+      "id": "ep-daisy-duck",
+      "title": "Daisy Duck",
+      "park": "EP",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Daisy meets right at the International Gateway \u2014 the back entrance to EPCOT near the Skyliner and the BoardWalk hotels. If you're entering the park from that side, she's essentially the first thing you walk past.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "She meets right at the International Gateway entrance \u2014 rope drop is your best shot before the line builds. Easy to combine with Frozen or Remy since you're already in that corner of the park.\n\n---"
+    },
+    "ep-donald-duck": {
+      "id": "ep-donald-duck",
+      "title": "Donald Duck",
+      "park": "EP",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Donald meets outside the Mexico Pavilion in a sombrero \u2014 one of the more charming costume variations in the park. No need to seek this out; if you're walking World Showcase you'll pass right by him.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "He meets outside the Mexico Pavilion entrance. Go early in World Showcase before the midday crowd hits \u2014 the line stays manageable in the first hour after World Showcase opens.\n\n---"
+    },
+    "dhs-olaf": {
+      "id": "dhs-olaf",
+      "title": "Olaf",
+      "park": "DHS",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Olaf meets at Celebrity Spotlight in the Echo Lake area. One of the more reliably delightful meets in the park \u2014 he's expressive, the set is fun, and young kids respond to him well. Worth a stop if you're passing through Echo Lake anyway.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "Get here early \u2014 Celebrity Spotlight is one of the first things you hit coming into the park and the line builds fast once crowds arrive. Rope drop is your best window. Meets daily from 9am.\n\n---"
+    },
+    "dhs-mickey-minnie": {
+      "id": "dhs-mickey-minnie",
+      "title": "Mickey & Minnie",
+      "park": "DHS",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Mickey and Minnie meet separately near the Brown Derby on Hollywood Boulevard. You'll pass this area naturally coming in from the park entrance \u2014 easy to catch organically without committing to a wait.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "Hit this early on Hollywood Boulevard before heading deeper into the park. The line is shortest right at rope drop. If Mickey and Minnie are a priority, do this before Toy Story Land or Galaxy's Edge \u2014 it only gets busier.\n\n---"
+    },
+    "dhs-daisy-donald": {
+      "id": "dhs-daisy-donald",
+      "title": "Daisy & Donald",
+      "park": "DHS",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Daisy and Donald meet near Echo Lake, usually together. You'll pass this area on the way to or from Olaf at Celebrity Spotlight \u2014 worth a stop if the timing works.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "Pair this with Olaf at Celebrity Spotlight since they're in the same area. Do both at rope drop before the Echo Lake crowds build.\n\n---"
+    },
+    "dhs-woody-buzz-lightyear-jessie": {
+      "id": "dhs-woody-buzz-lightyear-jessie",
+      "title": "Woody, Buzz Lightyear & Jessie",
+      "park": "DHS",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "The three meet separately at various spots around Toy Story Land throughout the day. Check MDE for who's out and when \u2014 the rotation changes. If you're already in Toy Story Land for Slinky or Alien Swirling Saucers, it's easy to fold in whoever is meeting nearby.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "Buzz Lightyear is the priority here given the 2026 refurb hype \u2014 demand is unusually high so the meet gets busy fast. Check MDE before you enter Toy Story Land and head straight to whoever has the shortest line. Woody and Jessie are more manageable later in the morning.\n\n---"
+    },
+    "ak-mickey-minnie": {
+      "id": "ak-mickey-minnie",
+      "title": "Mickey & Minnie",
+      "park": "AK",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "The only place in any Disney World park where Mickey and Minnie meet together in the same room. They're in safari gear here which is one of the better costume variations. Indoor and air conditioned.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "This is the only place in any park where you get both Mickey and Minnie together \u2014 so if they're a priority, this is your spot. Hit it at rope drop before the line builds. Indoor and air conditioned so the wait is at least comfortable if you do have to queue.\n\n---"
+    },
+    "ak-moana": {
+      "id": "ak-moana",
+      "title": "Moana",
+      "park": "AK",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Moana meets on Discovery Island near the Tree of Life. One of the more enthusiastic character meets in the park \u2014 she's a talking character and genuinely engaging with young kids. Easy to fold in while you're moving between areas.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "Moana is a talking character which makes this one of the better meets in AK \u2014 she stays in character and interacts well with kids of all ages. Check MDE for her times and aim for first thing in the morning before the Discovery Island area gets busy.\n\n---"
+    },
+    "ak-russell-dug": {
+      "id": "ak-russell-dug",
+      "title": "Russell & Dug",
+      "park": "AK",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Russell and Dug meet separately on Discovery Island \u2014 you won't get both in one stop. Check MDE for who's out and when. Easy to catch organically while moving through the park since Discovery Island is a natural throughway.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "Pick one and commit \u2014 they don't meet together so trying to get both adds real time. Dug tends to draw shorter lines. Check MDE before you hit Discovery Island and go straight to whoever is meeting right then.\n\n---"
+    },
+    "ak-pocahontas": {
+      "id": "ak-pocahontas",
+      "title": "Pocahontas",
+      "park": "AK",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Pocahontas meets in the rocky area of The Oasis near the park entrance. You'll pass through The Oasis coming in and out of the park so this is one of the easiest organic sightings in AK. Quieter than Discovery Island meets.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "The Oasis is most manageable right at rope drop before crowds push through the entrance. If Pocahontas is a priority, stop on your way in rather than trying to double back later in the day.\n\n---"
+    },
+    "ak-donald-daisy-goofy": {
+      "id": "ak-donald-daisy-goofy",
+      "title": "Donald, Daisy & Goofy",
+      "park": "AK",
+      "type": "character",
+      "icon": "\ud83d\udc4b",
+      "tags": [
+        "character-meet"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "\u26a0\ufe0f TEMPORARY \u2014 expires when Bluey opens at Conservation Station (May 26, 2026). Update location after that date.\n\nAll three are meeting temporarily at Harambe Train Station in Africa while Conservation Station is being prepped for the Bluey experience. In their safari suits \u2014 same outfits as Tusker House. Easy to fold in on your way through Africa to Kilimanjaro Safaris.\n\nWorth stopping if the line is short. No need to wait if it isn't.",
+      "waitWorthy": "All three in one stop makes this unusually efficient for AK. Hit it after Safaris while you're already in Africa \u2014 the line is typically shorter mid-morning once the rope drop crowd has moved on.\n\n---",
+      "expires": "Update location after that date."
+    },
+    "ep-matsuriza": {
+      "id": "ep-matsuriza",
+      "title": "Matsuriza",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Traditional Japanese Taiko drummers performing on the upper level of the Japan pavilion pagoda. Loud, physical, and genuinely impressive \u2014 one of the best ambient entertainment moments in all of World Showcase. Runs about 10 minutes and plays several times daily.\n\nCheck MDE for show times. You'll hear it before you see it.\n\n---"
+    },
+    "ep-mariachi-cobre": {
+      "id": "ep-mariachi-cobre",
+      "title": "Mariachi Cobre",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A full mariachi band performing outside the Mexico pavilion in full traditional costume. One of the longest-running acts in World Showcase and a genuine highlight. Multiple shows daily starting at 11:15am.\n\nCheck MDE for show times. Easy to catch while you're already at the pavilion.\n\n---"
+    },
+    "ep-jeweled-dragon-acrobats": {
+      "id": "ep-jeweled-dragon-acrobats",
+      "title": "Jeweled Dragon Acrobats",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Chinese acrobats performing spinning, balancing, and juggling in front of the China pavilion. About 20 minutes, runs five times daily. Young kids tend to stop and stare \u2014 the skill level is legitimately jaw-dropping.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ep-jammitors": {
+      "id": "ep-jammitors",
+      "title": "JAMMitors",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Percussionists who perform using oversized trash cans, mops, and other found objects. Comedic, loud, and a consistent hit with young kids. They roam different areas of the park so location varies \u2014 check MDE for where they're performing.\n\n---"
+    },
+    "ep-sergio": {
+      "id": "ep-sergio",
+      "title": "Sergio",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A juggler and mime performing in the Italy courtyard several times daily. Audience members sometimes get pulled in. The Italy piazza is one of the most beautiful spots in World Showcase so worth a stop regardless \u2014 Sergio is a bonus.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ep-voices-of-liberty": {
+      "id": "ep-voices-of-liberty",
+      "title": "Voices of Liberty",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show",
+        "ac"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "An a cappella group performing American standards and patriotic songs inside the American Adventure rotunda. The acoustics in the rotunda are exceptional \u2014 this is one of those things that genuinely surprises people who stumble into it. Fully indoors and air conditioned.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ep-british-revolution": {
+      "id": "ep-british-revolution",
+      "title": "British Revolution",
+      "park": "EP",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A live band performing classic British rock on the UK pavilion stage. Covers range from Beatles to the Rolling Stones. Good energy, worth a stop if you're passing through the back half of World Showcase.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ak-tam-tam-drummers-of-harambe": {
+      "id": "ak-tam-tam-drummers-of-harambe",
+      "title": "Tam Tam Drummers of Harambe",
+      "park": "AK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "Traditional African drummers performing in Harambe village near Dawa Bar. One of the best ambient entertainment moments in any Disney park \u2014 the sound builds as you walk from Discovery Island into Africa and it's genuinely transportive. Multiple performances throughout the day.\n\nCheck MDE for show times. You'll hear it before you see it.\n\n---"
+    },
+    "ak-pandora-drummers-swotu-waya": {
+      "id": "ak-pandora-drummers-swotu-waya",
+      "title": "Pandora Drummers (Swotu Waya)",
+      "park": "AK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A Na'vi drum ceremony performed near the entrance to Na'vi River Journey. Short, atmospheric, and perfectly in keeping with the immersive world of Pandora. Easy to catch while you're already in the area for Flight of Passage or Na'vi River Journey.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ak-viva-gaia-street-band": {
+      "id": "ak-viva-gaia-street-band",
+      "title": "Viva Gaia Street Band",
+      "park": "AK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "An energetic street band performing on the Discovery Island stage with a lot of audience participation. Vibrant, high-energy, and a good spontaneous stop while moving through the center of the park.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ak-beats-and-strings": {
+      "id": "ak-beats-and-strings",
+      "title": "Beats and Strings",
+      "park": "AK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A duo performing traditional Indian music on sitar and tabla on the Asia stage. A quieter, more atmospheric experience than the other AK performers \u2014 worth catching if you're in the area after Expedition Everest or Kali River Rapids.\n\nCheck MDE for show times.\n\n---"
+    },
+    "ak-feathered-friends-in-flight": {
+      "id": "ak-feathered-friends-in-flight",
+      "title": "Feathered Friends in Flight",
+      "park": "AK",
+      "type": "show",
+      "icon": "\ud83c\udfad",
+      "tags": [
+        "show"
+      ],
+      "heightReq": null,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": null,
+      "body": "A 30-minute bird show where animal behavior specialists introduce guests to exotic birds in a live, open-air theater. The birds are the main performers so no two shows are exactly the same. Runs multiple times daily from late morning onward.\n\nGood for families who love animals. Best for kids who can sit for 30 minutes \u2014 it's educational and impressive but not high energy.\n\nCheck MDE for show times.\n\n---\n\n*End of library v2*"
+    },
+    "mk-tianas-bayou-adventure": {
+      "id": "mk-tianas-bayou-adventure",
+      "title": "Tiana's Bayou Adventure",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\ud83c\udf3f",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 40,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "llTier": 1,
+      "body": "Disney's newest Magic Kingdom ride \u2014 a bayou boat journey through the world of The Princess and the Frog. Opened in 2024, replacing Splash Mountain. Beautiful, immersive, and a genuine princess experience for young kids.\n\nHeight requirement is 40 inches. Book this as your Tier 1 Multi Pass pre-selection. Standby builds fast after 10am and doesn't ease much. Use the Lightning Lane entrance when your window opens.\n\nThis ride ends with a significant drop and everyone gets wet. Bring a small trash bag for wet clothes so you can keep moving through the day.\n\n---"
+    },
+    "mk-big-thunder-mountain-railroad": {
+      "id": "mk-big-thunder-mountain-railroad",
+      "title": "Big Thunder Mountain Railroad",
+      "park": "MK",
+      "type": "ride",
+      "icon": "\u26f0\ufe0f",
+      "tags": [
+        "top-pick"
+      ],
+      "heightReq": 38,
+      "motionWarning": false,
+      "riderSwap": false,
+      "llType": "multi",
+      "llTier": 1,
+      "body": "A mine train coaster through the red rock canyons of Frontierland. Returned to Tier 1 status in May 2026 following a 16-month refurbishment. No drops, no inversions \u2014 the thrill is speed and banking through the canyon. The theming is the main event.\n\nHeight requirement is 38 inches. Book via Lightning Lane Multi Pass. Standby stays high all day; demand has been especially strong since the refurb reopening.\n\n---"
+    }
+  },
+  "index": {
+    "byPark": {
+      "MK": [
+        "mk-dumbo-the-flying-elephant",
+        "mk-cinderellas-carousel",
+        "mk-peter-pans-flight",
+        "mk-its-a-small-world",
+        "mk-the-many-adventures-of-winnie-the-pooh",
+        "mk-walt-disneys-enchanted-tiki-room",
+        "mk-jungle-cruise",
+        "mk-pirates-of-the-caribbean",
+        "mk-tomorrowland-transit-authority-peoplemover",
+        "mk-buzz-lightyears-space-ranger-spin",
+        "mk-mickeys-philharmagic",
+        "mk-walt-disney-world-railroad",
+        "mk-festival-of-fantasy-parade",
+        "mk-happily-ever-after-fireworks",
+        "mk-haunted-mansion",
+        "mk-monsters-inc-laugh-floor",
+        "mk-space-mountain",
+        "mk-the-barnstormer",
+        "mk-seven-dwarfs-mine-train",
+        "mk-under-the-sea-journey-of-the-little-mermaid"
+      ],
+      "EP": [
+        "ep-journey-into-imagination-with-figment",
+        "ep-test-track",
+        "ep-mission-space",
+        "ep-guardians-of-the-galaxy-cosmic-rewind",
+        "ep-frozen-ever-after",
+        "ep-remys-ratatouille-adventure",
+        "ep-spaceship-earth",
+        "ep-the-seas-with-nemo-friends",
+        "ep-turtle-talk-with-crush",
+        "ep-living-with-the-land",
+        "ep-gran-fiesta-tour-starring-the-three-caballeros",
+        "ep-soarin-across-america",
+        "ep-daisy-duck",
+        "ep-donald-duck",
+        "ep-matsuriza",
+        "ep-mariachi-cobre",
+        "ep-jeweled-dragon-acrobats",
+        "ep-jammitors",
+        "ep-sergio",
+        "ep-voices-of-liberty",
+        "ep-british-revolution"
+      ],
+      "DHS": [
+        "dhs-tower-of-terror",
+        "dhs-slinky-dog-dash",
+        "dhs-alien-swirling-saucers",
+        "dhs-toy-story-mania",
+        "dhs-star-tours-the-adventures-continue",
+        "dhs-millennium-falcon-smugglers-run",
+        "dhs-star-wars-rise-of-the-resistance",
+        "dhs-mickey-minnies-runaway-railway",
+        "dhs-for-the-first-time-in-forever-a-frozen-sing-along-celebration",
+        "dhs-indiana-jones-epic-stunt-spectacular",
+        "dhs-disney-villains-unfairly-ever-after",
+        "dhs-rock-n-roller-coaster-starring-the-muppets",
+        "dhs-olaf",
+        "dhs-mickey-minnie",
+        "dhs-daisy-donald",
+        "dhs-woody-buzz-lightyear-jessie"
+      ],
+      "AK": [
+        "ak-kilimanjaro-safaris",
+        "ak-gorilla-falls-exploration-trail",
+        "ak-navi-river-journey",
+        "ak-festival-of-the-lion-king",
+        "ak-avatar-flight-of-passage",
+        "ak-expedition-everest",
+        "ak-kali-river-rapids",
+        "ak-zootopia-better-zoogether",
+        "ak-maharajah-jungle-trek",
+        "ak-mickey-minnie",
+        "ak-moana",
+        "ak-russell-dug",
+        "ak-pocahontas",
+        "ak-donald-daisy-goofy",
+        "ak-tam-tam-drummers-of-harambe",
+        "ak-pandora-drummers-swotu-waya",
+        "ak-viva-gaia-street-band",
+        "ak-beats-and-strings",
+        "ak-feathered-friends-in-flight"
+      ]
+    },
+    "byType": {
+      "ride": [
+        "mk-dumbo-the-flying-elephant",
+        "mk-cinderellas-carousel",
+        "mk-peter-pans-flight",
+        "mk-its-a-small-world",
+        "mk-the-many-adventures-of-winnie-the-pooh",
+        "mk-walt-disneys-enchanted-tiki-room",
+        "mk-jungle-cruise",
+        "mk-pirates-of-the-caribbean",
+        "mk-tomorrowland-transit-authority-peoplemover",
+        "mk-buzz-lightyears-space-ranger-spin",
+        "mk-walt-disney-world-railroad",
+        "mk-haunted-mansion",
+        "mk-space-mountain",
+        "mk-the-barnstormer",
+        "mk-seven-dwarfs-mine-train",
+        "mk-under-the-sea-journey-of-the-little-mermaid",
+        "ak-kilimanjaro-safaris",
+        "ak-gorilla-falls-exploration-trail",
+        "ak-navi-river-journey",
+        "ak-avatar-flight-of-passage",
+        "ak-expedition-everest",
+        "ak-kali-river-rapids",
+        "ak-zootopia-better-zoogether",
+        "ak-maharajah-jungle-trek",
+        "dhs-tower-of-terror",
+        "dhs-slinky-dog-dash",
+        "dhs-alien-swirling-saucers",
+        "dhs-toy-story-mania",
+        "dhs-star-tours-the-adventures-continue",
+        "dhs-millennium-falcon-smugglers-run",
+        "dhs-star-wars-rise-of-the-resistance",
+        "dhs-mickey-minnies-runaway-railway",
+        "dhs-rock-n-roller-coaster-starring-the-muppets",
+        "ep-journey-into-imagination-with-figment",
+        "ep-test-track",
+        "ep-mission-space",
+        "ep-guardians-of-the-galaxy-cosmic-rewind",
+        "ep-frozen-ever-after",
+        "ep-remys-ratatouille-adventure",
+        "ep-spaceship-earth",
+        "ep-the-seas-with-nemo-friends",
+        "ep-living-with-the-land",
+        "ep-gran-fiesta-tour-starring-the-three-caballeros",
+        "ep-soarin-across-america"
+      ],
+      "character": [
+        "ep-daisy-duck",
+        "ep-donald-duck",
+        "dhs-olaf",
+        "dhs-mickey-minnie",
+        "dhs-daisy-donald",
+        "dhs-woody-buzz-lightyear-jessie",
+        "ak-mickey-minnie",
+        "ak-moana",
+        "ak-russell-dug",
+        "ak-pocahontas",
+        "ak-donald-daisy-goofy"
+      ],
+      "show": [
+        "mk-mickeys-philharmagic",
+        "mk-festival-of-fantasy-parade",
+        "mk-happily-ever-after-fireworks",
+        "mk-monsters-inc-laugh-floor",
+        "ak-festival-of-the-lion-king",
+        "dhs-for-the-first-time-in-forever-a-frozen-sing-along-celebration",
+        "dhs-indiana-jones-epic-stunt-spectacular",
+        "dhs-disney-villains-unfairly-ever-after",
+        "ep-turtle-talk-with-crush",
+        "ep-matsuriza",
+        "ep-mariachi-cobre",
+        "ep-jeweled-dragon-acrobats",
+        "ep-jammitors",
+        "ep-sergio",
+        "ep-voices-of-liberty",
+        "ep-british-revolution",
+        "ak-tam-tam-drummers-of-harambe",
+        "ak-pandora-drummers-swotu-waya",
+        "ak-viva-gaia-street-band",
+        "ak-beats-and-strings",
+        "ak-feathered-friends-in-flight"
+      ]
+    },
+    "mk-tianas-bayou-adventure": {
+      "park": "MK",
+      "type": "ride"
+    },
+    "mk-big-thunder-mountain-railroad": {
+      "park": "MK",
+      "type": "ride"
+    }
+  }
+}
