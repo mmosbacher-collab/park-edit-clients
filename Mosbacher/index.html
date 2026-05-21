@@ -268,7 +268,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
           <div class="bp-dash"></div>
           <div class="bp-notch bp-notch-r"></div>
         </div>
-        <div class="bp-bottom">
+        <div class="bp-bottom" id="sc-0">
           <div class="pill-row">
             <div class="bp-pill" id="charsPill-0" onclick="openCharsDrawer(0)">
               <span class="bp-pill-icon">👋</span>
@@ -342,7 +342,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
           <div class="bp-dash"></div>
           <div class="bp-notch bp-notch-r"></div>
         </div>
-        <div class="bp-bottom">
+        <div class="bp-bottom" id="sc-1">
           <div class="pill-row">
             <div class="bp-pill" id="charsPill-1" onclick="openCharsDrawer(1)">
               <span class="bp-pill-icon">👋</span>
@@ -421,7 +421,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
           <div class="bp-dash"></div>
           <div class="bp-notch bp-notch-r"></div>
         </div>
-        <div class="bp-bottom">
+        <div class="bp-bottom" id="sc-2">
           <div class="pill-row">
             <div class="bp-pill" id="charsPill-2" onclick="openCharsDrawer(2)">
               <span class="bp-pill-icon">👋</span>
@@ -497,7 +497,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
           <div class="bp-dash"></div>
           <div class="bp-notch bp-notch-r"></div>
         </div>
-        <div class="bp-bottom">
+        <div class="bp-bottom" id="sc-3">
           <div class="pill-row">
             <div class="bp-pill" id="charsPill-3" onclick="openCharsDrawer(3)">
               <span class="bp-pill-icon">👋</span>
@@ -882,7 +882,7 @@ function switchIndex(){
 }
 
 function openDrawer(key){
-  if(document.querySelector('#timeline-0.edit-mode,#timeline-1.edit-mode,#timeline-2.edit-mode,#timeline-3.edit-mode'))return;
+  if(document.querySelector('#sc-0.edit-mode,#sc-1.edit-mode,#sc-2.edit-mode,#sc-3.edit-mode'))return;
   hideSOS();
   var item=activities[key];
   if(!item)return;
@@ -971,9 +971,9 @@ function openSOSFromMenu(key){
 function toggleEdit(dayIdx){
   editModes[dayIdx]=!editModes[dayIdx];
   var on=editModes[dayIdx];
-  var tl=document.getElementById('timeline-'+dayIdx);
-  if(!tl)return;
-  tl.classList.toggle('edit-mode',on);
+  var c=document.getElementById('sc-'+dayIdx);
+  if(!c)return;
+  if(on){c.classList.add('edit-mode');}else{c.classList.remove('edit-mode');}
   var bn=document.getElementById('editBanner-'+dayIdx);
   if(bn)bn.classList.toggle('show',on);
   if(on){updateSteppers(dayIdx);}
