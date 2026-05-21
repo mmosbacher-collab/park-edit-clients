@@ -1,0 +1,13 @@
+# Build tools — local only, never deployed
+_build/
+
+# Intake JSON exports — client data, never deployed
+*.json
+!manifest.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
