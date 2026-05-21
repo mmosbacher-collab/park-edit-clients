@@ -60,7 +60,12 @@ const MAPS_SVG_SM = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none"
 
 /** Escape single quotes for inline JS strings. */
 function jsEsc(str) {
-  return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  return (str || '')
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'")
+    .replace(/\r?\n/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
 }
 
 /** Camel-case a kebab id: ep-frozen-ever-after → epFrozenEverAfter */
@@ -312,7 +317,7 @@ function renderTLItem(item, dayIndex) {
   const cls      = fixed ? 'fixed' : 'optional';
   const stepBtns = fixed
     ? `<div class="stepper"><button class="step-btn" disabled>↑</button><div class="step-divider"></div><button class="step-btn" disabled>↓</button></div>`
-    : `<div class="stepper"><button class="step-btn" onclick="event.stopPropagation()">↑</button><div class="step-divider"></div><button class="step-btn" onclick="event.stopPropagation()">↓</button></div>`;
+    : `<div class="stepper"><button class="step-btn">↑</button><div class="step-divider"></div><button class="step-btn">↓</button></div>`;
   const fixedLabel = fixed ? `<div class="fixed-label">Fixed</div>` : '';
   const timeStr  = item.time ? normalizeTime(item.time) : '';
   const dotCls   = item.dotClass || 'dot-opt';
@@ -819,7 +824,8 @@ function serialiseActivities(activities) {
     const title     = jsEsc(val.title || '');
     const time      = jsEsc(val.time || '');
     const tags      = jsEsc(val.tags || '');
-    const body      = jsEsc(val.body || '');
+    const rawBody   = (val.body || '').replace(/\s*---\s*/g, '<div class="section-divider"></div>');
+    const body      = jsEsc(rawBody);
     const rowId     = jsEsc(val.rowId || '');
     return `  ${key}:{icon:'${icon}',iconClass:'${iClass}',title:'${title}',time:'${time}',tags:'${tags}',body:'${body}',rowId:'${rowId}'}`;
   }).join(',\n');
@@ -836,9 +842,10 @@ function serialiseWKData(wkData) {
     }
     const intro  = jsEsc(park.intro || '');
     const groups = (park.groups || []).map(g => {
-      const tips = (g.tips || []).map(t =>
-        `{e:'${jsEsc(t.e)}',t:'${jsEsc(t.t)}',d:'${jsEsc(t.d)}'}`
-      ).join(',');
+      const tips = (g.tips || []).map(t => {
+        const desc = jsEsc((t.d || '').replace(/\s*---\s*/g, ' '));
+        return `{e:'${jsEsc(t.e)}',t:'${jsEsc(t.t)}',d:'${desc}'}`;
+      }).join(',');
       return `{label:'${jsEsc(g.label)}',tips:[${tips}]}`;
     }).join(',');
     return `  {intro:'${intro}',groups:[${groups}]}`;
