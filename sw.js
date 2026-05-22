@@ -1,6 +1,6 @@
 // The Park Edit — Service Worker
 // Generic across all client subfolders.
-const CACHE = 'park-edit-v5';
+const CACHE = 'park-edit-v6';
 
 self.addEventListener('install', function(e) {
   e.waitUntil(self.skipWaiting());
