@@ -1,6 +1,6 @@
 {
-  "name": "The Park Edit",
-  "short_name": "Park Edit",
+  "name": "My Park Edit",
+  "short_name": "My Park Edit",
   "description": "Disney is overwhelming. Your planning shouldn't be.",
   "start_url": "/",
   "scope": "/",
