@@ -716,7 +716,7 @@ function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set
 function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
 var doneItems=loadDone();
 var currentDay=0;
-var editModes=[false,false,false];
+var editModes=[false,false,false,false];
 var currentWKPark=0;
 
 // ── WORTH KNOWING DATA ────────────────────────────────────────
