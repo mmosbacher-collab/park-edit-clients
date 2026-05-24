@@ -271,6 +271,62 @@ select {
   font-weight: 500;
 }
 
+/* CALENDAR BUTTONS */
+.cal-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--terracotta);
+  background: var(--cream);
+  border: 1px solid var(--terracotta);
+  border-radius: 20px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.cal-btn:hover {
+  background: var(--terracotta);
+  color: white;
+}
+.cal-btn:disabled, .cal-btn.disabled {
+  color: var(--muted);
+  border-color: var(--border);
+  background: var(--cream);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.key-dates-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.key-date-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: var(--surface);
+  border-radius: 8px;
+  gap: 12px;
+}
+.key-date-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  flex: 1;
+}
+.key-date-value {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 90px;
+  text-align: right;
+  margin-right: 10px;
+}
+
 /* TOOLTIP */
 .info-btn {
   display: inline-flex;
@@ -1683,6 +1739,45 @@ select {
   </div>
 
   <div class="card">
+    <div class="card-header"><div class="card-title">Key Dates &amp; Reminders</div></div>
+    <div class="card-body">
+      <div class="note" style="margin-bottom:14px;">Calendar reminders for your workflow. Dates calculate automatically from check-in. Add each to your calendar so nothing slips.</div>
+      <div class="key-dates-row" id="keyDatesRow">
+        <div class="key-date-item">
+          <span class="key-date-label">📋 ADR window opens</span>
+          <span class="key-date-value" id="kd-adr">—</span>
+          <button class="cal-btn disabled" id="cal-adr" onclick="addToCalendar('adr')">＋ Add</button>
+        </div>
+        <div class="key-date-item">
+          <span class="key-date-label">📋 Day before ADR window</span>
+          <span class="key-date-value" id="kd-adr-pre">—</span>
+          <button class="cal-btn disabled" id="cal-adr-pre" onclick="addToCalendar('adr-pre')">＋ Add</button>
+        </div>
+        <div class="key-date-item">
+          <span class="key-date-label">⚡ LL booking window opens</span>
+          <span class="key-date-value" id="kd-ll">—</span>
+          <button class="cal-btn disabled" id="cal-ll" onclick="addToCalendar('ll')">＋ Add</button>
+        </div>
+        <div class="key-date-item">
+          <span class="key-date-label">⚡ Day before LL window</span>
+          <span class="key-date-value" id="kd-ll-pre">—</span>
+          <button class="cal-btn disabled" id="cal-ll-pre" onclick="addToCalendar('ll-pre')">＋ Add</button>
+        </div>
+        <div class="key-date-item">
+          <span class="key-date-label">📄 Pre-Edit must deliver</span>
+          <span class="key-date-value" id="kd-preedit">—</span>
+          <button class="cal-btn disabled" id="cal-preedit" onclick="addToCalendar('preedit')">＋ Add</button>
+        </div>
+        <div class="key-date-item">
+          <span class="key-date-label">📱 Park Edit must deliver</span>
+          <span class="key-date-value" id="kd-parkedit">—</span>
+          <button class="cal-btn disabled" id="cal-parkedit" onclick="addToCalendar('parkedit')">＋ Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
     <div class="card-header"><div class="card-title">Build Status</div></div>
     <div class="card-body">
       <div class="field-row single">
@@ -2133,19 +2228,6 @@ async function extractCallNotes() {
 
 Extract whatever you can find. Use null for anything not mentioned. For arrays, use empty arrays if nothing found.
 
-For selection fields, use EXACT values from these options:
-- transport: "Flying" | "Driving" | "Both"
-- llmp: "Already planned" | "Open to it" | "Not interested"
-- llsp: "Already planned" | "Open to it" | "Not interested"
-- ropeDrop: "Yes — we're in" | "Maybe" | "No thanks"
-- afternoonBreak: "Yes — planning on it" | "Likely" | "No — pushing through"
-- strollerYN: "Bringing own" | "Renting at park" | "No stroller"
-- diningPriority: "Mostly table service" | "A mix" | "Quick service mostly"
-- disneyBefore: "First time" | "Been once or twice" | "Regular visitors"
-- bedtime: "Strict — in bed by 8pm" | "Flexible — 9ish" | "No set bedtime"
-- mobility: "No mobility needs" | "Stroller as wheelchair" | "Wheelchair/ECV" | "Limited walking"
-- das: "Yes — have DAS" | "Not applicable"
-
 Return this exact structure:
 {
   "people": [{"name":"","role":"","age":"","ageUnit":"years","height":"","chars":"","allergies":"","food":"","likes":"","ride":""}],
@@ -2188,11 +2270,11 @@ Call notes:
 ${notes}`;
 
   try {
-    const response = await fetch('/.netlify/functions/claude-proxy', {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
+        model: 'claude-sonnet-4-20250514',
         max_tokens: 2000,
         messages: [{ role: 'user', content: prompt }]
       })
@@ -2207,7 +2289,7 @@ ${notes}`;
     applyExtraction(extracted);
 
   } catch(e) {
-    status.textContent = 'Extraction failed: ' + e.message;
+    status.textContent = 'Extraction failed — fill in manually or try again';
     status.style.color = 'var(--terracotta)';
     btn.disabled = false;
     btnText.textContent = '✦ Extract to fields';
@@ -2231,22 +2313,15 @@ function applyExtraction(d) {
     return false;
   }
 
-  // Selection setter — case-insensitive, partial match
+  // Selection setter
   function setSelection(group, value) {
     if (!value) return;
-    const valLower = value.toLowerCase().trim();
-    let matched = null;
+    window._selections[group] = value;
     document.querySelectorAll('.option-btn').forEach(btn => {
-      const onclick = btn.getAttribute('onclick');
-      if (!onclick || !onclick.includes("'" + group + "'")) return;
-      const btnText = btn.textContent.trim().toLowerCase();
-      if (btnText === valLower) matched = btn;
-      else if (!matched && (btnText.includes(valLower) || valLower.includes(btnText))) matched = btn;
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').includes("'" + group + "'") && btn.textContent.trim() === value) {
+        btn.classList.add('selected');
+      }
     });
-    if (matched) {
-      matched.classList.add('selected');
-      window._selections[group] = matched.textContent.trim();
-    }
   }
 
   // People
@@ -2322,10 +2397,6 @@ function applyExtraction(d) {
       if (pd.lateStart === 'Yes') setSelection('pdLateStart' + parkDayCount, 'Yes');
     });
     summaryLines.push(`✓ ${d.parkDays.length} park day${d.parkDays.length !== 1 ? 's' : ''}`);
-    // Auto-fetch hours for each park day after extraction
-    setTimeout(() => {
-      for (let i = 1; i <= parkDayCount; i++) fetchParkHours(i);
-    }, 300);
   }
 
   // Character priorities
@@ -2795,44 +2866,6 @@ function selectHotel(name, type) {
 function hideHotelDropdown() {
   setTimeout(() => { const d = document.getElementById('hotelDropdown'); if(d) d.style.display='none'; }, 200);
 }
-
-// ===================== PARK HOURS AUTO-FETCH =====================
-async function fetchParkHours(dayIndex) {
-  const dateEl = document.getElementById('pdDate' + dayIndex);
-  const parkEl = document.getElementById('pdPark' + dayIndex);
-  const openEl = document.getElementById('pdOpen' + dayIndex);
-  const closeEl = document.getElementById('pdClose' + dayIndex);
-  if (!dateEl || !parkEl || !openEl || !closeEl) return;
-
-  const date = dateEl.value;
-  const park = parkEl.value;
-  if (!date || !park || park === 'Disney Springs' || park === 'Water park') return;
-  if (openEl.value && closeEl.value) return; // already filled
-
-  try {
-    const res = await fetch('/.netlify/functions/park-hours', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ park, date })
-    });
-    if (!res.ok) return;
-    const data = await res.json();
-    if (data.open && !openEl.value) openEl.value = data.open;
-    if (data.close && !closeEl.value) closeEl.value = data.close;
-    autoSave();
-  } catch(e) {
-    // Silent fail — user can fill manually
-  }
-}
-
-// Hook park day date/park changes to auto-fetch hours
-document.addEventListener('change', function(e) {
-  const id = e.target.id || '';
-  const matchDate = id.match(/^pdDate(\d+)$/);
-  const matchPark = id.match(/^pdPark(\d+)$/);
-  if (matchDate) fetchParkHours(matchDate[1]);
-  if (matchPark) fetchParkHours(matchPark[1]);
-});
 
 // ===================== AIRLINE / FLIGHT LOOKUP =====================
 const AIRLINE_CODES = {
@@ -3771,6 +3804,126 @@ document.addEventListener('change', function(e) {
 });
 
 // ===================== INIT =====================
+// ===================== KEY DATES & CALENDAR =====================
+
+function formatDateDisplay(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function offsetDate(dateStr, days) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr + 'T12:00:00');
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split('T')[0];
+}
+
+function updateKeyDates() {
+  const checkIn = document.getElementById('checkIn') ? document.getElementById('checkIn').value : '';
+  const adrWindow = document.getElementById('adrWindow') ? document.getElementById('adrWindow').value : '';
+  const llWindow7 = document.getElementById('llWindow7') ? document.getElementById('llWindow7').value : '';
+  const llWindow3 = document.getElementById('llWindow3') ? document.getElementById('llWindow3').value : '';
+  const resortType = window._selections && window._selections['resortType'];
+  const isOffSite = resortType && resortType.toLowerCase().includes('off');
+  const llDate = isOffSite ? llWindow3 : llWindow7;
+
+  const dates = {
+    'adr':      adrWindow,
+    'adr-pre':  offsetDate(adrWindow, -1),
+    'll':       llDate,
+    'll-pre':   offsetDate(llDate, -1),
+    'preedit':  offsetDate(checkIn, -14),
+    'parkedit': offsetDate(checkIn, -2)
+  };
+
+  const ids = {
+    'adr': 'kd-adr', 'adr-pre': 'kd-adr-pre',
+    'll': 'kd-ll', 'll-pre': 'kd-ll-pre',
+    'preedit': 'kd-preedit', 'parkedit': 'kd-parkedit'
+  };
+
+  Object.entries(dates).forEach(([key, val]) => {
+    const display = document.getElementById(ids[key]);
+    const btn = document.getElementById('cal-' + key);
+    if (display) display.textContent = val ? formatDateDisplay(val) : '—';
+    if (btn) {
+      if (val) {
+        btn.classList.remove('disabled');
+        btn.dataset.date = val;
+      } else {
+        btn.classList.add('disabled');
+        btn.dataset.date = '';
+      }
+    }
+  });
+}
+
+function addToCalendar(key) {
+  const btn = document.getElementById('cal-' + key);
+  if (!btn || !btn.dataset.date) return;
+
+  const firstNameEl = document.getElementById('pName1');
+  const clientName = firstNameEl ? firstNameEl.value.trim().split(' ').pop() : '';
+  const label = clientName ? clientName + ' — ' : '';
+
+  const titles = {
+    'adr':      label + 'ADR Window Opens',
+    'adr-pre':  label + 'ADR Window Opens Tomorrow — Prep',
+    'll':       label + 'LL Booking Window Opens',
+    'll-pre':   label + 'LL Booking Window Opens Tomorrow — Prep',
+    'preedit':  label + 'Pre-Edit Must Be Delivered',
+    'parkedit': label + 'Park Edit Must Be Delivered'
+  };
+
+  const notes = {
+    'adr':      'ADR window opens today. Log in to My Disney Experience at 6am ET to book dining reservations.',
+    'adr-pre':  'ADR window opens tomorrow. Review dining priorities and have MDE ready.',
+    'll':       'LL booking window opens today. Log in to My Disney Experience at 7am ET to book Lightning Lane selections.',
+    'll-pre':   'LL booking window opens tomorrow. Review the LL strategy in the Pre-Edit and have MDE ready.',
+    'preedit':  'Pre-Edit must be delivered to the client today. Check-in is 14 days away.',
+    'parkedit': 'Park Edit must be delivered to the client today. Check-in is 2 days away.'
+  };
+
+  const dateStr = btn.dataset.date.replace(/-/g, '');
+  const title = encodeURIComponent(titles[key] || key);
+  const note = encodeURIComponent(notes[key] || '');
+
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//The Park Edit//Intake//EN',
+    'BEGIN:VEVENT',
+    `DTSTART;VALUE=DATE:${dateStr}`,
+    `DTEND;VALUE=DATE:${dateStr}`,
+    `SUMMARY:${titles[key] || key}`,
+    `DESCRIPTION:${notes[key] || ''}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-PT9H',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:${titles[key] || key}`,
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([icsContent], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (key + '-reminder.ics').replace(/[^a-z0-9\-\.]/gi, '_');
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Hook key dates to update when relevant fields change
+function hookKeyDateUpdates() {
+  ['checkIn', 'adrWindow', 'llWindow7', 'llWindow3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', updateKeyDates);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   // Try to restore autosaved data
   try {
@@ -3778,6 +3931,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (saved) {
       const data = JSON.parse(saved);
       restoreState(data);
+      hookKeyDateUpdates();
+      updateKeyDates();
       return;
     }
   } catch(e) {}
@@ -3785,6 +3940,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // Fresh start
   addPerson();
   addParkDay();
+  hookKeyDateUpdates();
+  updateKeyDates();
 
   // Hook up autosave to all static inputs
   document.querySelectorAll('input, textarea, select').forEach(el => {
