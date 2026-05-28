@@ -356,11 +356,8 @@ function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set
 function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
 var doneItems=loadDone();
 var currentDay=0;
-// PATCH NEEDED (May 2026): editModes array must have one entry per day panel.
-// Current hardcoded length of 3 breaks any file with 4+ day panels (index 3 reads undefined).
-// Fix: change to match actual day count, e.g. [false,false,false,false] for a 4-day file.
-// Long-term: generator should output this array dynamically based on parkDays.length.
-var editModes=[false,false,false];
+// Generator should output editModes dynamically based on parkDays.length. Default covers 4 days.
+var editModes=[false,false,false,false]; // one entry per day — update if day count changes
 var currentWKPark=0;
 
 // ── INDEX DATA ────────────────────────────────────────────────
@@ -516,44 +513,20 @@ function openSOSFromMenu(key){
   },200);
 }
 
-// PATCH NEEDED (May 2026): toggleEdit currently targets 'timeline-N' via getElementById.
-// Confirmed working pattern uses 'sc-N' on the bp-bottom div instead.
-// Fix: (1) add id="sc-N" to each <div class="bp-bottom"> in the HTML structure,
-//      (2) change getElementById('timeline-'+dayIdx) to getElementById('sc-'+dayIdx),
-//      (3) add id="editBtn-N" and id="doneEditBtn-N" to the edit/done buttons,
-//      (4) toggleEdit guard: if(!sc) return — targets sc-N not tl.
-// edit-mode CSS class should toggle on sc-N (bp-bottom), not timeline-N.
+// Stepper pattern — confirmed working (Mosbacher v3_9, May 2026)
+// Requires: id="sc-N" on each <div class="bp-bottom"> in day panel HTML (added by generator)
 function toggleEdit(dayIdx){
   editModes[dayIdx]=!editModes[dayIdx];
-  var tl=document.getElementById('timeline-'+dayIdx);
-  if(!tl)return;
-  tl.classList.toggle('edit-mode',editModes[dayIdx]);
-  if(editModes[dayIdx]){
-    var items=tl.querySelectorAll('.tl-item.optional');
-    items.forEach(function(item){
-      var btns=item.querySelectorAll('.step-btn');
-      if(btns.length<2)return;
-      btns[0].onclick=function(e){e.stopPropagation();moveItem(item,'up');};
-      btns[1].onclick=function(e){e.stopPropagation();moveItem(item,'down');};
-    });
-  }
+  var on=editModes[dayIdx];
+  var sc=document.getElementById('sc-'+dayIdx);
+  if(!sc)return;
+  sc.classList.toggle('edit-mode',on);
+  if(on){updateSteppers(dayIdx);}
 }
-
-function moveItem(el,dir){
-  var parent=el.parentNode;
-  var siblings=Array.from(parent.children).filter(function(c){return c.classList.contains('tl-item');});
-  var idx=siblings.indexOf(el);
-  if(dir==='up'){
-    var prev=null;
-    for(var i=idx-1;i>=0;i--){if(siblings[i].classList.contains('optional')){prev=siblings[i];break;}}
-    if(prev)parent.insertBefore(el,prev);
-  }else{
-    var next=null;
-    for(var i=idx+1;i<siblings.length;i++){if(siblings[i].classList.contains('optional')){next=siblings[i];break;}}
-    if(next&&next.nextSibling)parent.insertBefore(el,next.nextSibling);
-    else if(next)parent.appendChild(el);
-  }
-}
+function getMovable(dayIdx){return Array.prototype.slice.call(document.querySelectorAll('#timeline-'+dayIdx+' .tl-item:not(.fixed)'));}
+function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx<=0)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx-1].parentNode.insertBefore(row,all[idx-1]);updateSteppers(dayIdx);}catch(e){}}
+function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
+function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveDown(r,d);};})(row,dayIdx);});}
 
 // ── BAG DATA ──────────────────────────────────────────────────────
 var bagItems=[

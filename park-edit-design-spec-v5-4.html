@@ -199,6 +199,8 @@ pre{font-family:'DM Mono',monospace;font-size:11px;background:#2C2420;color:#F5E
   <div class="decision-block no-break"><div class="decision-q">Day title personalisation</div><div class="decision-a">Written per client per day. Uses kids' names where appropriate. Not every day needs names — use judgment.</div></div>
 
   <div class="divider"></div>
+  <div class="decision-block no-break"><div class="decision-q">Grouped optional items <span class="new-badge">New · v5.4</span></div><div class="decision-a">When four or more optional items cluster together in the afternoon with no Lightning Lane requirement and no fixed times, collapse them into a single timeline item rather than listing each individually. The consolidated item uses a single tl-item optional with a map or compass icon, a title like "More to explore — tap for options," and opens one drawer listing all options. Each option within the drawer gets a bolded name, one-line location context, and 1–2 sentences of description sourced verbatim from library.json. Client-specific options (e.g. Pirates Adventure, which depends on child age) are written per client and flagged if not in the library. This pattern reduces visual noise in long afternoon sections where the LL chain is complete and the remaining time is unstructured. Rolling LL items (Space Mountain, Haunted Mansion, etc.) stay as individual timeline items above the consolidated entry — they carry booking chain instructions and must remain individually tappable.</div></div>
+
   <h3>Tags</h3>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
     <span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>
@@ -549,9 +551,40 @@ comm -23 /tmp/calls.txt /tmp/keys.txt</pre>
 
 <!-- 13 CONTENT LIBRARY -->
 <div class="section page-break">
-  <div class="section-header"><span class="section-num">14</span><span class="section-title">Content Library <span class="new-badge">New · v3.9</span></span></div>
+  <div class="section-header"><span class="section-num">14</span><span class="section-title">Content Library <span class="new-badge">Updated · v5.4</span></span></div>
 
   <p>Reusable drawer copy removed from client files for being too specific to that client's parks or situation. Pull from here when building a new client file. Organised by product and section.</p>
+
+  <div class="divider"></div>
+  <h3>Park Edit · Dining drawers</h3>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">San Angel Inn · EPCOT, Mexico Pavilion</div>
+    <div class="decision-a">This and Sci-Fi Dine-In were my favorite as kids because you feel totally transported. You enter into a dark sky into a small hacienda at the base of a Mayan ruin. The Gran Fiesta tour boat ride takes you through Mexico with the three caballeros, Donald Duck included. As a kid, the idea of having a ride to go on while I waited for fajitas might have been the best thing I'd ever heard. The food is totally fine, but the environment is fabulous. If there's a line, it tends to move fast, but if it looks immobile, it's better to roam through the shops. Plus, there's a highly-regarded tequila bar if you're stuck. <em>Use for: any client with a San Angel Inn reservation.</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Sci-Fi Dine-In Theater · Hollywood Studios</div>
+    <div class="decision-a">You eat in fake cars watching old B-movie clips under a fake night sky. Completely absurd and the kids love it. Food is fine — the experience is the point. <em>Use for: any client with a Sci-Fi Dine-In reservation.</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Narcoossee's · Grand Floridian</div>
+    <div class="decision-a">Waterfront seafood restaurant at the Grand Floridian. Dinner only, not inside a park. The scallops are what people rave about, and you can watch the Happily Ever After fireworks from across the Seven Seas Lagoon if the timing lines up. Leave Magic Kingdom by 5pm. Take the monorail one stop from the Magic Kingdom station to the Grand Floridian — it drops you right at the resort. Walk through the lobby and follow signs to Narcoossee's on the waterfront. Budget 10–12 minutes from the park exit to your table. <em>Use for: clients staying near MK with a Narcoossee's reservation.</em></div>
+  </div>
+
+  <div class="divider"></div>
+  <h3>Park Edit · SOS drawers</h3>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Child Goes Missing — base copy (all parks)</div>
+    <div class="decision-a">The good news: Cast Members see this frequently and handle this well. Find a Cast Member immediately and report it. It's helpful to take a photo in the morning of what they're wearing. If you need to describe them quickly, you'll have both ready. A description goes out park-wide by radio the moment you do. That Cast Member will help reunite you.<br><br>Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that's the fastest path back to each other. <em>Use for: all clients. Add a client-specific callout where relevant (e.g. child's name, age-specific instruction).</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Someone is Sick — base copy (all parks)</div>
+    <div class="decision-a">Every park has a First Aid station staffed by a nurse. They have over-the-counter medication, bandages, a place to rest, and AC. Ask any cast member where it is — they all know.<br><br>If someone needs to go back to the hotel, rideshare is the fastest option. The rest of the group can keep going or head back — there is no wrong answer. The trip does not have to end because one person is having a hard hour. <em>Use for: all clients. Add a client-specific callout for infants, medical conditions, or resort-specific logistics (e.g. rideshare time from that resort).</em></div>
+  </div>
 
   <div class="divider"></div>
   <h3>Pre-Edit · Dining · Where to eat</h3>
@@ -1125,11 +1158,14 @@ python park_edit_sync.py</pre>
   <div class="decision-block no-break"><div class="decision-q">Dining status known</div><div class="decision-a">Dining is confirmed, or the status is clearly flagged: pending cancellation, choosing between two, window not yet open. The build can proceed with pending dining as long as the status is explicit and accounted for in the timeline.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Multi-party flag checked</div><div class="decision-a">If another family or party has independent LL or dining booking authority, this is flagged at intake before the build starts. See Multi-Party Trips below. This affects LL strategy framing and Gate 2 requirements.</div></div>
 
+  <div class="decision-block no-break"><div class="decision-q">Library loaded <span class="new-badge">New · v5.4</span></div><div class="decision-a">Before writing any ride or show copy, open library.json and confirm whether an entry exists for that ride. If it does, the body is used verbatim — no rewriting, no pulling from another client file. If it does not exist, the copy is written as a draft, flagged ⚠️ AI-generated, and held for Meredith review before the file closes. This is checked at Gate 1 so the intent is set before the build starts, not discovered at QA.</div></div>
+
   <div class="divider"></div>
   <h3>Gate 2: Ready to Deliver</h3>
   <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">All of the following must be confirmed before the file ships to the client.</p>
   <div class="decision-block no-break"><div class="decision-q">LL bookings confirmed</div><div class="decision-a">Actual Lightning Lane booking confirmations received from the client. Times slotted into the timeline. If bookings differ from the planned strategy, the LL Conflict Tool is run before finalising the file. See Late Input Protocol below.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Conflict check complete</div><div class="decision-a">Any third-party itinerary (travel agent PDF, co-traveler's plan) has been cross-referenced against the build. All conflicts resolved deliberately before delivery. The LL Conflict Tool is the named mechanism for this step.</div></div>
+  <div class="decision-block no-break"><div class="decision-q">Library copy audit <span class="new-badge">New · v5.4</span></div><div class="decision-a">Before delivery, verify every ride and show drawer in the file against library.json. For each ride: confirm the body matches the library entry verbatim. Any drawer that does not match is either (a) a missing library entry — flag for addition, or (b) drift from the library — correct to match. Any copy flagged ⚠️ AI-generated must have been reviewed and approved by Meredith before this gate passes. Client-specific context (e.g. rider swap, height flags, LL notes) is permitted alongside library copy — it is the ride description body that must be library-sourced.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Pre-Delivery QA passed</div><div class="decision-a">Full QA checklist run per Section 23. Drawer key verification complete. No orphaned drawer calls. Copy audit passed. File closes only after QA is done.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Tag audit: Top Pick + LL <span class="new-badge">New · v5.3</span></div><div class="decision-a">Any timeline item carrying a Lightning Lane tag (tag-ll) must not also carry a Top Pick tag (tag-must). The LL tag already signals priority — Top Pick is redundant and creates visual noise. Before delivery, grep for tag-must.*tag-ll in the file. Count must be zero. Quick fix: <code>sed -i 's/&lt;span class="tag tag-must"&gt;⭐ Top Pick&lt;\/span&gt;\(&lt;span class="tag tag-ll"&gt;\)/\1/g'</code>. Top Pick is only used on non-LL items where a curation signal is needed (e.g. Kilimanjaro Safaris, Peter Pan rope drop).</div></div>
 
