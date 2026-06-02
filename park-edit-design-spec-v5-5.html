@@ -306,12 +306,13 @@ body { max-width: none; margin: 0; padding: 0; }
   <div class="decision-block no-break"><div class="decision-q">Lead with the experience, follow with logistics</div><div class="decision-a">Feeling first, details second. "A real steam-powered train that circles all of Magic Kingdom. Board at Fantasyland — strollers must be folded." Not "Strollers must be folded to board this steam train." The experience earns the logistics.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Signal reasoning with "so"</div><div class="decision-a">Use "so" before consequences: "…so have it collapsed before you reach the front of the line." Not bare instructions: "Collapse it before you reach the front of the line." The "so" signals causality and softens the direction into a natural consequence.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Don't draw conclusions for the reader</div><div class="decision-a">Cut editorializing. "Good decompression," "everyone sits, nobody walks," "this is perfect for tired legs" — these tell the reader what to think. Let the information do that work. Describe the thing; let them draw the conclusion.</div></div>
+  <div class="decision-block no-break"><div class="decision-q">No patronizing parent copy <span class="new-badge">New · v5.5</span></div><div class="decision-a">Do not tell parents things they already know about their own children: how to use a carrier, that toddlers get tired, when to go back to the hotel, what their child can handle. Flag any copy that assumes the client needs coaching on basic parenting. The benchmark: would this sentence feel condescending from a friend who knows you well? If yes, cut it. Relevant audit: removed from Mosbacher Pre-Edit — babywearing heat warning, "dining with little ones" coaching paragraph, "not for every meal" table service framing.</div></div>
   <div class="decision-block no-break"><div class="decision-q">American English only</div><div class="decision-a">All client-facing copy uses American English spelling. Common offenders to watch: organized (not organized), recognize (not recognize), color (not colour), traveling (not traveling), canceled (not canceled), favorite (not favorite). The spec itself may contain British spellings in internal or CSS sections — those are acceptable internally but must never appear in client deliverables.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Cause and effect over instruction</div><div class="decision-a">Explain why, not just what. "The wind and bubble effects tend to get a big reaction from kids Sam's age: just a heads up so it doesn't catch anyone off guard." Not "be prepared for the bubble effects." The cause (effects happen, kids react) earns the effect (heads up). Instructions without reasoning feel like orders.</div></div>
 
   <div class="divider"></div>
   <h3>Examples of the Voice Working</h3>
-  <div class="decision-block no-break"><div class="decision-q">"It's loud and chaotic in the best way."</div><div class="decision-a">Chef Mickey's drawer. Honest and specific — sets the right expectation without being negative.</div></div>
+  <div class="decision-block no-break"><div class="decision-q">"It's loud and chaotic, but kids love it."</div><div class="decision-a">Chef Mickey's drawer. Honest and specific — sets the right expectation without being negative.</div></div>
   <div class="decision-block no-break"><div class="decision-q">"Go upstairs if you can, it's noticeably quieter."</div><div class="decision-a">Columbia Harbour House tip. Useful detail that feels like insider knowledge, not a guidebook.</div></div>
   <div class="decision-block no-break"><div class="decision-q">"Skip it if energy is running low — totally fine either way."</div><div class="decision-a">Galaxy's Edge optional. Removes pressure without making skipping feel like failure.</div></div>
   <div class="decision-block no-break"><div class="decision-q">"The animals are most active in the morning so going early makes a real difference. By 10am they've mostly moved to shade."</div><div class="decision-a">Safari drawer. Two sentences. Explains the why, gives the consequence, done.</div></div>
@@ -411,18 +412,38 @@ python park_edit_sync.py</pre>
   <h3>Park Edit · Dining drawers</h3>
 
   <div class="decision-block no-break">
-    <div class="decision-q">San Angel Inn · EPCOT, Mexico Pavilion</div>
-    <div class="decision-a">This and Sci-Fi Dine-In were my favorite as kids because you feel totally transported. You enter into a dark sky into a small hacienda at the base of a Mayan ruin. The Gran Fiesta tour boat ride takes you through Mexico with the three caballeros, Donald Duck included. As a kid, the idea of having a ride to go on while I waited for fajitas might have been the best thing I'd ever heard. The food is totally fine, but the environment is fabulous. If there's a line, it tends to move fast, but if it looks immobile, it's better to roam through the shops. Plus, there's a highly-regarded tequila bar if you're stuck. <em>Use for: any client with a San Angel Inn reservation.</em></div>
+    <div class="decision-q">Source of truth</div>
+    <div class="decision-a"><code>library.json</code> is the authoritative source for all dining drawer copy. Always pull from there first — never write from memory or this spec. The entries below mirror the library and are here for human reference only. Entries with a <strong>callout</strong> field render a <code>&lt;div class="callout"&gt;</code> block after the body. Client-specific logistics (confirmation numbers, transport timing, arrive early) are added at build time and are not stored in the library.</div>
   </div>
 
   <div class="decision-block no-break">
-    <div class="decision-q">Sci-Fi Dine-In Theater · Hollywood Studios</div>
+    <div class="decision-q">Chef Mickey's · Contemporary Resort <code>resort-chef-mickeys</code></div>
+    <div class="decision-a">Character dining buffet at the Contemporary — Mickey, Minnie, Donald, Goofy, and Pluto all come to your table. It's loud and chaotic, but kids love it. <em>Use for: any client with a Chef Mickey's reservation.</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">San Angel Inn · EPCOT, Mexico Pavilion <code>ep-san-angel-inn</code></div>
+    <div class="decision-a">This and Sci-Fi Dine-In were my favorite as kids because you feel totally transported. You enter into a dark sky into a small hacienda at the base of a Mayan ruin. The Gran Fiesta tour boat ride takes you through Mexico with the three caballeros, Donald Duck included. As a kid, the idea of having a ride to go on while I waited for fajitas might have been the best thing I'd ever heard. The food is totally fine, but the environment is fabulous.<br><br><strong>Callout — "If there's a wait":</strong> The line tends to move fast, but if it looks immobile, roam through the shops. There's also a highly-regarded tequila bar just inside the entrance. <em>Use for: any client with a San Angel Inn reservation.</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Sci-Fi Dine-In Theater · Hollywood Studios <code>dhs-sci-fi-dine-in</code></div>
     <div class="decision-a">You eat in fake cars watching old B-movie clips under a fake night sky. Completely absurd and the kids love it. Food is fine — the experience is the point. <em>Use for: any client with a Sci-Fi Dine-In reservation.</em></div>
   </div>
 
   <div class="decision-block no-break">
-    <div class="decision-q">Narcoossee's · Grand Floridian</div>
-    <div class="decision-a">Waterfront seafood restaurant at the Grand Floridian. Dinner only, not inside a park. The scallops are what people rave about, and you can watch the Happily Ever After fireworks from across the Seven Seas Lagoon if the timing lines up. Leave Magic Kingdom by 5pm. Take the monorail one stop from the Magic Kingdom station to the Grand Floridian — it drops you right at the resort. Walk through the lobby and follow signs to Narcoossee's on the waterfront. Budget 10–12 minutes from the park exit to your table. <em>Use for: clients staying near MK with a Narcoossee's reservation.</em></div>
+    <div class="decision-q">Narcoossee's · Grand Floridian <code>resort-narcoossees</code></div>
+    <div class="decision-a">Waterfront seafood restaurant at the Grand Floridian. Dinner only, not inside a park. The scallops are what people rave about, and you can watch the Happily Ever After fireworks from across the Seven Seas Lagoon if the timing lines up.<br><br><strong>Callout — "Getting there":</strong> Leave Magic Kingdom by [time based on reservation]. Take the monorail one stop from the Magic Kingdom station to the Grand Floridian — it drops you right at the resort. Walk through the lobby and follow signs to Narcoossee's on the waterfront. Budget 10–12 minutes from park exit to your table. <em>Use for: clients staying near MK with a Narcoossee's reservation.</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Sanaa · Animal Kingdom Lodge, Kidani Village <code>resort-sanaa</code></div>
+    <div class="decision-a">Indian-inspired flavors inside Animal Kingdom Lodge's Kidani Village. Tables overlook the savanna — giraffes and zebras sometimes wander past while you eat. The bread service with dipping sauces is the thing to order first.<br><br><strong>Callout — "Patio tip":</strong> If you don't get a table near a window, you can walk out to the patio to get a 360 view and some comfy rocking chairs from which to view animals. <em>Use for: any client with a Sanaa reservation.</em></div>
+  </div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">Teppan Edo · EPCOT, Japan Pavilion <code>ep-teppan-edo</code></div>
+    <div class="decision-a">Teppan Edo is a hibachi place: they cook the food in front of you, so you get a bit of a show with your dinner! Disney recruits people from each culture around the World Showcase to work at their respective pavilion, so you might get a cultural ambassador from Japan as your chef. Kids love the onion volcano and cooking utensil tricks.<br><br><strong>Callout — "After dinner: Luminous":</strong> The restaurant's porch and steps are a great place to watch Luminous: The Symphony of Us — less crowded than the lagoon and you have an elevated view. <em>Use for: any client with a Teppan Edo reservation on an EPCOT evening.</em></div>
   </div>
 
   <div class="divider"></div>
@@ -430,7 +451,7 @@ python park_edit_sync.py</pre>
 
   <div class="decision-block no-break">
     <div class="decision-q">Child Goes Missing — base copy (all parks)</div>
-    <div class="decision-a">The good news: Cast Members see this frequently and handle this well. Find a Cast Member immediately and report it. It's helpful to take a photo in the morning of what they're wearing. If you need to describe them quickly, you'll have both ready. A description goes out park-wide by radio the moment you do. That Cast Member will help reunite you.<br><br>Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that's the fastest path back to each other. <em>Use for: all clients. Add a client-specific callout where relevant (e.g. child's name, age-specific instruction).</em></div>
+    <div class="decision-a">Day-of reactive drawer. Assumes preparation was done in Pre-Edit (marker/Safety Tat, AirTag, morning photo). Do not search on your own. Find the nearest Cast Member immediately and report it. A description goes out park-wide by radio. Children under 10 are escorted to the Baby Care Center; children 10 and over go to Guest Relations. Stay with that Cast Member — the moment you leave, you become harder to find too. <em>Use for: all clients. Add a client-specific callout where relevant (e.g. child's name).</em></div>
   </div>
 
   <div class="decision-block no-break">
@@ -607,7 +628,7 @@ python park_edit_sync.py</pre>
 
   <div class="decision-block no-break">
     <div class="decision-q">If you get separated</div>
-    <div class="decision-a">Cast Members handle this well: most families are reunited within minutes. Have a plan anyway. Choose a landmark every family member recognizes — City Hall in Magic Kingdom, the entrance to Soarin' in EPCOT, Hollywood Studios guest services. If someone gets separated, they go to that landmark and wait. Tell kids not to leave that spot. Parents go to guest services immediately and let them know. The system works because cast members are trained for this every single day. <em>Use for: all families with children.</em></div>
+    <div class="decision-a">Lead with preparation, not reaction — this is a planning document. Order: (1) preparation steps (marker/Safety Tat, AirTag wristband, morning photo), (2) Talk to child callout (find a Disney uniform, say your name, practice at home), (3) Park Edit SOS reference, (4) where lost children go (under 10 → Baby Care Center, 10+ → Guest Relations, radio description goes out immediately, stay with the Cast Member). Do not lead with reassurance. The client needs to take action before the trip, not feel better about a hypothetical. <em>Use for: all families with children.</em></div>
   </div>
 
   <div class="decision-block no-break">
@@ -630,7 +651,7 @@ python park_edit_sync.py</pre>
 
   <div class="decision-block no-break">
     <div class="decision-q">Baby Care Centers</div>
-    <div class="decision-a">Every Disney park has a Baby Care Center with changing tables, a microwave, nursing room, and basic supplies for purchase. They're tucked away but easy to find on the park map. Conditions are clean but often crowded during peak hours. Pack supplies as if they don't exist — but know they're there as a backup. The rooms are quiet spaces if you need a break. <em>Use for: clients with infants under 3.</em></div>
+    <div class="decision-a">Every Disney park has one. AC, free, no reservation. Changing tables across all locations are notably nice. Nursing rooms, bottle warmers and microwave, filtered water, high chairs, and a seating area with Disney movies. Good option for kids with sensory sensitivities who need a break. Basic baby supplies for sale (diapers, wipes, formula, children's medicine) — treat as safety net, not supply run, prices are high.<br><br><strong>Per-park nursing rooms:</strong> MK — shared space, not completely private, rocking chairs, low lights, outlets. Center is small; strollers must be parked outside. EPCOT — larger than MK, slightly less warm in decoration. DHS — very small, may have a wait; nursing room is private but fits one person, so may also have a wait. AK — most spacious, two private nursing rooms with rockers.<br><br><strong>Locations:</strong> MK near Casey's Corner on Main Street. EPCOT at the Odyssey Pavilion near World Showcase entrance. DHS in the Guest Services building at the entrance. AK near Creature Comforts — go left of the DVC booth and follow the path to First Aid and Baby Care Center. <em>Use for: clients with infants under 3.</em></div>
   </div>
 
   <div class="decision-block no-break">
@@ -649,18 +670,23 @@ python park_edit_sync.py</pre>
   </div>
 
   <div class="decision-block no-break">
+    <div class="decision-q">Compression socks — pregnancy conditional <span class="new-badge">New · v5.5</span></div>
+    <div class="decision-a">Compression socks belong on the packing list only when the client is pregnant or has a specific medical/circulation reason. Do not include in the standard adult packing list. Conditional flag: <code>CLIENT.pregnancy === true</code>.</div>
+  </div>
+
+  <div class="decision-block no-break">
     <div class="decision-q">Diaper changing locations</div>
     <div class="decision-a">Changing tables are in Baby Care Centers, but also in most men's and women's restrooms. Men's rooms are often less crowded at busy times. Pack a small changing pad or portable mat — some bathroom changing tables are cramped or uncomfortable. Bring more diapers than you think you need; the gift shop sells them at Disney prices. Know where restrooms are near your favorite attractions so you're not hunting. <em>Use for: clients with children in diapers.</em></div>
   </div>
 
   <div class="decision-block no-break">
     <div class="decision-q">Nursing, pumping &amp; bottles</div>
-    <div class="decision-a">Baby Care Centers have dedicated nursing rooms that are quiet and private. Many parents also nurse in attractions' queue areas or pre-show rooms without issue. If pumping, Baby Care Centers have chairs and some refrigeration, though it's limited. Bring backup bottles and plan for feeding flexibility — nobody's expecting you to stay on a strict schedule at Disney. Feeding bottles or nursing while sitting on a bench watching the park is perfectly fine and normal. <em>Use for: clients nursing or bottle-feeding infants.</em></div>
+    <div class="decision-a">Baby Care Centers have nursing rooms — see per-park details in the Baby Care Centers entry above. Not all are private: MK is shared. DHS is private but fits one person. AK has two private rooms. EPCOT nursing details TBD. Many parents also nurse in attractions' queue areas or pre-show rooms without issue. If pumping, Baby Care Centers have chairs and some refrigeration, though it's limited. Bring backup bottles and plan for feeding flexibility. <em>Use for: clients nursing or bottle-feeding infants.</em></div>
   </div>
 
   <div class="decision-block no-break">
-    <div class="decision-q">Photo and phone number card <span class="new-badge">New · v5.2</span></div>
-    <div class="decision-a">Add to packing list: a physical card or note with each child's name, a parent phone number, and a recent photo from that day if possible. Lives in the parent's bag. The Child Goes Missing SOS drawer references this — Cast Members reunite families faster with a current photo and a number to call. <em>Use for: all families with children.</em></div>
+    <div class="decision-q">Photo, phone number and AirTag <span class="new-badge">Updated · v5.5</span></div>
+    <div class="decision-a">Three preparation steps for all clients with children: (1) Write a parent's mobile number on each child's arm in permanent marker before every park day — or use Safety Tat waterproof temporary phone number tattoos. (2) Take a photo of each child in whatever they're wearing that morning. (3) An AirTag wristband (looks like a watch, available on Amazon) lets you locate a child from your phone. Add AirTag to the packing list for all clients with children. The If You Get Separated Pre-Edit drawer and the Child Goes Missing SOS drawer both reference these steps. <em>Use for: all families with children.</em></div>
   </div>
 
   <div class="decision-block no-break">
@@ -953,7 +979,7 @@ python park_edit_sync.py</pre>
     <code>idxLightningLane</code> — replaces <code>idxMultiPass</code> + <code>idxSinglePass</code>. Single Pass entries appear in blue within the same drawer, organized by park day.<br><br>
     <code>idxRiderSwap</code> — how rider swap works with mixed heights and abilities.<br><br>
     <code>idxRolling</code> — rolling Lightning Lane bookings once you're in the park.<br><br>
-    Virtual Queues — conditional drawer, only built when a TRON-style queue applies to the client's trip.
+    Virtual Queues — conditional drawer, only built when a virtual queue is active during the client's trip. As of mid-2026, Disney rarely uses virtual queues for rides — they appear briefly at major new openings only. Verify current status before building this drawer.
   </div></div>
   <div class="decision-block no-break"><div class="decision-q">Logistics</div><div class="decision-a">
     <code>idxWhereToEat</code> — all dining reservations across all parks, ordered by date.<br><br>
