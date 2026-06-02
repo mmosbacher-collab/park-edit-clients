@@ -114,6 +114,15 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 .callout-text{font-size:14px;line-height:1.7;color:var(--text);}
 .link-placeholder{display:flex;align-items:center;gap:8px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;padding:10px 12px;margin:12px 0;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:0.05em;}
 .link-placeholder-icon{font-size:14px;}
+
+/* ── VIDEO PLACEHOLDER ── */
+.video-placeholder{display:flex;gap:12px;align-items:center;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin:14px 0;}
+.vp-thumb{width:64px;height:46px;background:var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.vp-play{width:22px;height:22px;background:var(--terracotta);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:white;padding-left:2px;}
+.vp-info{flex:1;min-width:0;}
+.vp-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:3px;}
+.vp-title{font-size:13px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:3px;}
+.vp-status{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:0.04em;}
 .ordered-list{margin:12px 0 0 0;padding:0;list-style:none;}
 .ordered-list li{display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border);font-size:14px;line-height:1.65;color:var(--text);}
 .ordered-list li:last-child{border-bottom:none;}
@@ -215,7 +224,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
     <div class="drawer-row" onclick="openDrawer('tickets')">
       <div class="dr-icon">🎟️</div>
       <div class="dr-content">
-        <div class="dr-title">Link tickets &amp; make park reservations</div>
+        <div class="dr-title">Link your tickets</div>
       </div>
       <div class="dr-chev">›</div>
     </div>
@@ -244,13 +253,6 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
       <div class="dr-chev">›</div>
     </div>
 
-    <div class="drawer-row" id="earlyEntryRow" onclick="openDrawer('earlyentry')">
-      <div class="dr-icon">🌅</div>
-      <div class="dr-content">
-        <div class="dr-title">Early Entry</div>
-      </div>
-      <div class="dr-chev">›</div>
-    </div>
     </div><!-- /row-group -->
   </div>
 
@@ -266,7 +268,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
     <div class="drawer-row" onclick="openDrawer('adrs')">
       <div class="dr-icon">📅</div>
       <div class="dr-content">
-        <div class="dr-title">Advanced Dining Reservations (ADRs)</div>
+        <div class="dr-title">Dining reservations</div>
       </div>
       <div class="dr-chev">›</div>
     </div>
@@ -685,21 +687,37 @@ var drawers = {
     icon: '📱',
     title: 'My Disney Experience',
     body: `
-      <div class="prose-p">My Disney Experience is the app that runs your entire trip: tickets, park entry, dining reservations, Lightning Lanes, mobile ordering, wait times, show times. Download it before anything else. Then create a profile for every person in your travel party — adults and children — and link each person's ticket to their individual profile. Children under 3 don't need a ticket but they still need a profile in MDE so restaurants can account for them when sizing your table.</div>
-      <div class="prose-p">If you're travelling with family or friends who have their own MDE accounts, connect them as a travel party so you can manage bookings together. The app is functional but not particularly intuitive. It's worth spending twenty minutes clicking around before your trip so it's not the first time you're navigating it at 7am on booking day.</div>
+      <div class="prose-p">My Disney Experience is the app that handles the operational side of your trip: tapping into Lightning Lane return windows, mobile ordering food, pulling up dining reservations, and park entry. Download it if you haven't already.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Set up your profiles first.</strong> Create a profile for every person in the party, adults and children, then link each person's ticket to their individual profile. Children under 3 don't need a ticket but they still need a profile so restaurants can size your table correctly. To connect anyone with their own MDE account: three lines bottom right → My Family &amp; Friends.</div>
+      <!-- VIDEO 1: How to set up MDE and link your travel party — swap placeholder for real embed when filmed -->
+      <div class="video-placeholder">
+        <div class="vp-thumb"><div class="vp-play">▶</div></div>
+        <div class="vp-info">
+          <div class="vp-label">Watch</div>
+          <div class="vp-title">How to set up MDE and link your travel party</div>
+          <div class="vp-status">Video coming soon</div>
+        </div>
+      </div>
+      <div class="section-divider"></div>
+      <div class="prose-p">Your Park Edit handles the plan. You won't be opening MDE to decide what to do next. That's what the Park Edit is for. MDE is what you open when it's time to act on it.</div>
       <div class="callout">
-        <div class="callout-label">Good to know</div>
-        <div class="callout-text">Turn notifications on so Lightning Lane windows, dining reminders and virtual queue calls come through. Turn location permissions on or mobile ordering and Lightning Lane tapstiles won't work properly. If you book something on the Disney website and it's not showing in the app, give it ten minutes before panicking — they don't always sync instantly.</div>
+        <div class="callout-label">Find these before Magic Kingdom day</div>
+        <div class="callout-text">Tap the three lines bottom right. Your Lightning Lane bookings and dining reservations are under My Plans. Mobile ordering is the fork icon on the map. Find all three at home so it's not the first time you're looking for them with Charlie on your hip.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">Before you arrive</div>
+        <div class="callout-text">Turn notifications on so Lightning Lane return window reminders and dining alerts come through. Turn location permissions on too, or mobile ordering and the Lightning Lane tapstiles won't work properly.</div>
       </div>
     `
   },
 
   tickets: {
     icon: '🎟️',
-    title: 'Link tickets & make park reservations',
+    title: 'Link your tickets',
     body: `
-      <div class="prose-p">Once your tickets are in MDE you'll need to assign them to specific park days. This is called a park reservation. It comes with your ticket but it doesn't happen automatically. Make them as soon as your tickets are linked — popular dates do fill up and there's no advantage to waiting.</div>
-      <div class="prose-p">Your Lightning Lane booking window won't open until this is done either, so it's one of the first things worth sorting. If you bought tickets through a third party or received them as a gift, linking them can occasionally take a day or two to process.</div>
+      <div class="prose-p">Link each person's ticket to their individual MDE profile. That's the only setup step for your ticket type. Park reservations are not required for date-based tickets, so once your tickets are linked you're done.</div>
+      <div class="prose-p">You can't book Lightning Lanes until tickets are linked in MDE, so it's worth getting this sorted a few weeks out. If you bought tickets through a third party or received them as a gift, linking them can occasionally take a day or two to process.</div>
     `
   },
 
@@ -707,7 +725,7 @@ var drawers = {
     icon: '⌚',
     title: 'MagicBands',
     body: `
-      <div class="prose-p">MagicBands are waterproof wristbands that link to your MDE account and replace your phone for most things in the parks: park entry, hotel room door, dining reservations, and parking. They're not essential, your phone does everything a MagicBand does, but they're worth considering particularly with young kids who can't be trusted with a phone and for keeping your hands free on rides.</div>
+      <div class="prose-p">MagicBands are waterproof wristbands that link to your MDE account and replace your phone for most things in the parks: park entry, hotel room door, dining reservations, and parking. They're not essential, your phone does everything a MagicBand does, but they're worth considering particularly with young kids (tapping into a ride kinda looks like you're activating a superpower) or for keeping your hands free.</div>
       <div class="prose-p">Disney sells their own through MDE but you don't need them — the basic ones on Amazon work exactly the same and are significantly cheaper. Order them before you arrive, they take a week or two to come.</div>
       <div class="callout">
         <div class="callout-label">To link once they arrive</div>
@@ -721,7 +739,11 @@ var drawers = {
     title: 'Memory Maker',
     body: `
       <div class="prose-p">Memory Maker is Disney's photo package. One purchase covers unlimited downloads for your entire travel party. Disney photographers are positioned throughout every park — entrances, ride exits, every character meet. They use proper cameras and the photos are of nice quality.</div>
-      <div class="prose-p">It's not a must have, but there's an advantage to offloading this task to someone else, particularly if you're doing a lot of character meets. It's $230 bought in advance, $260 at the gate.</div>
+      <div class="prose-p">It's not a must have, but there's an advantage to offloading this task to someone else, particularly if you're doing a lot of character meets. It's $185 bought at least 3 days in advance, $210 if you wait until you're there.</div>
+      <div class="callout">
+        <div class="callout-label">Download before they expire</div>
+        <div class="callout-text">Photos expire 45 days from the date they were taken — not from the end of the trip. For a 4-day trip, the clock starts on day one. Set a calendar reminder for 40 days after your first park day. Once downloaded, the photos are yours to keep forever. Disney offers a one-time 15-day extension if you miss the window, but don't count on it.</div>
+      </div>
       <div class="link-placeholder"><span class="link-placeholder-icon">🔗</span> Disney Memory Maker</div>
     `
   },
@@ -739,12 +761,20 @@ var drawers = {
           <div class="callout-text">Bay Lake Tower has a dedicated walking path straight to the Magic Kingdom tapstiles, so you're door to gate in 5 to 10 minutes. No bus, no monorail, no parking lot. This is the single biggest transport advantage on property and it's worth using every Magic Kingdom morning. The monorail from the Contemporary stop is there as a backup, but the walk is faster.</div>
         </div>
         <div class="callout">
-          <div class="callout-label">EPCOT &amp; the monorail</div>
+          <div class="callout-label">EPCOT</div>
           <div class="callout-text">Bay Lake Tower and the Contemporary connect to EPCOT by monorail via the Transportation and Ticket Center, so that's an easy alternative to rideshare on your EPCOT day. Rideshare drops you right at the EPCOT entrance if you'd rather skip the transfer.</div>
         </div>
         <div class="callout">
           <div class="callout-label">Animal Kingdom &amp; Hollywood Studios</div>
           <div class="callout-text">No direct line from Bay Lake Tower to either park, so it's a Disney bus from the main stop or a rideshare. Rideshare drops right at the entrance and is the faster option with young kids. Allow 30 to 45 minutes by bus, door to gate.</div>
+        </div>
+        <div class="callout">
+          <div class="callout-label">Disney Springs</div>
+          <div class="callout-text">Not on your itinerary, but worth knowing if you want a meal or a shopping stop outside the parks. Disney bus from the main stop at Bay Lake Tower — allow 30 to 40 minutes. Disney Springs is free to enter and has no park reservation required.</div>
+        </div>
+        <div class="callout">
+          <div class="callout-label">Rideshare tips</div>
+          <div class="callout-text">Drop-off and pick-up are well-organized at every park entrance. Expect surge pricing after park close when everyone leaves at once — if your schedule is flexible, waiting 20 minutes before calling a car saves money. With a stroller and young kids, rideshare is faster than the bus for Animal Kingdom and Hollywood Studios.</div>
         </div>
       </div>
 
@@ -776,7 +806,7 @@ var drawers = {
           <div class="callout-text">You're not on Disney property, so resort buses and the Skyliner aren't available to you. Your options are driving to the park and parking, or rideshare (Uber/Lyft) from your accommodation.</div>
         </div>
         <div class="prose-p"><strong>Driving:</strong> Each Disney park has its own parking lot. Parking is $30 per day for standard, $45–50 for preferred. Pay once and you can use it across all parks that day. Standard parking means a tram ride to the entrance — usually 10–15 minutes once you factor in loading. Preferred parking is closer to the entrance and skips the tram. With young kids or a stroller, preferred is worth considering.</div>
-        <div class="prose-p"><strong>Rideshare:</strong> Drop-off and pick-up locations are well-organised at every park — Uber and Lyft both work well. Expect surge pricing after park close when everyone leaves at once. If your schedule is flexible, waiting 20 minutes before calling a car saves money.</div>
+        <div class="prose-p"><strong>Rideshare:</strong> Drop-off and pick-up locations are well-organized at every park — Uber and Lyft both work well. Expect surge pricing after park close when everyone leaves at once. If your schedule is flexible, waiting 20 minutes before calling a car saves money.</div>
       </div>
 
       <!-- ── DISNEY SPRINGS AREA HOTELS ── -->
@@ -790,25 +820,13 @@ var drawers = {
     `
   },
 
-  earlyentry: {
-    icon: '🌅',
-    title: 'Early Entry',
-    body: `
-      <div class="prose-p">Resort guests get 30 minutes inside the park before it opens to the public. It doesn't sound like much but those 30 minutes are the quietest, coolest, and least crowded you'll see all day. Rides that cost 45 minutes of waiting by mid-morning are walk-ons.</div>
-      <div class="prose-p">The trick is that Disney lets resort guests through the gates and onto Main Street before Early Entry officially begins. Arrive early, get through the gates, and you can be standing at the ropes — already inside the park — up to an hour before the general public arrives.</div>
-      <div class="callout">
-        <div class="callout-label">How to check Early Entry times</div>
-        <div class="callout-text">Open MDE → tap the park → scroll to Park Hours → Early Theme Park Entry is listed separately.</div>
-      </div>
-    `
-  },
 
   adrs: {
     icon: '📅',
-    title: 'Advanced Dining Reservations (ADRs)',
+    title: 'Dining reservations',
     body: `
       <div class="prose-p">Disney dining reservations open 60 days before your trip. That's the date worth having in your calendar, because the best tables go fast. The window opens at 6am Eastern.</div>
-      <div class="prose-p">ADR stands for Advanced Dining Reservation. It's just Disney's term for a restaurant booking. You make them through MDE, they're free to book, and most require a credit card to hold the reservation with a cancellation fee if you don't show up or cancel within two hours of your reservation time.</div>
+      <div class="prose-p">You make them through MDE, they're free to book, and most require a credit card to hold the reservation. There is a cancellation fee if you don't show up or don't cancel within the required window — this varies by restaurant, so make sure you're aware of the policy before the trip. I'll help remind you of this.</div>
     `
   },
 
@@ -816,13 +834,13 @@ var drawers = {
     icon: '⏰',
     title: 'What to book first',
     body: `
-      <div class="prose-p">Not everything needs to be booked the moment your window opens, but a few do. At 6am on day 60, start with these in order:</div>
+      <div class="prose-p">At 6am, 60 days before you check in, start with these in order:</div>
       <ol class="ordered-list">
         <li><span class="ol-num">1.</span><span><strong>Cinderella's Royal Table first, always.</strong> It's inside the castle, it's the hardest reservation at Disney, and it goes within minutes. If it's on your list, this is the one to set an alarm for.</span></li>
-        <li><span class="ol-num">2.</span><span><strong>Space 220 next</strong>: evenings fill fastest. If you can't get the time you want, check the Space 220 Lounge — same theming, no reservation required, first come first served.</span></li>
+        <li><span class="ol-num">2.</span><span><strong>Space 220 next</strong>: evenings fill fastest. If you can't get the restaurant, book the Space 220 Lounge — same theming and Stellarvator experience, à la carte pricing instead of prix fixe. Lounge tables require a reservation and are actually harder to get than the restaurant. The bar stools inside the lounge are walk-up only.</span></li>
         <li><span class="ol-num">3.</span><span><strong>California Grill timed to fireworks.</strong> Check the park schedule before you book so you know what time Happily Ever After is showing on your date.</span></li>
       </ol>
-      <div class="prose-p" style="margin-top:14px;">Everything else is more forgiving. Book after the top three and you'll be fine. If something isn't available, MouseDining will alert you when a cancellation comes up.</div>
+      <div class="prose-p" style="margin-top:14px;">If you can book other reservations at the same time, great, but everything else is more forgiving. If something isn't available, there's more on how to handle that in the "If you miss the window" drawer below.</div>
     `
   },
 
@@ -832,8 +850,8 @@ var drawers = {
     body: `
       <div class="prose-p">Cancellations come up more than you'd think: people's plans change, especially in the week or two before a trip. Check MDE first thing in the morning if there's something specific you want. The dining line (407-WDW-DINE) occasionally has availability the app doesn't. Worth a call if you're stuck.</div>
       <div class="callout">
-        <div class="callout-label">MouseDining</div>
-        <div class="callout-text">MouseDining is free and does the watching for you. Set an alert and it'll notify you the moment a cancellation appears. When one comes through, move fast.</div>
+        <div class="callout-label">Let an app do it for you</div>
+        <div class="callout-text">MouseDining is free and watches for cancellations so you don't have to. Set an alert and it'll notify you the moment a table opens up. When one comes through, move fast. The free tier sends email alerts. You can upgrade for a small fee to get text messages instead, which is worth it if you want to catch something quickly.</div>
       </div>
     `
   },
@@ -850,10 +868,10 @@ var drawers = {
     icon: '✌️',
     title: 'The double-booking trick',
     body: `
-      <div class="prose-p">If you're torn between two restaurants on the same night, book both. It costs nothing to hold two reservations, and you can cancel the one you don't want as long as you do it at least 24 hours before. Disney's cancellation window is forgiving enough to make this a no-risk move.</div>
+      <div class="prose-p">If you're torn between two restaurants on the same night, book both. It costs nothing to hold two reservations, and you can cancel the one you don't want as long as you do it at least 24 hours before.</div>
       <div class="callout">
         <div class="callout-label">The window</div>
-        <div class="callout-text">Most Disney restaurants require cancellation at least 24 hours before your reservation or a per-person fee applies. Set a reminder for yourself so you don't forget to cancel.</div>
+        <div class="callout-text">Most Disney restaurants require cancellation at least 24 hours before your reservation or a per-person fee applies. I will add a reminder in your Park Edit for any cancellations that still need to occur once you're at the park.</div>
       </div>
       <div class="prose-p">This works especially well when you have a backup option you'd genuinely enjoy. Book the one you really want and a solid second choice, then decide closer to the trip based on how everyone's feeling.</div>
     `
@@ -863,8 +881,7 @@ var drawers = {
     icon: '🍽️',
     title: 'Quick service vs table service',
     body: `
-      <div class="prose-p">Table service means a reservation, a sit-down meal, and 60–90 minutes of your day. That's the right call for a special dinner or a character meal, not for every meal.</div>
-      <div class="prose-p">Quick service is walk-up, order at a counter, find a table. Mobile order through MDE and skip the queue entirely. Order about 45 minutes before you want to eat, and avoid the 12–1pm window unless you're mobile ordering for pickup. That hour is chaos.</div>
+      <div class="prose-p">Quick service is walk-up, order at a counter, find a table. Mobile order through MDE and skip the queue entirely. Order about 45 minutes before you want to eat, and avoid the 12–1pm window unless you're mobile ordering for pickup. That hour is chaos. Your Park Edit will have the timing built in so you don't have to think about it.</div>
       <div class="callout">
         <div class="callout-label">Breakfast tip</div>
         <div class="callout-text">Breakfast in the parks is expensive and usually not worth it. Eat before you leave the resort and save the money for something better later in the day. Same idea applies to bringing at least most of your own snacks.</div>
@@ -878,7 +895,7 @@ var drawers = {
     title: 'Where to eat',
 
     body: `
-      <div class="prose-p">The food at Disney is functional. There are some genuinely good restaurants, but you're not going for the cuisine. A table service reservation is worth it for the experience and the sit-down break, not because the food demands it.</div>
+      <div class="prose-p">There are some wonderful places with great food, if you know where to go — that's what this is for.</div>
       <div class="prose-p">Here are your six confirmed reservations, in trip order, with a few extra options worth knowing about at the end.</div>
 
       <div class="callout">
@@ -888,41 +905,41 @@ var drawers = {
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>Chef Mickey's · Contemporary Resort</strong><br>Jun 6 · 6:25pm. Character dining buffet at the Contemporary — Mickey, Minnie, Donald, Goofy, and Pluto all come to your table. It's loud and chaotic in the best way. It's a short walk or monorail hop from Bay Lake Tower, so it's an easy landing after your Animal Kingdom morning.</div>
+      <div class="prose-p"><strong>Chef Mickey's · Contemporary Resort</strong><br>Jun 6 · 6:25pm. Character dining buffet at the Contemporary — Mickey, Minnie, Donald, Goofy, and Pluto all come to your table. It's loud and chaotic, but kids love it. It's a short walk or monorail hop from Bay Lake Tower, so it's an easy landing after your Animal Kingdom morning.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>Narcoossee's · Grand Floridian Resort</strong><br>Jun 7 · 7:05pm. Waterfront seafood restaurant at the Grand Floridian. Dinner only, not inside a park. The scallops are what people rave about, and you can watch the Happily Ever After fireworks from across the Seven Seas Lagoon if the timing lines up. Take the monorail one stop from the Magic Kingdom station to the Grand Floridian, walk through the lobby, and follow signs to Narcoossee's on the waterfront. Budget 10 to 12 minutes from the park exit to your table.</div>
+      <div class="prose-p"><strong>Narcoossee's · Grand Floridian Resort</strong><br>Jun 7 · 7:05pm. The setting is the reason to go. Get there early, walk the lobby — the chandeliers, the piano player, the whole thing — and have a drink at The Perch, the lobby bar. Narcoossee's itself sits right on the water, with Happily Ever After playing out across Seven Seas Lagoon while you eat. Leave Magic Kingdom by 6:30pm.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>Sci-Fi Dine-In Theater · Hollywood Studios</strong><br>Jun 8 · 10:50am. You eat in cars watching classic sci-fi movie trailers under a night sky. Completely absurd — and kids tend to love it. Food is fine, the experience is the point. An early seating like this works well as a sit-down break before the midday heat.</div>
+      <div class="prose-p"><strong>Sci-Fi Dine-In Theater · Hollywood Studios</strong><br>Jun 8 · 10:50am. You eat in fake cars watching old B-movie clips under a fake night sky. Completely absurd and the kids love it. Food is fine — the experience is the point.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>Sanaa · Animal Kingdom Lodge</strong><br>Jun 8 · 5:45pm. You're leaving the park for this one, so plan to be out of Hollywood Studios by 5pm and into a rideshare, which is about 15 minutes from the park. The bread service is the reason to come: you order a selection of breads with accompaniments, various chutneys, hummus, and spiced spreads. The menu is African-Indian influenced and tends to work well across a range of palates. If the kitchen gives you a savanna-facing table, you're eating with animals grazing outside at dusk.</div>
+      <div class="prose-p"><strong>Sanaa · Animal Kingdom Lodge</strong><br>Jun 8 · 5:45pm. Indian-inspired flavors inside Animal Kingdom Lodge's Kidani Village. Tables overlook the savanna — giraffes and zebras sometimes wander past while you eat. The bread service with dipping sauces is the thing to order first. If you don't get a table near a window, you can walk out to the patio for a 360 view and rocking chairs from which to watch animals. Plan to be out of Hollywood Studios by 5pm and into a rideshare — about 15 minutes from the park.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>San Angel Inn · EPCOT, Mexico Pavilion</strong><br>Jun 9 · 12:10pm. Inside the pyramid, under a night sky, with the Gran Fiesta Tour boat ride going past your table while you wait. The atmosphere is unlike anything else in the parks. Food is fine, environment is amazing. Gran Fiesta Tour is right at the pavilion entrance, 8 minutes and almost no wait, so it's worth doing before your reservation if you have time. If there's a line at the host stand, the market shops inside the pyramid are right there, and there's a tequila bar just inside the entrance.</div>
+      <div class="prose-p"><strong>San Angel Inn · EPCOT, Mexico Pavilion</strong><br>Jun 9 · 12:10pm. This and Sci-Fi Dine-In were my favorite as kids because you feel totally transported. You enter into a dark sky into a small hacienda at the base of a Mayan ruin. The Gran Fiesta tour boat ride takes you through Mexico with the three caballeros, Donald Duck included. As a kid, the idea of having a ride to go on while I waited for fajitas might have been the best thing I'd ever heard. The food is totally fine, but the environment is fabulous. If there's a line, it tends to move fast, but if it looks immobile, it's better to roam through the shops. Plus, there's a highly-regarded tequila bar if you're stuck.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>Teppan Edo · EPCOT, Japan Pavilion</strong><br>Jun 9 · 7:00pm. Hibachi, great energy, fun for kids. Good view of the fireworks if the timing works out. This is your last night, after you've moved over to the Four Seasons, so it's a relaxed way to close the trip rather than a rushed park exit.</div>
+      <div class="prose-p"><strong>Teppan Edo · EPCOT, Japan Pavilion</strong><br>Jun 9 · 7:00pm. Teppan Edo is a hibachi place: they cook the food in front of you, so you get a bit of a show with your dinner! Disney recruits people from each culture around the World Showcase to work at their respective pavilion, so you might get a cultural ambassador from Japan as your chef. Kids love the onion volcano and cooking utensil tricks. After dinner, the restaurant's porch and steps are a great place to watch Luminous: The Symphony of Us — less crowded than the lagoon and you have an elevated view.</div>
 
       <div class="section-divider"></div>
       <div class="prose-p" style="font-style:italic;color:var(--muted);font-size:13px;">A few more worth knowing about, if a plan changes or you add a meal:</div>
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>California Grill · Contemporary Resort</strong><br>Rooftop above the Contemporary, a short walk from Bay Lake Tower. The fireworks view is exceptional. Book a table timed around Happily Ever After and you watch it from the 15th floor with the soundtrack piped in. When you check in on the second floor, ask for a window seat facing the park, not guaranteed but worth asking. It's a prix fixe three-course menu at $99 per adult, $39 for kids ages 3 to 9.</div>
+      <div class="prose-p"><strong>California Grill · Contemporary Resort</strong><br>Rooftop above the Contemporary, a short walk from Bay Lake Tower. The fireworks view is exceptional. Book a table timed around Happily Ever After and you watch it from the 15th floor with the soundtrack piped in. When you check in, ask for a window seat facing the park. Not guaranteed but worth asking.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>50s Prime Time Café · Hollywood Studios</strong><br>Servers are in character as your aunt or your mom and will give you grief for elbows on the table and not finishing your vegetables. Genuinely fun, and an easy hit with a five-year-old.</div>
+      <div class="prose-p"><strong>50s Prime Time Café · Hollywood Studios</strong><br>Servers are in character as your aunt or your mom and will give you grief for elbows on the table and not finishing your vegetables. Genuinely fun.</div>
 
       <div class="section-divider"></div>
 
-      <div class="prose-p"><strong>Space 220 · EPCOT</strong><br>You take a simulated space elevator 220 miles above Earth and dine inside a space station. The theming is one of the most immersive on property. Walk-ups are possible but not guaranteed, so check at the entrance near Mission: SPACE.</div>
+      <div class="prose-p"><strong>Space 220 · EPCOT</strong><br>You take a simulated space elevator 220 miles above Earth and dine inside a space station. The theming is extraordinary, one of the most immersive experiences on property. Book at 60 days. Walk-ups are possible but not guaranteed. Check at the entrance near Mission: SPACE.</div>
     `
   },
 
@@ -930,64 +947,59 @@ var drawers = {
     icon: '📋',
     title: 'Your Lightning Lane plan',
     body: `
-      <div class="prose-p">You check in June 6, so your booking window opens <strong>${CLIENT.llBookingDate} at ${CLIENT.llBookingTime}.</strong> Set an alarm for 6:55am. As a resort guest you can book all four park days in one session, so get everything done at once and you're set for the whole trip.</div>
+      <div class="prose-p">Your Lightning Lane is booked for all four park days. Here's the plan for each day and how to run it in the park.</div>
 
       <div class="callout">
-        <div class="callout-label">Read this first</div>
-        <div class="callout-text">Charlie is 41 inches, which clears the 38 and 40 inch rides but not the 44 inch ones, so the bigger coasters are adults-only and run on rider swap. JR rides the gentle dark rides on a lap. The plan below reflects that.</div>
+        <div class="callout-label">Heights</div>
+        <div class="callout-text">Charlie is 41 inches, which clears the 38 and 40 inch rides but not the 44 inch ones. The bigger coasters are adults-only and run on rider swap. JR rides gentle dark rides on a lap. The plan below reflects that.</div>
       </div>
 
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Day 1 — Animal Kingdom · Jun 6</strong></div>
       <div class="callout">
-        <div class="callout-label">Skip Lightning Lane here</div>
-        <div class="callout-text">Animal Kingdom doesn't justify the spend on a half day. Kilimanjaro Safaris is your first move at rope drop while the animals are active, Expedition Everest runs on single rider for the adults, and Na'vi River Journey is a short standby before you leave. Save the money for the parks that need it.</div>
+        <div class="callout-label">Your bookings</div>
+        <div class="callout-text">Na'vi River Journey, Expedition Everest, Kilimanjaro Safaris.</div>
+      </div>
+      <div class="callout">
+        <div class="callout-label">How to run it</div>
+        <div class="callout-text">Use your first window early and keep rolling. Expedition Everest is a 44 inch ride — adults only on rider swap. Na'vi and Safari are whole-group rides.</div>
       </div>
 
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Day 2 — Magic Kingdom · Jun 7</strong></div>
       <div class="callout">
-        <div class="callout-label">Single Pass — book in your window</div>
-        <div class="callout-text"><strong>Seven Dwarfs Mine Train.</strong> You'll rope drop this during Early Entry, but book the Single Pass in the same session as a safety net. It sells out on busy dates and standby never really drops.</div>
+        <div class="callout-label">Your bookings</div>
+        <div class="callout-text">Seven Dwarfs Mine Train (Single Pass), Big Thunder Mountain, Buzz Lightyear's Space Ranger Spin, Pirates of the Caribbean.</div>
       </div>
       <div class="callout">
-        <div class="callout-label">Multi Pass — pre-book these 3</div>
-        <div class="callout-text">1. <strong>Buzz Lightyear's Space Ranger Spin</strong><br>2. <strong>Pirates of the Caribbean</strong><br>3. <strong>Big Thunder Mountain Railroad</strong><br>Use the first one early. The moment you tap in, book your next ride, and keep that chain rolling through the morning.</div>
-      </div>
-      <div class="callout">
-        <div class="callout-label">Rolling bookings later</div>
-        <div class="callout-text">As you use each one, the rides you book next split by who's riding: Space Mountain for Meredith and Jane, Haunted Mansion for Catherine with Charlie and JR, and Pirates again because it's worth a second lap.</div>
+        <div class="callout-label">How to run it</div>
+        <div class="callout-text">Rope drop Seven Dwarfs during Early Entry — the Single Pass is your safety net if the standby line builds. Use Big Thunder first of your Multi Pass pre-books, tap in, and start rolling. Buzz and Pirates follow. Seven Dwarfs is 38 inches so Charlie clears it. Big Thunder is 40 inches — he clears that too.</div>
       </div>
 
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Day 3 — Hollywood Studios · Jun 8</strong></div>
       <div class="callout">
-        <div class="callout-label">Multi Pass — pre-book these 3</div>
-        <div class="callout-text">1. <strong>Tower of Terror</strong> (the one to grab first, demand is high in June)<br>2. <strong>Rock 'n' Roller Coaster Starring The Muppets</strong><br>3. <strong>Toy Story Mania</strong></div>
+        <div class="callout-label">Your bookings</div>
+        <div class="callout-text">Toy Story Mania, Rock 'n' Roller Coaster Starring The Muppets, Tower of Terror.</div>
       </div>
       <div class="callout">
-        <div class="callout-label">First move &amp; single rider</div>
-        <div class="callout-text">Mickey &amp; Minnie's Runaway Railway is a rope drop standby before lines build. Tower and Rock 'n' Roller are 44 inch rides, so they're adults only on rider swap. Millennium Falcon runs single rider if you want it without the wait.</div>
+        <div class="callout-label">How to run it</div>
+        <div class="callout-text">Toy Story Mania is a whole-group ride and your first window — use it early and start rolling. Rock 'n' Roller and Tower of Terror are both 44 inch rides, so they're adults only on rider swap. Note that Toy Story return windows are running later than usual this summer due to higher overall park demand. If the window feels late, that's normal right now.</div>
       </div>
 
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Day 4 — EPCOT · Jun 9</strong></div>
       <div class="callout">
-        <div class="callout-label">The throwaway trick</div>
-        <div class="callout-text">Pre-book <strong>Spaceship Earth</strong> as your first Multi Pass and tap in right at rope drop. The moment you tap in, the tier restriction lifts and you can book <strong>Frozen Ever After</strong> as your next ride. It's the cheapest way to get a Tier 1 ride on Multi Pass.</div>
+        <div class="callout-label">Your bookings</div>
+        <div class="callout-text">Remy's Ratatouille Adventure, Soarin' Across America, Spaceship Earth.</div>
       </div>
       <div class="callout">
-        <div class="callout-label">Multi Pass — the rest</div>
-        <div class="callout-text"><strong>Remy's Ratatouille Adventure</strong>, <strong>Soarin' Across America</strong>, and <strong>Mission: SPACE</strong> roll in as you use each booking. Test Track is a rope drop standby, so ride it first thing rather than spending a pass on it.</div>
-      </div>
-
-      <div class="callout">
-        <div class="callout-label">⚠️ For Meredith — review</div>
-        <div class="callout-text">This plan is assembled from the Park Edit timeline, not written from the library. Confirm the picks and the rider splits before this goes out.</div>
+        <div class="callout-label">How to run it</div>
+        <div class="callout-text">Tap into Spaceship Earth first at rope drop. The moment you tap in, the tier restriction lifts and you can book Frozen Ever After as your next ride — it won't be available to you as a pre-book but it opens up the moment that first tap-in happens. Remy's and Soarin' windows will come up as you roll through the morning. Test Track is a rope drop standby — ride it first thing rather than spending a pass on it.</div>
       </div>
     `
   },
@@ -1060,7 +1072,7 @@ var drawers = {
       <div class="prose-p">This is one of the most valuable on-property perks. By the time off-site guests can book, resort guests have already claimed the best return windows. On busy dates, some Single Pass rides sell out entirely before off-site guests can even purchase.</div>
       <div class="callout">
         <div class="callout-label">Your booking date</div>
-        <div class="callout-text">${CLIENT.llBookingDate} at ${CLIENT.llBookingTime}. Set an alarm for 6:55am. Have MDE open and payment saved before you start. Your Lightning Lane plan has the full list of what to book.</div>
+        <div class="callout-text">Your Lightning Lane is already booked for all four days. The plan drawer has the full breakdown of what's booked and how to run each day.</div>
       </div>
     `
   },
@@ -1094,6 +1106,8 @@ var drawers = {
         <li class="check-item" data-key="mom-5"><div class="check-box"></div><span class="check-label">Flip flops or sandals for the resort</span></li>
         <li class="check-item" data-key="mom-6"><div class="check-box"></div><span class="check-label">Swimwear</span></li>
         <li class="check-item" data-key="mom-6b"><div class="check-box"></div><span class="check-label">A light rain jacket or poncho: June afternoons bring fast-moving storms</span></li>
+        <li class="check-item" data-key="mom-6c"><div class="check-box"></div><span class="check-label">Baseball hat: essential in the June sun</span></li>
+        <li class="check-item" data-key="mom-6d"><div class="check-box"></div><span class="check-label">Sunglasses</span></li>
       </ul>
       <div class="checklist-section-label">Personal</div>
       <ul class="checklist">
@@ -1103,8 +1117,7 @@ var drawers = {
       </ul>
       <div class="checklist-section-label">For this trip</div>
       <ul class="checklist">
-        <li class="check-item" data-key="mom-10"><div class="check-box"></div><span class="check-label">Compression socks: worth it every day, your feet will thank you by day 3</span></li>
-        <li class="check-item" data-key="mom-11"><div class="check-box"></div><span class="check-label">Neck fan: June humidity makes a real difference</span></li>
+        <li class="check-item" data-key="mom-11"><div class="check-box"></div><span class="check-label">Neck fan and cooling towels: June humidity makes a real difference</span></li>
       </ul>
       <div class="add-own-row"><input class="add-own-input" placeholder="Add your own…" id="mom-add-input" /><button class="add-own-btn" onclick="addOwnItem('mom-add-input','mom-custom-list','mom-custom')">+</button></div>
       <ul class="checklist" id="mom-custom-list"></ul>
@@ -1126,6 +1139,8 @@ var drawers = {
         <li class="check-item" data-key="rowe-5"><div class="check-box"></div><span class="check-label">Broken-in walking shoes</span></li>
         <li class="check-item" data-key="rowe-6"><div class="check-box"></div><span class="check-label">Sandals for the resort</span></li>
         <li class="check-item" data-key="rowe-7"><div class="check-box"></div><span class="check-label">Swimwear, swim shirt, and hat for the resort pool</span></li>
+        <li class="check-item" data-key="rowe-7b"><div class="check-box"></div><span class="check-label">Baseball hat: essential in the June sun</span></li>
+        <li class="check-item" data-key="rowe-7c"><div class="check-box"></div><span class="check-label">Sunglasses</span></li>
       </ul>
       <div class="checklist-section-label">His stuff</div>
       <ul class="checklist">
@@ -1299,7 +1314,7 @@ var drawers = {
     icon: '🎒',
     title: 'Your park bag',
     body: `
-      <div class="prose-p"><em>Check this every morning before you leave the hotel.</em></div>
+      <div class="prose-p"><em>Your Park Bag will be at the top of each day in your Park Edit, so you can reference it before you leave your hotel.</em></div>
       <div class="checklist-section-label">In the bag</div>
       <ul class="checklist">
         <li class="check-item" data-key="bag-0"><div class="check-box"></div><span class="check-label">Diapers</span></li>
@@ -1343,10 +1358,14 @@ var drawers = {
 
   virtualqueue: {
     icon: '📲',
-    title: 'What they are — and why you won\'t need one',
+    title: 'What they are — and why you probably won\'t need one',
     body: `
-      <div class="prose-p">Virtual queues replace the standby line for a small number of rides: instead of waiting physically, you join a digital queue through MDE and come back when your group is called. They were used more widely a few years ago but Disney has largely moved away from them.</div>
-      <div class="prose-p">The only rides still using them are TRON at Magic Kingdom and Guardians of the Galaxy at EPCOT. TRON isn't in your Lightning Lane plan and EPCOT isn't one of your parks, so you won't need to think about this on your trip.</div>
+      <div class="prose-p">Virtual queues replace the standby line for a small number of experiences: instead of waiting physically, you join a digital queue through MDE and come back when your group is called. Disney used them widely for a few years but has largely moved away from them — as of your trip, no rides at any park are using one.</div>
+      <div class="prose-p">Disney does still bring them back for brand-new openings during the first few weeks of high demand. If one appears during your trip, here's how it works: there are two daily drop windows — 7am (from anywhere) and 10am (you must already be inside the park). Both fill fast. You get one attempt per day. When your group is called, you have a window to return and enter.</div>
+      <div class="callout">
+        <div class="callout-label">If a virtual queue appears</div>
+        <div class="callout-text">Open MDE → tap the park → tap the attraction → Join Virtual Queue. Have everyone in your party linked in MDE before the drop time. The 7am window is the more reliable of the two.</div>
+      </div>
     `
   },
 
@@ -1354,8 +1373,15 @@ var drawers = {
     icon: '🏁',
     title: 'Why it matters',
     body: `
-      <div class="prose-p">Rope drop is the moment the park opens and the rides become accessible. Getting there early — ideally already inside the park before Early Entry begins — means you can walk straight onto rides that will have 45–60 minute waits by mid-morning.</div>
-      <div class="prose-p">Your Park Edit has exactly where to go first on each day. It's already factored in.</div>
+      <div class="prose-p">The rides you most want to do will have 5-minute waits at 8:30am and 60-minute waits by 10. That gap is rope drop.</div>
+      <div class="prose-p">The rope is a literal rope across a walkway deep inside the park. A cast member drops it at opening and guests move toward the rides. The families already standing in Fantasyland when it comes down walk straight onto Seven Dwarfs. The ones still clearing the front gates join the line those families just left.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Early Entry</strong> gives resort guests 30 minutes inside the park before it opens to the general public. But Disney lets resort guests through the gates even before Early Entry officially begins — arrive early enough and you can be standing at the ropes, already deep inside the park, close to an hour before anyone else arrives.</div>
+      <div class="callout">
+        <div class="callout-label">How to check Early Entry times</div>
+        <div class="callout-text">Open MDE → tap the park → scroll to Park Hours → Early Theme Park Entry is listed separately.</div>
+      </div>
+      <div class="prose-p">You should be at the park well before Early Entry begins to get through security and walk to the ropes. Your Park Edit has exactly where to go each morning. That part's already done.</div>
     `
   },
 
@@ -1393,18 +1419,14 @@ var drawers = {
     body: `
       <div class="prose-p">You're at Bay Lake Tower for the first three nights, then moving to the Four Seasons for your last night on June 9. Checkout day overlaps with your EPCOT morning, so the move is worth thinking through once before the trip rather than improvising it tired.</div>
       <div class="section-divider"></div>
-      <div class="prose-p"><strong>The morning of June 9</strong><br>Bay Lake Tower checkout is 11am, and EPCOT is your park that morning, so you'll be out the door for rope drop long before that. The simplest approach is to pack and close out the room before you leave for the park, then have bell services hold your bags. You're not coming back to Bay Lake, so everything needs to be out of the room that morning.</div>
+      <div class="prose-p"><strong>The morning of June 9</strong><br>Pack and close out the room before you leave for the park. Bay Lake Tower Bell Services will hold your bags for free while you're at EPCOT — no size limits, no time pressure. Then take the monorail to EPCOT as usual. You're not coming back to the room, so everything needs to be out that morning, but the bags stay behind.</div>
       <div class="section-divider"></div>
-      <div class="prose-p"><strong>Moving the bags</strong><br>Disney does not transfer luggage to non-Disney hotels, and the Four Seasons sits on Disney property but is independently run, so the resort-to-resort luggage service doesn't apply here. Plan to move the bags yourselves: bell services at Bay Lake holds them while you're at EPCOT, you collect them on your way out, and a car or rideshare takes you and the luggage to the Four Seasons. It's a short drive.</div>
+      <div class="prose-p"><strong>Moving the bags</strong><br>Disney does not transfer luggage to non-Disney hotels. The Four Seasons sits on Disney property but is independently run, so resort-to-resort luggage service doesn't apply. After EPCOT, collect bags from Bay Lake Tower Bell Services and take a rideshare straight to the Four Seasons. It's a short drive.</div>
       <div class="section-divider"></div>
-      <div class="prose-p"><strong>Timing it with your day</strong><br>You're leaving EPCOT around early afternoon as usual, which lines up well: collect bags from Bay Lake, check in at the Four Seasons, settle JR and Charlie, and you've got the afternoon to rest before Teppan Edo back at EPCOT that evening. If you'd rather not double back, drop the bags at the Four Seasons first and head to dinner from there.</div>
+      <div class="prose-p"><strong>Timing it with your day</strong><br>Collect bags from Bay Lake after the park, check in at the Four Seasons, settle JR and Charlie, and you have the afternoon before Teppan Edo back at EPCOT that evening.</div>
       <div class="callout">
         <div class="callout-label">Worth doing in advance</div>
-        <div class="callout-text">Do online check-in with the Four Seasons before the trip so the evening arrival is quick. If you want the room ready early, call ahead and ask about early check-in. It isn't guaranteed, but a deluxe resort will often accommodate a family with young kids when they can.</div>
-      </div>
-      <div class="callout">
-        <div class="callout-label">⚠️ For Meredith — review</div>
-        <div class="callout-text">This drawer is newly written and not from the library. Confirm the Four Seasons checkout-day logistics and luggage handling before this goes out, especially whether they want to drop bags before or after EPCOT.</div>
+        <div class="callout-text">Do online check-in with the Four Seasons before the trip so the evening arrival is quick. If you want the room ready early, call ahead and ask about early check-in. It isn't guaranteed, but a hotel at that level will accommodate a family with young kids when they can.</div>
       </div>
     `
   },
@@ -1413,8 +1435,7 @@ var drawers = {
     icon: '👶',
     title: 'Babysitters',
     body: `
-      <div class="prose-p">You have Alyssa with you in the parks each day, which is your single biggest flexibility advantage. She makes rider swap effortless: while one group rides a 44-inch coaster, she stays with JR and Charlie, and the adults can trade off the bigger rides without anyone sitting them all out. It also means a parent can step away for a nap run or a quiet hour without breaking up the group.</div>
-      <div class="prose-p">If you want evening coverage at the resort on top of that, in-room babysitting is available through Kid's Nite Out. Sitters are background-checked, experienced with Disney families, and come to your room. They bring activities and can handle bedtime.</div>
+      <div class="prose-p">If you want evening coverage at the resort, in-room babysitting is available through Kid's Nite Out. Sitters are background-checked, experienced with Disney families, and come to your room. They bring activities and can handle bedtime. Although Disney World is for the kids, it can be nice to take a break and have dinner at California Grill.</div>
       <div class="callout">
         <div class="callout-label">Book before you go</div>
         <div class="callout-text">If you want a resort sitter for an evening out, don't wait until you arrive. Availability fills on busy weeks. Book at kidsniteout.com — the front desk can also help arrange it, it's a familiar request at Bay Lake Tower. Expect roughly $25 per hour plus a booking fee.</div>
@@ -1426,17 +1447,13 @@ var drawers = {
     icon: '🚨',
     title: 'If you get separated',
     body: `
-      <div class="prose-p">Cast Members handle this well: most families are reunited within minutes. Have a plan anyway.</div>
-      <div class="prose-p">Before you leave for the parks each morning, write a parent's mobile number on Charlie's arm in permanent marker. Old-fashioned, works. You can also write it inside his MagicBand. Safety Tat makes temporary phone number tattoos designed for exactly this. They survive sunscreen and water and look like a regular kids' tattoo. Take a photo of Charlie on your phone in whatever he's wearing that day, so if you need to describe him to a Cast Member, you have a current image ready.</div>
+      <div class="prose-p">Before each park morning, write a parent's mobile number on Charlie's arm in permanent marker — old-fashioned, but it works. Safety Tat makes waterproof temporary tattoos designed exactly for this if you prefer something that survives sunscreen and splashing. An AirTag wristband on Charlie means you can locate him from your phone. Take a photo of him in whatever he's wearing before you leave the hotel — if you need to describe him to a Cast Member, you'll have it ready.</div>
       <div class="callout">
         <div class="callout-label">Talk to Charlie first</div>
-        <div class="callout-text">Before the trip: if you can't find each other, find someone in a Disney uniform and tell them your name. Don't go with strangers, find a Cast Member. Practise it at home so it's not a new idea in a crowd.</div>
+        <div class="callout-text">Before the trip: if you can't find each other, find someone in a Disney uniform and tell them your name. Don't go with strangers, find a Cast Member. Practice it at home so it's not a new idea in a crowd.</div>
       </div>
-      <div class="prose-p"><strong>Where lost children go:</strong> any child under 10 is escorted by a Cast Member directly to the Baby Care Center. Children 10 and over go to Guest Relations. The moment you report a missing child to any Cast Member, a description goes out park-wide by radio. Stay with that Cast Member. The moment you leave, you become harder to find too.</div>
-      <div class="callout">
-        <div class="callout-label">If you realise a child is missing</div>
-        <div class="callout-text">Don't search on your own. Find the nearest Cast Member immediately and report it.</div>
-      </div>
+      <div class="prose-p">Cast Members handle this well: most families are reunited within minutes. Where lost children go: any child under 10 is escorted by a Cast Member directly to the Baby Care Center. Children 10 and over go to Guest Relations. The moment you report a missing child to any Cast Member, a description goes out park-wide by radio. Stay with that Cast Member — the moment you leave, you become harder to find too.</div>
+      <div class="prose-p"><em>Your Park Edit has an SOS section with step-by-step instructions for what to do in the moment.</em></div>
     `
   },
 
@@ -1485,18 +1502,24 @@ var drawers = {
     icon: '🏥',
     title: 'Baby Care Centers',
     body: `
-      <div class="prose-p">Every park has one. Air-conditioned, free to use, no reservation. For a trip with JR, these are your best asset in the parks.</div>
-      <div class="prose-p"><strong>What's inside:</strong> Changing tables (4–6, clean and consistently maintained). Private nursing rooms with rocking chairs and electrical outlets. Bottle warmers and microwaves. Filtered water. High chairs. A seating area with Disney movies, useful if Charlie needs a break too.</div>
+      <div class="prose-p">Every park has one. Air-conditioned, free to use, no reservation.</div>
+      <div class="prose-p"><strong>What's inside:</strong> Changing tables across all locations are notably nice — genuinely one of the better amenities in the parks. Nursing rooms, bottle warmers and microwaves, filtered water, high chairs, and a seating area with Disney movies. Worth knowing: Baby Care Centers are also a good option for kids with sensory sensitivities who need a quiet break from the park.</div>
       <div class="callout">
         <div class="callout-label">The one most people don't know</div>
         <div class="callout-text">It's the only place in the parks where you can heat food you've brought yourself, including sealed commercial baby food. Disney restaurants can't do it, even for babies. If JR needs warm food during a park day, this is where you go.</div>
       </div>
-      <div class="prose-p"><strong>Breast milk storage:</strong> There's no fridge for storing milk, but First Aid is always right next door. They'll give you ice packs and can hold your pump while you're in the park.</div>
       <div class="callout">
         <div class="callout-label">What's for sale</div>
-        <div class="callout-text">Diapers, wipes, Enfamil formula, Gerber baby food, Pedialyte, pacifiers, sippy cups, bottles, sunscreen, and children's medicines. This is the only place in the parks that stocks kids medicines. Prices are high, so treat it as a safety net, not a supply run.</div>
+        <div class="callout-text">Basic baby supplies: diapers, wipes, formula, and children's medicine. Treat it as a safety net, not a supply run — prices are high.</div>
       </div>
-      <div class="prose-p"><strong>Where to find them:</strong> Magic Kingdom is near Casey's Corner on Main Street. EPCOT is at the Odyssey Pavilion near the World Showcase entrance. Hollywood Studios is in the Guest Services building at the park entrance (smallest, may have a wait). Animal Kingdom is near Creature Comforts (the Starbucks), before the bridge to Africa.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Magic Kingdom</strong><br>Near Casey's Corner on Main Street. The center is small — strollers are not allowed inside, so if JR is asleep in the stroller this isn't an A/C option to continue that. The nursing room is a shared space: more private than being out in the park, but not completely private. Rocking chairs, low lights, and outlets.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>EPCOT</strong><br>At the Odyssey Pavilion, near the World Showcase entrance. Larger than Magic Kingdom, though a little less warm in decoration and function.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Hollywood Studios</strong><br>In the Guest Services building at the park entrance. Very small — there may be a wait. There is a small potty in the general area. The nursing room is private, but fits only one person, so there may also be a wait for that.</div>
+      <div class="section-divider"></div>
+      <div class="prose-p"><strong>Animal Kingdom</strong><br>Near Creature Comforts (the Starbucks) — go to the left of the Disney Vacation Club booth and follow that path to both First Aid and the Baby Care Center. The most spacious of the four, with a large sitting room and two private nursing rooms with rockers.</div>
     `
   },
 
@@ -1504,7 +1527,6 @@ var drawers = {
     icon: '🍽️',
     title: 'Dining with little ones',
     body: `
-      <div class="prose-p">This is worth knowing before you commit to a reservation with a baby at the table: table service at Disney runs 60–90 minutes. It's not a reason to avoid it; it's a reason to pick the right ones and have a plan. Narcoossee's and San Angel Inn both have enough going on around the table to hold JR's attention, and Alyssa being with you means an adult can walk him out if he hits his limit before the check arrives.</div>
       <div class="prose-p"><strong>What to expect:</strong> High chairs and boosters are standard. Kids' menus exist at virtually every table service restaurant. Servers are used to families and generally good at pacing so kids aren't waiting forever between plates.</div>
       <div class="callout">
         <div class="callout-label">Bottles &amp; sippy cups</div>
@@ -1536,10 +1558,7 @@ var drawers = {
     title: 'Babywearing in the parks',
     body: `
       <div class="prose-p">The stroller gets parked outside every ride, sometimes a 5-minute walk from the exit. JR isn't walking that gap, so the carrier is what keeps your hands free and your group moving. Use it for ride exits, crowded transitions, and the monorail platform: any moment the stroller is parked and you need to move with JR.</div>
-      <div class="callout">
-        <div class="callout-label">Worth knowing</div>
-        <div class="callout-text">Not an all-day solution. Early June in Florida is hot and humid, and babywearing generates heat for both of you. Use it for the moments it earns its place, then back in the stroller where there's airflow.</div>
-      </div>
+
     `
   },
 
@@ -1560,7 +1579,7 @@ var drawers = {
     title: 'Nursing, pumping & bottles',
     body: `
       <div class="prose-p">Florida law means you can nurse anywhere in the parks you're permitted to be. Disney is one of the more nursing-friendly environments you'll find and staff are trained.</div>
-      <div class="prose-p">For privacy, the Baby Care Center nursing rooms are the best option: rocking chairs, low lighting, outlets, and Cast Members at the door who are attentive about keeping it private. Magic Kingdom's center has phone chargers built into the chairs.</div>
+      <div class="prose-p">For nursing and pumping, the Baby Care Center nursing rooms are your best option in the parks. Worth knowing: the Magic Kingdom nursing room is not a private space. It has rocking chairs, low lighting, and outlets, but several people can be in there at once. It's comfortable and calm, just not enclosed. Details on the other parks coming as we get them.</div>
       <div class="prose-p"><strong>Pumping:</strong> Nursing rooms in every Baby Care Center have electrical outlets for plugging in pumps. Hands-free pumps work anywhere in the parks, including in lines and at restaurants.</div>
       <div class="callout">
         <div class="callout-label">Keeping milk cold</div>
@@ -1583,6 +1602,20 @@ function openDrawer(key) {
   document.getElementById('dTitle').textContent = data.title;
   document.getElementById('dBody').innerHTML = data.body;
   document.getElementById('dBody').scrollTop = 0;
+  // ── transport: show only the block matching this client's resort type ──
+  if (key === 'transport') {
+    var transportBlocks = {
+      'mk':      'transport-mk-resorts',
+      'epcot':   'transport-epcot-resorts',
+      'bus':     'transport-bus-resorts',
+      'offsite': 'transport-offsite',
+      'springs': 'transport-springs'
+    };
+    Object.keys(transportBlocks).forEach(function(k) {
+      var el = document.getElementById(transportBlocks[k]);
+      if (el) el.style.display = (k === CLIENT.resortType) ? '' : 'none';
+    });
+  }
   document.getElementById('mainDrawer').classList.add('open');
   document.getElementById('overlay').classList.add('open');
   // restore checklist state — persists permanently (not day-based)
@@ -1689,24 +1722,6 @@ function closeDrawer() {
 (function initPreEdit() {
 
   // ── Transport blocks: show only the relevant one ──
-  var transportBlocks = {
-    'mk':      'transport-mk-resorts',
-    'epcot':   'transport-epcot-resorts',
-    'bus':     'transport-bus-resorts',
-    'offsite': 'transport-offsite',
-    'springs': 'transport-springs'
-  };
-  Object.keys(transportBlocks).forEach(function(key) {
-    var el = document.getElementById(transportBlocks[key]);
-    if (el) el.style.display = (key === CLIENT.resortType) ? '' : 'none';
-  });
-
-  // ── Early Entry: hide for off-site guests ──
-  if (!CLIENT.onProperty) {
-    var eeRow = document.getElementById('earlyEntryRow');
-    if (eeRow) eeRow.style.display = 'none';
-  }
-
   // ── Baby & Toddler: show only if a child under 3 exists ──
   var hasUnder3 = CLIENT.children.some(function(c) { return c.age < 3; });
   var btSection = document.getElementById('babyToddlerSection');
