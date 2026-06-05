@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Shot List · June 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FDF8F4;
+    --terra: #E8734A;
+    --brown: #5C3D2E;
+    --gold: #C9963A;
+    --sky: #5B8FA8;
+    --green: #3A7A5A;
+    --muted: #8C7B72;
+    --border: #E8E0D8;
+    --shadow: #D4C4B8;
+    --text: #2C2420;
+    --ak: #3A7A5A;
+    --mk: #5B8FA8;
+    --dhs: #C9963A;
+    --epcot: #7B6EA8;
+    --home: #8C7B72;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { background: var(--cream); font-family: 'DM Sans', sans-serif; color: var(--text); min-height: 100vh; }
+
+  .header {
+    background: var(--brown);
+    padding: 20px 18px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 4px;
+  }
+  .header-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px;
+    color: white;
+    line-height: 1.1;
+  }
+  .progress-bar {
+    margin-top: 12px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    height: 4px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--terra);
+    border-radius: 4px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    margin-top: 5px;
+  }
+
+  /* Park tabs */
+  .park-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 14px 14px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--cream);
+    position: sticky;
+    top: 88px;
+    z-index: 90;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .park-tabs::-webkit-scrollbar { display: none; }
+  .park-tab {
+    flex-shrink: 0;
+    border-radius: 10px;
+    padding: 7px 13px;
+    border: 1.5px solid var(--border);
+    background: white;
+    box-shadow: 2px 2px 0 var(--shadow);
+    cursor: pointer;
+    text-align: center;
+  }
+  .park-tab-emoji { font-size: 14px; }
+  .park-tab-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .park-tab.active { color: white; border-color: transparent; }
+  .park-tab.active .park-tab-label { color: rgba(255,255,255,0.75); }
+  .park-tab[data-park="ak"].active { background: var(--ak); box-shadow: 2px 2px 0 #2a5a3a; }
+  .park-tab[data-park="mk"].active { background: var(--mk); box-shadow: 2px 2px 0 #3a6a7a; }
+  .park-tab[data-park="dhs"].active { background: var(--dhs); box-shadow: 2px 2px 0 #a07820; }
+  .park-tab[data-park="epcot"].active { background: var(--epcot); box-shadow: 2px 2px 0 #5a4e88; }
+  .park-tab[data-park="home"].active { background: var(--home); box-shadow: 2px 2px 0 #6a5b52; }
+
+  /* Park panel */
+  .park-panel { display: none; padding: 16px 14px 32px; }
+  .park-panel.active { display: block; }
+
+  .park-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .park-header-emoji { font-size: 22px; }
+  .park-header-info {}
+  .park-header-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .park-header-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* Priority section */
+  .priority-section { margin-bottom: 20px; }
+  .priority-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .priority-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-must { background: var(--terra); }
+  .dot-nice { background: var(--muted); }
+  .dot-try { background: var(--sky); }
+
+  .priority-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Shot card */
+  .shot-card {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 8px;
+    box-shadow: 2px 2px 0 var(--shadow);
+    cursor: pointer;
+    transition: opacity 0.2s;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .shot-card.done { opacity: 0.45; }
+  .shot-card.done .shot-title { text-decoration: line-through; }
+
+  .shot-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+    transition: all 0.2s;
+    background: white;
+  }
+  .shot-card.done .shot-check {
+    background: var(--terra);
+    border-color: var(--terra);
+    color: white;
+    font-size: 12px;
+  }
+
+  .shot-body { flex: 1; min-width: 0; }
+  .shot-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .shot-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 7px;
+  }
+  .shot-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .shot-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 7px;
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  .tag-reel { background: rgba(232,115,74,0.12); color: var(--terra); }
+  .tag-grid { background: rgba(91,143,168,0.12); color: var(--sky); }
+  .tag-web { background: rgba(201,150,58,0.12); color: var(--gold); }
+  .tag-p1 { background: rgba(58,122,90,0.1); color: var(--green); }
+  .tag-p2 { background: rgba(91,143,168,0.1); color: var(--sky); }
+  .tag-p3 { background: rgba(92,61,46,0.1); color: var(--brown); }
+  .tag-have { background: rgba(140,123,114,0.12); color: var(--muted); }
+  .tag-video { background: rgba(92,61,46,0.12); color: var(--brown); font-weight: 700; }
+  .tag-photo { background: rgba(58,122,90,0.12); color: var(--green); font-weight: 700; }
+  .tag-both { background: rgba(201,150,58,0.15); color: var(--gold); font-weight: 700; }
+  .tag-screen { background: rgba(91,143,168,0.12); color: var(--sky); font-weight: 700; }
+
+  /* Already have banner */
+  .have-banner {
+    background: rgba(140,123,114,0.08);
+    border: 1.5px solid rgba(140,123,114,0.2);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .have-banner strong {
+    font-weight: 600;
+    color: var(--text);
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Legend */
+  .legend {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+  }
+  .legend-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .legend-row:last-child { margin-bottom: 0; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">The Park Edit · Content Capture</div>
+  <div class="header-title">June Shot List</div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <div class="progress-label" id="progressLabel">0 of 0 captured</div>
+</div>
+
+<div class="park-tabs">
+  <div class="park-tab active" data-park="home" onclick="switchPark('home')">
+    <div class="park-tab-emoji">🏠</div>
+    <div class="park-tab-label">At Home</div>
+  </div>
+  <div class="park-tab" data-park="ak" onclick="switchPark('ak')">
+    <div class="park-tab-emoji">🦁</div>
+    <div class="park-tab-label">Jun 6 · AK</div>
+  </div>
+  <div class="park-tab" data-park="mk" onclick="switchPark('mk')">
+    <div class="park-tab-emoji">🏰</div>
+    <div class="park-tab-label">Jun 7 · MK</div>
+  </div>
+  <div class="park-tab" data-park="dhs" onclick="switchPark('dhs')">
+    <div class="park-tab-emoji">🎬</div>
+    <div class="park-tab-label">Jun 8 · DHS</div>
+  </div>
+  <div class="park-tab" data-park="epcot" onclick="switchPark('epcot')">
+    <div class="park-tab-emoji">🌍</div>
+    <div class="park-tab-label">Jun 9 · EPCOT</div>
+  </div>
+</div>
+
+<!-- AT HOME -->
+<div class="park-panel active" id="panel-home">
+  <div class="park-header">
+    <div class="park-header-emoji">🏠</div>
+    <div class="park-header-info">
+      <div class="park-header-name">Capture Before You Go</div>
+      <div class="park-header-date">No park needed · Phone + 20 minutes</div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-title">Format</div>
+    <div class="legend-row"><span class="shot-tag tag-video">📹 Video</span> Film this — minimum 10 seconds</div>
+    <div class="legend-row"><span class="shot-tag tag-photo">📷 Photo</span> Composed still shot</div>
+    <div class="legend-row"><span class="shot-tag tag-both">📹+📷 Both</span> Film AND get a clean still</div>
+    <div class="legend-row"><span class="shot-tag tag-screen">📱 Screen</span> Screen recording or screenshot</div>
+  </div>
+  <div class="legend" style="margin-top:8px;">
+    <div class="legend-title">Content Use</div>
+    <div class="legend-row"><span class="shot-tag tag-reel">Reel</span> Instagram Reels b-roll</div>
+    <div class="legend-row"><span class="shot-tag tag-grid">Grid</span> Static Instagram post</div>
+    <div class="legend-row"><span class="shot-tag tag-web">Web</span> Website asset</div>
+    <div class="legend-row"><span class="shot-tag tag-p1">Pillar 1</span> Too much to learn</div>
+    <div class="legend-row"><span class="shot-tag tag-p2">Pillar 2</span> Can't stop managing</div>
+    <div class="legend-row"><span class="shot-tag tag-p3">Pillar 3</span> Fear of the mistake</div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-must"></div><div class="priority-text">Must Get</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Park Edit boarding pass — clean screen recording</div>
+        <div class="shot-desc">Phone flat on a light surface, natural light, record a slow scroll through the Day 1 boarding pass. The product hero shot. Get this before anything else.</div>
+        <div class="shot-tags"><span class="shot-tag tag-screen">📱 Screen</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-web">Web</span><span class="shot-tag tag-p2">Pillar 2</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Park Edit drawer open — ride detail visible</div>
+        <div class="shot-desc">Tap any ride drawer open slowly. Shows the depth of the product. Film from above, phone on a surface or held naturally.</div>
+        <div class="shot-tags"><span class="shot-tag tag-screen">📱 Screen</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-p1">Pillar 1</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">SOS menu — scroll through scenarios</div>
+        <div class="shot-desc">Open the SOS tab, slow scroll past the scenario titles. This is the "what happens when it goes wrong" visual. High value for Pillar 3 reels.</div>
+        <div class="shot-tags"><span class="shot-tag tag-screen">📱 Screen</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">MDE app open — wait times screen, crowded numbers</div>
+        <div class="shot-desc">The "before" visual. Open MDE to the live wait times view. Captures exactly what the Park Edit replaces. Film for 5 seconds.</div>
+        <div class="shot-tags"><span class="shot-tag tag-screen">📱 Screen</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p2">Pillar 2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-nice"></div><div class="priority-text">Nice to Have</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Index tab — Where to Eat and LL drawers open</div>
+        <div class="shot-desc">Shows the reference layer of the product. Good for explaining the Pre-Edit story.</div>
+        <div class="shot-tags"><span class="shot-tag tag-screen">📱 Screen</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p1">Pillar 1</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">LL pre-selection screen in MDE</div>
+        <div class="shot-desc">The 7am booking screen with the three ride slots. This is the exact moment that triggers Pillar 3 anxiety. Capture it before the trip or first morning.</div>
+        <div class="shot-tags"><span class="shot-tag tag-screen">📱 Screen</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ANIMAL KINGDOM -->
+<div class="park-panel" id="panel-ak">
+  <div class="park-header">
+    <div class="park-header-emoji">🦁</div>
+    <div class="park-header-info">
+      <div class="park-header-name">Animal Kingdom</div>
+      <div class="park-header-date">Saturday · Jun 6 · Chef Mickey's evening</div>
+    </div>
+  </div>
+
+  <div class="have-banner">
+    <strong>Already Have</strong>
+    Giraffe safari shot, Tree of Life multiple angles, Expedition Everest exterior, Pandora floating mountains, two kids at Animal Kingdom Lodge fence. You're well covered on AK establishing shots — focus on gaps below.
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-must"></div><div class="priority-text">Must Get</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Park Edit open, Tree of Life in background</div>
+        <div class="shot-desc">Hold your phone with the Park Edit visible on screen. Tree of Life soft focus behind it. For video: slowly pan from the Tree of Life down to the phone screen — background first, then the product. For photo: hold still and let someone compose it. Single most versatile asset of the entire trip.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-web">Web</span><span class="shot-tag tag-p2">Pillar 2</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Chef Mickey's — character moment at the table</div>
+        <div class="shot-desc">When Mickey or any character comes to the table, get the kid's face first, then widen to include the character. This is pure Pillar 3 payoff — "she got the rides." Video preferred over stills.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Safari vehicle — animals from inside</div>
+        <div class="shot-desc">Film from inside the vehicle as animals appear. Don't stage it. Just hit record when something good is in front of you. Giraffe close-up or elephant. 10–15 second clip.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Rope drop arrival — walking into the park</div>
+        <div class="shot-desc">Film from behind as you walk through the entrance. The feeling of arrival. Even 8 seconds of this is useful b-roll. Early morning AK light is genuinely beautiful.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p2">Pillar 2</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-nice"></div><div class="priority-text">Nice to Have</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Pandora — floating mountains walking shot</div>
+        <div class="shot-desc">Slow walk through Pandora, mountains in frame. The atmosphere here is unlike anywhere else in Disney. Early morning before crowds is ideal.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Quiet moment — you not on your phone</div>
+        <div class="shot-desc">Ask someone to grab a candid of you just watching something, present, not looking at a screen. This is the emotional "after" shot for Pillar 2. Bench near Tree of Life or inside Pandora.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p2">Pillar 2</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">10-month-old reaction to anything</div>
+        <div class="shot-desc">Babies at Disney are content gold. Any genuine reaction — wide eyes, reaching out, laughing. Don't force it. Just have the camera ready.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-try"></div><div class="priority-text">Try If Conditions Are Right</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Voiceover to camera — somewhere in Pandora</div>
+        <div class="shot-desc">30 seconds, slightly off-camera, natural light. "She called me from Magic Kingdom..." For the origin story reel. Only attempt if it's quiet and you have a moment. Don't force it.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAGIC KINGDOM -->
+<div class="park-panel" id="panel-mk">
+  <div class="park-header">
+    <div class="park-header-emoji">🏰</div>
+    <div class="park-header-info">
+      <div class="park-header-name">Magic Kingdom</div>
+      <div class="park-header-date">Sunday · Jun 7 · Narcoossee's evening</div>
+    </div>
+  </div>
+
+  <div class="have-banner">
+    <strong>Already Have</strong>
+    Castle on Main Street (crowded, daytime), Daisy meet, Sorcerer Mickey meet and hug, Minnie meet, Pluto meet, California Grill sunset views, fireworks video with Charlie watching. Strong on character meets and resort shots. Focus on gaps below.
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-must"></div><div class="priority-text">Must Get</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Park Edit open walking down Main Street</div>
+        <div class="shot-desc">Hold your phone with the Park Edit visible on screen, castle ahead. For video: start on the castle, slowly pan down to the phone screen in your hand. For photo: hold still, castle soft focus behind. Rope drop, before crowds fill the street.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-web">Web</span><span class="shot-tag tag-p2">Pillar 2</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">5-year-old on Mine Train or Tiana's — reaction</div>
+        <div class="shot-desc">Face coming off the ride. This is Pillar 3 in its purest form — "she got the rides." The face says everything the voiceover doesn't need to.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Castle — clean shot, low crowd, good light</div>
+        <div class="shot-desc">You have a crowded daytime version. Get an early morning version before 9am with minimal people. Or the evening blue hour shot from the hub. This is every reel's establishing frame.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-web">Web</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Narcoossee's — monorail arriving, waterfront view</div>
+        <div class="shot-desc">Grand Floridian waterfront with the monorail gliding in. This is a dining reservation shot that communicates premium experience without saying it. Film the monorail approach from the dock.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-nice"></div><div class="priority-text">Nice to Have</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Bay Lake Tower — walk from hotel to park gate</div>
+        <div class="shot-desc">The 5-minute walk between the resort and Magic Kingdom is one of the best-kept Disney secrets. Film it. Short clip of the walkway with the park visible ahead.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p1">Pillar 1</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Midday break — pool or resort, kids at rest</div>
+        <div class="shot-desc">The planned rest is a product feature, not a concession. A shot of kids napping or at the pool at 1pm communicates "this is built into the plan" without saying it.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p1">Pillar 1</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Tomorrowland or Fantasyland atmosphere — walking b-roll</div>
+        <div class="shot-desc">10 seconds of walking through a land. Doesn't need to be anything specific. Just the texture of being there. Useful for every reel.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-try"></div><div class="priority-text">Try If Conditions Are Right</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Happily Ever After fireworks — castle + kids watching</div>
+        <div class="shot-desc">You have a fireworks video already. If you're in a good spot with the kids watching, get it again. The 5-year-old watching fireworks for the first time this trip is different from the existing shot.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOLLYWOOD STUDIOS -->
+<div class="park-panel" id="panel-dhs">
+  <div class="park-header">
+    <div class="park-header-emoji">🎬</div>
+    <div class="park-header-info">
+      <div class="park-header-name">Hollywood Studios</div>
+      <div class="park-header-date">Monday · Jun 8 · Sci-Fi + Sanaa</div>
+    </div>
+  </div>
+
+  <div class="have-banner">
+    <strong>Already Have</strong>
+    Millennium Falcon exterior (multiple), Stormtrooper show, Tower of Terror exterior (multiple), Rock 'n' Roller Coaster guitar building, Sci-Fi Dine-In interior, Slinky Dog POV video. Galaxy's Edge is well covered. Focus on gaps.
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-must"></div><div class="priority-text">Must Get</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">5-year-old on Slinky Dog — face during or after</div>
+        <div class="shot-desc">You have the POV. You need the kid's reaction. Coming off the ride or mid-ride if possible. This is your DHS Pillar 3 shot.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Sci-Fi Dine-In — car booth, food arriving</div>
+        <div class="shot-desc">You have the interior screen. Get the car booth experience — kids in the "car," food on the tray, the screen playing. This is a dining reservation shot that sells itself.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Sanaa — savanna view if seated facing out</div>
+        <div class="shot-desc">If you get a savanna table, film the animals outside at dusk immediately. This shot does not repeat. It's also a powerful "this is what a good dining reservation looks like" visual.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-nice"></div><div class="priority-text">Nice to Have</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Hollywood Boulevard at rope drop — wide walk</div>
+        <div class="shot-desc">The old Hollywood aesthetic of DHS at opening is underused content. 10 second walk down the boulevard toward the hat or the Chinese Theatre. Good texture b-roll.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Runaway Railway queue or exit — the look of the ride</div>
+        <div class="shot-desc">The exterior and queue area of Mickey's Runaway Railway is visually strong. Good for showing what a LL pre-selection actually gets you into.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EPCOT -->
+<div class="park-panel" id="panel-epcot">
+  <div class="park-header">
+    <div class="park-header-emoji">🌍</div>
+    <div class="park-header-info">
+      <div class="park-header-name">EPCOT</div>
+      <div class="park-header-date">Tuesday · Jun 9 · San Angel Inn + Teppan Edo</div>
+    </div>
+  </div>
+
+  <div class="have-banner">
+    <strong>Already Have</strong>
+    EPCOT lagoon daytime. That's it for EPCOT. This is your biggest content gap across the trip.
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-must"></div><div class="priority-text">Must Get</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Spaceship Earth — walking toward it, wide angle</div>
+        <div class="shot-desc">The most recognizable Disney icon after the castle. Clean shot from the entrance plaza. Early morning for low crowds. This is a must-have website and grid asset.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-web">Web</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">San Angel Inn — inside the pyramid, the atmosphere</div>
+        <div class="shot-desc">The dark interior, the Mayan ruins, the boat ride visible, perpetual night sky. Film as you're seated or waiting. This is one of your strongest dining reservation story moments — the personal favourite you wrote about in the app.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">World Showcase — walking through a pavilion</div>
+        <div class="shot-desc">France, Italy, or Japan all photograph beautifully. 10 second walk. This is the "EPCOT is more than rides" visual that matters for first-timer content.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Frozen Ever After or Remy — kid coming off the ride</div>
+        <div class="shot-desc">EPCOT Tier 1 rides are the LL pre-selection anxiety moment. The face coming off either of these is the payoff shot for Pillar 3.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-nice"></div><div class="priority-text">Nice to Have</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Teppan Edo — the teppanyaki cook at the table</div>
+        <div class="shot-desc">The chef cooking at the table is inherently visual and communicates "this is a real dining experience" instantly. Short clip of the cooking moment.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Soarin' — the queue or exit, wide</div>
+        <div class="shot-desc">Soarin' Across America just launched the new US film in May. Worth capturing the signage or queue as a timely content hook.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p1">Pillar 1</span></div>
+      </div>
+    </div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">EPCOT evening — lagoon at dusk or Harmonious</div>
+        <div class="shot-desc">EPCOT at dusk around the lagoon is beautiful and underrepresented in your existing library. Even a 10 second clip of the water and World Showcase in the background.</div>
+        <div class="shot-tags"><span class="shot-tag tag-both">📹+📷 Both</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-grid">Grid</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="priority-section">
+    <div class="priority-label"><div class="priority-dot dot-try"></div><div class="priority-text">Try If Conditions Are Right</div></div>
+
+    <div class="shot-card" onclick="toggleDone(this)">
+      <div class="shot-check">✓</div>
+      <div class="shot-body">
+        <div class="shot-title">Voiceover moment — somewhere in World Showcase</div>
+        <div class="shot-desc">If you have a quiet moment on the last day, film 30 seconds to camera. The origin story reel. Italy or France pavilion as background — visually strong and relatively quiet midday.</div>
+        <div class="shot-tags"><span class="shot-tag tag-video">📹 Video</span><span class="shot-tag tag-reel">Reel</span><span class="shot-tag tag-p3">Pillar 3</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function switchPark(park) {
+    document.querySelectorAll('.park-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.park-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector(`[data-park="${park}"]`).classList.add('active');
+    document.getElementById(`panel-${park}`).classList.add('active');
+  }
+
+  function toggleDone(card) {
+    card.classList.toggle('done');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const all = document.querySelectorAll('.shot-card');
+    const done = document.querySelectorAll('.shot-card.done');
+    const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `${done.length} of ${all.length} captured`;
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
