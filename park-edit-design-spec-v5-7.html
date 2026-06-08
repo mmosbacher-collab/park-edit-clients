@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Park Edit — Design Spec v5.5</title>
+<title>The Park Edit — Design Spec v5.7</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -208,7 +208,7 @@ body { max-width: none; margin: 0; padding: 0; }
     <div class="header-inner">
       <div class="header-top">
         <div class="header-title">The Park Edit <span>—</span> Design Spec</div>
-        <div class="header-version">v5.5</div>
+        <div class="header-version">v5.7</div>
       </div>
       <div class="search-wrapper">
         <input type="text" id="searchInput" placeholder="Search spec..." oninput="handleSearch(this.value)">
@@ -1069,6 +1069,25 @@ python park_edit_sync.py</pre>
 grep -oE "^  [a-zA-Z]+:{" file.html | sort -u &gt; /tmp/keys.txt
 comm -23 /tmp/calls.txt /tmp/keys.txt</pre>
   Any output is an orphan. Fix before deploy.</div></div>
+
+  <div class="decision-block no-break">
+    <div class="decision-q">rowId audit — timeline item id must resolve to a DOM element <span class="new-badge">New · v5.7</span></div>
+    <div class="decision-a">Every timeline item that calls <code>openDrawer()</code> must either (a) have its HTML <code>id</code> match the drawer's <code>rowId</code>, or (b) pass its own id as the second argument: <code>openDrawer('drawerKey', 'item-id')</code>. If neither is true, tapping "Mark as Done" saves to localStorage but <code>getElementById(rowId)</code> returns null and nothing grays out — a silent failure on park day.<br><br>
+    Mismatches occur in two cases: (1) a timeline item id was written in shorthand (e.g. <code>d1-pooh</code>) while the drawer rowId uses the full name (<code>d1-the-many-adventures-of-winnie-the-pooh</code>), or (2) the same drawer is reused by two items with different ids (e.g. morning and evening versions of the same ride).<br><br>
+    <strong>The fix:</strong> <code>openDrawer(key)</code> accepts an optional second parameter <code>callerRowId</code>. When provided, it overrides the drawer's own rowId for the done button: <code>var effectiveRowId = callerRowId || item.rowId</code>. Pass the timeline item's own id whenever the ids differ.<br><br>
+    <strong>Audit script:</strong>
+    <pre>python3 -c "
+import re
+with open('file.html') as f: html = f.read()
+act = re.search(r'var activities\s*=\s*\{([\s\S]*?)\};\s*//', html)
+row_ids = dict(re.findall(r"(\w+):\{[^}]*rowId:'([^']*)'", act.group(1)))
+items = re.findall(r'id="([^"]+)"[^>]*onclick="openDrawer\('([^']+)'(?:,'([^']*)')?\)"', html)
+bad = [(i,d,row_ids.get(d,'?')) for i,d,c in items if (c or row_ids.get(d,'?')) != i and not c]
+[print(i,d,r) for i,d,r in bad]
+print(len(bad), 'mismatch(es)')"</pre>
+    Run after adding any new timeline items. Zero output required before deploy. <em>Bug surfaced on Mosbacher MK day June 7 2026 — mark-as-done grayed out wrong items or nothing at all.</em></div>
+  </div>
+
 </div>
 
 <!-- 07 PWA & HOSTING -->
@@ -1378,6 +1397,7 @@ comm -23 /tmp/calls.txt /tmp/keys.txt</pre>
   <div class="decision-block no-break"><div class="decision-q">LL bookings confirmed</div><div class="decision-a">Actual Lightning Lane booking confirmations received from the client. Times slotted into the timeline. If bookings differ from the planned strategy, the LL Conflict Tool is run before finalising the file. See Late Input Protocol below.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Conflict check complete</div><div class="decision-a">Any third-party itinerary (travel agent PDF, co-traveler's plan) has been cross-referenced against the build. All conflicts resolved deliberately before delivery. The LL Conflict Tool is the named mechanism for this step.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Library copy audit <span class="new-badge">New · v5.4</span></div><div class="decision-a">Before delivery, verify every ride and show drawer in the file against library.json. For each ride: confirm the body matches the library entry verbatim. Any drawer that does not match is either (a) a missing library entry — flag for addition, or (b) drift from the library — correct to match. Any copy flagged ⚠️ AI-generated must have been reviewed and approved by Meredith before this gate passes. Client-specific context (e.g. rider swap, height flags, LL notes) is permitted alongside library copy — it is the ride description body that must be library-sourced.</div></div>
+  <div class="decision-block no-break"><div class="decision-q">rowId audit passed <span class="new-badge">New · v5.7</span></div><div class="decision-a">Run the rowId audit script (see Section 07 — JS Architecture) against the file. Every timeline item must either match its drawer's rowId or pass its own id as <code>callerRowId</code>. Zero mismatches required before delivery. Mismatches cause mark-as-done to silently fail on park day — the item saves to localStorage but never grays out.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Pre-Delivery QA passed</div><div class="decision-a">Full QA checklist run per Section 23. Drawer key verification complete. No orphaned drawer calls. Copy audit passed. File closes only after QA is done.</div></div>
   <div class="decision-block no-break"><div class="decision-q">Tag audit: Top Pick + LL <span class="new-badge">New · v5.3</span></div><div class="decision-a">Any timeline item carrying a Lightning Lane tag (tag-ll) must not also carry a Top Pick tag (tag-must). The LL tag already signals priority — Top Pick is redundant and creates visual noise. Before delivery, grep for tag-must.*tag-ll in the file. Count must be zero. Quick fix: <code>sed -i 's/&lt;span class="tag tag-must"&gt;⭐ Top Pick&lt;\/span&gt;\(&lt;span class="tag tag-ll"&gt;\)/\1/g'</code>. Top Pick is only used on non-LL items where a curation signal is needed (e.g. Kilimanjaro Safaris, Peter Pan rope drop).</div></div>
 
