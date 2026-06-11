@@ -3,7 +3,15 @@
 const CACHE = 'park-edit-v6';
 
 self.addEventListener('install', function(e) {
-  e.waitUntil(self.skipWaiting());
+  e.waitUntil(
+    caches.open(CACHE).then(function(cache) {
+      // Pre-cache index.html using the SW's own scope so this works
+      // generically for any client subfolder without hardcoding paths
+      return cache.add(self.registration.scope + 'index.html');
+    }).then(function() {
+      return self.skipWaiting();
+    })
+  );
 });
 
 self.addEventListener('activate', function(e) {
@@ -22,15 +30,17 @@ self.addEventListener('activate', function(e) {
 self.addEventListener('fetch', function(e) {
   if (e.request.mode === 'navigate') {
     e.respondWith(
-      fetch(e.request).catch(function() {
-        // Fall back to the same subfolder's index.html
-        const url = new URL(e.request.url);
-        const parts = url.pathname.split('/').filter(Boolean);
-        const folder = parts.length > 0 ? '/' + parts[0] + '/' : '/';
-        return caches.match(folder + 'index.html')
-          .then(function(cached) {
-            return cached || fetch(folder + 'index.html');
+      // Cache-first for navigation: serves offline immediately
+      caches.match(e.request).then(function(cached) {
+        return cached || fetch(e.request).then(function(response) {
+          return caches.open(CACHE).then(function(cache) {
+            cache.put(e.request, response.clone());
+            return response;
           });
+        });
+      }).catch(function() {
+        // Last resort: try scope index.html from cache
+        return caches.match(self.registration.scope + 'index.html');
       })
     );
   } else {
