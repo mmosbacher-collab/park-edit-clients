@@ -864,7 +864,7 @@ function openLockedTab(key){
 </script>
 
 <!-- ── ONBOARDING OVERLAY ── -->
-<div class="onboard-overlay" id="onboardOverlay"></div>
+<div class="onboard-overlay" id="onboardOverlay" onclick="event.stopPropagation()" ontouchstart="event.stopPropagation()"></div>
 <div class="onboard-sheet" id="onboardSheet">
   <div class="onboard-handle"></div>
   <div class="onboard-header">
@@ -921,6 +921,9 @@ function dismissOnboard(){
   setTimeout(function(){
     if(overlay.parentNode)overlay.remove();
     if(sheet.parentNode)sheet.remove();
+    document.getElementById('lockedSheet').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+    switchDay(0);
     showSOS();
     var label=document.getElementById('sosTapLabel');
     if(label){label.style.opacity='1';label.style.pointerEvents='';}
