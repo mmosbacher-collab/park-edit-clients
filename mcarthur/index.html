@@ -316,6 +316,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+<link rel="manifest" href="/manifest.json">
 </head>
 <body>
 
@@ -931,6 +932,10 @@ onboardBtn.addEventListener('touchstart',function(e){e.preventDefault();e.stopPr
 onboardBtn.addEventListener('click',function(e){e.stopPropagation();dismissOnboard();});
 // Swipe down sheet to dismiss
 (function(){var sy=0;var sh=document.getElementById('onboardSheet');sh.addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});sh.addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>60)dismissOnboard();},{passive:true});})();
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
 </script>
 
 </body>
