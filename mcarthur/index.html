@@ -912,22 +912,15 @@ function dismissOnboard(){
   var overlay=document.getElementById('onboardOverlay');
   var sheet=document.getElementById('onboardSheet');
   if(!overlay||!sheet)return;
-  overlay.style.transition='opacity 0.3s ease';
-  sheet.style.transition='transform 0.4s cubic-bezier(0.4,0,1,1),opacity 0.3s ease';
-  overlay.style.opacity='0';
-  sheet.style.transform='translateX(-50%) translateY(100%)';
-  sheet.style.opacity='0';
+  overlay.remove();
+  sheet.remove();
   document.body.style.overflow='';
-  setTimeout(function(){
-    if(overlay.parentNode)overlay.remove();
-    if(sheet.parentNode)sheet.remove();
-    document.getElementById('lockedSheet').classList.remove('open');
-    document.getElementById('overlay').classList.remove('open');
-    switchDay(0);
-    showSOS();
-    var label=document.getElementById('sosTapLabel');
-    if(label){label.style.opacity='1';label.style.pointerEvents='';}
-  },420);
+  document.getElementById('lockedSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  switchDay(0);
+  showSOS();
+  var label=document.getElementById('sosTapLabel');
+  if(label){label.style.opacity='1';label.style.pointerEvents='';}
 }
 document.body.style.overflow='hidden';
 // Button — respond to touchstart for instant feel on mobile
