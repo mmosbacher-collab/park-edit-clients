@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Park Edit · McArthur Family</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;}
+
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
+.brand-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+
+/* ── PRE-EDIT CALLOUT ── */
+.pre-edit-callout{margin:16px 16px 0;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:12px 14px;box-shadow:3px 3px 0 var(--shadow);}
+.pre-edit-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:4px;}
+.pre-edit-text{font-size:13px;color:var(--muted);line-height:1.55;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+
+.wrap{padding:16px 16px 0;}
+.day-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{border-radius:10px;padding:7px 13px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.day-tab.locked{opacity:0.4;cursor:pointer;}
+.day-tab.locked .day-tab-label{font-size:7px;}
+.day-tab-label{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;}
+.day-tab.active .day-tab-label{color:rgba(255,255,255,0.7);opacity:1;}
+.day-tab-day{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;margin-top:1px;}
+
+/* ── WORTH KNOWING PILL ── */
+.worth-pill{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:9px 14px;margin-bottom:14px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;}
+.worth-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.worth-pill-icon{font-size:14px;flex-shrink:0;}
+.worth-pill-text{flex:1;}
+.worth-pill-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.worth-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-style:italic;color:var(--muted);}
+.worth-pill-chev{font-size:13px;color:var(--muted);flex-shrink:0;}
+
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:var(--terracotta);padding:18px 20px 22px;color:white;border-radius:20px 20px 0 0;position:relative;overflow:hidden;}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.park-name-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;flex-wrap:nowrap;min-width:0;}
+.park-day-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-left:2px;white-space:nowrap;flex-shrink:0;}
+.park-emoji{font-size:16px;line-height:1;}
+.park-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.bp-day-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;}
+.bp-park{font-size:12px;opacity:0.8;position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;opacity:0.9;line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--terracotta);}
+.bp-notch{width:18px;height:18px;background:var(--cream);flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;}
+.bp-dash{flex:1;border-top:2px dashed rgba(255,255,255,0.3);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1px solid var(--border);border-top:none;overflow:hidden;}
+.schedule-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.schedule-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.edit-btn{display:flex;align-items:center;gap:5px;background:none;border:1.5px solid var(--border);border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);-webkit-tap-highlight-color:transparent;}
+.done-edit-btn{display:none;align-items:center;gap:5px;background:var(--done);border:none;border-radius:20px;padding:4px 10px;cursor:pointer;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:white;-webkit-tap-highlight-color:transparent;}
+.done-edit-btn.show{display:flex;}
+.edit-banner{display:none;padding:9px 18px;background:rgba(44,36,32,0.04);border-bottom:1px solid var(--border);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-align:center;}
+.edit-banner.show{display:block;}
+.time-break{padding:6px 18px;background:var(--surface);border-bottom:1px solid var(--border);border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.time-break-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.time-break-line{flex:1;height:1px;background:var(--border);}
+.edit-mode .time-break{display:none;}
+.midday-break{padding:12px 18px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.midday-break-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.midday-icon{font-size:13px;}
+.midday-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.midday-line{flex:1;height:1px;background:var(--border);}
+.midday-text{font-size:13px;color:var(--text);line-height:1.5;font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.edit-mode .midday-break{display:none;}
+.tl-item{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px dashed var(--border);background:#FEFCFA;border-left:3px solid transparent;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item::after{content:'';position:absolute;left:51px;top:27px;bottom:-12px;width:1px;background:var(--border);}
+.tl-item:last-child::after{display:none;}
+@media(hover:hover) and (pointer:fine){.tl-item:not(.done):hover{background:var(--surface);border-left-color:var(--terracotta);}.tl-item:not(.done):hover .tl-title{color:var(--terracotta);}}
+.tl-item.tapped{background:var(--surface);border-left-color:var(--terracotta);}
+.tl-item.tapped .tl-title{color:var(--terracotta);}
+.tl-item.optional .tl-time{opacity:0.65;}
+.tl-item.optional .tl-title{color:#6B5C54;font-weight:400;}
+.tl-item.done{background:#F8F5F2;border-left-color:var(--done);}
+.tl-item.done .tl-time{opacity:0.35;}
+.tl-item.done .tl-title{color:var(--muted);font-weight:400;text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.tl-item.done .tl-tags{opacity:0.35;}
+.tl-item.done .tl-dot{background:var(--done) !important;opacity:1 !important;}
+.tl-item.done:hover{background:#F8F5F2;border-left-color:var(--done);}
+.edit-mode .tl-item.fixed{opacity:0.45;cursor:default;}
+.edit-mode .tl-item.fixed .stepper{visibility:hidden;}
+.tl-item.moving{background:var(--surface);border-left-color:var(--terracotta);box-shadow:0 3px 12px rgba(44,36,32,0.1);transform:scale(1.01);z-index:2;}
+.tl-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);width:34px;text-align:right;flex-shrink:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;position:relative;z-index:1;}
+.dot-must{background:var(--terracotta);}
+.dot-ll{background:var(--sky);}
+.dot-food{background:var(--gold);}
+.dot-opt{background:#D5CAC2;opacity:0.5;}
+.dot-show{background:#B088C0;}
+.tl-content{flex:1;min-width:0;}
+.tl-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.3;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;text-decoration-thickness:1.5px;transition:color 0.15s;}
+.tl-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+.tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;padding:2px 7px;border-radius:20px;text-transform:uppercase;}
+.tag-must{background:rgba(232,115,74,0.12);color:var(--terracotta);}
+.tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.tag-food{background:rgba(242,201,76,0.2);color:#9A7A00;}
+.tag-opt{background:#EDE0D6;color:#7A6058;}
+.tag-show{background:rgba(176,136,192,0.12);color:#8060A0;}
+.tag-meet{background:rgba(91,143,168,0.1);color:var(--sky);}
+.tag-ac{background:var(--ice);color:var(--ice-text);}
+.tag-split{background:rgba(122,174,142,0.15);color:#3A7A5A;}
+.done-check{width:18px;height:18px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0;opacity:0;transition:opacity 0.3s;}
+.tl-item.done .done-check{opacity:1;}
+.fixed-label{display:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:10px;flex-shrink:0;}
+.edit-mode .tl-item.fixed .fixed-label{display:block;}
+.stepper{display:none;align-items:center;flex-shrink:0;border:1.5px solid var(--terracotta);border-radius:20px;overflow:hidden;box-shadow:2px 2px 0 var(--shadow);}
+.edit-mode .stepper{display:flex;}
+.step-btn{width:40px;height:40px;border:none;background:rgba(232,115,74,0.08);color:var(--terracotta);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.step-btn:hover{background:rgba(232,115,74,0.18);}
+.step-btn:active{opacity:0.7;}
+.step-btn:disabled{opacity:0.2;cursor:default;pointer-events:none;}
+.step-divider{width:1px;height:18px;background:rgba(232,115,74,0.3);flex-shrink:0;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-tc{background:rgba(232,115,74,0.12);}
+.icon-sky{background:rgba(91,143,168,0.12);}
+.icon-gold{background:rgba(242,201,76,0.15);}
+.icon-show{background:rgba(176,136,192,0.12);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-tags{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.drawer-body{padding:18px 22px 0;overflow-y:auto;max-height:42vh;}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.section-divider{height:1px;background:rgba(232,115,74,0.25);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:16px;}
+.callout-text{font-size:13px;line-height:1.65;color:var(--text);}
+.drawer-footer{padding:16px 22px 0;border-top:1px solid var(--border);margin-top:16px;}
+.done-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.done-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.done-btn.completed{background:var(--done);box-shadow:3px 3px 0 #5A9070;}
+
+/* ── WORTH KNOWING DRAWER ── */
+.wk-park-tabs{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.wk-park-tabs::-webkit-scrollbar{display:none;}
+.wk-park-tab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:1px 1px 0 var(--shadow);-webkit-tap-highlight-color:transparent;}
+.wk-park-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:1px 1px 0 #3D2418;}
+.wk-body{padding:0 0 8px;overflow-y:auto;max-height:52vh;}
+.wk-group{padding:14px 22px 0;}
+.wk-group-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.wk-tip{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-tip:last-child{border-bottom:none;}
+.wk-tip-emoji{font-size:16px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.wk-tip-title{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text);}
+.wk-tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.wk-dining-note{margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;}
+.wk-dining-item{display:flex;gap:12px;padding:12px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-dining-item:last-child{border-bottom:none;}
+.wk-dining-emoji{font-size:18px;flex-shrink:0;margin-top:2px;}
+.wk-dining-park{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:3px;}
+.wk-dining-name{font-size:14px;font-weight:500;color:var(--text);margin-bottom:4px;}
+.wk-dining-desc{font-size:13px;color:var(--muted);line-height:1.65;}
+
+.sos-menu-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px dashed var(--border);cursor:pointer;background:#FEFCFA;border-left:3px solid transparent;-webkit-tap-highlight-color:transparent;}
+.sos-menu-row:last-child{border-bottom:none;}
+@media(hover:hover) and (pointer:fine){.sos-menu-row:hover{background:var(--surface);border-left-color:var(--terracotta);}.sos-menu-row:hover .sos-menu-title{color:var(--terracotta);}}
+.sos-menu-emoji{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+.sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;transition:color 0.15s;}
+.sos-menu-chev{font-size:16px;color:var(--border);}
+.sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;transition:transform 0.15s ease,opacity 0.2s;}
+.sos-sticky-btn:active{transform:scale(0.93);}
+.sos-tap-label{position:fixed;bottom:82px;right:max(16px,calc(50% - 179px));font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--terracotta);background:white;border:1.5px solid var(--border);border-radius:8px;padding:3px 8px;box-shadow:2px 2px 0 var(--shadow);pointer-events:none;z-index:29;}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
+.tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+
+/* ── ONBOARDING OVERLAY ── */
+@keyframes onboardFadeIn{from{opacity:0}to{opacity:1}}
+/* ── PRE-EDIT BOARDING PASS OVERRIDES ── */
+#pre-edit-panel .bp-top,
+#pre-edit-panel .bp-top .bp-day-name,
+#pre-edit-panel .bp-top .bp-park,
+#pre-edit-panel .bp-top .bp-summary,
+#pre-edit-panel .bp-top .park-name{color:white !important;opacity:1 !important;}
+#pre-edit-panel .bp-summary{font-style:normal !important;border-top-color:rgba(255,255,255,0.3) !important;}
+
+.pre-edit-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.pre-edit-pass .pep-top{background:white;padding:18px 20px 22px;border-radius:20px 20px 0 0;border:1.5px solid var(--border);border-bottom:none;box-shadow:4px 4px 0 var(--shadow);position:relative;overflow:hidden;}
+.pre-edit-pass .pep-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.pre-edit-pass .pep-headline{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;color:#2C2420;line-height:1.15;margin-bottom:4px;}
+.pre-edit-pass .pep-sub{font-size:12px;color:#8C7B72;}
+.pre-edit-pass .pep-summary{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;color:#8C7B72;line-height:1.5;}
+.pre-edit-pass .pep-divider{display:flex;align-items:center;background:var(--cream);}
+.pre-edit-pass .pep-notch{width:18px;height:18px;background:white;flex-shrink:0;}
+.pre-edit-pass .pep-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;border:1.5px solid var(--border);border-left:none;}
+.pre-edit-pass .pep-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;border:1.5px solid var(--border);border-right:none;}
+.pre-edit-pass .pep-dash{flex:1;border-top:2px dashed var(--border);margin:0 3px;}
+.pre-edit-pass .pep-bottom{background:white;border-radius:0 0 20px 20px;border:1.5px solid var(--border);border-top:none;overflow:hidden;box-shadow:4px 4px 0 var(--shadow);}
+
+/* ── PRE-EDIT ROWS ── */
+.pe-row{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px dashed var(--border);background:#FEFCFA;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s,border-left-color 0.12s;border-left:3px solid transparent;}
+.pe-row:first-child{border-top:none;}
+@media(hover:hover) and (pointer:fine){.pe-row:hover{background:var(--surface);border-left-color:var(--terracotta);}.pe-row:hover .pe-title{color:var(--terracotta);}}
+.pe-row.tapped{background:var(--surface);border-left-color:var(--terracotta);}
+.pe-row.tapped .pe-title{color:var(--terracotta);}
+.pe-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;}
+.pe-content{flex:1;min-width:0;}
+.pe-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.3;transition:color 0.15s;}
+.pe-sub{font-size:12px;color:var(--muted);margin-top:2px;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.pe-chev{font-size:18px;color:var(--terracotta);flex-shrink:0;opacity:0.7;}
+
+/* ── LOCKED TAB DRAWER ── */
+.locked-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:var(--cream);border-radius:28px 28px 0 0;z-index:20;padding:0 0 40px;box-shadow:0 -8px 48px rgba(44,36,32,0.18);transition:transform 0.45s cubic-bezier(0.16,1,0.3,1);}
+.locked-sheet.open{transform:translateX(-50%) translateY(0);}
+.locked-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.locked-body{padding:24px 24px 0;}
+.locked-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:10px;}
+.locked-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:var(--text);line-height:1.25;margin-bottom:10px;}
+.locked-desc{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-style:italic;color:var(--muted);line-height:1.65;margin-bottom:20px;}
+.locked-link{display:block;text-align:center;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+
+.onboard-overlay{position:fixed;inset:0;background:rgba(44,36,32,0.6);z-index:50;max-width:390px;margin:0 auto;animation:onboardFadeIn 0.35s ease both;backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);}
+.onboard-sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(0);width:100%;max-width:390px;background:var(--cream);border-radius:28px 28px 0 0;z-index:51;padding:0 0 36px;box-shadow:0 -8px 48px rgba(44,36,32,0.22);animation:onboardSlideUp 0.45s cubic-bezier(0.16,1,0.3,1) 0.1s both;}
+.onboard-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.onboard-header{padding:22px 24px 6px;text-align:center;}
+.onboard-eyebrow{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;}
+.onboard-title{font-family:'Playfair Display',Georgia,serif;font-size:24px;font-weight:700;color:var(--text);line-height:1.2;margin-bottom:6px;}
+.onboard-subtitle{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-style:italic;color:var(--muted);line-height:1.5;}
+.onboard-tips{padding:18px 24px 4px;display:flex;flex-direction:column;gap:0;}
+.onboard-tip{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--border);}
+.onboard-tip:last-child{border-bottom:none;}
+.onboard-tip-icon{width:42px;height:42px;border-radius:12px;background:white;border:1.5px solid var(--border);box-shadow:2px 2px 0 var(--shadow);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.onboard-tip-text{flex:1;}
+.onboard-tip-label{font-size:14px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:2px;}
+.onboard-tip-sub{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.4;}
+.onboard-cta{margin:20px 24px 0;}
+.onboard-btn{width:100%;padding:15px;border-radius:14px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-tap-highlight-color:transparent;transition:transform 0.1s,box-shadow 0.1s;}
+.onboard-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+
+.drag-handle{cursor:grab;padding:2px 0 2px 8px;color:var(--shadow);flex-shrink:0;display:flex;align-items:center;touch-action:none;}
+.drag-handle:active{cursor:grabbing;}
+.tl-item.sortable-ghost{opacity:0.3;background:var(--surface);}
+.tl-item.sortable-chosen{background:var(--surface);box-shadow:0 3px 12px rgba(44,36,32,0.12);border-radius:8px;}
+.tag-tapin{background:rgba(196,96,58,0.12);color:#A04030;}
+.priorities-strip{border-bottom:1.5px solid var(--border);}
+.ps-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ps-row:last-child{border-bottom:none;}
+.ps-row-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.ps-row-content{flex:1;min-width:0;}
+.ps-row-label{font-size:13px;font-weight:500;color:var(--text);display:block;}
+.ps-row-sub{font-size:11px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;display:block;margin-top:1px;}
+.ps-chev{font-size:16px;color:var(--terracotta);opacity:0.7;flex-shrink:0;transition:transform 0.2s;}
+.ps-chev.open{transform:rotate(90deg);}
+.ps-list{padding:4px 16px 10px 46px;display:none;}
+.ps-list.open{display:block;}
+.ps-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--text);}
+.ps-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta);flex-shrink:0;}
+
+
+.pep-key-wrap{border-top:1.5px solid var(--border);padding:16px 18px 20px;}
+.pep-key-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.pep-key-icon{font-size:22px;}
+.pep-key-title{font-size:16px;font-weight:600;color:var(--text);}
+.pep-key-sub{font-size:11px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;margin-top:1px;}
+.pep-key-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.pep-key-card{background:var(--surface);border-radius:8px;padding:10px 14px;border-left:3px solid var(--terracotta);}
+.pep-key-card-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.pep-key-card-val{font-size:13px;color:var(--text);line-height:1.5;}
+.pep-key-rows{border:1.5px solid var(--border);border-radius:10px;overflow:hidden;}
+.pep-key-rows .pe-row{background:var(--cream);}
+
+
+.aag-cards{display:flex;flex-direction:column;gap:10px;padding:14px 16px 0;}
+.aag-card{background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:3px 3px 0 var(--shadow);}
+.aag-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);}
+.aag-card-icon{font-size:16px;flex-shrink:0;}
+.aag-card-meta{flex:1;}
+.aag-card-label{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:#5C3D2E;display:block;}
+.aag-card-body{padding:0;}
+.aag-row{display:flex;gap:10px;padding:11px 14px;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.aag-row:last-child{border-bottom:none;}
+.aag-row-icon{font-size:15px;flex-shrink:0;width:22px;text-align:center;margin-top:1px;}
+.aag-row-value{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:2px;}
+.aag-row-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:var(--muted);margin-bottom:3px;}
+.aag-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;padding:2px 6px;border-radius:5px;display:inline-block;}
+.aag-tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.aag-tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.idx-section{margin:0 16px 18px;}
+.idx-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:10px 0 6px;border-bottom:1px solid var(--border);}
+.idx-drawer-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.idx-drawer-row:last-child{border-bottom:none;}
+.idx-drawer-row:active{background:var(--surface);}
+.idx-drawer-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0;}
+.idx-drawer-label{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.idx-drawer-chev{font-size:16px;color:var(--muted);}
+.bag-check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item:last-child{border-bottom:none;}
+.bag-check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.bag-check-item.checked .bag-check-box{background:var(--done);border-color:var(--done);}
+.bag-check-item.checked .bag-check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.bag-check-item.checked .bag-check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.bag-check-label{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-family">The McArthur Family</div>
+  <div class="brand-name">The Park<span>.</span>Edit</div>
+  <div class="brand-tagline">Disney is overwhelming. Your planning shouldn't be.</div>
+</div>
+
+
+<div class="wrap">
+  <div class="day-tabs" id="dayTabs">
+    <div class="day-tab" id="preEditTab" onclick="switchToPreEdit()"><div style="font-size:13px;text-align:center;">📋</div><div class="day-tab-label">Pre-Edit</div><div class="day-tab-day" style="font-size:10px;">Before</div></div>
+    <div class="day-tab active" id="day1Tab" onclick="switchDay(0)"><div style="font-size:13px;text-align:center;">🏰</div><div class="day-tab-label">Sat</div><div class="day-tab-day">1</div></div>
+    <div class="day-tab locked" onclick="openLockedTab('Day 2')"><div style="font-size:13px;text-align:center;">🎬</div><div class="day-tab-label">In guide</div><div class="day-tab-day">2</div></div>
+    <div class="day-tab locked" onclick="openLockedTab('Departure')"><div style="font-size:13px;text-align:center;">🏠</div><div class="day-tab-label">Depart</div><div class="day-tab-day" style="font-size:10px;">Home</div></div>
+  </div>
+
+
+  <!-- PRE-EDIT PANEL -->
+  <div class="day-panel" id="pre-edit-panel">
+    <div class="pre-edit-pass">
+      <div class="pep-top">
+        <div class="pep-label">📋 The Pre-Edit</div>
+        <div class="pep-headline">Your trip, before the trip.</div>
+        <div class="pep-summary">Hotel choice, Lightning Lane strategy for your dates, dining reservations in the right order, packing lists by person, rope drop plan, virtual queue timing. Everything built around your family. Tap any section to see what's inside.</div>
+      </div>
+      <div class="pep-divider"><div class="pep-notch pep-notch-l"></div><div class="pep-dash"></div><div class="pep-notch pep-notch-r"></div></div>
+      <div class="pep-bottom">
+        <div style="padding:0;">
+          <div class="pe-row" onclick="openPreEditDrawer('before', this)"><div class="pe-icon">📱</div><div class="pe-content"><div class="pe-title">Before You Arrive</div><div class="pe-sub">MagicBands, MDE, park reservations, transport</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" onclick="openPreEditDrawer('dining', this)"><div class="pe-icon">🍽️</div><div class="pe-content"><div class="pe-title">Dining</div><div class="pe-sub">Reservations, mobile order, what's worth it</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" onclick="openPreEditDrawer('ll', this)"><div class="pe-icon">⚡</div><div class="pe-content"><div class="pe-title">Lightning Lane</div><div class="pe-sub">Your strategy, your dates, your resort</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" onclick="openPreEditDrawer('ropedrop', this)"><div class="pe-icon">🏃</div><div class="pe-content"><div class="pe-title">Rope Drop</div><div class="pe-sub">Where to be, when, and why it matters</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" onclick="openPreEditDrawer('vq', this)"><div class="pe-icon">📲</div><div class="pe-content"><div class="pe-title">Virtual Queues</div><div class="pe-sub">Which rides, when to join, what to do</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" onclick="openPreEditDrawer('packing', this)"><div class="pe-icon">🧳</div><div class="pe-content"><div class="pe-title">Packing</div><div class="pe-sub">Personalized lists for each person</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" onclick="openPreEditDrawer('logistics', this)"><div class="pe-icon">🛒</div><div class="pe-content"><div class="pe-title">Family Logistics</div><div class="pe-sub">Groceries, babysitters, if you get separated</div></div><div class="pe-chev">›</div></div>
+          <div class="pe-row" style="border-bottom:none;" onclick="openPreEditDrawer('baby', this)"><div class="pe-icon">👶</div><div class="pe-content"><div class="pe-title">Baby & Toddler</div><div class="pe-sub">Nursing, nap timing, rider swap, age-by-age</div></div><div class="pe-chev">›</div></div>
+        </div>
+      </div>
+
+      
+      <div class="pep-key-wrap">
+        <div class="pep-key-header">
+          <span class="pep-key-icon">📖</span>
+          <div>
+            <div class="pep-key-title">The Key</div>
+            <div class="pep-key-sub">Your in-park reference guide</div>
+          </div>
+        </div>
+        <div class="aag-cards">
+          <div class="aag-card">
+            <div class="aag-card-header"><div class="aag-card-icon">🗓️</div><div class="aag-card-meta"><span class="aag-card-label">Your Trip</span></div></div>
+            <div class="aag-card-body">
+              <div class="aag-row"><div class="aag-row-icon">🏨</div><div><div class="aag-row-value">Polynesian Village Resort</div><div class="aag-row-sub">2 nights</div></div></div>
+              <div class="aag-row"><div class="aag-row-icon">🏰</div><div><div class="aag-row-value">Magic Kingdom</div><div class="aag-row-sub">Day 1 · Early Entry</div></div></div>
+              <div class="aag-row"><div class="aag-row-icon">🎬</div><div><div class="aag-row-value">Hollywood Studios</div><div class="aag-row-sub">Day 2</div></div></div>
+            </div>
+          </div>
+          <div class="aag-card">
+            <div class="aag-card-header"><div class="aag-card-icon">⚡</div><div class="aag-card-meta"><span class="aag-card-label">Your Lightning Lane</span></div></div>
+            <div class="aag-card-body">
+              <div class="aag-row"><div class="aag-row-icon">🏰</div><div><div class="aag-row-value">Peter Pan's Flight · Buzz Lightyear · Big Thunder Mountain</div><div class="aag-row-sub">Day 1 · Magic Kingdom</div></div></div>
+              <div class="aag-row"><div class="aag-row-icon">🎬</div><div><div class="aag-row-value">Slinky Dog Dash · Runaway Railway · Tower of Terror</div><div class="aag-row-sub">Day 2 · Hollywood Studios</div></div></div>
+            </div>
+          </div>
+          <div class="aag-card">
+            <div class="aag-card-header"><div class="aag-card-icon">🍽️</div><div class="aag-card-meta"><span class="aag-card-label">Your Dining</span></div></div>
+            <div class="aag-card-body">
+              <div class="aag-row"><div class="aag-row-icon">🍽️</div><div><div class="aag-row-value">'Ohana</div><div class="aag-row-sub">Day 1 · 7:30pm</div><span class="aag-tag aag-tag-food">Table Service</span></div></div>
+            </div>
+          </div>
+        </div>
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:#5C3D2E;padding:20px 16px 4px;letter-spacing:-0.01em;">Index</div>
+        <div class="idx-section">
+          <div class="idx-section-label">⚡ LL &amp; Queues</div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-ll')"><div class="idx-drawer-icon">⚡</div><div class="idx-drawer-label">Lightning Lane Strategy</div><div class="idx-drawer-chev">›</div></div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-ll')"><div class="idx-drawer-icon">🔄</div><div class="idx-drawer-label">Rolling Bookings</div><div class="idx-drawer-chev">›</div></div>
+        </div>
+        <div class="idx-section">
+          <div class="idx-section-label">🍽️ Dining</div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-dining')"><div class="idx-drawer-icon">🍴</div><div class="idx-drawer-label">Where to Eat</div><div class="idx-drawer-chev">›</div></div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-dining')"><div class="idx-drawer-icon">🗓️</div><div class="idx-drawer-label">Dining Reservations</div><div class="idx-drawer-chev">›</div></div>
+        </div>
+        <div class="idx-section">
+          <div class="idx-section-label">🗺️ Logistics</div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-logistics')"><div class="idx-drawer-icon">🚶</div><div class="idx-drawer-label">Getting to the Parks</div><div class="idx-drawer-chev">›</div></div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-logistics')"><div class="idx-drawer-icon">📱</div><div class="idx-drawer-label">My Disney Experience</div><div class="idx-drawer-chev">›</div></div>
+        </div>
+      </div>
+
+
+  <!-- DAY 1
+
+  <!-- DAY 1 · MAGIC KINGDOM -->
+  <div class="day-panel active" id="day-0">
+    <div class="boarding-pass">
+        <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🏰</span><span class="park-name">Magic Kingdom</span><span class="park-day-label">· Day 1 · Sat</span></div>
+        <div class="bp-day-name">Lily <span style="font-size:16px;opacity:0.85;">(7)</span> & Sam <span style="font-size:16px;opacity:0.85;">(4)</span> — Magic Kingdom Day ✨</div>
+        <div class="bp-park">Early Entry · 7:30am</div>
+        <div class="bp-summary">Rope drop strategy hitting the must-dos before crowds, midday break back at the hotel, character dinner, and fireworks from your room if they're still up for it. Built around how a 7 and 4 year old actually experience a full park day.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-0">
+        <div class="priorities-strip">
+          <div class="ps-row ps-expand" onclick="togglePriorities()">
+            <span class="ps-row-icon">⭐</span>
+            <div class="ps-row-content">
+              <span class="ps-row-label">Today's priorities</span>
+              <span class="ps-row-sub">If plans shift, protect these</span>
+            </div>
+            <span class="ps-chev" id="psChev">›</span>
+          </div>
+          <div class="ps-list" id="psList">
+            <div class="ps-item"><span class="ps-dot"></span>Seven Dwarfs Mine Train</div>
+            <div class="ps-item"><span class="ps-dot"></span>Peter Pan's Flight</div>
+            <div class="ps-item"><span class="ps-dot"></span>Big Thunder Mountain Railroad</div>
+            <div class="ps-item"><span class="ps-dot"></span>Festival of Fantasy Parade</div>
+          </div>
+          <div class="ps-row" onclick="openWorthKnowing()">
+            <span class="ps-row-icon">📍</span>
+            <div class="ps-row-content">
+              <span class="ps-row-label">In-Park Intel</span>
+            </div>
+            <span class="ps-chev">›</span>
+          </div>
+          <div class="ps-row" onclick="openBagDrawer()">
+            <span class="ps-row-icon">🎒</span>
+            <div class="ps-row-content">
+              <span class="ps-row-label">Park Bag</span>
+            </div>
+            <span class="ps-chev">›</span>
+          </div>
+        </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div></div>
+        
+        <div id="timeline-0">
+          <div class="time-break"><div class="time-break-label">Morning · Early Entry · Locked</div><div class="time-break-line"></div></div>
+          <div class="tl-item fixed" id="d0-enter" onclick="openDrawer('mkenter')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Enter Main Street · Rope Drop</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-dwarfs" onclick="openDrawer('mkdwarfs')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Seven Dwarfs Mine Train</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-dumbo" onclick="openDrawer('mkdumbo')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Dumbo the Flying Elephant</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-peterpan" onclick="openDrawer('mkpeterpan')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Peter Pan's Flight</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-buzz" onclick="openDrawer('mkbuzz')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Buzz Lightyear's Space Ranger Spin</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-thunder" onclick="openDrawer('mkthunder')"><div class="tl-time"></div><div class="tl-dot dot-ll"></div><div class="tl-content"><div class="tl-title">Big Thunder Mountain Railroad</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-railroad" onclick="openDrawer('mkrailroad')"><div class="tl-time"></div><div class="tl-dot dot-must"></div><div class="tl-content"><div class="tl-title">Walt Disney World Railroad — Back to Resort</div><div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🚂 Steam Train</span></div></div><div class="done-check">✓</div></div>
+          <div class="midday-break"><div class="midday-break-top"><span class="midday-icon">🏠</span><span class="midday-label">Midday Break — Non-Negotiable</span><div class="midday-line"></div></div><div class="midday-text"><strong>You've done more before noon than unprepared families do all day.</strong> Lunch, pool, nap — whatever they need. Back by 3pm if you're heading back for the parade.</div></div>
+          <div class="time-break"><div class="time-break-label" style="color:var(--terracotta);font-weight:700;font-size:10px;">Afternoon · Only If Energy Allows</div><div class="time-break-line"></div></div>
+          <div class="tl-item optional" id="d0-parade" onclick="openDrawer('mkparade')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Festival of Fantasy Parade</div><div class="tl-tags"><span class="tag tag-show">🎪 Parade</span></div></div><div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-mermaid" onclick="openDrawer('mkmermaid')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Under the Sea — Journey of the Little Mermaid</div><div class="tl-tags"><span class="tag tag-ac">❄️ AC</span></div></div><div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-smallworld" onclick="openDrawer('mksmallworld')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">It's a Small World</div><div class="tl-tags"><span class="tag tag-ac">❄️ AC</span></div></div><div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-tiki" onclick="openDrawer('mktiki')"><div class="tl-time"></div><div class="tl-dot dot-show"></div><div class="tl-content"><div class="tl-title">Walt Disney's Enchanted Tiki Room</div><div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span></div></div><div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div><div class="done-check">✓</div></div>
+          <div class="tl-item fixed" id="d0-ohana" onclick="openDrawer('mkohana')"><div class="tl-time">7:30p</div><div class="tl-dot dot-food"></div><div class="tl-content"><div class="tl-title">&#x2018;Ohana Family-Style Dinner</div><div class="tl-tags"><span class="tag tag-food">🍽️ Dining</span></div></div><div class="done-check">✓</div></div>
+          <div class="tl-item optional" id="d0-fireworks" onclick="openDrawer('mkfireworks')"><div class="tl-time"></div><div class="tl-dot dot-opt"></div><div class="tl-content"><div class="tl-title">Head to Beach — Watch Fireworks</div><div class="tl-tags"><span class="tag tag-show">✨ Fireworks</span></div></div><div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div><div class="done-check">✓</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="sos-tap-label" id="sosTapLabel" style="opacity:0;pointer-events:none;">Day gone sideways?</div>
+<button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()" style="opacity:0;pointer-events:none;">🆘</button>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+
+<!-- PARK BAG DRAWER -->
+<div class="drawer" id="bagDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🎒</div><div class="drawer-title-wrap"><div class="drawer-title">Park Bag</div><div class="drawer-time">What to bring today</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-body" id="bagDrawerBody" style="padding:16px;"></div>
+</div>
+<!-- SOS DRAWER -->
+<div class="drawer" id="sosDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div style="overflow-y:auto;max-height:60vh;">
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
+  </div>
+</div>
+
+<!-- ACTIVITY DRAWER -->
+<div class="drawer" id="activityDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon" id="drawerIcon"></div><div class="drawer-title-wrap"><div class="drawer-title" id="drawerTitle"></div><div class="drawer-time" id="drawerTime"></div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-tags" id="drawerTags"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter"></div>
+</div>
+
+<!-- WORTH KNOWING DRAWER -->
+<div class="drawer" id="wkDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">📍</div><div class="drawer-title-wrap"><div class="drawer-title">In-Park Intel</div><div class="drawer-time">In the park, right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="wk-park-tabs">
+    <div class="wk-park-tab active" onclick="switchWKPark(0,this)">🏰 Magic Kingdom</div>
+    <div class="wk-park-tab" onclick="switchWKPark(1,this)">🍽️ Dining</div>
+  </div>
+  <div class="wk-body" id="wkBody"></div>
+</div>
+
+<script>
+var STORAGE_KEY='park-edit-demo-v1';
+function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set(JSON.parse(s)):new Set();}catch(e){return new Set();}}
+function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
+var doneItems=loadDone();
+var currentDay=0;
+var editModes=[false];
+var currentWKPark=0;
+
+var wkData=[
+  {
+   groups:[
+    {label:'Food & Drink',tips:[
+      {e:'☕',t:'Best coffee',d:"Every park has a Starbucks — in Magic Kingdom it's Main Street Bakery. You'll be on Main Street during Early Entry so grabbing a coffee while the kids take in the castle is one of the better ways to start a Disney day."},
+      {e:'🍦',t:'Best snack in the park',d:"Most first-timers walk right past it. There's one with a real following among people who know the park well — it's in your guide."},
+      {e:'🍔',t:'Best mobile order spot',d:"The location matters more than most people think. Your Park Edit has the right one for your day: the wrong spot adds wait time you weren't expecting."},
+      {e:'💧',t:'Free water',d:"You can get it anywhere in the park at no charge. Most people spend the whole day buying bottles without knowing this."}
+    ]},
+    {label:'Comfort & Logistics',tips:[
+      {e:'🧒',t:'Baby Care Center',d:"Next to the Crystal Palace on Main Street. Air conditioned, rocking chairs, proper changing tables, microwave. Ask any cast member if you need it."},
+      {e:'🛝',t:'Indoor playground — where and when',d:"There's an air-conditioned indoor playground most families never find. Your Park Edit has the right one for Lily and Sam's ages — somewhere they'll actually want to be when the morning needs a reset."},
+      {e:'🤫',t:'Quiet spots when you need them',d:"When someone needs a minute, knowing exactly where to go makes all the difference. Magic Kingdom has a few corners that stay calm even on the busiest days — your Park Edit has the list."},
+      {e:'🏠',t:'Midday break',d:"The families struggling late afternoon are almost always the ones who skipped it. Your Park Edit has the exact timing built in: when to leave, when to come back, and why it matters more with kids this age."},
+      {e:'📱',t:'The app — what to actually use it for',d:"My Disney Experience runs your whole day: wait times, mobile ordering, Lightning Lane, show schedules. Most people only open it when something goes wrong. Your Park Edit covers exactly what to use and when, including a feature most people never find."}
+    ]},
+    {label:'Getting There & Leaving',tips:[
+      {e:'🚗',t:'Resort guests park free',d:"All Disney resort hotel guests get complimentary standard parking. Scan your MagicBand or room card at the booth."},
+      {e:'🚌',t:'Getting home at the end of the night',d:"Many families don't realize you can walk directly from Magic Kingdom to the Polynesian. It takes five minutes, and you're done while everyone else is still waiting for the monorail."}
+    ]}
+  ]},
+  {dining:true,
+   note:"A few worth knowing about — your Park Edit has the full list. All require reservations 60 days out.",
+   items:[
+    {e:'🌃',park:'Contemporary Resort',name:"California Grill",desc:"Rooftop restaurant at the Contemporary, five minutes from the Polynesian. Book a table at fireworks time and you watch Happily Ever After from the roof. One of the best restaurants on property."},
+    {e:'🚀',park:'EPCOT',name:"Space 220",desc:"A simulated space elevator takes you 220 miles above Earth to dine inside a space station. The theming is one of the most immersive experiences at Walt Disney World. Books fast."},
+    {e:'🎬',park:'Hollywood Studios',name:"Sci-Fi Dine-In Theater",desc:"You eat in fake cars watching old B-movie clips under a fake night sky. The experience is entirely the point — the kids will love it."}
+  ]}
+];
+
+function buildWKContent(idx){
+  var park=wkData[idx];
+  var html='';
+  if(park.dining){
+    html+='<div class="wk-group"><p class="wk-dining-note">'+park.note+'</p></div>';
+    park.items.forEach(function(item){
+      html+='<div class="wk-dining-item"><div class="wk-dining-emoji">'+item.e+'</div><div>';
+      html+='<div class="wk-dining-park">'+item.park+'</div>';
+      html+='<div class="wk-dining-name">'+item.name+'</div>';
+      html+='<div class="wk-dining-desc">'+item.desc+'</div></div></div>';
+    });
+  } else {
+    if(park.intro){html+='<div class="wk-group"><div class="wk-dining-note">'+park.intro+'</div></div>';}
+    park.groups.forEach(function(group){
+      html+='<div class="wk-group"><div class="wk-group-label">'+group.label+'</div>';
+      group.tips.forEach(function(tip){
+        html+='<div class="wk-tip"><div class="wk-tip-emoji">'+tip.e+'</div><div>';
+        html+='<div class="wk-tip-title">'+tip.t+'</div>';
+        html+='<div class="wk-tip-text">'+tip.d+'</div></div></div>';
+      });
+      html+='</div>';
+    });
+  }
+  return html;
+}
+
+function switchWKPark(idx,tab){
+  currentWKPark=idx;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+  document.getElementById('wkBody').scrollTop=0;
+}
+
+function openWorthKnowing(){
+  hideSOS();
+  document.getElementById('wkDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+var activities={
+  mkenter:{icon:'🏰',iconClass:'icon-tc',title:'Enter Main Street · Rope Drop',time:'7:30am · Leave the resort now',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">The Polynesian is a short walk to the Magic Kingdom entrance — no monorail needed this early, just stroll over. With Early Entry you\'re inside before the public opens.</div><div class="section-divider"></div><div class="prose-p">Leave by 7:30am. You need to be inside the park by 8:00am — not at the gates, not in the bag check line. Inside, positioned in Fantasyland, ready to move.</div>',rowId:'d0-enter'},
+  mkdwarfs:{icon:'⛏️',iconClass:'icon-tc',title:'Seven Dwarfs Mine Train',time:'First · Go straight here from the entrance',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">The highest-demand ride in the park. At rope drop the wait is near zero — by 8:30am it\'s climbing.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the one thing to know before you get in line with kids this age.</div>',rowId:'d0-dwarfs'},
+  mkdumbo:{icon:'🐘',iconClass:'icon-tc',title:'Dumbo the Flying Elephant',time:'Stay in Fantasyland',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You fly in circles and control how high your elephant goes. No height requirement — Lily and Sam both go. Near walk-on this early in the morning.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit includes something useful about the line, especially with kids this age, that most people miss.</div>',rowId:'d0-dumbo'},
+  mkpeterpan:{icon:'🚢',iconClass:'icon-tc',title:"Peter Pan\'s Flight",time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">You fly over London and Neverland in a little pirate ship. Slow, sweet, no height requirement. Even at this hour standby builds fast — use the Lightning Lane you booked in advance.</div>',rowId:'d0-peterpan'},
+  mkbuzz:{icon:'🚀',iconClass:'icon-sky',title:"Buzz Lightyear\'s Space Ranger Spin",time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">This is a family favorite: you shoot targets with a laser cannon and score points. Lily is going to want to beat everyone\'s score. New refurbishment in 2026 has made demand higher than it used to be. Your Park Edit has the right moment to book this LL so it lines up with the morning.</div>',rowId:'d0-buzz'},
+  mkthunder:{icon:'🏔️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">Runaway mine train with a couple of good drops. No inversions — just enough coaster to feel real. Sam at 41" clears the 40" requirement. Reopened May 2026 after a full refurbishment.</div>',rowId:'d0-thunder'},
+  mkrailroad:{icon:'🚂',iconClass:'icon-sky',title:'Walt Disney World Railroad — Back to Resort',time:'Board at Fantasyland station',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🚂 Steam Train</span>',body:'<div class="prose-p">A real steam-powered train that circles all of Magic Kingdom. Board at Fantasyland and ride back to Main Street in about 10 minutes. Strollers must be folded to board, so have it collapsed before you reach the front of the line.</div>',rowId:'d0-railroad'},
+  mkparade:{icon:'🎪',iconClass:'icon-show',title:'Festival of Fantasy Parade',time:'Usually 3pm · Check app',tags:'<span class="tag tag-show">🎪 Parade</span>',body:'<div class="prose-p">Disney\'s big daytime parade — giant floats, live music, most of the major characters. A good afternoon anchor if Lily and Sam are parade people.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the specific viewing spot and exactly when to head there so you\'re not fighting for space at the last minute.</div>',rowId:'d0-parade'},
+  mkmermaid:{icon:'🧜',iconClass:'icon-sky',title:'Under the Sea — Journey of the Little Mermaid',time:'Right after parade clears',tags:'<span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Clamshell ride through the story of The Little Mermaid — Ariel, Sebastian, Ursula, all of it. No height requirement, fully AC, about 7 minutes. Waits drop after the parade crowd disperses, so the timing here is deliberate.</div><div class="section-divider"></div><div class="prose-p">Ariel\'s Grotto is right next door if Lily wants to meet her. Your Park Edit has the call on whether it\'s worth the wait that day.</div>',rowId:'d0-mermaid'},
+  mksmallworld:{icon:'🌍',iconClass:'icon-sky',title:"It\'s a Small World",time:'Fantasyland',tags:'<span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Slow boat ride through scenes of singing dolls from every country. No height requirement, always near walk-on, fully air conditioned, about 11 minutes.</div><div class="section-divider"></div><div class="prose-p">One of those rides that sounds underwhelming and always delivers. Good decompression before dinner — everyone sits, everyone cools down.</div>',rowId:'d0-smallworld'},
+  mktiki:{icon:'🦜',iconClass:'icon-show',title:"Walt Disney\'s Enchanted Tiki Room",time:'Adventureland · On the way to dinner',tags:'<span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">15-minute seated show with singing birds, flowers, and tiki gods. Never a wait, always AC. The walk out puts you right at the Polynesian entrance.</div><div class="section-divider"></div><div class="prose-p">Sam\'s age is exactly right for this — the birds tend to get a strong reaction from 4 year olds. At minimum it\'s 15 minutes off your feet before dinner.</div>',rowId:'d0-tiki'},
+  mkohana:{icon:'🍜',iconClass:'icon-gold',title:"\u2018Ohana Family-Style Dinner",time:'Family-style · At your resort',tags:'<span class="tag tag-food">🍽️ Dining</span>',body:'<div class="prose-p">\u2018Ohana is at the Polynesian — same resort you\'re staying at, no transport needed. Family-style means big platters arrive for everyone to share. Lily and Sam can pick what they want, and you\'re not managing individual orders.</div><div class="section-divider"></div><div class="prose-p">Simple food, easy vibe. Your Park Edit has the right booking time so dinner flows straight from the afternoon without a gap.</div>',rowId:'d0-ohana'},
+  mkfireworks:{icon:'✨',iconClass:'icon-show',title:'Watch from the Beach',time:'9pm · You\'re already home',tags:'<span class="tag tag-show">✨ Fireworks</span>',body:'<div class="prose-p">The Polynesian beach has a clear view of the castle fireworks across the water — full soundtrack piped in, and you\'re already home when it ends. No fighting crowds, no overtired kids on the monorail.</div><div class="section-divider"></div><div class="prose-p">Grab ice cream at the resort, let the kids watch from the sand. This is better than Main Street at this point in the day.</div>',rowId:'d0-fireworks'}
+};
+
+var sosItems={
+  breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'There\'s a specific move to make here',body:'<div class="prose-p">Most people don\'t know this, but there\'s something you can ask for at the attraction that means a broken-down ride doesn\'t cost you anything.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the exact steps — including who to ask and what to say.</div>'},
+  meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get away from the crowd first',body:'<div class="prose-p">The Baby Care Center on Main Street is your first move — private, quiet, air conditioned. Ask any cast member and they\'ll point you there.</div><div class="section-divider"></div><div class="prose-p">Your In-Park Intel section has a list of quiet spots in the park for exactly this moment. The right place depends on where you are — it\'s in your guide.</div>'},
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p">There are three rides in this park that are always a walk-on, always seated, and genuinely good — whatever time of day, whatever mood.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the shortlist with exactly where to find them.</div>'},
+  rain:{icon:'🌧️',iconClass:'icon-sky',title:"It\'s Raining",time:'This is more manageable than it looks',body:'<div class="prose-p">Florida rain moves fast — usually 20–40 minutes and it\'s done. There\'s a specific strategy for Magic Kingdom that makes it much less disruptive than most people realize.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the plan, including the one thing to do the moment it stops.</div>'},
+  heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun now',body:'<div class="prose-p">Get into AC immediately and stay for at least 15 minutes. Every park has a First Aid station — free cold water, AC, nurse on staff. Ask any cast member where it is.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the specific cooling spots closest to where you\'ll be at each point in the day.</div><div class="callout"><div class="callout-text">If someone is dizzy, stopped sweating, or seems confused — go to First Aid straight away. Don\'t wait.</div></div>'},
+  behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'This is fixable',body:'<div class="prose-p">Anything pre-booked stays — Lightning Lanes and reservations are protected. Everything else can flex.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has a specific priority order for Lily and Sam\'s day so you always know what to protect and what to drop.</div>'},
+  phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your bookings are safe',body:'<div class="prose-p">Everything lives in your account, not your phone. Any cast member at a ride or restaurant can pull up your reservations by name — you don\'t lose anything.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the charging locations and the one thing to do at Guest Services if you need a backup.</div>'}
+};
+
+
+
+function togglePriorities(){
+  var list=document.getElementById('psList');
+  var chev=document.getElementById('psChev');
+  if(!list||!chev)return;
+  var open=list.classList.toggle('open');
+  chev.classList.toggle('open',open);
+}
+
+// ⚠️ AI-GENERATED — requires Meredith review before deploy
+var bagItems=[
+  'Sunscreen — reef-safe, reapply every 90 minutes',
+  'Hats for Lily and Sam',
+  'Water bottles',
+  'Snacks — each kid can carry their own small backpack',
+  'Portable charger — MDE will drain your phone',
+  'Extra shirt for Sam',
+  'Rain ponchos — Florida afternoons move fast',
+  'Any medication',
+  'Cash and cards',
+  'ID'
+];
+
+function openBagDrawer(){
+  var el=document.getElementById('bagDrawer');
+  var body=document.getElementById('bagDrawerBody');
+  body.innerHTML='';
+  bagItems.forEach(function(item,i){
+    var key='bag-item-'+i;
+    var div=document.createElement('div');
+    div.className='bag-check-item'+(localStorage.getItem(key)==='1'?' checked':'');
+    div.innerHTML='<div class="bag-check-box"></div><span class="bag-check-label">'+item+'</span>';
+    div.addEventListener('click',function(){
+      div.classList.toggle('checked');
+      localStorage.setItem(key,div.classList.contains('checked')?'1':'0');
+    });
+    body.appendChild(div);
+  });
+  el.classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  hideSOS();
+}
+
+function switchToPreEdit(){
+  document.querySelectorAll('.day-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('pre-edit-panel').classList.add('active');
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('preEditTab').classList.add('active');
+  var _wp=document.getElementById('worthPill');if(_wp)_wp.style.display='none';
+  hideSOS();
+}
+
+function switchDay(idx){
+  currentDay=idx;
+  document.querySelectorAll('.day-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('day-'+idx).classList.add('active');
+  document.querySelectorAll('.day-tab').forEach(function(t,i){t.classList.toggle('active',i===idx+1);});
+  var _wp=document.getElementById('worthPill');if(_wp)_wp.style.display='flex';
+  showSOS();
+}
+
+var preEditContent={
+  before:{icon:'📱',title:'Before You Arrive',body:'<div class="prose-p">MagicBands set up, park reservations locked in, MDE configured, Memory Maker decision made, transport sorted, Early Entry understood. Everything that needs to happen before you step foot in a park.</div><div class="callout"><div class="callout-text">Your Pre-Edit lays this out in the right order with the right timing so nothing falls through the gaps before you leave home.</div></div>'},
+  dining:{icon:'🍽️',title:'Dining',body:'<div class="prose-p">My recommendations for restaurants worth the reservation and ones to skip. Which tables to book first to nab the hot ones, what to do if you don\'t get one when registration opens, and using Mobile Order in the right way so you\'re not standing in line with hungry kids at noon.</div><div class="callout"><div class="callout-text">Your Pre-Edit has the specific restaurants, the booking sequence, and the mobile order timing built around your park days.</div></div>'},
+  ll:{icon:'⚡',title:'Lightning Lane',body:'<div class="prose-p">Your strategy built for your travel dates, not everyone\'s. Which tier to book first, when the window opens for your resort, and why you\'re skipping certain rides.</div><div class="callout"><div class="callout-text">Your Pre-Edit has the exact picks, the exact order, and the reasoning behind every decision so you\'re not guessing on the day.</div></div>'},
+  ropedrop:{icon:'🏃',title:'Rope Drop',body:'<div class="prose-p">Which park opens first based on your schedule, where to be and when, which attractions to hit before crowds arrive. The difference between a 10-minute wait and a 90-minute one.</div><div class="callout"><div class="callout-text">Your Pre-Edit has the specific timing and the exact sequence for each of your park days.</div></div>'},
+  vq:{icon:'📲',title:'Virtual Queues',body:'<div class="prose-p">Which rides use virtual queues on your dates, exactly when to join, and what to do while you wait. So you\'re not standing in a real line wondering if you did it right.</div><div class="callout"><div class="callout-text">Your Pre-Edit covers which rides are relevant for your trip and the exact steps to join without missing the window.</div></div>'},
+  packing:{icon:'🧳',title:'Packing',body:'<div class="prose-p">Personalized lists for each person so nobody overpacks and you\'re not buying overpriced basics at resort prices. Plus, what Disney provides so you don\'t pack it twice.</div><div class="callout"><div class="callout-text">Your Pre-Edit has separate lists by person — built around your specific trip length, resort, and family setup.</div></div>'},
+  logistics:{icon:'🛒',title:'Family Logistics',body:'<div class="prose-p">Grocery delivery to the resort, babysitter options if you need them, and what to do if anyone gets separated. The logistics that are worth sorting before you leave home.</div><div class="callout"><div class="callout-text">Your Pre-Edit has the specific services, contacts, and steps for your resort and travel party.</div></div>'},
+  baby:{icon:'👶',title:'Baby & Toddler',body:'<div class="prose-p">Nursing spots, nap timing, rider swap strategy, which attractions work and which don\'t. Planning around their needs, not guessing.</div><div class="callout"><div class="callout-text">Your Pre-Edit has age-specific guidance built around your kids so you\'re not making it up as you go.</div></div>'}
+};
+
+function openPreEditDrawer(key, el){
+  if(el){el.classList.add('tapped');setTimeout(function(){el.classList.remove('tapped');},400);}
+  var item=preEditContent[key];
+  if(!item)return;
+  document.getElementById('drawerIcon').textContent=item.icon;
+  document.getElementById('drawerIcon').className='drawer-icon icon-tc';
+  document.getElementById('drawerTitle').textContent=item.title;
+  document.getElementById('drawerTime').textContent='Your Pre-Edit';
+  document.getElementById('drawerTags').innerHTML='';
+  document.getElementById('drawerBody').innerHTML=item.body;
+  document.getElementById('drawerFooter').innerHTML='';
+  document.getElementById('activityDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openDrawer(key){
+  hideSOS();
+  try{
+    var item=activities[key];
+    if(!item)throw new Error('Not found: '+key);
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML=item.tags;
+    document.getElementById('drawerBody').innerHTML=item.body;
+    var isDone=doneItems.has(item.rowId);
+    document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+item.rowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
+    document.getElementById('activityDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }catch(e){
+    document.getElementById('drawerIcon').textContent='⚠️';
+    document.getElementById('drawerIcon').className='drawer-icon icon-tc';
+    document.getElementById('drawerTitle').textContent='Something went wrong';
+    document.getElementById('drawerTime').textContent='Try tapping again';
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML='<div class="prose-p">We couldn\'t load the details for this item.</div>';
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }
+}
+
+function openSOS(key){
+  try{
+    var item=sosItems[key];if(!item)throw new Error();
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML=item.body;
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+  }catch(e){console.error(e);}
+}
+
+function toggleDone(rowId){
+  try{
+    var row=document.getElementById(rowId);if(!row)return;
+    var check=row.querySelector('.done-check');
+    var btn=document.querySelector('#drawerFooter .done-btn');
+    if(doneItems.has(rowId)){
+      doneItems.delete(rowId);row.classList.remove('done');
+      if(check){check.classList.remove('pop');check.style.opacity='0';}
+      if(btn){btn.className='done-btn';btn.textContent='✓ Mark as Done';}
+    }else{
+      doneItems.add(rowId);row.classList.add('done');
+      if(check){check.classList.remove('pop');void check.offsetWidth;check.classList.add('pop');check.style.opacity='1';}
+      if(btn){btn.className='done-btn completed';btn.textContent='✓ Done';}
+      setTimeout(function(){closeAll();},600);
+    }
+    saveDone();
+  }catch(e){console.error(e);}
+}
+
+function closeAll(){
+  document.getElementById('activityDrawer').classList.remove('open');
+  document.getElementById('sosDrawer').classList.remove('open');
+  document.getElementById('wkDrawer').classList.remove('open');
+  document.getElementById('bagDrawer').classList.remove('open');
+  document.getElementById('lockedSheet').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  var preEdit=document.getElementById('pre-edit-panel');
+  if(preEdit&&preEdit.classList.contains('active')){hideSOS();}else{showSOS();}
+}
+function hideSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='0';b.style.pointerEvents='none';}var l=document.getElementById('sosTapLabel');if(l){l.style.opacity='0';l.style.pointerEvents='none';}}
+function showSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='1';b.style.pointerEvents='';}var l=document.getElementById('sosTapLabel');if(l){l.style.opacity='1';l.style.pointerEvents='none';}}
+function openSOSMenu(){
+  hideSOS();
+  var label=document.getElementById('sosTapLabel');
+  if(label)label.style.opacity='0';
+  document.getElementById('sosDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+function openSOSFromMenu(key){document.getElementById('sosDrawer').classList.remove('open');setTimeout(function(){openSOS(key);},150);}
+
+function toggleEdit(dayIdx){
+  editModes[dayIdx]=!editModes[dayIdx];
+  var on=editModes[dayIdx];
+  var c=document.getElementById('sc-'+dayIdx);
+  var eb=document.getElementById('editBtn-'+dayIdx);
+  var db=document.getElementById('doneEditBtn-'+dayIdx);
+  var bn=document.getElementById('editBanner-'+dayIdx);
+  if(on){c.classList.add('edit-mode');eb.style.display='none';db.classList.add('show');bn.classList.add('show');updateSteppers(dayIdx);}
+  else{c.classList.remove('edit-mode');eb.style.display='';db.classList.remove('show');bn.classList.remove('show');}
+}
+function getMovable(dayIdx){return Array.prototype.slice.call(document.querySelectorAll('#timeline-'+dayIdx+' .tl-item:not(.fixed)'));}
+function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx<=0)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx-1].parentNode.insertBefore(row,all[idx-1]);updateSteppers(dayIdx);}catch(e){}}
+function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
+function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(){moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(){moveDown(r,d);};})(row,dayIdx);});}
+
+doneItems.forEach(function(rowId){var row=document.getElementById(rowId);if(row){row.classList.add('done');var c=row.querySelector('.done-check');if(c)c.style.opacity='1';}});
+
+(function(){var sx,sy,tgt,mv;document.addEventListener('touchstart',function(e){var item=e.target.closest('.tl-item');if(!item)return;tgt=item;sx=e.touches[0].clientX;sy=e.touches[0].clientY;mv=false;},{passive:true});document.addEventListener('touchmove',function(e){if(!tgt)return;if(Math.abs(e.touches[0].clientX-sx)>8||Math.abs(e.touches[0].clientY-sy)>8){mv=true;tgt=null;}},{passive:true});document.addEventListener('touchend',function(){if(!tgt||mv){tgt=null;return;}var t=tgt;tgt=null;t.classList.add('tapped');setTimeout(function(){t.classList.remove('tapped');},200);},{passive:true});})();
+
+(function(){var sy=0;['activityDrawer','sosDrawer','wkDrawer'].forEach(function(id){var el=document.getElementById(id);el.addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});el.addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>60)closeAll();},{passive:true});});})();
+
+document.getElementById('wkBody').innerHTML=buildWKContent(0);
+
+if(typeof Sortable!=='undefined'){
+  var tl=document.getElementById('timeline-0');
+  if(tl){Sortable.create(tl,{handle:'.drag-handle',animation:150,filter:'.time-break,.midday-break,.fixed',ghostClass:'sortable-ghost',chosenClass:'sortable-chosen'});}
+}
+
+</script>
+<!-- ── LOCKED TAB DRAWER ── -->
+<div class="locked-sheet" id="lockedSheet">
+  <div class="locked-handle"></div>
+  <div class="locked-body">
+    <div class="locked-eyebrow" id="lockedEyebrow">Day 2 · In Your Guide</div>
+    <div class="locked-title" id="lockedTitle">This day is in your Park Edit.</div>
+    <div class="locked-desc">Every day of your trip gets its own full guide: park strategy, a custom schedule, dining picks, and In-Park Intel — all built around your family.</div>
+
+  </div>
+</div>
+
+<script>
+var lockedTabLabels={'key-ll':{eyebrow:'In Your Park Edit',title:'Lightning Lane & Queues reference.'},'key-dining':{eyebrow:'In Your Park Edit',title:'Your dining guide lives here.'},'key-logistics':{eyebrow:'In Your Park Edit',title:'Getting around, all sorted.'},
+  'Arrival':  {eyebrow:'Arrival Day · In Your Guide',  title:'Your arrival day is in your Park Edit.'},
+  'Day 2':    {eyebrow:'Day 2 · In Your Guide',         title:'This day is in your Park Edit.'},
+  'Departure':{eyebrow:'Departure Day · In Your Guide', title:'Your departure day is in your Park Edit.'}
+};
+function openLockedTab(key){
+  hideSOS();
+  var data=lockedTabLabels[key]||{eyebrow:'In Your Guide',title:'This day is in your Park Edit.'};
+  document.getElementById('lockedEyebrow').textContent=data.eyebrow;
+  document.getElementById('lockedTitle').textContent=data.title;
+  document.getElementById('lockedSheet').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+(function(){
+  var sy=0;
+  var sh=document.getElementById('lockedSheet');
+  sh.addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});
+  sh.addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>60)closeAll();},{passive:true});
+})();
+</script>
+
+<!-- ── ONBOARDING OVERLAY ── -->
+<div class="onboard-overlay" id="onboardOverlay"></div>
+<div class="onboard-sheet" id="onboardSheet">
+  <div class="onboard-handle"></div>
+  <div class="onboard-header">
+    <div class="onboard-eyebrow">Your Park Edit · Demo</div>
+    <div class="onboard-title">Tap to explore everything.</div>
+    <div class="onboard-subtitle">This is an interactive guide — here's what to try.</div>
+  </div>
+  <div class="onboard-tips">
+    <div class="onboard-tip">
+      <div class="onboard-tip-icon">📋</div>
+      <div class="onboard-tip-text">
+        <div class="onboard-tip-label">See the Pre-Edit</div>
+        <div class="onboard-tip-sub">Tap the Pre-Edit tab to see what arrives before your park day</div>
+      </div>
+    </div>
+    <div class="onboard-tip">
+      <div class="onboard-tip-icon">🏰</div>
+      <div class="onboard-tip-text">
+        <div class="onboard-tip-label">Tap any activity</div>
+        <div class="onboard-tip-sub">Opens the full plan, strategy, and insider tips for that moment</div>
+      </div>
+    </div>
+    <div class="onboard-tip">
+      <div class="onboard-tip-icon">📍</div>
+      <div class="onboard-tip-text">
+        <div class="onboard-tip-label">Tap In-Park Intel</div>
+        <div class="onboard-tip-sub">Real-time tips, dining picks, and park intel — right inside your guide</div>
+      </div>
+    </div>
+    <div class="onboard-tip">
+      <div class="onboard-tip-icon">🆘</div>
+      <div class="onboard-tip-text">
+        <div class="onboard-tip-label">The SOS button</div>
+        <div class="onboard-tip-sub">Quick answers when something goes sideways in the park</div>
+      </div>
+    </div>
+  </div>
+  <div class="onboard-cta">
+    <button class="onboard-btn" id="onboardBtn">Let's explore ›</button>
+  </div>
+</div>
+
+<script>
+function dismissOnboard(){
+  var overlay=document.getElementById('onboardOverlay');
+  var sheet=document.getElementById('onboardSheet');
+  if(!overlay||!sheet)return;
+  overlay.style.transition='opacity 0.3s ease';
+  sheet.style.transition='transform 0.4s cubic-bezier(0.4,0,1,1),opacity 0.3s ease';
+  overlay.style.opacity='0';
+  sheet.style.transform='translateX(-50%) translateY(100%)';
+  sheet.style.opacity='0';
+  document.body.style.overflow='';
+  setTimeout(function(){
+    if(overlay.parentNode)overlay.remove();
+    if(sheet.parentNode)sheet.remove();
+    showSOS();
+    var label=document.getElementById('sosTapLabel');
+    if(label){label.style.opacity='1';label.style.pointerEvents='';}
+  },420);
+}
+document.body.style.overflow='hidden';
+// Button — respond to touchstart for instant feel on mobile
+var onboardBtn=document.getElementById('onboardBtn');
+onboardBtn.addEventListener('touchstart',function(e){e.preventDefault();e.stopPropagation();dismissOnboard();},{passive:false});
+onboardBtn.addEventListener('click',function(e){e.stopPropagation();dismissOnboard();});
+// Swipe down sheet to dismiss
+(function(){var sy=0;var sh=document.getElementById('onboardSheet');sh.addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});sh.addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>60)dismissOnboard();},{passive:true});})();
+</script>
+
+</body>
