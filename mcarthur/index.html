@@ -408,9 +408,9 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
           <div class="idx-drawer-row" onclick="openLockedTab('key-logistics')"><div class="idx-drawer-icon">📱</div><div class="idx-drawer-label">My Disney Experience</div><div class="idx-drawer-chev">›</div></div>
         </div>
       </div>
+    </div>
+  </div>
 
-
-  <!-- DAY 1
 
   <!-- DAY 1 · MAGIC KINGDOM -->
   <div class="day-panel active" id="day-0">
@@ -533,6 +533,7 @@ var doneItems=loadDone();
 var currentDay=0;
 var editModes=[false];
 var currentWKPark=0;
+var onboardActive=true;
 
 var wkData=[
   {
@@ -848,6 +849,7 @@ var lockedTabLabels={'key-ll':{eyebrow:'In Your Park Edit',title:'Lightning Lane
   'Departure':{eyebrow:'Departure Day · In Your Guide', title:'Your departure day is in your Park Edit.'}
 };
 function openLockedTab(key){
+  if(onboardActive)return;
   hideSOS();
   var data=lockedTabLabels[key]||{eyebrow:'In Your Guide',title:'This day is in your Park Edit.'};
   document.getElementById('lockedEyebrow').textContent=data.eyebrow;
@@ -912,6 +914,7 @@ function dismissOnboard(){
   var overlay=document.getElementById('onboardOverlay');
   var sheet=document.getElementById('onboardSheet');
   if(!overlay||!sheet)return;
+  onboardActive=false;
   overlay.remove();
   sheet.remove();
   document.body.style.overflow='';
