@@ -925,7 +925,7 @@ function dismissOnboard(){
   var label=document.getElementById('sosTapLabel');
   if(label){label.style.opacity='1';label.style.pointerEvents='';}
 }
-document.body.style.overflow='hidden';
+requestAnimationFrame(function(){ document.body.style.overflow='hidden'; });
 // Button — respond to touchstart for instant feel on mobile
 var onboardBtn=document.getElementById('onboardBtn');
 onboardBtn.addEventListener('touchstart',function(e){e.preventDefault();e.stopPropagation();dismissOnboard();},{passive:false});
