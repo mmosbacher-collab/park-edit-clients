@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Park Edit">
 <link rel="apple-touch-icon" href="/icons/icon-192.png">
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;My Park Edit&quot;,&quot;short_name&quot;:&quot;My Park Edit&quot;,&quot;start_url&quot;:&quot;https://www.disneyparkedit.com/mosbacher/&quot;,&quot;scope&quot;:&quot;https://www.disneyparkedit.com/mosbacher/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;orientation&quot;:&quot;portrait&quot;,&quot;background_color&quot;:&quot;#FDF8F4&quot;,&quot;theme_color&quot;:&quot;#EA6E38&quot;}">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;My Park Edit&quot;,&quot;short_name&quot;:&quot;My Park Edit&quot;,&quot;start_url&quot;:&quot;https://www.disneyparkedit.com/mosbacher-dev.html/&quot;,&quot;scope&quot;:&quot;https://www.disneyparkedit.com/mosbacher/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;orientation&quot;:&quot;portrait&quot;,&quot;background_color&quot;:&quot;#FDF8F4&quot;,&quot;theme_color&quot;:&quot;#EA6E38&quot;}">
 <title>The Park Edit · Mosbacher Morris</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -1290,11 +1290,15 @@ document.getElementById('wkBody').innerHTML=buildWKContent(0);
   if (!el) return;
   setTimeout(function() { el.style.display = 'block'; }, 2000);
 })();
-
 function dismissHomePrompt(permanent) {
   var el = document.getElementById('homePrompt');
   if (el) el.style.display = 'none';
   if (permanent) localStorage.setItem('pe-home-prompt-dismissed', '1');
+}
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
 }
 </script>
 </body>
