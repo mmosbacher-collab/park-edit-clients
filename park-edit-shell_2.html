@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Park Edit">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;My Park Edit&quot;,&quot;short_name&quot;:&quot;My Park Edit&quot;,&quot;start_url&quot;:&quot;{{CLIENT_URL}}&quot;,&quot;scope&quot;:&quot;{{CLIENT_URL}}&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;orientation&quot;:&quot;portrait&quot;,&quot;background_color&quot;:&quot;#FDF8F4&quot;,&quot;theme_color&quot;:&quot;#EA6E38&quot;}">
+<title>The Park Edit · {{CLIENT_TITLE}}</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;}
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
+.brand-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.wrap{padding:16px 16px 0;}
+.day-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{border-radius:10px;padding:7px 8px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.day-tab-label{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;}
+.day-tab.active .day-tab-label{color:rgba(255,255,255,0.7);opacity:1;}
+.day-tab-day{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;margin-top:1px;}
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:var(--terracotta);padding:18px 20px 22px;color:white;border-radius:20px 20px 0 0;position:relative;overflow:hidden;}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.park-name-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;flex-wrap:nowrap;min-width:0;}
+.park-day-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-left:2px;white-space:nowrap;flex-shrink:0;}
+.park-emoji{font-size:16px;line-height:1;}
+.park-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.bp-day-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;}
+.bp-park{font-size:12px;opacity:0.8;position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;opacity:0.9;line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--terracotta);}
+.bp-notch{width:18px;height:18px;background:var(--cream);flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;}
+.bp-dash{flex:1;border-top:2px dashed rgba(255,255,255,0.3);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1px solid var(--border);border-top:none;overflow:hidden;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.schedule-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border);}
+.schedule-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.bag-check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item:last-child{border-bottom:none;}
+.bag-check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.bag-check-item.checked .bag-check-box{background:var(--done);border-color:var(--done);}
+.bag-check-item.checked .bag-check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.bag-check-item.checked .bag-check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.bag-check-label{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+.packed-btn{display:block;width:calc(100% - 36px);margin:14px 18px 0;background:var(--terracotta);color:white;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity 0.3s ease,max-height 0.4s ease,padding 0.3s ease;}
+.bag-row-top.collapsing{opacity:0;max-height:0;padding-top:0;padding-bottom:0;border-bottom:none;overflow:hidden;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.bag-row-bottom{display:flex;align-items:center;gap:8px;padding:8px 18px;border-top:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 0.4s ease;}
+.pill-row{display:flex;gap:8px;padding:10px 14px;background:#FEFCFA;border-bottom:1px solid var(--border);}
+.bp-pill{flex:1;display:flex;align-items:center;gap:8px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:8px 10px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;min-width:0;}
+.bp-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.bp-pill-icon{font-size:14px;flex-shrink:0;}
+.bp-pill-text{flex:1;min-width:0;}
+.bp-pill-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.bp-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:10px;font-style:italic;color:var(--muted);display:block;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bp-pill-chev{font-size:12px;color:var(--muted);flex-shrink:0;}
+.bag-row-bottom.visible{opacity:1;}
+.bag-row-bottom-title{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);flex:1;}
+.bag-row-done-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--done);letter-spacing:0.1em;text-transform:uppercase;}
+.done-edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--terracotta);background:var(--terracotta);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;display:none;}
+.edit-mode .edit-btn{display:none;}
+.edit-mode .done-edit-btn{display:block;}
+.edit-banner{display:none;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;padding:7px 18px;background:var(--surface);border-bottom:1px solid var(--border);text-align:center;letter-spacing:0.04em;}
+.edit-mode .edit-banner{display:block;}
+.tl-item{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item.done{opacity:0.55;}
+.tl-item:active{background:var(--surface);}
+.tl-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);width:32px;flex-shrink:0;text-align:right;}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tl-bolt{width:16px;flex-shrink:0;font-size:13px;line-height:1;text-align:center;}
+.tl-item-linked{border-bottom:none !important;}
+.dot-must{background:var(--terracotta);}
+.dot-ll{background:var(--sky);}
+.dot-show{background:#B088C0;}
+.dot-opt{background:var(--border);border:1.5px solid var(--muted);}
+.dot-food{background:var(--gold);}
+.dot-break{background:var(--done);}
+.tl-content{flex:1;min-width:0;}
+.tl-title-row{display:flex;align-items:center;gap:6px;margin-bottom:0;}
+.tl-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.3;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;text-decoration-thickness:1.5px;flex:1;}
+.dir-icons{display:flex;gap:4px;flex-shrink:0;}
+.dir-btn{background:none;border:none;cursor:pointer;padding:2px;opacity:0.65;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s;}
+.dir-btn:active{opacity:1;}
+.dir-legend{padding:10px 18px;background:var(--surface);border-bottom:1px solid var(--border);}
+.dir-legend-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600;}
+.dir-legend-row{display:flex;gap:18px;}
+.dir-legend-item{display:flex;align-items:center;gap:5px;}
+.dir-legend-text{font-size:11px;color:var(--text);}
+.tl-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.05em;padding:2px 7px;border-radius:6px;}
+.tag-must{background:rgba(232,115,74,0.12);color:var(--terracotta);}
+.tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}.tag-tapin{background:rgba(196,96,58,0.12);color:#A04030;}
+.tag-opt{background:rgba(140,123,114,0.1);color:var(--muted);}
+.tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.tag-show{background:rgba(176,136,192,0.12);color:#8060A0;}
+.tag-meet{background:rgba(91,143,168,0.1);color:var(--sky);}
+.tag-ac{background:var(--ice);color:var(--ice-text);}
+.tag-split{background:rgba(122,174,142,0.15);color:#3A7A5A;}
+.done-check{width:18px;height:18px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0;opacity:0;transition:opacity 0.3s;}
+.tl-item.done .done-check{opacity:1;}
+.fixed-label{display:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:10px;flex-shrink:0;}
+.edit-mode .tl-item.fixed .fixed-label{display:none;}
+.stepper{display:none;align-items:center;flex-shrink:0;border:1.5px solid var(--terracotta);border-radius:20px;overflow:hidden;box-shadow:2px 2px 0 var(--shadow);}
+.edit-mode .stepper{display:flex;}
+.step-btn{width:40px;height:40px;border:none;background:rgba(232,115,74,0.08);color:var(--terracotta);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.step-btn:disabled{opacity:0.2;cursor:default;pointer-events:none;}
+.step-divider{width:1px;height:18px;background:rgba(232,115,74,0.3);flex-shrink:0;}
+.midday-break{background:linear-gradient(135deg,rgba(122,174,142,0.12),rgba(122,174,142,0.06));border:1.5px solid rgba(122,174,142,0.4);border-radius:14px;padding:14px 16px;margin:10px 14px;position:relative;}
+.midday-break-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.midday-icon{font-size:16px;}
+.midday-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#3A7A5A;font-weight:600;}
+.midday-line{flex:1;height:1px;background:rgba(122,174,142,0.3);}
+.midday-text{font-size:13px;color:var(--text);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.time-break{display:flex;align-items:center;gap:10px;padding:8px 18px;}
+.time-break-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.time-break-line{flex:1;height:1px;background:var(--border);}
+.worth-pill{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:9px 14px;margin-bottom:14px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;}
+.worth-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.worth-pill-icon{font-size:14px;flex-shrink:0;}
+.worth-pill-text{flex:1;}
+.worth-pill-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.worth-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-style:italic;color:var(--muted);}
+.worth-pill-chev{font-size:13px;color:var(--muted);flex-shrink:0;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-tc{background:rgba(232,115,74,0.12);}
+.icon-sky{background:rgba(91,143,168,0.12);}
+.icon-gold{background:rgba(242,201,76,0.15);}
+.icon-show{background:rgba(176,136,192,0.12);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-tags{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.drawer-body{padding:18px 22px 0;overflow-y:auto;max-height:42vh;}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.prose-p+.prose-p{margin-top:12px;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.section-divider{height:1px;background:rgba(232,115,74,0.25);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:16px;}
+.callout-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.callout-text{font-size:13px;line-height:1.65;color:var(--text);}
+.drawer-footer{padding:16px 22px 0;border-top:1px solid var(--border);margin-top:16px;}
+.done-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.done-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.done-btn.completed{background:var(--done);box-shadow:3px 3px 0 #5A9070;}
+.wk-park-tabs{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.wk-park-tabs::-webkit-scrollbar{display:none;}
+.wk-park-tab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:1px 1px 0 var(--shadow);-webkit-tap-highlight-color:transparent;}
+.wk-park-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;}
+.wk-body{padding:0 0 8px;overflow-y:auto;max-height:52vh;}
+.wk-group{padding:14px 22px 0;}
+.wk-group-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.wk-tip{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-tip:last-child{border-bottom:none;}
+.wk-tip-emoji{font-size:16px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.wk-tip-title{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text);}
+.wk-tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.drawer-subtitle{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.meet-row{padding:14px 22px;border-bottom:1px dashed var(--border);}
+.meet-row:last-child{border-bottom:none;}
+.meet-name{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.meet-loc{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;}
+.meet-text{font-size:13px;line-height:1.7;color:var(--text);}
+.note-block{margin:14px 22px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;}
+.sos-menu-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px dashed var(--border);cursor:pointer;background:#FEFCFA;border-left:3px solid transparent;-webkit-tap-highlight-color:transparent;}
+.sos-menu-row:last-child{border-bottom:none;}
+.sos-menu-emoji{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+.sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;}
+.sos-menu-chev{font-size:16px;color:var(--border);}
+.sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+.index-panel{display:none;}
+.index-panel.active{display:block;}
+.idx-section{margin-bottom:18px;}
+.idx-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:10px 16px 6px;border-bottom:1px solid var(--border);}
+.aag-cards{display:flex;flex-direction:column;gap:10px;padding:14px 16px;}
+.aag-card{background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:3px 3px 0 var(--shadow);}
+.aag-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);}
+.aag-card-icon{font-size:16px;flex-shrink:0;}
+.aag-card-meta{flex:1;}
+.aag-card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
+.aag-card-title{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:var(--text);}
+.aag-card-body{padding:0;}
+.aag-row{display:flex;gap:10px;padding:11px 14px;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.aag-row:last-child{border-bottom:none;}
+.aag-row-icon{font-size:15px;flex-shrink:0;width:22px;text-align:center;margin-top:1px;}
+.aag-row-value{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:2px;}
+.aag-row-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:var(--muted);margin-bottom:3px;}
+.aag-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;padding:2px 6px;border-radius:5px;display:inline-block;}
+.aag-tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.aag-tag-sp{background:rgba(91,143,168,0.2);color:#2A6A8A;font-weight:600;}
+.aag-tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.aag-tag-trip{background:rgba(232,115,74,0.1);color:var(--terracotta);}
+.idx-drawer-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.idx-drawer-row:last-child{border-bottom:none;}
+.idx-drawer-row:active{background:var(--surface);}
+.idx-drawer-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0;}
+.idx-drawer-label{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.idx-drawer-chev{font-size:14px;color:var(--muted);flex-shrink:0;}
+.idx-tab{border-radius:10px;padding:7px 10px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.idx-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.idx-tab-top{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;display:block;}
+.idx-tab.active .idx-tab-top{color:rgba(255,255,255,0.7);opacity:1;}
+.idx-tab-bottom{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;display:block;margin-top:1px;}
+.stub-message{padding:40px 24px;text-align:center;}
+.stub-icon{font-size:36px;margin-bottom:12px;}
+.stub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.stub-body{font-size:13px;color:var(--muted);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
+.tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+
+.priorities-strip{border-bottom:1.5px solid var(--border);}
+.ps-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ps-row:last-child{border-bottom:none;}
+.ps-row-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.ps-row-content{flex:1;min-width:0;}
+.ps-row-label{font-size:13px;font-weight:500;color:var(--text);display:block;}
+.ps-row-sub{font-size:11px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;display:block;margin-top:1px;}
+.ps-chev{font-size:16px;color:var(--terracotta);opacity:0.7;flex-shrink:0;transition:transform 0.2s;}
+.ps-chev.open{transform:rotate(90deg);}
+.ps-list{padding:4px 16px 10px 46px;display:none;}
+.ps-list.open{display:block;}
+.ps-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--text);}
+.ps-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta);flex-shrink:0;}
+.time-break-rope{display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(196,96,58,0.06);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.time-break-rope:active{background:rgba(196,96,58,0.14);}
+.time-break-rope-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#C4603A;white-space:nowrap;font-weight:600;}
+.time-break-rope-line{flex:1;height:1px;background:rgba(196,96,58,0.25);}
+.time-break-rope-tap{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#C4603A;opacity:0.7;flex-shrink:0;}
+.rope-drop-list{margin:12px 0 0 0;padding:0 0 0 18px;list-style:decimal;}
+.rope-drop-list li{font-size:14px;color:var(--text);line-height:1.5;margin-bottom:10px;padding-left:4px;}
+.rope-drop-list li strong{font-weight:600;}
+.drag-handle{cursor:grab;padding:2px 0 2px 8px;color:var(--shadow);flex-shrink:0;display:flex;align-items:center;touch-action:none;}
+.drag-handle:active{cursor:grabbing;}
+.tl-item.sortable-ghost{opacity:0.3;background:var(--surface);}
+.tl-item.sortable-chosen{background:var(--surface);box-shadow:0 3px 12px rgba(44,36,32,0.12);border-radius:8px;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-family">{{BRAND_FAMILY}}</div>
+  <div class="brand-name">The Park<span>.</span>Edit</div>
+  <div class="brand-tagline">{{BRAND_TAGLINE}}</div>
+</div>
+
+<div class="wrap">
+  <div class="day-tabs" id="dayTabs">
+    <div class="idx-tab" id="indexTab" onclick="switchIndex()"><span class="idx-tab-top">The</span><span class="idx-tab-bottom">Key</span></div>
+    {{DAY_TABS}}
+  </div>
+
+  {{DAY_PANELS}}
+
+  <div class="index-panel" id="indexPanel">
+    {{INDEX_PANEL}}
+  </div>
+
+</div>
+
+<!-- HOME SCREEN INSTALL PROMPT -->
+<div id="homePrompt" style="display:none;position:fixed;bottom:96px;left:max(16px,calc(50% - 179px));right:max(16px,calc(50% - 179px));background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.13),0 2px 8px rgba(0,0,0,0.07);padding:22px 20px 18px;z-index:40;font-family:'DM Sans',sans-serif;">
+  <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#2C1810;margin-bottom:8px;">Save to your home screen</div>
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#5C3D2E;line-height:1.5;margin-bottom:18px;">Tap the share icon in the Safari bar below, then “Add to Home Screen.” Opens full-screen with no browser in the way. Takes 10 seconds.</div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button onclick="dismissHomePrompt(true)" style="flex:1;background:#EA6E38;color:#fff;border:none;border-radius:10px;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Got it ✓</button>
+    <button onclick="dismissHomePrompt(false)" style="flex:0 0 auto;background:transparent;border:1.5px solid #C8B8A8;border-radius:10px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:13px;color:#8C7B6E;cursor:pointer;">Maybe later</button>
+  </div>
+</div>
+
+<button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()">🆘</button>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- SOS DRAWER -->
+<div class="drawer" id="sosDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div style="overflow-y:auto;max-height:60vh;">
+    <div class="sos-menu-row" onclick="openSOSFromMenu('missing')"><span class="sos-menu-emoji">🚨</span><span class="sos-menu-title">Child goes missing</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('medical')"><span class="sos-menu-emoji">🏥</span><span class="sos-menu-title">Medical or urgent care</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
+  </div>
+</div>
+
+<!-- ACTIVITY DRAWER -->
+<div class="drawer" id="activityDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon" id="drawerIcon"></div><div class="drawer-title-wrap"><div class="drawer-title" id="drawerTitle"></div><div class="drawer-time" id="drawerTime"></div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-tags" id="drawerTags"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter"></div>
+</div>
+
+<!-- IN-PARK INTEL DRAWER -->
+<div class="drawer" id="wkDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">📍</div><div class="drawer-title-wrap"><div class="drawer-title">In-Park Intel</div><div class="drawer-time">In the park, right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="wk-park-tabs">
+    {{WK_TABS}}
+  </div>
+  <div class="wk-body" id="wkBody"></div>
+</div>
+
+<!-- BAG DRAWER -->
+<div class="drawer" id="bagDrawer" style="z-index:25;">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon">🎒</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title">Your park bag</div>
+      <div class="drawer-subtitle">Check before you leave the hotel</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="bagDrawerBody"></div>
+  <button class="packed-btn" onclick="packedUp()">Packed! 🎒</button>
+</div>
+
+<!-- CHARACTERS DRAWER (per-day content) -->
+<div class="drawer" id="charsDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-sky">👋</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="charsDrawerTitle">Characters</div>
+      <div class="drawer-subtitle" id="charsDrawerSub">Today's character notes</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="charsDrawerBody"></div>
+</div>
+
+<!-- ENTERTAINMENT DRAWER (per-day content) -->
+<div class="drawer" id="entDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-show">🎭</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="entDrawerTitle">Entertainment</div>
+      <div class="drawer-subtitle" id="entDrawerSub">Shows &amp; street acts</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="entDrawerBody"></div>
+</div>
+
+<script>
+var STORAGE_KEY='__STORAGE_KEY__';
+function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set(JSON.parse(s)):new Set();}catch(e){return new Set();}}
+function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
+var doneItems=loadDone();
+var currentDay=0;
+// Generator should output editModes dynamically based on parkDays.length. Default covers 4 days.
+var editModes=[false,false,false,false]; // one entry per day — update if day count changes
+var currentWKPark=0;
+
+// ── INDEX DATA ────────────────────────────────────────────────
+var indexData={
+  /* __INDEX_DATA__ */
+};
+
+// ── WORTH KNOWING DATA ────────────────────────────────────────
+var wkData=[
+  /* __WK_DATA__ */
+];
+
+function buildWKContent(idx){
+  var park=wkData[idx];
+  if(!park) return '';
+  var html='';
+  if(park.intro){
+    html+='<div class="wk-group"><div style="margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:\'Playfair Display\',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;">'+park.intro+'</div></div>';
+  }
+  (park.groups||[]).forEach(function(group){
+    html+='<div class="wk-group"><div class="wk-group-label">'+group.label+'</div>';
+    (group.tips||[]).forEach(function(tip){
+      html+='<div class="wk-tip"><div class="wk-tip-emoji">'+tip.e+'</div><div>';
+      html+='<div class="wk-tip-title">'+tip.t+'</div>';
+      html+='<div class="wk-tip-text">'+tip.d+'</div></div></div>';
+    });
+    html+='</div>';
+  });
+  return html;
+}
+
+// ── ACTIVITY DATA ─────────────────────────────────────────────
+var activities={
+  /* Flights — standard stub, populate per client. One prose-p per booking, section-dividers between. Callouts for logistics flags. */
+  flights:{icon:'✈️',iconClass:'icon-sky',title:'Flights',time:'[Date] · Getting to [Destination]',tags:'',body:'<div class="prose-p">[Flight details — one block per booking]</div>',rowId:'d0-flights'},
+  /* Memory Maker — place on departure day after flight items, under "After Your Trip" time-break. Update expiry date (45 days from first park day). */
+  parkExit:{icon:'🗺️',iconClass:'icon-sky',title:'Leaving [PARK NAME]',time:'[EXIT TIME] · Head to the exit now',tags:'',body:'<div class="prose-p">Time to head out. The exit is [EXIT DIRECTIONS — e.g. straight down Main Street toward the gates / through Galaxy\'s Edge to the main entrance]. Your rideshare drop zone is [PICKUP LOCATION].</div><div class="section-divider"></div><div class="prose-p">If you have a dining reservation or next stop: [NEXT DESTINATION AND TIMING].</div><div class="callout"><div class="callout-label">Before you leave</div><div class="callout-text">Check MDE for any remaining Lightning Lane windows you haven\'t used. Unused windows expire when the park closes.</div></div>',rowId:'[DAY]-park-exit'},
+  memoryMakerReminder:{icon:'📸',iconClass:'icon-sky',title:'Download your Memory Maker photos',time:'After your trip',tags:'',body:'<div class="prose-p">Your Memory Maker photos expire 45 days from the date each photo was taken, not 45 days from the end of the trip. The clock started on [FIRST PARK DAY DATE].</div><div class="section-divider"></div><div class="prose-p">Open My Disney Experience, go to PhotoPass, and download everything. Once downloaded the photos are yours to keep forever. Disney offers a one-time 15-day extension if you miss the window, but don\'t count on it.</div><div class="callout"><div class="callout-label">Set a reminder now</div><div class="callout-text">Photos from this trip expire on or around [EXPIRY DATE]. Download before then.</div></div>',rowId:'departure-memory-maker'},
+  /* __ACTIVITIES_OBJECT__ */
+};
+
+
+
+var sosItems={
+  missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: cast members see this frequently and handle this well. Find a cast member immediately and report it. It\'s helpful to take a photo in the morning of what they\'re wearing. If you need to describe them quickly, you\'ll have both ready. A description goes out park-wide by radio the moment you do. That cast member will help reunite you.</div><div class="section-divider"></div><div class="prose-p">Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that\'s the fastest path back to each other.</div>'},
+  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid in every park handles minor issues, free, on the spot. Ask any cast member for the nearest one.</div><div class="section-divider"></div><div class="prose-p"><strong>1. AdventHealth In-Room Care</strong> — nurse comes to your hotel room. 8am to 8pm. About 2 hours wait. Call <a href="tel:8773261463" style="color:var(--terracotta);">877-326-1463</a>.<br><br><strong>2. iCare Urgent Care</strong> — 24/7. About 90 min start to finish. Call <a href="tel:4078585422" style="color:var(--terracotta);">407-858-5422</a>.<br><br><strong>3. AdventHealth Urgent Care Celebration</strong> — 24/7, free transport from resort. Call <a href="tel:4079645499" style="color:var(--terracotta);">407-964-5499</a>.<br><br><strong>4. Buena Vista Walk-In Clinic</strong> — 7:45am to 8pm weekdays, 7:45am to 5pm weekends. 10 min drive. Call <a href="tel:4074651110" style="color:var(--terracotta);">407-465-1110</a>.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid first. Call 911 if it\'s severe.</div></div>'},
+  breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Check the app first',body:'<div class="prose-p">Disney often automatically converts your Lightning Lane to an anytime pass when a ride goes down. Look for a notification in MDE before doing anything else.</div><div class="section-divider"></div><div class="prose-p">If no automatic conversion, find a cast member at the ride entrance and ask them to note the issue on your account. What they can offer varies but it\'s always worth asking.</div>'},
+  meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Step away from whatever queue or area you\'re in. Find space first, then assess. Every park has a Baby Care Center with AC, rocking chairs, changing tables, and a quiet feeding room — cast members will point you there.</div><div class="section-divider"></div><div class="prose-p"><strong>Quiet spots by park</strong></div><div class="prose-p"><strong>Magic Kingdom</strong><br>East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Seating, umbrellas, almost no foot traffic even on busy days.</div><div class="prose-p"><strong>EPCOT</strong><br>Benches outside Mission: SPACE — consistently quiet. The area near the Imagination pavilion restrooms is shaded and almost always calm. World Showcase pavilions have pockets off the main walkway — France and Japan tend to be the most peaceful.</div><div class="prose-p"><strong>Hollywood Studios</strong><br>Benches outside Walt Disney Presents — usually empty even at peak hours. Animation Courtyard between shows is quieter than the main boulevard.</div><div class="prose-p"><strong>Animal Kingdom</strong><br>Maharajah Jungle Trek in Asia — self-paced walking trail with shaded benches. The path between the Tree of Life and Discovery Island Trails is usually quiet.</div><div class="section-divider"></div><div class="prose-p">If it\'s past midday and the group is heading downhill, there\'s no penalty for leaving early. The hotel pool or room is always an option.</div>'},
+  rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out, it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20 to 40 minutes then done. Duck into the nearest indoor ride or shop and wait it out.</div><div class="section-divider"></div><div class="prose-p">Hollywood Boulevard\'s connected shops let you walk the full main drag without going outside. EPCOT pavilions and Future World rides all have indoor queues. Right after the rain stops is a good time to ride outdoor attractions — crowds thin out fast.</div>'},
+  heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun immediately',body:'<div class="prose-p">Find the nearest air-conditioned building and stay for at least 15 minutes. Cold water on wrists and the back of the neck helps quickly.</div><div class="section-divider"></div><div class="prose-p">Every park has a First Aid station with AC, free cold water, and a nurse on duty. Ask any cast member — they know exactly where it is.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If someone has stopped sweating, feels dizzy, or seems confused, go to First Aid right away. Do not wait it out. With young children especially, watch for unusual fussiness or a hot dry forehead.</div></div>'},
+  behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Protect what matters most today',body:'<div class="prose-p">Your Single Pass times are the only hard fixed points. Single Pass windows have more grace than the app shows — often up to an hour past the listed window. Try scanning even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">Everything else is flexible. If the morning falls apart, pick the one ride that matters most and walk straight to it. Skip the warm-up rides without guilt.</div><div class="section-divider"></div><div class="prose-p">Out-by-1pm is a target, not a deadline. If JR is happy and the day is going well, push to 1:30. If he\'s done at 11:30, leave at 11:30.</div>'},
+  phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your reservations are safe',body:'<div class="prose-p">Your Lightning Lanes and dining reservations live in your Disney account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some table-service restaurants, and First Aid usually has charging available. Guest Services near the entrance can print confirmations on paper if you need them.</div>'},
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>EPCOT</strong><br>Spaceship Earth — 15 min ride, all dark and quiet, AC<br>Living with the Land — slow boat, gentle, almost never a wait<br>Gran Fiesta Tour (Mexico) — slow boat, AC, opens with World Showcase at 11am<br>ImageWorks play area — soft floors, AC, behind the Figment ride</div><div class="section-divider"></div><div class="prose-p"><strong>Hollywood Studios</strong><br>Frozen Sing-Along — 30 min seated show, AC, kids can sing along<br>Walt Disney Presents — air-conditioned walk-through, almost always empty</div><div class="section-divider"></div><div class="prose-p"><strong>Animal Kingdom</strong><br>Festival of the Lion King — 30 min show, AC, big production<br>Gorilla Falls Trail — self-paced shaded walk<br>Zootopia: Better Zoogether! — 9 min seated show inside the Tree of Life</div><div class="section-divider"></div><div class="prose-p"><strong>Or just go back</strong><br>There is no penalty for leaving early. The hotel pool, the room, a proper rest. The day will not be ruined.</div>'}
+};
+
+// ── CORE FUNCTIONS ────────────────────────────────────────────
+function switchDay(idx){
+  currentDay=idx;
+  currentWKPark=idx;
+  document.querySelectorAll('.day-panel').forEach(function(p,i){p.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.day-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.wk-park-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  document.getElementById('indexTab').classList.remove('active');
+  document.getElementById('indexPanel').classList.remove('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+}
+
+function switchIndex(){
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.day-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('indexTab').classList.add('active');
+  document.getElementById('indexPanel').classList.add('active');
+}
+
+function openDrawer(key,callerRowId){
+  hideSOS();
+  var item=activities[key];
+  if(!item)return;
+  document.getElementById('drawerIcon').textContent=item.icon;
+  document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+  document.getElementById('drawerTitle').textContent=item.title;
+  document.getElementById('drawerTime').textContent=item.time;
+  document.getElementById('drawerTags').innerHTML=item.tags||'';
+  document.getElementById('drawerBody').innerHTML=item.body;
+  var effectiveRowId=callerRowId||item.rowId;
+  var isDone=doneItems.has(effectiveRowId);
+  document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+effectiveRowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
+  document.getElementById('activityDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function toggleDone(rowId){
+  var el=document.getElementById(rowId);
+  if(doneItems.has(rowId)){
+    doneItems.delete(rowId);
+    if(el){el.classList.remove('done');var dc=el.querySelector('.done-check');if(dc)dc.classList.remove('pop');}
+  } else {
+    doneItems.add(rowId);
+    if(el){el.classList.add('done');var dc=el.querySelector('.done-check');if(dc){dc.classList.remove('pop');void dc.offsetWidth;dc.classList.add('pop');}}
+  }
+  saveDone();
+  var btn=document.querySelector('#drawerFooter .done-btn');
+  if(btn){btn.classList.toggle('completed',doneItems.has(rowId));btn.textContent=doneItems.has(rowId)?'✓ Done':'✓ Mark as Done';}
+}
+
+function closeAll(){
+  document.getElementById('activityDrawer').classList.remove('open');
+  document.getElementById('wkDrawer').classList.remove('open');
+  document.getElementById('sosDrawer').classList.remove('open');
+  document.getElementById('bagDrawer').classList.remove('open');
+  document.getElementById('charsDrawer').classList.remove('open');
+  document.getElementById('entDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  showSOS();
+}
+function hideSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='0';b.style.pointerEvents='none';}}
+function showSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='1';b.style.pointerEvents='';}}
+function openSOSMenu(){hideSOS();document.getElementById('sosDrawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function openSOSFromMenu(key){document.getElementById('sosDrawer').classList.remove('open');setTimeout(function(){openSOS(key);},150);}
+
+function openWorthKnowing(){
+  var pill=document.querySelector('.day-panel.active .worth-pill-btn');
+  if(pill){pill.classList.add('pressed');setTimeout(function(){pill.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    document.getElementById('wkBody').innerHTML=buildWKContent(currentWKPark);
+    document.getElementById('wkDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function switchWKPark(idx,tab){
+  currentWKPark=idx;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+  document.getElementById('wkBody').scrollTop=0;
+}
+
+function openSOSMenu(){
+  hideSOS();
+  document.getElementById('sosDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openSOSFromMenu(key){
+  var item=sosItems[key];
+  if(!item)return;
+  document.getElementById('sosDrawer').classList.remove('open');
+  setTimeout(function(){
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML=item.body;
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+  },200);
+}
+
+// Stepper pattern — confirmed working (Mosbacher v3_9, May 2026)
+// Requires: id="sc-N" on each <div class="bp-bottom"> in day panel HTML (added by generator)
+function togglePriorities(dayIdx){
+  var list=document.getElementById('psList-'+dayIdx);
+  var chev=document.getElementById('psChev-'+dayIdx);
+  if(!list||!chev)return;
+  var open=list.classList.toggle('open');
+  chev.classList.toggle('open',open);
+}
+function toggleEdit(dayIdx){
+  editModes[dayIdx]=!editModes[dayIdx];
+  var on=editModes[dayIdx];
+  var sc=document.getElementById('sc-'+dayIdx);
+  if(!sc)return;
+  sc.classList.toggle('edit-mode',on);
+  if(on){updateSteppers(dayIdx);}
+}
+function getMovable(dayIdx){return Array.prototype.slice.call(document.querySelectorAll('#timeline-'+dayIdx+' .tl-item:not(.fixed)'));}
+function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx<=0)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx-1].parentNode.insertBefore(row,all[idx-1]);updateSteppers(dayIdx);}catch(e){}}
+function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
+function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveDown(r,d);};})(row,dayIdx);});}
+
+// ── BAG DATA ──────────────────────────────────────────────────────
+var bagItems=[
+  /* __BAG_ITEMS__ */
+];
+
+// ── CHARACTERS DATA (per-day) ─────────────────────────────────
+var charsData=[
+  /* __CHARS_DATA__ */
+];
+
+// ── ENTERTAINMENT DATA (per-day) ──────────────────────────────
+var entData=[
+  /* __ENT_DATA__ */
+];
+
+function openCharsDrawer(dayIdx){
+  var p=document.getElementById('charsPill-'+dayIdx);
+  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    var d=charsData[dayIdx];
+    document.getElementById('charsDrawerTitle').textContent=d.title;
+    document.getElementById('charsDrawerSub').textContent=d.sub;
+    var html='<div class="note-block">'+d.note+'</div>';
+    d.rows.forEach(function(r){
+      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
+    });
+    document.getElementById('charsDrawerBody').innerHTML=html;
+    document.getElementById('charsDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function openEntDrawer(dayIdx){
+  var p=document.getElementById('entPill-'+dayIdx);
+  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    var d=entData[dayIdx];
+    document.getElementById('entDrawerTitle').textContent=d.title;
+    document.getElementById('entDrawerSub').textContent=d.sub;
+    var html='<div class="note-block">'+d.note+'</div>';
+    d.rows.forEach(function(r){
+      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
+    });
+    document.getElementById('entDrawerBody').innerHTML=html;
+    document.getElementById('entDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function openBagDrawer(dayIdx){
+  var el=document.getElementById('bagDrawer');
+  var body=document.getElementById('bagDrawerBody');
+  el._dayIdx=dayIdx;
+  body.innerHTML='';
+  bagItems.forEach(function(item,i){
+    var key='bag-item-'+i;
+    var div=document.createElement('div');
+    div.className='bag-check-item'+(localStorage.getItem(key)==='1'?' checked':'');
+    div.innerHTML='<div class="bag-check-box"></div><span class="bag-check-label">'+item+'</span>';
+    div.addEventListener('click',function(){
+      div.classList.toggle('checked');
+      localStorage.setItem(key,div.classList.contains('checked')?'1':'0');
+    });
+    body.appendChild(div);
+  });
+  el.classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  hideSOS();
+}
+
+function packedUp(){
+  closeAll();
+}
+
+(function(){
+  for(var i=0;i<bagItems.length;i++){
+    var key='bag-item-'+i;
+    if(localStorage.getItem(key)==='1'){
+      var el=document.getElementById('bagDrawer');
+      if(!el)return;
+      var items=el.querySelectorAll('.bag-check-item');
+      if(items[i])items[i].classList.add('checked');
+    }
+  }
+})();
+
+// ── INIT ──────────────────────────────────────────────────────
+doneItems.forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.add('done');
+});
+document.getElementById('wkBody').innerHTML=buildWKContent(0);
+</script>
+
+<script>
+(function() {
+  var FLAG = 'pe-home-prompt-dismissed';
+  var isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (isStandalone) return;
+  if (localStorage.getItem(FLAG)) return;
+  var el = document.getElementById('homePrompt');
+  if (!el) return;
+  setTimeout(function() { el.style.display = 'block'; }, 2000);
+})();
+
+function dismissHomePrompt(permanent) {
+  var el = document.getElementById('homePrompt');
+  if (el) el.style.display = 'none';
+  if (permanent) localStorage.setItem('pe-home-prompt-dismissed', '1');
+}
+</script>
+</body>
+</html>
