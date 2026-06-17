@@ -8,7 +8,7 @@
 <style>
 :root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 
 .brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
 .brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
@@ -641,20 +641,18 @@ function togglePriorities(){
   chev.classList.toggle('open',open);
 }
 
+// ⚠️ AI-GENERATED — requires Meredith review before deploy
 var bagItems=[
-  'Sunscreen — reapply every 90 minutes',
+  'Sunscreen — reef-safe, reapply every 90 minutes',
   'Hats for Lily and Sam',
-  'Sunglasses for everyone',
   'Water bottles',
-  'Snacks',
+  'Snacks — each kid can carry their own small backpack',
   'Portable charger — MDE will drain your phone',
-  'Portable fan',
   'Extra shirt for Sam',
   'Rain ponchos — Florida afternoons move fast',
-  'Sanitizing wipes',
   'Any medication',
-  'ID',
-  '⭐ Your Park Edit has one item most families wish they\'d thought of before they left the hotel.'
+  'Cash and cards',
+  'ID'
 ];
 
 function openBagDrawer(){
