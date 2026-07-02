@@ -400,12 +400,12 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
         <div class="idx-section">
           <div class="idx-section-label">🍽️ Dining</div>
           <div class="idx-drawer-row" onclick="openLockedTab('key-dining')"><div class="idx-drawer-icon">🍴</div><div class="idx-drawer-label">Where to Eat</div><div class="idx-drawer-chev">›</div></div>
-          <div class="idx-drawer-row" onclick="openLockedTab('key-dining')"><div class="idx-drawer-icon">🗓️</div><div class="idx-drawer-label">Dining Reservations</div><div class="idx-drawer-chev">›</div></div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-dining-res')"><div class="idx-drawer-icon">🗓️</div><div class="idx-drawer-label">Dining Reservations</div><div class="idx-drawer-chev">›</div></div>
         </div>
         <div class="idx-section">
           <div class="idx-section-label">🗺️ Logistics</div>
-          <div class="idx-drawer-row" onclick="openLockedTab('key-logistics')"><div class="idx-drawer-icon">🚶</div><div class="idx-drawer-label">Getting to the Parks</div><div class="idx-drawer-chev">›</div></div>
-          <div class="idx-drawer-row" onclick="openLockedTab('key-logistics')"><div class="idx-drawer-icon">📱</div><div class="idx-drawer-label">My Disney Experience</div><div class="idx-drawer-chev">›</div></div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-transport')"><div class="idx-drawer-icon">🚶</div><div class="idx-drawer-label">Getting to the Parks</div><div class="idx-drawer-chev">›</div></div>
+          <div class="idx-drawer-row" onclick="openLockedTab('key-mde')"><div class="idx-drawer-icon">📱</div><div class="idx-drawer-label">My Disney Experience</div><div class="idx-drawer-chev">›</div></div>
         </div>
       </div>
     </div>
@@ -611,7 +611,7 @@ var activities={
   mkdumbo:{icon:'🐘',iconClass:'icon-tc',title:'Dumbo the Flying Elephant',time:'Stay in Fantasyland',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You fly in circles and control how high your elephant goes. No height requirement — Lily and Sam both go. Near walk-on this early in the morning.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit includes something useful about the line, especially with kids this age, that most people miss.</div>',rowId:'d0-dumbo'},
   mkpeterpan:{icon:'🚢',iconClass:'icon-tc',title:"Peter Pan\'s Flight",time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">You fly over London and Neverland in a little pirate ship. Slow, sweet, no height requirement. Even at this hour standby builds fast — use the Lightning Lane you booked in advance.</div>',rowId:'d0-peterpan'},
   mkbuzz:{icon:'🚀',iconClass:'icon-sky',title:"Buzz Lightyear\'s Space Ranger Spin",time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">This is a family favorite: you shoot targets with a laser cannon and score points. Lily is going to want to beat everyone\'s score. New refurbishment in 2026 has made demand higher than it used to be. Your Park Edit has the right moment to book this LL so it lines up with the morning.</div>',rowId:'d0-buzz'},
-  mkthunder:{icon:'🏔️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">Runaway mine train with a couple of good drops. No inversions — just enough coaster to feel real. Sam at 41" clears the 40" requirement. Reopened May 2026 after a full refurbishment.</div>',rowId:'d0-thunder'},
+  mkthunder:{icon:'🏔️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Use your Lightning Lane',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">Runaway mine train with a couple of good drops. No inversions — just enough coaster to feel real. Sam at 41" clears the 38" requirement. Reopened May 2026 after a full refurbishment.</div>',rowId:'d0-thunder'},
   mkrailroad:{icon:'🚂',iconClass:'icon-sky',title:'Walt Disney World Railroad — Back to Resort',time:'Board at Fantasyland station',tags:'<span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-show">🚂 Steam Train</span>',body:'<div class="prose-p">A real steam-powered train that circles all of Magic Kingdom. Board at Fantasyland and ride back to Main Street in about 10 minutes. Strollers must be folded to board, so have it collapsed before you reach the front of the line.</div>',rowId:'d0-railroad'},
   mkparade:{icon:'🎪',iconClass:'icon-show',title:'Festival of Fantasy Parade',time:'Usually 3pm · Check app',tags:'<span class="tag tag-show">🎪 Parade</span>',body:'<div class="prose-p">Disney\'s big daytime parade — giant floats, live music, most of the major characters. A good afternoon anchor if Lily and Sam are parade people.</div><div class="section-divider"></div><div class="prose-p">Your Park Edit has the specific viewing spot and exactly when to head there so you\'re not fighting for space at the last minute.</div>',rowId:'d0-parade'},
   mkmermaid:{icon:'🧜',iconClass:'icon-sky',title:'Under the Sea — Journey of the Little Mermaid',time:'Right after parade clears',tags:'<span class="tag tag-ac">❄️ AC</span>',body:'<div class="prose-p">Clamshell ride through the story of The Little Mermaid — Ariel, Sebastian, Ursula, all of it. No height requirement, fully AC, about 7 minutes. Waits drop after the parade crowd disperses, so the timing here is deliberate.</div><div class="section-divider"></div><div class="prose-p">Ariel\'s Grotto is right next door if Lily wants to meet her. Your Park Edit has the call on whether it\'s worth the wait that day.</div>',rowId:'d0-mermaid'},
@@ -837,23 +837,31 @@ if(typeof Sortable!=='undefined'){
   <div class="locked-body">
     <div class="locked-eyebrow" id="lockedEyebrow">Day 2 · In Your Guide</div>
     <div class="locked-title" id="lockedTitle">This day is in your Park Edit.</div>
-    <div class="locked-desc">Every day of your trip gets its own full guide: park strategy, a custom schedule, dining picks, and In-Park Intel — all built around your family.</div>
+    <div class="locked-desc" id="lockedDesc"></div>
 
   </div>
 </div>
 
 <script>
-var lockedTabLabels={'key-ll':{eyebrow:'In Your Park Edit',title:'Lightning Lane & Queues reference.'},'key-dining':{eyebrow:'In Your Park Edit',title:'Your dining guide lives here.'},'key-logistics':{eyebrow:'In Your Park Edit',title:'Getting around, all sorted.'},
-  'Arrival':  {eyebrow:'Arrival Day · In Your Guide',  title:'Your arrival day is in your Park Edit.'},
-  'Day 2':    {eyebrow:'Day 2 · In Your Guide',         title:'This day is in your Park Edit.'},
-  'Departure':{eyebrow:'Departure Day · In Your Guide', title:'Your departure day is in your Park Edit.'}
+var lockedTabLabels={
+  'key-ll':          {eyebrow:'In Your Park Edit',    title:'Lightning Lane & Queues reference.'},
+  'key-dining':      {eyebrow:'In Your Park Edit',    title:'Your dining guide lives here.',                                          desc:'Restaurant picks for every park day, already built around your family.'},
+  'key-dining-res':  {eyebrow:'In Your Park Edit',    title:'Every reservation, time, and confirmation number — all in one place.'},
+  'key-transport':   {eyebrow:'In Your Park Edit',    title:'Transport is already figured out.',                                      desc:'Which entrance, how to get there, and when to leave — for every park day.'},
+  'key-mde':         {eyebrow:'In Your Park Edit',    title:'Your MDE setup guide lives here.',                                       desc:'Everything you need to configure before you arrive.'},
+  'Arrival':         {eyebrow:'Arrival Day · In Your Guide',   title:'Your arrival day is in your Park Edit.',   desc:'Every day of your trip gets its own full guide: park strategy, a custom schedule, dining picks, and In-Park Intel — all built around your family.'},
+  'Day 2':           {eyebrow:'Day 2 · In Your Guide',         title:'This day is in your Park Edit.',           desc:'Every day of your trip gets its own full guide: park strategy, a custom schedule, dining picks, and In-Park Intel — all built around your family.'},
+  'Departure':       {eyebrow:'Departure Day · In Your Guide', title:'Your departure day is in your Park Edit.', desc:'Every day of your trip gets its own full guide: park strategy, a custom schedule, dining picks, and In-Park Intel — all built around your family.'}
 };
 function openLockedTab(key){
   if(onboardActive)return;
   hideSOS();
-  var data=lockedTabLabels[key]||{eyebrow:'In Your Guide',title:'This day is in your Park Edit.'};
+  var data=lockedTabLabels[key]||{eyebrow:'In Your Guide',title:'This day is in your Park Edit.',desc:'Every day of your trip gets its own full guide: park strategy, a custom schedule, dining picks, and In-Park Intel — all built around your family.'};
   document.getElementById('lockedEyebrow').textContent=data.eyebrow;
   document.getElementById('lockedTitle').textContent=data.title;
+  var descEl=document.getElementById('lockedDesc');
+  descEl.textContent=data.desc||'';
+  descEl.style.display=data.desc?'':'none';
   document.getElementById('lockedSheet').classList.add('open');
   document.getElementById('overlay').classList.add('open');
 }
