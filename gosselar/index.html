@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Park Edit">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;Gosselar Park Edit&quot;,&quot;short_name&quot;:&quot;Park Edit&quot;,&quot;start_url&quot;:&quot;/gosselar/&quot;,&quot;scope&quot;:&quot;/gosselar/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;orientation&quot;:&quot;portrait&quot;,&quot;background_color&quot;:&quot;#FDF8F4&quot;,&quot;theme_color&quot;:&quot;#EA6E38&quot;}">
+<title>The Park Edit · Gosselar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
+.brand-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.wrap{padding:16px 16px 0;}
+.day-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{border-radius:10px;padding:7px 8px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.day-tab-label{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;}
+.day-tab.active .day-tab-label{color:rgba(255,255,255,0.7);opacity:1;}
+.day-tab-day{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;margin-top:1px;}
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:var(--terracotta);padding:18px 20px 22px;color:white;border-radius:20px 20px 0 0;position:relative;overflow:hidden;}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.park-name-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;flex-wrap:nowrap;min-width:0;}
+.park-day-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-left:2px;white-space:nowrap;flex-shrink:0;}
+.park-emoji{font-size:16px;line-height:1;}
+.park-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.bp-day-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;}
+.bp-park{font-size:12px;opacity:0.8;position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;opacity:0.9;line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--terracotta);}
+.bp-notch{width:18px;height:18px;background:var(--cream);flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;}
+.bp-dash{flex:1;border-top:2px dashed rgba(255,255,255,0.3);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1px solid var(--border);border-top:none;overflow:hidden;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.schedule-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border);}
+.schedule-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.bag-check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item:last-child{border-bottom:none;}
+.bag-check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.bag-check-item.checked .bag-check-box{background:var(--done);border-color:var(--done);}
+.bag-check-item.checked .bag-check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.bag-check-item.checked .bag-check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.bag-check-label{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+.packed-btn{display:block;width:calc(100% - 36px);margin:14px 18px 0;background:var(--terracotta);color:white;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity 0.3s ease,max-height 0.4s ease,padding 0.3s ease;}
+.bag-row-top.collapsing{opacity:0;max-height:0;padding-top:0;padding-bottom:0;border-bottom:none;overflow:hidden;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.bag-row-bottom{display:flex;align-items:center;gap:8px;padding:8px 18px;border-top:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 0.4s ease;}
+.pill-row{display:flex;gap:8px;padding:10px 14px;background:#FEFCFA;border-bottom:1px solid var(--border);}
+.bp-pill{flex:1;display:flex;align-items:center;gap:8px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:8px 10px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;min-width:0;}
+.bp-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.bp-pill-icon{font-size:14px;flex-shrink:0;}
+.bp-pill-text{flex:1;min-width:0;}
+.bp-pill-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.bp-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:10px;font-style:italic;color:var(--muted);display:block;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bp-pill-chev{font-size:12px;color:var(--muted);flex-shrink:0;}
+.bag-row-bottom.visible{opacity:1;}
+.bag-row-bottom-title{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);flex:1;}
+.bag-row-done-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--done);letter-spacing:0.1em;text-transform:uppercase;}
+.done-edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--terracotta);background:var(--terracotta);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;display:none;}
+.edit-mode .edit-btn{display:none;}
+.edit-mode .done-edit-btn{display:block;}
+.edit-banner{display:none;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;padding:7px 18px;background:var(--surface);border-bottom:1px solid var(--border);text-align:center;letter-spacing:0.04em;}
+.edit-mode .edit-banner{display:block;}
+.tl-item{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item.done{opacity:0.55;}
+.tl-item:active{background:var(--surface);}
+.tl-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);width:32px;flex-shrink:0;text-align:right;}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tl-bolt{width:16px;flex-shrink:0;font-size:13px;line-height:1;text-align:center;}
+.tl-item-linked{border-bottom:none !important;}
+.dot-must{background:var(--terracotta);}
+.dot-ll{background:var(--sky);}
+.dot-show{background:#B088C0;}
+.dot-opt{background:var(--border);border:1.5px solid var(--muted);}
+.dot-food{background:var(--gold);}
+.dot-break{background:var(--done);}
+.tl-content{flex:1;min-width:0;}
+.tl-title-row{display:flex;align-items:center;gap:6px;margin-bottom:0;}
+.tl-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.3;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;text-decoration-thickness:1.5px;flex:1;}
+.dir-icons{display:flex;gap:4px;flex-shrink:0;}
+.dir-btn{background:none;border:none;cursor:pointer;padding:2px;opacity:0.65;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s;}
+.dir-btn:active{opacity:1;}
+.dir-legend{padding:10px 18px;background:var(--surface);border-bottom:1px solid var(--border);}
+.dir-legend-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600;}
+.dir-legend-row{display:flex;gap:18px;}
+.dir-legend-item{display:flex;align-items:center;gap:5px;}
+.dir-legend-text{font-size:11px;color:var(--text);}
+.tl-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.05em;padding:2px 7px;border-radius:6px;}
+.tag-must{background:rgba(232,115,74,0.12);color:var(--terracotta);}
+.tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}.tag-tapin{background:rgba(196,96,58,0.12);color:#A04030;}
+.tag-opt{background:rgba(140,123,114,0.1);color:var(--muted);}
+.tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.tag-show{background:rgba(176,136,192,0.12);color:#8060A0;}
+.tag-meet{background:rgba(91,143,168,0.1);color:var(--sky);}
+.tag-ac{background:var(--ice);color:var(--ice-text);}
+.tag-split{background:rgba(122,174,142,0.15);color:#3A7A5A;}
+.done-check{width:18px;height:18px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0;opacity:0;transition:opacity 0.3s;}
+.tl-item.done .done-check{opacity:1;}
+.fixed-label{display:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:10px;flex-shrink:0;}
+.edit-mode .tl-item.fixed .fixed-label{display:none;}
+.stepper{display:none;align-items:center;flex-shrink:0;border:1.5px solid var(--terracotta);border-radius:20px;overflow:hidden;box-shadow:2px 2px 0 var(--shadow);}
+.edit-mode .stepper{display:flex;}
+.step-btn{width:40px;height:40px;border:none;background:rgba(232,115,74,0.08);color:var(--terracotta);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.step-btn:disabled{opacity:0.2;cursor:default;pointer-events:none;}
+.step-divider{width:1px;height:18px;background:rgba(232,115,74,0.3);flex-shrink:0;}
+.midday-break{background:linear-gradient(135deg,rgba(122,174,142,0.12),rgba(122,174,142,0.06));border:1.5px solid rgba(122,174,142,0.4);border-radius:14px;padding:14px 16px;margin:10px 14px;position:relative;}
+.midday-break-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.midday-icon{font-size:16px;}
+.midday-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#3A7A5A;font-weight:600;}
+.midday-line{flex:1;height:1px;background:rgba(122,174,142,0.3);}
+.midday-text{font-size:13px;color:var(--text);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.time-break{display:flex;align-items:center;gap:10px;padding:8px 18px;}
+.time-break-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.time-break-line{flex:1;height:1px;background:var(--border);}
+.worth-pill{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:9px 14px;margin-bottom:14px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;}
+.worth-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.worth-pill-icon{font-size:14px;flex-shrink:0;}
+.worth-pill-text{flex:1;}
+.worth-pill-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.worth-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-style:italic;color:var(--muted);}
+.worth-pill-chev{font-size:13px;color:var(--muted);flex-shrink:0;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-tc{background:rgba(232,115,74,0.12);}
+.icon-sky{background:rgba(91,143,168,0.12);}
+.icon-gold{background:rgba(242,201,76,0.15);}
+.icon-show{background:rgba(176,136,192,0.12);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-tags{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.drawer-body{padding:18px 22px 0;overflow-y:auto;max-height:42vh;}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.prose-p+.prose-p{margin-top:12px;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.section-divider{height:1px;background:rgba(232,115,74,0.25);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:16px;}
+.callout-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.callout-text{font-size:13px;line-height:1.65;color:var(--text);}
+.drawer-footer{padding:16px 22px 0;border-top:1px solid var(--border);margin-top:16px;}
+.done-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.done-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.done-btn.completed{background:var(--done);box-shadow:3px 3px 0 #5A9070;}
+.wk-park-tabs{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.wk-park-tabs::-webkit-scrollbar{display:none;}
+.wk-park-tab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:1px 1px 0 var(--shadow);-webkit-tap-highlight-color:transparent;}
+.wk-park-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;}
+.wk-body{padding:0 0 8px;overflow-y:auto;max-height:52vh;}
+.wk-group{padding:14px 22px 0;}
+.wk-group-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.wk-tip{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-tip:last-child{border-bottom:none;}
+.wk-tip-emoji{font-size:16px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.wk-tip-title{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text);}
+.wk-tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.drawer-subtitle{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.meet-row{padding:14px 22px;border-bottom:1px dashed var(--border);}
+.meet-row:last-child{border-bottom:none;}
+.meet-name{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.meet-loc{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;}
+.meet-text{font-size:13px;line-height:1.7;color:var(--text);}
+.note-block{margin:14px 22px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;}
+.sos-menu-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px dashed var(--border);cursor:pointer;background:#FEFCFA;border-left:3px solid transparent;-webkit-tap-highlight-color:transparent;}
+.sos-menu-row:last-child{border-bottom:none;}
+.sos-menu-emoji{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+.sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;}
+.sos-menu-chev{font-size:16px;color:var(--border);}
+.sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+.index-panel{display:none;}
+.index-panel.active{display:block;}
+.idx-section{margin-bottom:18px;}
+.idx-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:10px 16px 6px;border-bottom:1px solid var(--border);}
+.aag-cards{display:flex;flex-direction:column;gap:10px;padding:14px 16px;}
+.aag-card{background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:3px 3px 0 var(--shadow);}
+.aag-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);}
+.aag-card-icon{font-size:16px;flex-shrink:0;}
+.aag-card-meta{flex:1;}
+.aag-card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
+.aag-card-title{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:var(--text);}
+.aag-card-body{padding:0;}
+.aag-row{display:flex;gap:10px;padding:11px 14px;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.aag-row:last-child{border-bottom:none;}
+.aag-row-icon{font-size:15px;flex-shrink:0;width:22px;text-align:center;margin-top:1px;}
+.aag-row-value{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:2px;}
+.aag-row-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:var(--muted);margin-bottom:3px;}
+.aag-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;padding:2px 6px;border-radius:5px;display:inline-block;}
+.aag-tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.aag-tag-sp{background:rgba(91,143,168,0.2);color:#2A6A8A;font-weight:600;}
+.aag-tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.aag-tag-trip{background:rgba(232,115,74,0.1);color:var(--terracotta);}
+.idx-drawer-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.idx-drawer-row:last-child{border-bottom:none;}
+.idx-drawer-row:active{background:var(--surface);}
+.idx-drawer-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0;}
+.idx-drawer-label{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.idx-drawer-chev{font-size:14px;color:var(--muted);flex-shrink:0;}
+.idx-tab{border-radius:10px;padding:7px 10px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.idx-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.idx-tab-top{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;display:block;}
+.idx-tab.active .idx-tab-top{color:rgba(255,255,255,0.7);opacity:1;}
+.idx-tab-bottom{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;display:block;margin-top:1px;}
+.stub-message{padding:40px 24px;text-align:center;}
+.stub-icon{font-size:36px;margin-bottom:12px;}
+.stub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.stub-body{font-size:13px;color:var(--muted);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
+.tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+
+.priorities-strip{border-bottom:1.5px solid var(--border);}
+.ps-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ps-row:last-child{border-bottom:none;}
+.ps-row-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.ps-row-content{flex:1;min-width:0;}
+.ps-row-label{font-size:13px;font-weight:500;color:var(--text);display:block;}
+.ps-row-sub{font-size:11px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;display:block;margin-top:1px;}
+.ps-chev{font-size:16px;color:var(--terracotta);opacity:0.7;flex-shrink:0;transition:transform 0.2s;}
+.ps-chev.open{transform:rotate(90deg);}
+.ps-list{padding:4px 16px 10px 46px;display:none;}
+.ps-list.open{display:block;}
+.ps-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--text);}
+.ps-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta);flex-shrink:0;}
+.time-break-rope{display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(196,96,58,0.06);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.time-break-rope:active{background:rgba(196,96,58,0.14);}
+.time-break-rope-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#C4603A;white-space:nowrap;font-weight:600;}
+.time-break-rope-line{flex:1;height:1px;background:rgba(196,96,58,0.25);}
+.time-break-rope-tap{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#C4603A;opacity:0.7;flex-shrink:0;}
+.rope-drop-list{margin:12px 0 0 0;padding:0 0 0 18px;list-style:decimal;}
+.rope-drop-list li{font-size:14px;color:var(--text);line-height:1.5;margin-bottom:10px;padding-left:4px;}
+.rope-drop-list li strong{font-weight:600;}
+.drag-handle{cursor:grab;padding:2px 0 2px 8px;color:var(--shadow);flex-shrink:0;display:flex;align-items:center;touch-action:none;}
+.drag-handle:active{cursor:grabbing;}
+.tl-item.sortable-ghost{opacity:0.3;background:var(--surface);}
+.tl-item.sortable-chosen{background:var(--surface);box-shadow:0 3px 12px rgba(44,36,32,0.12);border-radius:8px;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-family">Gosselar · Disneyland Resort · July 2026</div>
+  <div class="brand-name">The Park<span>.</span>Edit</div>
+  <div class="brand-tagline">Peter, Ashley &amp; Greta · Three Days</div>
+</div>
+
+<div class="wrap">
+  <div class="day-tabs" id="dayTabs">
+    <div class="idx-tab" id="indexTab" onclick="switchIndex()"><span class="idx-tab-top">The</span><span class="idx-tab-bottom">Key</span></div>
+    <div class="day-tab active" onclick="switchDay(0)"><div class="day-tab-label">Fri</div><div class="day-tab-day">Jul 10</div></div>
+    <div class="day-tab" onclick="switchDay(1)"><div class="day-tab-label">Sat</div><div class="day-tab-day">Jul 11</div></div>
+    <div class="day-tab" onclick="switchDay(2)"><div class="day-tab-label">Sun</div><div class="day-tab-day">Jul 12</div></div>
+  </div>
+
+  <!-- ═══ DAY 1 — DISNEYLAND · FRIDAY JULY 10 ═══ -->
+  <div class="day-panel active" id="dayPanel-0">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row">
+          <span class="park-emoji">🏰</span>
+          <span class="park-name">Disneyland Park</span>
+          <span class="park-day-label">Day 1 of 3</span>
+        </div>
+        <div class="bp-day-name">Greta's Princess Day</div>
+        <div class="bp-park">Disneyland Park · Crowd Level 4 · Friday July 10</div>
+        <div class="bp-summary">Fantasyland at first light, Indiana Jones before the crowd builds, a morning with the princesses, and Paint the Night to close it out.</div>
+      </div>
+      <div class="bp-divider">
+        <div class="bp-notch bp-notch-l"></div>
+        <div class="bp-dash"></div>
+        <div class="bp-notch bp-notch-r"></div>
+      </div>
+      <div class="bp-bottom" id="sc-0">
+
+        <!-- Pill row -->
+        <div class="pill-row">
+          <div class="bp-pill" id="charsPill-0" onclick="openCharsDrawer(0)">
+            <div class="bp-pill-icon">👋</div>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Characters</span>
+              <span class="bp-pill-sub">Princess Meet · Royal Hall</span>
+            </div>
+            <div class="bp-pill-chev">›</div>
+          </div>
+          <div class="bp-pill" id="entPill-0" onclick="openEntDrawer(0)">
+            <div class="bp-pill-icon">🎭</div>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Entertainment</span>
+              <span class="bp-pill-sub">Royal Theatre · Paint the Night</span>
+            </div>
+            <div class="bp-pill-chev">›</div>
+          </div>
+        </div>
+
+        <!-- Priorities Strip -->
+        <div class="priorities-strip">
+          <div class="ps-row" onclick="togglePriorities(0)">
+            <div class="ps-row-icon">⭐</div>
+            <div class="ps-row-content">
+              <span class="ps-row-label">Today's priorities</span>
+              <span class="ps-row-sub">If the day gets away from you, start here</span>
+            </div>
+            <div class="ps-chev" id="psChev-0">›</div>
+          </div>
+          <div class="ps-list" id="psList-0">
+            <div class="ps-item"><div class="ps-dot"></div>Princess Meet at Royal Hall</div>
+            <div class="ps-item"><div class="ps-dot"></div>Indiana Jones Adventure</div>
+            <div class="ps-item"><div class="ps-dot"></div>Storytelling at Royal Theatre</div>
+            <div class="ps-item"><div class="ps-dot"></div>Paint the Night</div>
+          </div>
+          <div class="ps-row" onclick="openWorthKnowing()">
+            <div class="ps-row-icon">📍</div>
+            <div class="ps-row-content">
+              <span class="ps-row-label">In-Park Intel</span>
+            </div>
+            <div class="ps-chev">›</div>
+          </div>
+          <div class="ps-row" onclick="openBagDrawer(0)">
+            <div class="ps-row-icon">🎒</div>
+            <div class="ps-row-content">
+              <span class="ps-row-label">Park Bag</span>
+            </div>
+            <div class="ps-chev">›</div>
+          </div>
+        </div>
+
+        <!-- Schedule header -->
+        <div class="schedule-header">
+          <span class="schedule-label">Today's Schedule</span>
+        </div>
+
+        <!-- Timeline Day 1 -->
+        <div id="timeline-0">
+
+          <!-- Gate entry — fixed -->
+          <div class="tl-item fixed" id="d1-gate-entry" onclick="openDrawer('dlGateEntry')">
+            <div class="tl-time">7:30a</div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Scan in — book Indiana Jones LL</div></div>
+              <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Rope Drop Priorities -->
+          <div class="time-break-rope" onclick="openDrawer('d1RopeDropPriorities')">
+            <div class="time-break-rope-label">🏃 Rope Drop Priorities</div>
+            <div class="time-break-rope-line"></div>
+            <div class="time-break-rope-tap">tap to open ›</div>
+          </div>
+
+          <!-- Peter Pan's Flight -->
+          <div class="tl-item" id="d1-peter-pan" onclick="openDrawer('dlPeterPansFlight')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Peter Pan's Flight</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Peter+Pan+Flight+Disneyland+Park';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Alice in Wonderland -->
+          <div class="tl-item" id="d1-alice" onclick="openDrawer('dlAliceInWonderland')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Alice in Wonderland</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Alice+in+Wonderland+Disneyland+Park';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Matterhorn Bobsleds -->
+          <div class="tl-item" id="d1-matterhorn" onclick="openDrawer('dlMatterhornBobsleds')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Matterhorn Bobsleds</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Matterhorn+Bobsleds+Disneyland+Park';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Mickey & Minnie's Runaway Railway -->
+          <div class="tl-item" id="d1-mmrr" onclick="openDrawer('dlMMRR')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Mickey &amp; Minnie's Runaway Railway</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Mickey+Minnie+Runaway+Railway+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Indiana Jones Adventure -->
+          <div class="tl-item" id="d1-indiana-jones" onclick="openDrawer('dlIndianaJones')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Indiana Jones Adventure</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Indiana+Jones+Adventure+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags">
+                <span class="tag tag-ll">⚡ Lightning Lane</span>
+                <span class="tag tag-tapin">⚡ Tap in — then rebook</span>
+              </div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Royal Hall Princess Meet -->
+          <div class="tl-item fixed" id="d1-royal-hall" onclick="openDrawer('dlRoyalHall')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Princess Meet — Royal Hall</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Fantasy+Faire+Royal+Hall+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags">
+                <span class="tag tag-meet">👋 Character Meet</span>
+              </div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Mobile order Jolly Holiday -->
+          <div class="tl-item" id="d1-mobile-jolly" onclick="openDrawer('dlMobileOrderJolly')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Mobile order — Jolly Holiday</div></div>
+              <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Storytelling at Royal Theatre -->
+          <div class="tl-item fixed" id="d1-royal-theatre" onclick="openDrawer('dlRoyalTheatre')">
+            <div class="tl-time">10:55a</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Storytelling at Royal Theatre</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Royal+Theatre+Fantasy+Faire+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Big Thunder Mountain Railroad -->
+          <div class="tl-item" id="d1-big-thunder" onclick="openDrawer('dlBigThunder')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Big Thunder Mountain Railroad</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Big+Thunder+Mountain+Railroad+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags">
+                <span class="tag tag-ll">⚡ Rolling LL</span>
+                <span class="tag tag-tapin">⚡ Tap in — then rebook</span>
+              </div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Lunch time-break -->
+          <div class="time-break"><div class="time-break-label">Lunch</div><div class="time-break-line"></div></div>
+
+          <!-- Jolly Holiday Bakery -->
+          <div class="tl-item" id="d1-jolly-holiday" onclick="openDrawer('dlJollyHoliday')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Jolly Holiday Bakery</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Jolly+Holiday+Bakery+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Midday break -->
+          <div class="time-break"><div class="time-break-label">Midday Break</div><div class="time-break-line"></div></div>
+
+          <div class="midday-break">
+            <div class="midday-break-top"><span class="midday-icon">🏨</span><span class="midday-label">Back to the Hilton</span><div class="midday-line"></div></div>
+            <div class="midday-text">Shuttle from Zone 14 — runs every 20 min, about 10 min each way. Roughly 100 minutes of real rest before the evening. Tap to see shuttle details.</div>
+          </div>
+
+          <!-- Afternoon optionals -->
+          <div class="tl-item" id="d1-options" onclick="openDrawer('dlOptionsInterstitial','d1-options')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Low-Key Options · Pick What Fits</div></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Evening time-break -->
+          <div class="time-break"><div class="time-break-label">Evening</div><div class="time-break-line"></div></div>
+
+          <!-- Mobile order Red Rose Taverne -->
+          <div class="tl-item" id="d1-mobile-red-rose" onclick="openDrawer('dlMobileOrderRedRose')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Mobile order — Red Rose Taverne</div></div>
+              <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Red Rose Taverne dinner -->
+          <div class="tl-item" id="d1-red-rose" onclick="openDrawer('dlRedRoseTaverne')">
+            <div class="tl-time">7:00p</div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Dinner — Red Rose Taverne</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Red+Rose+Taverne+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Paint the Night -->
+          <div class="tl-item fixed" id="d1-paint-the-night" onclick="openDrawer('dlPaintTheNight')">
+            <div class="tl-time">8:15p</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Paint the Night</div>
+                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=It+a+Small+World+Disneyland+Esplanade';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+              </div>
+              <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+        </div><!-- /timeline-0 -->
+      </div><!-- /bp-bottom sc-0 -->
+    </div><!-- /boarding-pass -->
+  </div><!-- /day-panel 0 -->
+
+  <!-- ═══ DAY 2 — DISNEYLAND · SATURDAY JULY 11 · CL6 ═══ -->
+  <div class="day-panel" id="dayPanel-1">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🏰</span><span class="park-name">Disneyland Park</span><span class="park-day-label">Day 2 of 3</span></div>
+        <div class="bp-day-name">Tiana's, Roger Rabbit, Fantasmic!</div>
+        <div class="bp-park">Disneyland Park · Crowd Level 6 · Saturday July 11</div>
+        <div class="bp-summary">Big rope drop, dining package lunch, Fantasmic! at 9:05pm to close.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-1">
+        <div class="schedule-header"><span class="schedule-label">Saturday · July 11</span><button class="edit-toggle" onclick="toggleEdit(1)">✏️ Reorder</button></div>
+        <div id="timeline-1">
+
+          <!-- Gate entry -->
+          <div class="tl-item fixed" id="d2-gate-entry" onclick="openDrawer('d2GateEntry')">
+            <div class="tl-time">8:00am</div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Scan in — book Roger Rabbit LL</div></div>
+              <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Rope Drop Priorities -->
+          <div class="time-break-rope" onclick="openDrawer('d2RopeDropPriorities')">
+            <div class="time-break-rope-label">🏃 Rope Drop Priorities</div>
+            <div class="time-break-rope-line"></div>
+            <div class="time-break-rope-tap">tap to open ›</div>
+          </div>
+
+          <!-- Tiana's Bayou Adventure -->
+          <div class="tl-item" id="d2-tiana" onclick="openDrawer('d2Tiana')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Tiana's Bayou Adventure</div></div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Buzz Lightyear -->
+          <div class="tl-item" id="d2-buzz" onclick="openDrawer('d2Buzz')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Buzz Lightyear Astro Blasters</div></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Smugglers Run -->
+          <div class="tl-item" id="d2-smugglers" onclick="openDrawer('d2SmugglersRun')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Millennium Falcon: Smugglers Run</div></div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Haunted Mansion -->
+          <div class="tl-item" id="d2-haunted" onclick="openDrawer('d2HauntedMansion')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Haunted Mansion</div></div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Castle Walkthrough & Wishing Well -->
+          <div class="tl-item" id="d2-castle" onclick="openDrawer('d2CastleWishingWell')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Sleeping Beauty Castle + Wishing Well</div></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Bluey show -->
+          <div class="tl-item fixed" id="d2-bluey" onclick="openDrawer('d2Bluey')">
+            <div class="tl-time">11:00am</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bluey's Best Day Ever!</div></div>
+              <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Lunch time-break -->
+          <div class="time-break"><div class="time-break-label">Lunch</div><div class="time-break-line"></div></div>
+
+          <!-- Rancho del Zocalo dining package -->
+          <div class="tl-item fixed" id="d2-rancho" onclick="openDrawer('d2RanchoDining')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Rancho del Zocalo — Fantasmic! Package</div></div>
+              <div class="tl-tags"><span class="tag tag-food">🍽️ Reserved</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Roger Rabbit LL return -->
+          <div class="tl-item" id="d2-roger-rabbit" onclick="openDrawer('d2RogerRabbit')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Roger Rabbit's Car Toon Spin</div></div>
+              <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Midday break -->
+          <div class="time-break"><div class="time-break-label">Midday Break</div><div class="time-break-line"></div></div>
+
+          <div class="midday-break">
+            <div class="midday-break-top"><span class="midday-icon">🏨</span><span class="midday-label">Back to the Hilton</span><div class="midday-line"></div></div>
+            <div class="midday-text">Shuttle from Zone 14 — runs every 20 min, about 10 min each way. Rest up before the evening. Fantasmic! is a late finish.</div>
+          </div>
+
+          <!-- Afternoon optionals -->
+          <div class="tl-item" id="d2-options" onclick="openDrawer('dlOptionsInterstitial','d2-options')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Low-Key Options · Pick What Fits</div></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Evening time-break -->
+          <div class="time-break"><div class="time-break-label">Evening</div><div class="time-break-line"></div></div>
+
+          <!-- Dinner -->
+          <div class="tl-item" id="d2-dinner" onclick="openDrawer('d2Dinner')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Dinner — Hotel or Docking Bay 7</div></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Fantasmic -->
+          <div class="tl-item fixed" id="d2-fantasmic" onclick="openDrawer('d2Fantasmic')">
+            <div class="tl-time">9:05pm</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Fantasmic!</div></div>
+              <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+        </div><!-- /timeline-1 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ DAY 3 — DCA · SUNDAY JULY 12 · STUB ═══ -->
+  <div class="day-panel" id="dayPanel-2">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row"><span class="park-emoji">🎡</span><span class="park-name">Disney California Adventure</span><span class="park-day-label">Day 3 of 3</span></div>
+        <div class="bp-day-name">Day 3 — Coming Soon</div>
+        <div class="bp-park">Disney California Adventure · Crowd Level 4 · Sunday July 12</div>
+        <div class="bp-summary">Guardians at gate, Pixar Pier, and a loose afternoon.</div>
+      </div>
+      <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
+      <div class="bp-bottom" id="sc-2">
+        <div class="schedule-header"><span class="schedule-label">Day 3 — Under Construction</span></div>
+        <div id="timeline-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Index Panel stub -->
+  <div class="index-panel" id="indexPanel">
+    <div class="stub-message">
+      <div class="stub-icon">🔑</div>
+      <div class="stub-title">The Key</div>
+      <div class="stub-body">LL strategy, shuttle info, dining, and trip essentials — coming in the next build.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- HOME SCREEN INSTALL PROMPT -->
+<div id="homePrompt" style="display:none;position:fixed;bottom:96px;left:max(16px,calc(50% - 179px));right:max(16px,calc(50% - 179px));background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.13),0 2px 8px rgba(0,0,0,0.07);padding:22px 20px 18px;z-index:40;font-family:'DM Sans',sans-serif;">
+  <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#2C1810;margin-bottom:8px;">Save to your home screen</div>
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#5C3D2E;line-height:1.5;margin-bottom:18px;">Tap the share icon in the Safari bar below, then “Add to Home Screen.” Opens full-screen with no browser in the way. Takes 10 seconds.</div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button onclick="dismissHomePrompt(true)" style="flex:1;background:#EA6E38;color:#fff;border:none;border-radius:10px;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Got it ✓</button>
+    <button onclick="dismissHomePrompt(false)" style="flex:0 0 auto;background:transparent;border:1.5px solid #C8B8A8;border-radius:10px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:13px;color:#8C7B6E;cursor:pointer;">Maybe later</button>
+  </div>
+</div>
+
+<button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()">🆘</button>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- SOS DRAWER -->
+<div class="drawer" id="sosDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div style="overflow-y:auto;max-height:60vh;">
+    <div class="sos-menu-row" onclick="openSOSFromMenu('missing')"><span class="sos-menu-emoji">🚨</span><span class="sos-menu-title">Child goes missing</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('medical')"><span class="sos-menu-emoji">🏥</span><span class="sos-menu-title">Medical or urgent care</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
+  </div>
+</div>
+
+<!-- ACTIVITY DRAWER -->
+<div class="drawer" id="activityDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon" id="drawerIcon"></div><div class="drawer-title-wrap"><div class="drawer-title" id="drawerTitle"></div><div class="drawer-time" id="drawerTime"></div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-tags" id="drawerTags"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter"></div>
+</div>
+
+<!-- IN-PARK INTEL DRAWER -->
+<div class="drawer" id="wkDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">📍</div><div class="drawer-title-wrap"><div class="drawer-title">In-Park Intel</div><div class="drawer-time">In the park, right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="wk-park-tabs">
+    <button class="wk-park-tab active" onclick="switchWKPark(0,this)">Disneyland</button>
+    <button class="wk-park-tab" onclick="switchWKPark(2,this)">California Adventure</button>
+  </div>
+  <div class="wk-body" id="wkBody"></div>
+</div>
+
+<!-- BAG DRAWER -->
+<div class="drawer" id="bagDrawer" style="z-index:25;">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon">🎒</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title">Your park bag</div>
+      <div class="drawer-subtitle">Check before you leave the hotel</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="bagDrawerBody"></div>
+  <button class="packed-btn" onclick="packedUp()">Packed! 🎒</button>
+</div>
+
+<!-- CHARACTERS DRAWER (per-day content) -->
+<div class="drawer" id="charsDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-sky">👋</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="charsDrawerTitle">Characters</div>
+      <div class="drawer-subtitle" id="charsDrawerSub">Today's character notes</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="charsDrawerBody"></div>
+</div>
+
+<!-- ENTERTAINMENT DRAWER (per-day content) -->
+<div class="drawer" id="entDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-show">🎭</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="entDrawerTitle">Entertainment</div>
+      <div class="drawer-subtitle" id="entDrawerSub">Shows &amp; street acts</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="entDrawerBody"></div>
+</div>
+
+<script>
+var STORAGE_KEY='park-edit-gosselar-v1';
+function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set(JSON.parse(s)):new Set();}catch(e){return new Set();}}
+function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
+var doneItems=loadDone();
+var currentDay=0;
+// Generator should output editModes dynamically based on parkDays.length. Default covers 4 days.
+var editModes=[false,false,false];
+var currentWKPark=0;
+
+// ── INDEX DATA ────────────────────────────────────────────────
+var indexData={
+  /* Index content — built after Day 1 review */
+};
+
+// ── WORTH KNOWING DATA ────────────────────────────────────────
+var wkData=[
+  /* Day 1 — Disneyland */
+  {intro:'⚠️ AI COPY — In-Park Intel content for Disneyland needs Meredith review before ship.',groups:[{label:'Food & Drink',tips:[{e:'🥐',t:'Jolly Holiday Bakery',d:'Main Street, U.S.A. Sandwiches, pastries, lemonade. Mobile order via Disneyland app.'},{e:'🌹',t:'Red Rose Taverne',d:'Fantasyland. Beauty and the Beast themed quick service. Mobile order available.'}]},{label:'Right Now',tips:[{e:'⚡',t:'LL reminder',d:'Book from the priority list in any tap-in drawer. Window opens immediately after tap-in or 2 hours after booking, whichever comes first.'}]}]},
+  /* Day 2 — Disneyland */
+  {intro:'⚠️ AI COPY — Day 2 In-Park Intel needs Meredith review.',groups:[{label:'Coming Soon',tips:[{e:'🏗️',t:'Day 2 content',d:'Built after Day 1 review is complete.'}]}]},
+  /* Day 3 — DCA */
+  {intro:'⚠️ AI COPY — Day 3 DCA In-Park Intel needs Meredith review.',groups:[{label:'Coming Soon',tips:[{e:'🏗️',t:'Day 3 content',d:'Built after Day 1 review is complete.'}]}]}
+];
+
+function buildWKContent(idx){
+  var park=wkData[idx];
+  if(!park) return '';
+  var html='';
+  if(park.intro){
+    html+='<div class="wk-group"><div style="margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:\'Playfair Display\',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;">'+park.intro+'</div></div>';
+  }
+  (park.groups||[]).forEach(function(group){
+    html+='<div class="wk-group"><div class="wk-group-label">'+group.label+'</div>';
+    (group.tips||[]).forEach(function(tip){
+      html+='<div class="wk-tip"><div class="wk-tip-emoji">'+tip.e+'</div><div>';
+      html+='<div class="wk-tip-title">'+tip.t+'</div>';
+      html+='<div class="wk-tip-text">'+tip.d+'</div></div></div>';
+    });
+    html+='</div>';
+  });
+  return html;
+}
+
+// ── ACTIVITY DATA ─────────────────────────────────────────────
+var activities={
+  /* Flights — standard stub, populate per client. One prose-p per booking, section-dividers between. Callouts for logistics flags. */
+  flights:{icon:'✈️',iconClass:'icon-sky',title:'Flights',time:'[Date] · Getting to [Destination]',tags:'',body:'<div class="prose-p">[Flight details — one block per booking]</div>',rowId:'d0-flights'},
+  /* Memory Maker — place on departure day after flight items, under "After Your Trip" time-break. Update expiry date (45 days from first park day). */
+  parkExit:{icon:'🗺️',iconClass:'icon-sky',title:'Leaving [PARK NAME]',time:'[EXIT TIME] · Head to the exit now',tags:'',body:'<div class="prose-p">Time to head out. The exit is [EXIT DIRECTIONS — e.g. straight down Main Street toward the gates / through Galaxy\'s Edge to the main entrance]. Your rideshare drop zone is [PICKUP LOCATION].</div><div class="section-divider"></div><div class="prose-p">If you have a dining reservation or next stop: [NEXT DESTINATION AND TIMING].</div><div class="callout"><div class="callout-label">Before you leave</div><div class="callout-text">Check MDE for any remaining Lightning Lane windows you haven\'t used. Unused windows expire when the park closes.</div></div>',rowId:'[DAY]-park-exit'},
+  memoryMakerReminder:{icon:'📸',iconClass:'icon-sky',title:'Download your Memory Maker photos',time:'After your trip',tags:'',body:'<div class="prose-p">Your Memory Maker photos expire 45 days from the date each photo was taken, not 45 days from the end of the trip. The clock started on [FIRST PARK DAY DATE].</div><div class="section-divider"></div><div class="prose-p">Open My Disney Experience, go to PhotoPass, and download everything. Once downloaded the photos are yours to keep forever. Disney offers a one-time 15-day extension if you miss the window, but don\'t count on it.</div><div class="callout"><div class="callout-label">Set a reminder now</div><div class="callout-text">Photos from this trip expire on or around [EXPIRY DATE]. Download before then.</div></div>',rowId:'departure-memory-maker'},
+  /* ── GATE ENTRY ── */
+  dlGateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Indiana Jones LL',time:'First thing through the gate · 7:30am',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The moment your ticket scans at the gate, open the Disneyland app. Buy Lightning Lane Multi Pass first. It\'s not available until after you scan in. Once purchased, book Indiana Jones Adventure immediately.</div><div class="section-divider"></div><div class="prose-p">Indiana Jones is your pre-booked anchor for the morning. The return window will be assigned by the app. After you tap into Indiana Jones, you\'ll be eligible to book Big Thunder Mountain Railroad — aim for a return window after 11:30am so it clears the princess meet and Royal Theatre.</div><div class="callout"><div class="callout-label">📋 See notes</div><div class="callout-text">If it\'s 9:30am and you haven\'t tapped into Indiana Jones yet, you\'re now eligible to book your next LL. Open the app and book from the priority list in the Indiana Jones drawer.</div></div>',rowId:'d1-gate-entry'},
+
+  /* ── ROPE DROP PRIORITIES DAY 1 ── */
+  d1RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disneyland Park · Park opens 8:00am',tags:'',body:'<div class="prose-p">Work through in order. If a ride has a line, skip it and move on.</div><ol class="rope-drop-list"><li><strong>Peter Pan\'s Flight</strong> — Averages 22 minutes at 8am and jumps above 30 minutes within the first few minutes of opening. It does not come back down. This is the only window.</li><li><strong>Alice in Wonderland</strong> — 7 minutes at rope drop, 30+ minutes by midday. Low capacity ride; the gap closes faster than the posted wait suggests.</li><li><strong>Matterhorn Bobsleds</strong> — 4 minutes at rope drop, 40 minutes by 10:30am, 48-50 minutes through the afternoon. Biggest difference between now and later of any ride in the park today.</li><li><strong>Mickey &amp; Minnie\'s Runaway Railway</strong> — Toontown anchor, builds quickly once the park fills. Do this last in the rope drop sequence if the first three had short waits.</li></ol><div class="callout"><div class="callout-label">Source</div><div class="callout-text">Wait time data from Thrill Data (thrill-data.com) historical average profiles for Disneyland. Actual waits on July 10 will vary — CL4 days typically run below historical average.</div></div>',rowId:'d1-rope-drop-priorities'},
+
+  /* ── PETER PAN'S FLIGHT ── */
+  dlPeterPansFlight:{icon:'🚢',iconClass:'icon-tc',title:'Peter Pan\'s Flight',time:'Fantasyland · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Take a beautiful ride over London and Neverland in your own pirate ship. This is a beloved ride, particularly for young ones (teens might find it a bit dull). With little kids, Lightning Lane is worth it here as the line gets long quickly, even in the morning.</div>',rowId:'d1-peter-pan'},
+
+  /* ── ALICE IN WONDERLAND ── */
+  dlAliceInWonderland:{icon:'🃏',iconClass:'icon-tc',title:'Alice in Wonderland',time:'Fantasyland · No height requirement',tags:'',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A dark ride through the Wonderland scenes — caterpillars, tea parties, the Queen of Hearts. Disneyland\'s version is unique and not found at Walt Disney World. Slow-moving, all ages, no height requirement. Waits are short at rope drop and grow quickly. Worth doing in the rope drop window.</div>',rowId:'d1-alice'},
+
+  /* ── MATTERHORN BOBSLEDS ── */
+  dlMatterhornBobsleds:{icon:'🏔️',iconClass:'icon-tc',title:'Matterhorn Bobsleds',time:'Fantasyland · 42″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">A classic Disneyland roller coaster through the inside of a mountain — the original at Disneyland, not replicated anywhere else. The Yeti appears during the ride. Greta clears the 42″ height requirement at 47″. Two separate tracks run simultaneously inside the mountain.</div>',rowId:'d1-matterhorn'},
+
+  /* ── MICKEY & MINNIE'S RUNAWAY RAILWAY ── */
+  dlMMRR:{icon:'🎬',iconClass:'icon-tc',title:'Mickey & Minnie\'s Runaway Railway',time:'Mickey\'s Toontown · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You watch a short cartoon in the theater before the screen literally opens up and you step into the animated world. From there it\'s a trackless ride through a series of cartoon scenes. The car waltzes at one point. The whole thing is genuinely impressive in a way that surprises a lot of adults.</div><div class="section-divider"></div><div class="prose-p">No height requirement. Good rope drop target — waits build fast.</div>',rowId:'d1-mmrr'},
+
+  /* ── INDIANA JONES ADVENTURE ── */
+  dlIndianaJones:{icon:'🪨',iconClass:'icon-tc',title:'Indiana Jones Adventure',time:'Adventureland · 46″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A jeep ride through the Temple of the Forbidden Eye. Bumpy, loud, and dark in places — worth flagging for Greta so there are no surprises. Greta clears the 46″ height requirement at 47″. One of the signature Disneyland attractions and only found here.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">⚠️ MEREDITH TO WRITE — Tap-in copy: book Big Thunder Mountain Railroad immediately. Look for a return window after 11:30am.<br><br>If it\'s 9:30am and you haven\'t tapped in yet — you\'re now eligible to book your next LL. Open the app and book from the list below.<br><br><strong>Today\'s LL priorities — scan from top, book the first one available:</strong><ol class="rope-drop-list" style="margin-top:8px;"><li>Indiana Jones Adventure</li><li>Matterhorn Bobsleds <em>(only if you missed it at rope drop)</em></li><li>Big Thunder Mountain Railroad</li><li>Mickey &amp; Minnie\'s Runaway Railway</li></ol></div></div>',rowId:'d1-indiana-jones'},
+
+  /* ── ROYAL HALL PRINCESS MEET ── */
+  dlRoyalHall:{icon:'👑',iconClass:'icon-sky',title:'Princess Meet — Royal Hall',time:'Fantasy Faire · Fantasyland · Opens 10:00am',tags:'<span class="tag tag-meet">👋 Character Meet</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">Three princesses on rotation inside Royal Hall. The meet opens at 10:00am. Get in line by 9:30am — one adult queues while the other takes Greta to explore Fantasy Faire nearby. The Royal Theatre and the wishing well are steps away. When the line starts moving, bring Greta to join.</div><div class="section-divider"></div><div class="prose-p">Longest waits hit late morning through mid-afternoon — the 9:30am arrival is the right move. The princess rotation in July has historically included Cinderella, Snow White, and Ariel. ⚠️ Verify current rotation in the Disneyland app before the trip.</div><div class="callout"><div class="callout-label">While you wait in line</div><div class="callout-text">Mobile order lunch at Jolly Holiday Bakery via the Disneyland app. Order about an hour before you want to eat — after Big Thunder is the right window.</div></div>',rowId:'d1-royal-hall'},
+
+  /* ── MOBILE ORDER JOLLY HOLIDAY ── */
+dlMobileOrderJolly:{icon:'📱',iconClass:'icon-gold',title:'Mobile order — Jolly Holiday Bakery',time:'Order 1 hour before you want to eat',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="prose-p">Open the Disneyland app, tap Order Food, find Jolly Holiday Bakery Café on Main Street U.S.A. Select your items and choose an arrival window for when you want to pick up.</div><div class="callout"><div class="callout-label">Good time to order</div><div class="callout-text">While in the Royal Hall line, or right after Indiana Jones taps in.</div></div>',rowId:'d1-mobile-jolly'},
+
+  /* ── STORYTELLING AT ROYAL THEATRE ── */
+  dlRoyalTheatre:{icon:'🎭',iconClass:'icon-show',title:'Storytelling at Royal Theatre',time:'Fantasy Faire · 10:55am',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A live theatrical show in the Fantasy Faire courtyard retelling a Disney princess story. Performed by royal storytellers in period costume. The show runs approximately 20 minutes with about 30 minutes of queue time beforehand — arrive at 10:55am. ⚠️ Verify current show story and runtime before ship.</div>',rowId:'d1-royal-theatre'},
+
+  /* ── BIG THUNDER MOUNTAIN RAILROAD ── */
+  dlBigThunder:{icon:'⛰️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Frontierland · 38″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-ll">⚡ Rolling LL</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="prose-p">A mine train coaster through the red rock canyons of Frontierland. No drops, no inversions — the thrill is speed and banking through the canyon. The theming is the main event.</div><div class="section-divider"></div><div class="prose-p">Height requirement is 38 inches. Standby builds fast and stays high all day so the Rolling LL is doing real work here.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">⚠️ MEREDITH TO WRITE — What should they book next after tapping Big Thunder? List remaining Day 1 LL priorities here.</div></div>',rowId:'d1-big-thunder'},
+
+  /* ── JOLLY HOLIDAY BAKERY LUNCH ── */
+  dlJollyHoliday:{icon:'🥐',iconClass:'icon-gold',title:'Jolly Holiday Bakery',time:'Main Street U.S.A. · Quick Service',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">Mary Poppins-themed café on Main Street with sandwiches, soups, salads, and pastries. Indoor seating available. Pick up your mobile order and find a table — good spot to sit down and recharge before the midday break. ⚠️ Menu details and food copy need Meredith review.</div>',rowId:'d1-jolly-holiday'},
+
+  dlMobileOrderRedRose:{icon:'📱',iconClass:'icon-gold',title:'Mobile order — Red Rose Taverne',time:'Late afternoon · Order 1 hour before dinner',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="prose-p">Open the Disneyland app, tap Order Food, find Red Rose Taverne in Fantasyland. Select your items and choose a 7:00pm pickup window. Order now so everything is ready when you arrive for dinner before Paint the Night.</div>',rowId:'d1-mobile-red-rose'},
+
+  /* ── RED ROSE TAVERNE DINNER ── */
+  dlRedRoseTaverne:{icon:'🌹',iconClass:'icon-gold',title:'Dinner — Red Rose Taverne',time:'Fantasyland · Quick Service · 7:00pm',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">Beauty and the Beast-themed quick service in Fantasyland. Mobile order via the Disneyland app. Pick up at 7:00pm and eat at the outdoor tables nearby, or find a spot inside. ⚠️ Menu details and food copy need Meredith review before ship.</div><div class="section-divider"></div><div class="prose-p">After dinner, make your way toward the It\'s a Small World Esplanade. You want to be in position by 8:15pm for the 8:45pm parade.</div>',rowId:'d1-red-rose'},
+
+  /* ── PAINT THE NIGHT ── */
+  dlPaintTheNight:{icon:'✨',iconClass:'icon-show',title:'Paint the Night',time:'8:45pm · Position by 8:15pm',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A fully LED nighttime parade with over 1.5 million points of light. Tinker Bell leads, followed by Monsters Inc., Cars, and other floats.</div><div class="section-divider"></div><div class="prose-p"><strong>Where to stand:</strong> Head to the raised patio overlooking the It\'s a Small World Esplanade. Arrive at least 30 minutes before the parade — by 8:15pm. After the parade passes, move down to the Esplanade and face It\'s a Small World for the best view of the finale.</div>'  ,rowId:'d1-paint-the-night'},
+
+  /* ── DAY 2 DRAWERS ── */
+
+  d2GateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Roger Rabbit LL',time:'First thing through the gate · 8:00am',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The moment your ticket scans at the gate, open the Disneyland app. Buy Lightning Lane Multi Pass first. It\'s not available for purchase until after you scan in. Once purchased, book Roger Rabbit\'s Car Toon Spin immediately. LL availability for Roger Rabbit goes fast on a CL6 Saturday.</div><div class="section-divider"></div><div class="prose-p">Your Roger Rabbit return window will land around mid-afternoon. Head to the rope drop sequence once you\'ve booked.</div>',rowId:'d2-gate-entry'},
+
+  d2RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disneyland Park · Park opens 8:00am',tags:'',body:'<div class="prose-p">Work through in order. If a ride has a line, skip it and move on. Crowds build faster on a CL6 Saturday than they did yesterday.</div><ol class="rope-drop-list"><li><strong>Tiana\'s Bayou Adventure</strong> — 4 minutes at 8am, 60 minutes by midday. The biggest wait gap in the park today. This is the one to get first.</li><li><strong>Buzz Lightyear Astro Blasters</strong> — 5 minutes at rope drop, 29 minutes by midday. Easy to walk on now; a 30-minute wait by late morning. Quick stop after Tiana\'s.</li><li><strong>Millennium Falcon: Smugglers Run</strong> — 3 minutes at rope drop but builds to 34 minutes by 10am and stays flat all afternoon. Third in the sequence because it\'s the fastest ramp after the opening window closes.</li><li><strong>Haunted Mansion</strong> — 10 minutes at rope drop, 40 minutes by late morning. Biggest capacity of the four — move here after Smugglers Run while waits are still low.</li></ol><div class="callout"><div class="callout-label">Source</div><div class="callout-text">Wait time data from Thrill Data (thrill-data.com) historical average profiles for Disneyland. Actual waits on July 11 will vary — CL6 days typically run below historical average for the first hour.</div></div>',rowId:'d2-rope-drop-priorities'},
+
+  d2Tiana:{icon:'🌿',iconClass:'icon-tc',title:'Tiana\'s Bayou Adventure',time:'New Orleans Square · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Disney\'s newest Disneyland ride — a bayou boat journey through the world of The Princess and the Frog. No height requirement.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">You will get wet</div><div class="callout-text">This ride gets riders genuinely soaked — the interior drops are often worse than the finale. Bring a small trash bag for wet clothes or pick up a poncho at a park shop before you board. Front and back rows tend to get the most water.</div></div><div class="section-divider"></div><div class="callout"><div class="callout-label">Heads up for Greta</div><div class="callout-text">The drop comes at the end. It\'s short but steep and arrives with less warning than the buildup suggests.</div></div>',rowId:'d2-tiana'},
+
+  d2Buzz:{icon:'🚀',iconClass:'icon-tc',title:'Buzz Lightyear Astro Blasters',time:'Tomorrowland · No height requirement',tags:'',body:'<div class="prose-p">An interactive shooting ride where everyone competes for the highest score against Emperor Zurg. Each rider gets a blaster. Targets are embedded in the ride vehicle and scenery throughout. No height requirement.</div>',rowId:'d2-buzz'},
+
+  d2SmugglersRun:{icon:'🚀',iconClass:'icon-tc',title:'Millennium Falcon: Smugglers Run',time:'Star Wars: Galaxy\'s Edge · 40″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">This really feels like you\'re flying in a spaceship. The scale and detail are impeccable. Your family is your crew and every seat has a job. Pilots steer, gunners shoot, engineers keep the ship running. What your crew does actually changes how the mission goes.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">Worth knowing before boarding</div><div class="callout-text">Pilots have the most control, engineers the least. Worth sorting out before anyone argues over seats.</div></div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚠️ Verify before shipping</div><div class="callout-text">Confirm which mission is currently running at Disneyland and update this drawer with the mission name before delivery.</div></div>',rowId:'d2-smugglers'},
+
+  d2HauntedMansion:{icon:'👻',iconClass:'icon-tc',title:'Haunted Mansion',time:'New Orleans Square · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">The theming of this ride from start to finish is phenomenal. You move through a house haunted with ghosts of all times singing, dancing, and spooking. Despite being 50 years old (with some notable updates), it really holds up.</div><div class="section-divider"></div><div class="prose-p">This can be too spooky for young kids. Sensitive little ones may find it genuinely scary rather than fun-scary. The scariest part is the pre-show stretching room — it\'s a real elevator and the floor descends before the ride begins. If you\'re worried, ask a cast member at the entrance; they can route you around it to the boarding area. After that, it\'s silly spooky, but better to play it safe if you\'re on the fence.</div>',rowId:'d2-haunted'},
+
+  d2CastleWishingWell:{icon:'🏰',iconClass:'icon-sky',title:'Sleeping Beauty Castle + Snow White\'s Wishing Well',time:'Central Plaza · Fantasyland',tags:'',body:'<div class="prose-p">Two stops in the same area. Walk through Sleeping Beauty Castle for the illustrated story panels showing the Sleeping Beauty story. No wait. Snow White\'s Wishing Well is in the Fantasyland courtyard just outside the castle. Toss a coin and Snow White\'s voice plays from the well.</div>',rowId:'d2-castle'},
+
+  d2Bluey:{icon:'🐕',iconClass:'icon-show',title:'Bluey\'s Best Day Ever!',time:'Fantasyland Theatre · 11:00am · ⚠️ Verify in Disneyland app before the trip',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="prose-p">A live stage show with Bluey, Bingo, Mum, and Dad. The Fantasyland Theatre is seated and covered. About 30 minutes. Arrive 10 minutes early for a good seat.</div><div class="section-divider"></div><div class="prose-p">Multiple showtimes run throughout the day. ⚠️ Confirm the showtime in the Disneyland app before the trip, as times can shift.</div>',rowId:'d2-bluey'},
+
+  d2RanchoDining:{icon:'🌮',iconClass:'icon-gold',title:'Rancho del Zocalo — Fantasmic! Dining Package',time:'Frontierland · Confirmed Reservation',tags:'<span class="tag tag-food">🍽️ Reserved</span>',body:'<div class="prose-p">A Mexican quick-service restaurant in Frontierland with a confirmed Fantasmic! dining package reservation. You\'ll receive a voucher with your meal that covers reserved viewing at the 9:05pm Fantasmic! show.</div><div class="section-divider"></div><div class="prose-p">The Rancho del Zocalo viewing area is on the left side of the Fantasmic! viewing zone with ground-level seating directly across from the main stage. It\'s the best unobstructed sightline in the park for the show.</div><div class="callout"><div class="callout-label">Keep your voucher</div><div class="callout-text">The Fantasmic! voucher from your meal grants access to the reserved viewing section. Hold onto it and check in at the Rancho del Zocalo viewing area before 9:05pm. Cast members will direct you from the Frontierland entrance.</div></div>',rowId:'d2-rancho'},
+
+  d2RogerRabbit:{icon:'🐇',iconClass:'icon-tc',title:'Roger Rabbit\'s Car Toon Spin',time:'Mickey\'s Toontown · No height requirement',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="prose-p">A spinning dark ride through the cartoon world of Who Framed Roger Rabbit. No height requirement. A wheel in the center of your ride vehicle controls how fast it rotates. Toontown theming throughout.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">Open the Disneyland app and book your next LL from the priority list below. Scan from the top and book the first one with an available window.<br><br><strong>Today\'s LL priorities:</strong><ol class="rope-drop-list" style="margin-top:8px;"><li>Tiana\'s Bayou Adventure <em>(if you didn\'t get it at rope drop)</em></li><li>Millennium Falcon: Smugglers Run <em>(if you didn\'t get it at rope drop)</em></li><li>Haunted Mansion <em>(if you didn\'t get it at rope drop)</em></li><li>Dealer\'s choice — whatever you loved most on Day 1</li></ol></div></div>',rowId:'d2-roger-rabbit'},
+
+  d2Dinner:{icon:'🍽️',iconClass:'icon-gold',title:'Dinner — Hotel or Docking Bay 7',time:'Flexible · No reservation needed',tags:'',body:'<div class="prose-p">Two options. Docking Bay 7 is the quick-service restaurant inside Galaxy\'s Edge with Star Wars-themed food. Mobile order through the Disneyland app. Positioned in the park for an easy walk back to Frontierland for Fantasmic.</div><div class="section-divider"></div><div class="prose-p">If the group wants to head back to the hotel first, the shuttle from Zone 14 runs every 20 minutes.</div><div class="callout"><div class="callout-label">Timing note</div><div class="callout-text">You need to be in the Rancho del Zocalo Fantasmic! viewing area before 9:05pm. Build in 20 minutes to walk from wherever you eat to Frontierland and check in with your voucher.</div></div>',rowId:'d2-dinner'},
+
+  d2Fantasmic:{icon:'🎇',iconClass:'icon-show',title:'Fantasmic!',time:'Rivers of America · Frontierland · 9:05pm',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="prose-p">A 27-minute nighttime show on the Rivers of America. Sorcerer Mickey battles Disney villains using fire, water projections, live performers, and a floating stage at the center of the river.</div><div class="section-divider"></div><div class="prose-p">Your Rancho del Zocalo dining package voucher covers reserved seating in the Rancho viewing section on the left side of the viewing area. Check in with a cast member at the Frontierland entrance to the viewing zone before the show begins.</div><div class="callout"><div class="callout-label">Get there early</div><div class="callout-text">Aim to be checked in and seated by 8:45pm. The reserved area fills from the front — arriving early gets you a better row within your section.</div></div>',rowId:'d2-fantasmic'},
+
+  /* ── AFTERNOON OPTIONS INTERSTITIAL — Days 1 & 2 (shared) ── */
+  dlOptionsInterstitial:{icon:'🌀',iconClass:'icon-sky',title:'Low-Key Options · Pick What Fits',time:'No waits · Do any, all, or none',tags:'',body:'<div class="prose-p">Use this window however fits the group. All of these are low-wait and easy to cut short.</div><div class="section-divider"></div><div class="prose-p"><strong>🚂 Disneyland Railroad</strong><br>A steam-powered train that circles the whole park. Board at any of four stations. A full loop takes about 18 minutes and passes through the Grand Canyon and dinosaur diorama scenes mid-ride. No wait outside the morning rush.</div><div class="section-divider"></div><div class="prose-p"><strong>🍵 Mad Tea Party</strong><br>Spinning teacups in Fantasyland. No height requirement. A wheel in the center of each cup controls the rotation. Waits are typically under 10 minutes in the afternoon.</div><div class="section-divider"></div><div class="prose-p"><strong>🚗 Autopia</strong><br>Tomorrowland. A guided track where each car can be steered but stays in its lane. No height requirement. Waits are short in the afternoon.</div><div class="section-divider"></div><div class="prose-p"><strong>🐘 Dumbo the Flying Elephant</strong><br>For whatever reason, young kids absolutely love this one. Sweet and nostalgic. You fly in circles and control how high your elephant goes. No height requirement. ⚠️ The WDW version has a hidden indoor playground in the queue — unverified whether the Disneyland version does. Verify before adding that detail.</div><div class="section-divider"></div><div class="prose-p"><strong>🌍 It\'s a Small World</strong><br>A Disneyland classic and a reliable crowd pleaser for little ones. The costumes and set are beautiful. The song is an earworm; if you don\'t want it stuck in your head for the rest of the day, it might be worth a skip. The queue can look long but it moves fast; it\'s one of the highest capacity rides in the park.</div><div class="section-divider"></div><div class="prose-p"><strong>🏴‍☠️ Pirate\'s Lair on Tom Sawyer Island</strong><br>A free-roaming exploration island in the middle of the Rivers of America. Caves, rope bridges, and pirate theming. A raft crossing of about 5 minutes each way gets you there. Plan 30 to 45 minutes total. Check the Disneyland app for current operating hours before heading over.</div>',rowId:'d1-options'},
+};
+
+
+
+var sosItems={
+  missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: cast members see this frequently and handle this well. Find a cast member immediately and report it. It\'s helpful to take a photo in the morning of what they\'re wearing. If you need to describe them quickly, you\'ll have both ready. A description goes out park-wide by radio the moment you do. That cast member will help reunite you.</div><div class="section-divider"></div><div class="prose-p">Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that\'s the fastest path back to each other.</div>'},
+  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid in every park handles minor issues, free, on the spot. Ask any cast member for the nearest one.</div><div class="section-divider"></div><div class="prose-p">⚠️ AI COPY — Meredith to verify Anaheim-area urgent care providers and phone numbers before ship.<br><br><strong>1. In-park First Aid</strong> — cast members will direct you. Free, no appointment.<br><br><strong>2. Urgent care near Anaheim</strong> — [VERIFY: Anaheim urgent care providers, addresses, hours, and phone numbers before ship. WDW-specific providers removed.]</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid immediately. Call 911 if it\'s severe.</div></div>'},
+  breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Check the app first',body:'<div class="prose-p">Disney often automatically converts your Lightning Lane to an anytime pass when a ride goes down. Look for a notification in MDE before doing anything else.</div><div class="section-divider"></div><div class="prose-p">If no automatic conversion, find a cast member at the ride entrance and ask them to note the issue on your account. What they can offer varies but it\'s always worth asking.</div>'},
+  meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Step away from whatever queue or area you\'re in. Find space first, then assess. Every park has a Baby Care Center with AC, rocking chairs, changing tables, and a quiet feeding room — cast members will point you there.</div><div class="section-divider"></div><div class="prose-p"><strong>Quiet spots by park</strong></div><div class="prose-p"><strong>Magic Kingdom</strong><br>East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Seating, umbrellas, almost no foot traffic even on busy days.</div><div class="prose-p"><strong>EPCOT</strong><br>Benches outside Mission: SPACE — consistently quiet. The area near the Imagination pavilion restrooms is shaded and almost always calm. World Showcase pavilions have pockets off the main walkway — France and Japan tend to be the most peaceful.</div><div class="prose-p"><strong>Hollywood Studios</strong><br>Benches outside Walt Disney Presents — usually empty even at peak hours. Animation Courtyard between shows is quieter than the main boulevard.</div><div class="prose-p"><strong>Animal Kingdom</strong><br>Maharajah Jungle Trek in Asia — self-paced walking trail with shaded benches. The path between the Tree of Life and Discovery Island Trails is usually quiet.</div><div class="section-divider"></div><div class="prose-p">If it\'s past midday and the group is heading downhill, there\'s no penalty for leaving early. The hotel pool or room is always an option.</div>'},
+  rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out, it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20 to 40 minutes then done. Duck into the nearest indoor ride or shop and wait it out.</div><div class="section-divider"></div><div class="prose-p">Hollywood Boulevard\'s connected shops let you walk the full main drag without going outside. EPCOT pavilions and Future World rides all have indoor queues. Right after the rain stops is a good time to ride outdoor attractions — crowds thin out fast.</div>'},
+  heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun immediately',body:'<div class="prose-p">Find the nearest air-conditioned building and stay for at least 15 minutes. Cold water on wrists and the back of the neck helps quickly.</div><div class="section-divider"></div><div class="prose-p">Every park has a First Aid station with AC, free cold water, and a nurse on duty. Ask any cast member — they know exactly where it is.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If someone has stopped sweating, feels dizzy, or seems confused, go to First Aid right away. Do not wait it out. With young children especially, watch for unusual fussiness or a hot dry forehead.</div></div>'},
+  behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Protect what matters most today',body:'<div class="prose-p">Lightning Lane return windows are the only hard fixed points. LL windows have more grace than the app shows — try scanning even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">Everything else is flexible. If the morning falls apart, pick the one experience that matters most and go straight to it. Check Today\'s Priorities on the boarding pass — those are the four things worth protecting.</div><div class="section-divider"></div><div class="prose-p">The midday break is a target, not a deadline. If Greta has energy, keep going. If she\'s done, leave early and rest longer.</div>'},
+  phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your reservations are safe',body:'<div class="prose-p">Your Lightning Lanes and dining reservations live in your Disney account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some table-service restaurants, and First Aid usually has charging available. Guest Services near the entrance can print confirmations on paper if you need them.</div>'},
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>Disneyland Park</strong><br>Walt Disney\'s Enchanted Tiki Room — AC, 15 min show, everyone sits<br>Great Moments with Mr. Lincoln — AC, almost always empty, good rest stop<br>Main Street Cinema — AC, continuous short films, walk in and out freely</div><div class="section-divider"></div><div class="prose-p"><strong>Disney California Adventure</strong><br>Soarin\' Around the World — AC, seated, gentle film experience<br>Animation Academy — AC, quiet, relaxed activity for Greta<br>Redwood Creek Challenge Trail — shaded outdoor area, kids explore freely</div><div class="section-divider"></div><div class="prose-p"><strong>Or just go back</strong><br>No penalty for leaving early. The Hilton pool, the room, a proper rest. The day will not be ruined.</div><div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to verify before ship</div></div>'}
+};
+
+// ── CORE FUNCTIONS ────────────────────────────────────────────
+function switchDay(idx){
+  currentDay=idx;
+  currentWKPark=idx;
+  document.querySelectorAll('.day-panel').forEach(function(p,i){p.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.day-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  // Days 0+1 = Disneyland (tab 0), Day 2 = DCA (tab 1)
+  var wkTabIdx=(idx<=1)?0:1;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t,i){t.classList.toggle('active',i===wkTabIdx);});
+  document.getElementById('indexTab').classList.remove('active');
+  document.getElementById('indexPanel').classList.remove('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+}
+
+function switchIndex(){
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.day-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('indexTab').classList.add('active');
+  document.getElementById('indexPanel').classList.add('active');
+}
+
+function openDrawer(key,callerRowId){
+  hideSOS();
+  var item=activities[key];
+  if(!item)return;
+  document.getElementById('drawerIcon').textContent=item.icon;
+  document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+  document.getElementById('drawerTitle').textContent=item.title;
+  document.getElementById('drawerTime').textContent=item.time;
+  document.getElementById('drawerTags').innerHTML=item.tags||'';
+  document.getElementById('drawerBody').innerHTML=item.body;
+  var effectiveRowId=callerRowId||item.rowId;
+  var isDone=doneItems.has(effectiveRowId);
+  document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+effectiveRowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
+  document.getElementById('activityDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function toggleDone(rowId){
+  var el=document.getElementById(rowId);
+  if(doneItems.has(rowId)){
+    doneItems.delete(rowId);
+    if(el){el.classList.remove('done');var dc=el.querySelector('.done-check');if(dc)dc.classList.remove('pop');}
+  } else {
+    doneItems.add(rowId);
+    if(el){el.classList.add('done');var dc=el.querySelector('.done-check');if(dc){dc.classList.remove('pop');void dc.offsetWidth;dc.classList.add('pop');}}
+  }
+  saveDone();
+  var btn=document.querySelector('#drawerFooter .done-btn');
+  if(btn){btn.classList.toggle('completed',doneItems.has(rowId));btn.textContent=doneItems.has(rowId)?'✓ Done':'✓ Mark as Done';}
+}
+
+function closeAll(){
+  document.getElementById('activityDrawer').classList.remove('open');
+  document.getElementById('wkDrawer').classList.remove('open');
+  document.getElementById('sosDrawer').classList.remove('open');
+  document.getElementById('bagDrawer').classList.remove('open');
+  document.getElementById('charsDrawer').classList.remove('open');
+  document.getElementById('entDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  showSOS();
+}
+function hideSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='0';b.style.pointerEvents='none';}}
+function showSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='1';b.style.pointerEvents='';}}
+function openSOSMenu(){hideSOS();document.getElementById('sosDrawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function openSOSFromMenu(key){document.getElementById('sosDrawer').classList.remove('open');setTimeout(function(){openSOS(key);},150);}
+
+function openWorthKnowing(){
+  var pill=document.querySelector('.day-panel.active .worth-pill-btn');
+  if(pill){pill.classList.add('pressed');setTimeout(function(){pill.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    document.getElementById('wkBody').innerHTML=buildWKContent(currentWKPark);
+    document.getElementById('wkDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function switchWKPark(idx,tab){
+  currentWKPark=idx;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+  document.getElementById('wkBody').scrollTop=0;
+}
+
+function openSOSMenu(){
+  hideSOS();
+  document.getElementById('sosDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openSOSFromMenu(key){
+  var item=sosItems[key];
+  if(!item)return;
+  document.getElementById('sosDrawer').classList.remove('open');
+  setTimeout(function(){
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML=item.body;
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+  },200);
+}
+
+// Stepper pattern — confirmed working (Mosbacher v3_9, May 2026)
+// Requires: id="sc-N" on each <div class="bp-bottom"> in day panel HTML (added by generator)
+function togglePriorities(dayIdx){
+  var list=document.getElementById('psList-'+dayIdx);
+  var chev=document.getElementById('psChev-'+dayIdx);
+  if(!list||!chev)return;
+  var open=list.classList.toggle('open');
+  chev.classList.toggle('open',open);
+}
+function toggleEdit(dayIdx){
+  editModes[dayIdx]=!editModes[dayIdx];
+  var on=editModes[dayIdx];
+  var sc=document.getElementById('sc-'+dayIdx);
+  if(!sc)return;
+  sc.classList.toggle('edit-mode',on);
+  if(on){updateSteppers(dayIdx);}
+}
+function getMovable(dayIdx){return Array.prototype.slice.call(document.querySelectorAll('#timeline-'+dayIdx+' .tl-item:not(.fixed)'));}
+function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx<=0)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx-1].parentNode.insertBefore(row,all[idx-1]);updateSteppers(dayIdx);}catch(e){}}
+function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
+function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveDown(r,d);};})(row,dayIdx);});}
+
+// ── BAG DATA ──────────────────────────────────────────────────────
+var bagItems=[
+  'Sunscreen — reapply mid-day',
+  'Hats for everyone',
+  'Greta\'s Mickey ears',
+  'Portable phone charger + cable',
+  'Water bottles',
+  'Snacks for Greta',
+  'Wipes',
+  'Change of clothes for Greta',
+  'MDE app open on all phones',
+  'Shuttle pass (myhmrbus.com Zone 14)'
+];
+
+// ── CHARACTERS DATA (per-day) ─────────────────────────────────
+var charsData=[
+  /* Day 1 — Royal Hall */
+  {title:'Princess Meet',sub:'Fantasy Faire · Royal Hall',note:'⚠️ Verify current princess rotation before ship. July rotation historically includes Cinderella, Snow White, and Ariel — confirm in the Disneyland app closer to the trip.',rows:[{name:'Royal Hall',loc:'Fantasy Faire · Fantasyland',text:'Three princesses on rotation. Arrive by 9:30am and get in line — meet opens at 10am. One adult can queue while the others explore Fantasy Faire nearby.'}]},
+  /* Day 2 stub */
+  {title:'Characters',sub:'Day 2',note:'Day 2 character content coming after Day 1 review.',rows:[]},
+  /* Day 3 stub */
+  {title:'Characters',sub:'Day 3 · DCA',note:'Anna and Elsa meet at Disney Animation building in Hollywood Land, DCA. Mid-afternoon is the better window — lines are longest at opening.',rows:[{name:'Anna & Elsa',loc:'Disney Animation · Hollywood Land',text:'Mid-afternoon visit recommended. Same building as Animation Academy.'}]}
+];
+
+// ── ENTERTAINMENT DATA (per-day) ──────────────────────────────
+var entData=[
+  /* Day 1 — Disneyland */
+  {title:'Day 1 Entertainment',sub:'Royal Theatre · Paint the Night',note:'⚠️ Confirm showtimes in the Disneyland app the morning of.',rows:[{name:'Storytelling at Royal Theatre',loc:'Fantasy Faire · Fantasyland',body:'Live performance retelling a Disney princess story. Part of the Fantasy Faire experience. ⚠️ AI copy — Meredith to review.',time:'10:55am'},{name:'Paint the Night',loc:'Disneyland Park · Main Street',body:'LED-lit nighttime parade with over 1.5 million points of light. Tinker Bell leads, followed by Monsters Inc., Cars, and princess floats. Position at the IASW Esplanade patio by 8:15pm for the 8:45pm parade. ⚠️ AI copy — Meredith to review.',time:'8:45pm'}]},
+  /* Day 2 stub */
+  {title:'Day 2 Entertainment',sub:'Bluey · Fantasmic!',note:'Day 2 entertainment content coming after Day 1 review.',rows:[]},
+  /* Day 3 stub */
+  {title:'Day 3 Entertainment',sub:'DCA',note:'Day 3 entertainment content coming after Day 1 review.',rows:[]}
+];
+
+function openCharsDrawer(dayIdx){
+  var p=document.getElementById('charsPill-'+dayIdx);
+  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    var d=charsData[dayIdx];
+    document.getElementById('charsDrawerTitle').textContent=d.title;
+    document.getElementById('charsDrawerSub').textContent=d.sub;
+    var html='<div class="note-block">'+d.note+'</div>';
+    d.rows.forEach(function(r){
+      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
+    });
+    document.getElementById('charsDrawerBody').innerHTML=html;
+    document.getElementById('charsDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function openEntDrawer(dayIdx){
+  var p=document.getElementById('entPill-'+dayIdx);
+  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    var d=entData[dayIdx];
+    document.getElementById('entDrawerTitle').textContent=d.title;
+    document.getElementById('entDrawerSub').textContent=d.sub;
+    var html='<div class="note-block">'+d.note+'</div>';
+    d.rows.forEach(function(r){
+      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
+    });
+    document.getElementById('entDrawerBody').innerHTML=html;
+    document.getElementById('entDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function openBagDrawer(dayIdx){
+  var el=document.getElementById('bagDrawer');
+  var body=document.getElementById('bagDrawerBody');
+  el._dayIdx=dayIdx;
+  body.innerHTML='';
+  bagItems.forEach(function(item,i){
+    var key='bag-item-'+i;
+    var div=document.createElement('div');
+    div.className='bag-check-item'+(localStorage.getItem(key)==='1'?' checked':'');
+    div.innerHTML='<div class="bag-check-box"></div><span class="bag-check-label">'+item+'</span>';
+    div.addEventListener('click',function(){
+      div.classList.toggle('checked');
+      localStorage.setItem(key,div.classList.contains('checked')?'1':'0');
+    });
+    body.appendChild(div);
+  });
+  el.classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  hideSOS();
+}
+
+function packedUp(){
+  closeAll();
+}
+
+(function(){
+  for(var i=0;i<bagItems.length;i++){
+    var key='bag-item-'+i;
+    if(localStorage.getItem(key)==='1'){
+      var el=document.getElementById('bagDrawer');
+      if(!el)return;
+      var items=el.querySelectorAll('.bag-check-item');
+      if(items[i])items[i].classList.add('checked');
+    }
+  }
+})();
+
+// ── INIT ──────────────────────────────────────────────────────
+doneItems.forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.add('done');
+});
+document.getElementById('wkBody').innerHTML=buildWKContent(0);
+</script>
+
+<script>
+(function() {
+  var FLAG = 'pe-home-prompt-dismissed';
+  var isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (isStandalone) return;
+  if (localStorage.getItem(FLAG)) return;
+  var el = document.getElementById('homePrompt');
+  if (!el) return;
+  setTimeout(function() { el.style.display = 'block'; }, 2000);
+})();
+
+function dismissHomePrompt(permanent) {
+  var el = document.getElementById('homePrompt');
+  if (el) el.style.display = 'none';
+  if (permanent) localStorage.setItem('pe-home-prompt-dismissed', '1');
+}
+</script>
+</body>
+</html>
