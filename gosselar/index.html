@@ -289,7 +289,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
           <span class="park-day-label">Day 1 of 3</span>
         </div>
         <div class="bp-day-name">Greta's Princess Day</div>
-        <div class="bp-park">Disneyland Park · Crowd Level 4 · Friday July 10</div>
+        <div class="bp-park">Disneyland Park · Crowd Level 2 · Friday July 10</div>
         <div class="bp-summary">Fantasyland at first light, Indiana Jones before the crowd builds, a morning with the princesses, and Paint the Night to close it out.</div>
       </div>
       <div class="bp-divider">
@@ -300,24 +300,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
       <div class="bp-bottom" id="sc-0">
 
         <!-- Pill row -->
-        <div class="pill-row">
-          <div class="bp-pill" id="charsPill-0" onclick="openCharsDrawer(0)">
-            <div class="bp-pill-icon">👋</div>
-            <div class="bp-pill-text">
-              <span class="bp-pill-label">Characters</span>
-              <span class="bp-pill-sub">Princess Meet · Royal Hall</span>
-            </div>
-            <div class="bp-pill-chev">›</div>
-          </div>
-          <div class="bp-pill" id="entPill-0" onclick="openEntDrawer(0)">
-            <div class="bp-pill-icon">🎭</div>
-            <div class="bp-pill-text">
-              <span class="bp-pill-label">Entertainment</span>
-              <span class="bp-pill-sub">Royal Theatre · Paint the Night</span>
-            </div>
-            <div class="bp-pill-chev">›</div>
-          </div>
-        </div>
+
 
         <!-- Priorities Strip -->
         <div class="priorities-strip">
@@ -353,7 +336,9 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 
         <!-- Schedule header -->
         <div class="schedule-header">
-          <span class="schedule-label">Today's Schedule</span>
+          <span class="schedule-label">Friday · July 10</span>
+          <button class="edit-btn" onclick="toggleEdit(0)">✏️ Reorder</button>
+          <button class="done-edit-btn" onclick="toggleEdit(0)">Done</button>
         </div>
 
         <!-- Timeline Day 1 -->
@@ -384,7 +369,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Peter Pan's Flight</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Peter+Pan+Flight+Disneyland+Park';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
             </div>
@@ -399,7 +384,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Alice in Wonderland</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Alice+in+Wonderland+Disneyland+Park';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
             </div>
             <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
@@ -413,7 +398,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Matterhorn Bobsleds</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Matterhorn+Bobsleds+Disneyland+Park';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
             </div>
@@ -428,7 +413,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Mickey &amp; Minnie's Runaway Railway</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Mickey+Minnie+Runaway+Railway+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
             </div>
@@ -443,7 +428,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Indiana Jones Adventure</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Indiana+Jones+Adventure+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags">
                 <span class="tag tag-ll">⚡ Lightning Lane</span>
@@ -461,7 +446,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Princess Meet — Royal Hall</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Fantasy+Faire+Royal+Hall+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags">
                 <span class="tag tag-meet">👋 Character Meet</span>
@@ -489,7 +474,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Storytelling at Royal Theatre</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Royal+Theatre+Fantasy+Faire+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
             </div>
@@ -503,7 +488,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Big Thunder Mountain Railroad</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Big+Thunder+Mountain+Railroad+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags">
                 <span class="tag tag-ll">⚡ Rolling LL</span>
@@ -524,7 +509,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Jolly Holiday Bakery</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Jolly+Holiday+Bakery+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
             </div>
@@ -537,7 +522,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 
           <div class="midday-break">
             <div class="midday-break-top"><span class="midday-icon">🏨</span><span class="midday-label">Back to the Hilton</span><div class="midday-line"></div></div>
-            <div class="midday-text">Shuttle from Zone 14 — runs every 20 min, about 10 min each way. Roughly 100 minutes of real rest before the evening. Tap to see shuttle details.</div>
+            <div class="midday-text">Shuttle from Zone 14 — runs hourly midday (on the hour), every 30 min mornings and evenings. About 10 min each way. Roughly 100 minutes of real rest before the evening.</div>
           </div>
 
           <!-- Afternoon optionals -->
@@ -573,7 +558,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Dinner — Red Rose Taverne</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Red+Rose+Taverne+Disneyland';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
             </div>
@@ -588,7 +573,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-content">
               <div class="tl-title-row">
                 <div class="tl-title">Paint the Night</div>
-                <div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=It+a+Small+World+Disneyland+Esplanade';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
+                
               </div>
               <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
             </div>
@@ -606,12 +591,12 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
       <div class="bp-top">
         <div class="park-name-row"><span class="park-emoji">🏰</span><span class="park-name">Disneyland Park</span><span class="park-day-label">Day 2 of 3</span></div>
         <div class="bp-day-name">Tiana's, Roger Rabbit, Fantasmic!</div>
-        <div class="bp-park">Disneyland Park · Crowd Level 6 · Saturday July 11</div>
+        <div class="bp-park">Disneyland Park · Crowd Level 2 · Saturday July 11</div>
         <div class="bp-summary">Big rope drop, dining package lunch, Fantasmic! at 9:05pm to close.</div>
       </div>
       <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
       <div class="bp-bottom" id="sc-1">
-        <div class="schedule-header"><span class="schedule-label">Saturday · July 11</span><button class="edit-toggle" onclick="toggleEdit(1)">✏️ Reorder</button></div>
+        <div class="schedule-header"><span class="schedule-label">Saturday · July 11</span><button class="edit-btn" onclick="toggleEdit(1)">✏️ Reorder</button><button class="done-edit-btn" onclick="toggleEdit(1)">Done</button></div>
         <div id="timeline-1">
 
           <!-- Gate entry -->
@@ -619,7 +604,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <div class="tl-time">8:00am</div>
             <div class="tl-dot dot-ll"></div>
             <div class="tl-content">
-              <div class="tl-title-row"><div class="tl-title">Scan in — book Roger Rabbit LL</div></div>
+              <div class="tl-title-row"><div class="tl-title">Scan in — book Roger Rabbit LL, opt. Rise</div></div>
               <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span></div>
             </div>
             <div class="done-check">✓</div>
@@ -732,7 +717,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 
           <div class="midday-break">
             <div class="midday-break-top"><span class="midday-icon">🏨</span><span class="midday-label">Back to the Hilton</span><div class="midday-line"></div></div>
-            <div class="midday-text">Shuttle from Zone 14 — runs every 20 min, about 10 min each way. Rest up before the evening. Fantasmic! is a late finish.</div>
+            <div class="midday-text">Shuttle from Zone 14 — runs hourly midday (on the hour), every 30 min mornings and evenings. About 10 min each way. Rest up before the evening. Fantasmic! is a late finish.</div>
           </div>
 
           <!-- Afternoon optionals -->
@@ -776,22 +761,266 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
     </div>
   </div>
 
-  <!-- ═══ DAY 3 — DCA · SUNDAY JULY 12 · STUB ═══ -->
+  <!-- ═══ DAY 3 — DCA · SUNDAY JULY 12 · CL3 ═══ -->
   <div class="day-panel" id="dayPanel-2">
     <div class="boarding-pass">
       <div class="bp-top">
         <div class="park-name-row"><span class="park-emoji">🎡</span><span class="park-name">Disney California Adventure</span><span class="park-day-label">Day 3 of 3</span></div>
-        <div class="bp-day-name">Day 3 — Coming Soon</div>
-        <div class="bp-park">Disney California Adventure · Crowd Level 4 · Sunday July 12</div>
-        <div class="bp-summary">Guardians at gate, Pixar Pier, and a loose afternoon.</div>
+        <div class="bp-day-name">Guardians, Cars Land, Pixar Pier</div>
+        <div class="bp-park">Disney California Adventure · Crowd Level 3 · Sunday July 12</div>
+        <div class="bp-summary">Rope drop through Avengers Campus, Radiator Springs anchor, loose afternoon.</div>
       </div>
       <div class="bp-divider"><div class="bp-notch bp-notch-l"></div><div class="bp-dash"></div><div class="bp-notch bp-notch-r"></div></div>
       <div class="bp-bottom" id="sc-2">
-        <div class="schedule-header"><span class="schedule-label">Day 3 — Under Construction</span></div>
-        <div id="timeline-2"></div>
-      </div>
-    </div>
-  </div>
+
+        <!-- Pill row -->
+
+
+        <!-- Priorities Strip -->
+        <div class="priorities-strip">
+          <div class="ps-row" onclick="togglePriorities(2)">
+            <div class="ps-row-icon">⭐</div>
+            <div class="ps-row-content">
+              <span class="ps-row-label">Today's priorities</span>
+              <span class="ps-row-sub">If the day gets away from you, start here</span>
+            </div>
+            <div class="ps-chev" id="psChev-2">›</div>
+          </div>
+          <div class="ps-list" id="psList-2">
+            <div class="ps-item"><div class="ps-dot"></div>Guardians LL at gate</div>
+            <div class="ps-item"><div class="ps-dot"></div>Radiator Springs Racers</div>
+            <div class="ps-item"><div class="ps-dot"></div>WEB SLINGERS</div>
+            <div class="ps-item"><div class="ps-dot"></div>The Amazing Spider-Man!</div>
+          </div>
+          <div class="ps-row" onclick="openWorthKnowing()">
+            <div class="ps-row-icon">📍</div>
+            <div class="ps-row-content">
+              <span class="ps-row-label">In-Park Intel</span>
+            </div>
+            <div class="ps-chev">›</div>
+          </div>
+          <div class="ps-row" onclick="openBagDrawer(2)">
+            <div class="ps-row-icon">🎒</div>
+            <div class="ps-row-content">
+              <span class="ps-row-label">Park Bag</span>
+            </div>
+            <div class="ps-chev">›</div>
+          </div>
+        </div>
+
+        <!-- Schedule header -->
+        <div class="schedule-header">
+          <span class="schedule-label">Sunday · July 12</span>
+          <button class="edit-btn" onclick="toggleEdit(2)">✏️ Reorder</button>
+          <button class="done-edit-btn" onclick="toggleEdit(2)">Done</button>
+        </div>
+
+        <!-- Timeline Day 3 -->
+        <div id="timeline-2">
+
+          <!-- Gate entry — fixed -->
+          <div class="tl-item fixed" id="d3-gate-entry" onclick="openDrawer('d3GateEntry')">
+            <div class="tl-time">8:00am</div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Scan in — book Guardians, opt. Radiator</div></div>
+              <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Rope Drop Priorities -->
+          <div class="time-break-rope" onclick="openDrawer('d3RopeDropPriorities')">
+            <div class="time-break-rope-label">🏃 Rope Drop Priorities</div>
+            <div class="time-break-rope-line"></div>
+            <div class="time-break-rope-tap">tap to open ›</div>
+          </div>
+
+          <!-- WEB SLINGERS -->
+          <div class="tl-item" id="d3-web-slingers" onclick="openDrawer('d3WebSlingers')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">WEB SLINGERS: A Spider-Man Adventure</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Soarin' Across America -->
+          <div class="tl-item" id="d3-soarin" onclick="openDrawer('d3Soarin')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Soarin' Across America</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Toy Story Midway Mania -->
+          <div class="tl-item" id="d3-toy-story" onclick="openDrawer('d3ToyStory')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Toy Story Midway Mania!</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Goofy's Sky School -->
+          <div class="tl-item" id="d3-goofy" onclick="openDrawer('d3GoofySkySchool')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Goofy's Sky School</div>
+                
+              </div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- The Little Mermaid -->
+          <div class="tl-item" id="d3-little-mermaid" onclick="openDrawer('d3LittleMermaid')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">The Little Mermaid: Ariel's Undersea Adventure</div>
+                
+              </div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Mater's Junkyard Jamboree -->
+          <div class="tl-item" id="d3-maters" onclick="openDrawer('d3MatersJamboree')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Mater's Junkyard Jamboree</div>
+                
+              </div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Guardians LL -->
+          <div class="tl-item" id="d3-guardians" onclick="openDrawer('d3GuardiansLL')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Guardians of the Galaxy: Mission BREAKOUT!</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Radiator Springs Racers -->
+          <div class="tl-item" id="d3-rsr" onclick="openDrawer('d3RSR')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Radiator Springs Racers</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Spider-Man Show time break -->
+          <div class="time-break"><div class="time-break-label">The Amazing Spider-Man!</div><div class="time-break-line"></div></div>
+
+          <!-- Spider-Man Stunt Show — fixed -->
+          <div class="tl-item fixed" id="d3-spiderman-show" onclick="openDrawer('d3SpiderManShow')">
+            <div class="tl-time">10:30am</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Spider-Man Stunt Show</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Animation Academy — optional -->
+          <div class="tl-item" id="d3-animation-academy" onclick="openDrawer('d3AnimationAcademy')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Animation Academy</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Lunch time break -->
+          <div class="time-break"><div class="time-break-label">Lunch</div><div class="time-break-line"></div></div>
+
+          <!-- Fiddler, Fifer & Practical Cafe -->
+          <div class="tl-item" id="d3-lunch" onclick="openDrawer('d3Lunch')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-food"></div>
+            <div class="tl-content">
+              <div class="tl-title-row">
+                <div class="tl-title">Lunch — Fiddler, Fifer &amp; Practical Cafe</div>
+                
+              </div>
+              <div class="tl-tags"><span class="tag tag-food">📱 Mobile Order</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+          <!-- Afternoon time break -->
+          <div class="time-break"><div class="time-break-label">Afternoon</div><div class="time-break-line"></div></div>
+
+          <!-- Options interstitial -->
+          <div class="tl-item" id="d3-options" onclick="openDrawer('d3OptionsInterstitial','d3-options')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Low-Key Options · Pick What Fits</div></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+
+        </div><!-- /timeline-2 -->
+      </div><!-- /bp-bottom sc-2 -->
+    </div><!-- /boarding-pass -->
+  </div><!-- /day-panel 2 -->
 
   <!-- Index Panel stub -->
   <div class="index-panel" id="indexPanel">
@@ -870,32 +1099,9 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 </div>
 
 <!-- CHARACTERS DRAWER (per-day content) -->
-<div class="drawer" id="charsDrawer">
-  <div class="drawer-handle"></div>
-  <div class="drawer-header">
-    <div class="drawer-icon icon-sky">👋</div>
-    <div class="drawer-title-wrap">
-      <div class="drawer-title" id="charsDrawerTitle">Characters</div>
-      <div class="drawer-subtitle" id="charsDrawerSub">Today's character notes</div>
-    </div>
-    <button class="drawer-close" onclick="closeAll()">✕</button>
-  </div>
-  <div class="drawer-body" id="charsDrawerBody"></div>
-</div>
 
-<!-- ENTERTAINMENT DRAWER (per-day content) -->
-<div class="drawer" id="entDrawer">
-  <div class="drawer-handle"></div>
-  <div class="drawer-header">
-    <div class="drawer-icon icon-show">🎭</div>
-    <div class="drawer-title-wrap">
-      <div class="drawer-title" id="entDrawerTitle">Entertainment</div>
-      <div class="drawer-subtitle" id="entDrawerSub">Shows &amp; street acts</div>
-    </div>
-    <button class="drawer-close" onclick="closeAll()">✕</button>
-  </div>
-  <div class="drawer-body" id="entDrawerBody"></div>
-</div>
+
+
 
 <script>
 var STORAGE_KEY='park-edit-gosselar-v1';
@@ -915,11 +1121,11 @@ var indexData={
 // ── WORTH KNOWING DATA ────────────────────────────────────────
 var wkData=[
   /* Day 1 — Disneyland */
-  {intro:'⚠️ AI COPY — In-Park Intel content for Disneyland needs Meredith review before ship.',groups:[{label:'Food & Drink',tips:[{e:'🥐',t:'Jolly Holiday Bakery',d:'Main Street, U.S.A. Sandwiches, pastries, lemonade. Mobile order via Disneyland app.'},{e:'🌹',t:'Red Rose Taverne',d:'Fantasyland. Beauty and the Beast themed quick service. Mobile order available.'}]},{label:'Right Now',tips:[{e:'⚡',t:'LL reminder',d:'Book from the priority list in any tap-in drawer. Window opens immediately after tap-in or 2 hours after booking, whichever comes first.'}]}]},
+  {intro:'Disneyland Park — Day 1 and Day 2',groups:[{label:'Food & Drink',tips:[{e:'🥐',t:'Jolly Holiday Bakery',d:'Main Street, U.S.A. Sandwiches, pastries, lemonade. Mobile order via Disneyland app.'},{e:'🌹',t:'Red Rose Taverne',d:'Fantasyland. Beauty and the Beast themed quick service. Mobile order available.'}]},{label:'Right Now',tips:[{e:'⚡',t:'LL reminder',d:'Book from the priority list in any tap-in drawer. Window opens immediately after tap-in or 2 hours after booking, whichever comes first.'}]}]},
   /* Day 2 — Disneyland */
-  {intro:'⚠️ AI COPY — Day 2 In-Park Intel needs Meredith review.',groups:[{label:'Coming Soon',tips:[{e:'🏗️',t:'Day 2 content',d:'Built after Day 1 review is complete.'}]}]},
+  {intro:'Disneyland Park — Day 2',groups:[{label:'Coming Soon',tips:[{e:'🏗️',t:'Day 2 content',d:'Built after Day 1 review is complete.'}]}]},
   /* Day 3 — DCA */
-  {intro:'⚠️ AI COPY — Day 3 DCA In-Park Intel needs Meredith review.',groups:[{label:'Coming Soon',tips:[{e:'🏗️',t:'Day 3 content',d:'Built after Day 1 review is complete.'}]}]}
+  {intro:'Disney California Adventure — Day 3',groups:[{label:'Lightning Lane',tips:[{e:'⚡',t:'RSR Single Pass',d:'Radiator Springs Racers is the only LL Single Pass at DCA. Buy in the Disneyland app after gate scan-in if you want to skip the standby line and ride together.'},{e:'⚡',t:'LL rebook reminder',d:'After tapping into any LL, open the app immediately and book your next window.'}]},{label:'Good to Know',tips:[{e:'🏎️',t:'Cars Land at night',d:'Worth walking through after dark. The neon lighting transforms the land. Even if you rode RSR earlier, an evening pass through is worth it.'},{e:'🍫',t:'Ghirardelli',d:'Pixar Pier. Hot fudge sundaes. No planning required.'},{e:'🌿',t:'Redwood Creek Challenge Trail',d:'Grizzly Peak. Free-roaming outdoor trail with rope bridges and climbing structures. No wait, no height requirement — good afternoon energy burner.'}]}]}
 ];
 
 function buildWKContent(idx){
@@ -949,16 +1155,16 @@ var activities={
   parkExit:{icon:'🗺️',iconClass:'icon-sky',title:'Leaving [PARK NAME]',time:'[EXIT TIME] · Head to the exit now',tags:'',body:'<div class="prose-p">Time to head out. The exit is [EXIT DIRECTIONS — e.g. straight down Main Street toward the gates / through Galaxy\'s Edge to the main entrance]. Your rideshare drop zone is [PICKUP LOCATION].</div><div class="section-divider"></div><div class="prose-p">If you have a dining reservation or next stop: [NEXT DESTINATION AND TIMING].</div><div class="callout"><div class="callout-label">Before you leave</div><div class="callout-text">Check MDE for any remaining Lightning Lane windows you haven\'t used. Unused windows expire when the park closes.</div></div>',rowId:'[DAY]-park-exit'},
   memoryMakerReminder:{icon:'📸',iconClass:'icon-sky',title:'Download your Memory Maker photos',time:'After your trip',tags:'',body:'<div class="prose-p">Your Memory Maker photos expire 45 days from the date each photo was taken, not 45 days from the end of the trip. The clock started on [FIRST PARK DAY DATE].</div><div class="section-divider"></div><div class="prose-p">Open My Disney Experience, go to PhotoPass, and download everything. Once downloaded the photos are yours to keep forever. Disney offers a one-time 15-day extension if you miss the window, but don\'t count on it.</div><div class="callout"><div class="callout-label">Set a reminder now</div><div class="callout-text">Photos from this trip expire on or around [EXPIRY DATE]. Download before then.</div></div>',rowId:'departure-memory-maker'},
   /* ── GATE ENTRY ── */
-  dlGateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Indiana Jones LL',time:'First thing through the gate · 7:30am',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The moment your ticket scans at the gate, open the Disneyland app. Buy Lightning Lane Multi Pass first. It\'s not available until after you scan in. Once purchased, book Indiana Jones Adventure immediately.</div><div class="section-divider"></div><div class="prose-p">Indiana Jones is your pre-booked anchor for the morning. The return window will be assigned by the app. After you tap into Indiana Jones, you\'ll be eligible to book Big Thunder Mountain Railroad — aim for a return window after 11:30am so it clears the princess meet and Royal Theatre.</div><div class="callout"><div class="callout-label">📋 See notes</div><div class="callout-text">If it\'s 9:30am and you haven\'t tapped into Indiana Jones yet, you\'re now eligible to book your next LL. Open the app and book from the priority list in the Indiana Jones drawer.</div></div>',rowId:'d1-gate-entry'},
+  dlGateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Indiana Jones LL',time:'First thing through the gate · 7:30am',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The moment your ticket scans at the gate, open the Disneyland app. Open the Disneyland app and book Indiana Jones Adventure immediately.</div><div class="section-divider"></div><div class="prose-p">Indiana Jones is your pre-booked anchor for the morning. The return window will be assigned by the app. After you tap into Indiana Jones, you\'ll be eligible to book Big Thunder Mountain Railroad — aim for a return window after 11:30am so it clears the princess meet and Royal Theatre.</div><div class="callout"><div class="callout-label">📋 See notes</div><div class="callout-text">If it\'s 9:30am and you haven\'t tapped into Indiana Jones yet, you\'re now eligible to book your next LL. Open the app and book from the priority list in the Indiana Jones drawer.</div></div>',rowId:'d1-gate-entry'},
 
   /* ── ROPE DROP PRIORITIES DAY 1 ── */
-  d1RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disneyland Park · Park opens 8:00am',tags:'',body:'<div class="prose-p">Work through in order. If a ride has a line, skip it and move on.</div><ol class="rope-drop-list"><li><strong>Peter Pan\'s Flight</strong> — Averages 22 minutes at 8am and jumps above 30 minutes within the first few minutes of opening. It does not come back down. This is the only window.</li><li><strong>Alice in Wonderland</strong> — 7 minutes at rope drop, 30+ minutes by midday. Low capacity ride; the gap closes faster than the posted wait suggests.</li><li><strong>Matterhorn Bobsleds</strong> — 4 minutes at rope drop, 40 minutes by 10:30am, 48-50 minutes through the afternoon. Biggest difference between now and later of any ride in the park today.</li><li><strong>Mickey &amp; Minnie\'s Runaway Railway</strong> — Toontown anchor, builds quickly once the park fills. Do this last in the rope drop sequence if the first three had short waits.</li></ol><div class="callout"><div class="callout-label">Source</div><div class="callout-text">Wait time data from Thrill Data (thrill-data.com) historical average profiles for Disneyland. Actual waits on July 10 will vary — CL4 days typically run below historical average.</div></div>',rowId:'d1-rope-drop-priorities'},
+  d1RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disneyland Park · Park opens 8:00am',tags:'',body:'<div class="callout"><div class="callout-label">Arrival and LL booking</div><div class="callout-text">Aim to be at the park gates by <strong>7:30am</strong>. The park opens at 8:00am — you cannot scan in or book Lightning Lane until the gates open. The moment you scan in, open the Disneyland app immediately and book Indiana Jones Adventure before doing anything else. Do not walk toward the rides first.</div></div><div class="section-divider"></div><div class="callout"><div class="callout-label">Getting to Peter Pan</div><div class="callout-text">When the gates open, walk straight up Main Street to the Hub — the circular plaza in front of the castle. Go through the castle archway into Fantasyland. Peter Pan\'s Flight is on your right immediately after the archway. Don\'t stop until you\'re in the queue.</div></div><div class="section-divider"></div><div class="prose-p">Work through in order. If a ride has a line, skip it and move on.</div><ol class="rope-drop-list"><li><strong>Peter Pan\'s Flight</strong> — Averages 22 minutes at 8am and jumps above 30 minutes within the first few minutes of opening. It does not come back down. This is the only window.</li><li><strong>Alice in Wonderland</strong> — 7 minutes at rope drop, 30+ minutes by midday. Low capacity ride; the gap closes faster than the posted wait suggests.</li><li><strong>Matterhorn Bobsleds</strong> — 4 minutes at rope drop, 40 minutes by 10:30am, 48-50 minutes through the afternoon. Biggest difference between now and later of any ride in the park today.</li><li><strong>Mickey &amp; Minnie\'s Runaway Railway</strong> — Toontown anchor, builds quickly once the park fills. Do this last in the rope drop sequence if the first three had short waits.</li></ol><div class="callout"><div class="callout-label">Source</div><div class="callout-text">Wait time data from Thrill Data (thrill-data.com) historical average profiles for Disneyland. Actual waits on July 10 will run below these numbers — July 10 is forecast as a CL2 day, meaning conditions will be lighter than historical averages suggest.</div></div>',rowId:'d1-rope-drop-priorities'},
 
   /* ── PETER PAN'S FLIGHT ── */
-  dlPeterPansFlight:{icon:'🚢',iconClass:'icon-tc',title:'Peter Pan\'s Flight',time:'Fantasyland · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Take a beautiful ride over London and Neverland in your own pirate ship. This is a beloved ride, particularly for young ones (teens might find it a bit dull). With little kids, Lightning Lane is worth it here as the line gets long quickly, even in the morning.</div>',rowId:'d1-peter-pan'},
+  dlPeterPansFlight:{icon:'🚢',iconClass:'icon-tc',title:'Peter Pan\'s Flight',time:'Fantasyland · Through the castle archway, on your right · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Take a beautiful ride over London and Neverland in your own pirate ship. This is a beloved ride, particularly for young ones (teens might find it a bit dull). With little kids, Lightning Lane is worth it here as the line gets long quickly, even in the morning.</div>',rowId:'d1-peter-pan'},
 
   /* ── ALICE IN WONDERLAND ── */
-  dlAliceInWonderland:{icon:'🃏',iconClass:'icon-tc',title:'Alice in Wonderland',time:'Fantasyland · No height requirement',tags:'',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A dark ride through the Wonderland scenes — caterpillars, tea parties, the Queen of Hearts. Disneyland\'s version is unique and not found at Walt Disney World. Slow-moving, all ages, no height requirement. Waits are short at rope drop and grow quickly. Worth doing in the rope drop window.</div>',rowId:'d1-alice'},
+  dlAliceInWonderland:{icon:'🃏',iconClass:'icon-tc',title:'Alice in Wonderland',time:'Fantasyland · Through the castle archway, on your right · No height requirement',tags:'',body:'<div class="prose-p">A dark ride through the Wonderland scenes — caterpillars, tea parties, the Queen of Hearts. A Disneyland original. Slow-moving, all ages, no height requirement. Waits are short at rope drop and grow quickly. Worth doing in the rope drop window.</div>',rowId:'d1-alice'},
 
   /* ── MATTERHORN BOBSLEDS ── */
   dlMatterhornBobsleds:{icon:'🏔️',iconClass:'icon-tc',title:'Matterhorn Bobsleds',time:'Fantasyland · 42″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">A classic Disneyland roller coaster through the inside of a mountain — the original at Disneyland, not replicated anywhere else. The Yeti appears during the ride. Greta clears the 42″ height requirement at 47″. Two separate tracks run simultaneously inside the mountain.</div>',rowId:'d1-matterhorn'},
@@ -967,42 +1173,42 @@ var activities={
   dlMMRR:{icon:'🎬',iconClass:'icon-tc',title:'Mickey & Minnie\'s Runaway Railway',time:'Mickey\'s Toontown · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">You watch a short cartoon in the theater before the screen literally opens up and you step into the animated world. From there it\'s a trackless ride through a series of cartoon scenes. The car waltzes at one point. The whole thing is genuinely impressive in a way that surprises a lot of adults.</div><div class="section-divider"></div><div class="prose-p">No height requirement. Good rope drop target — waits build fast.</div>',rowId:'d1-mmrr'},
 
   /* ── INDIANA JONES ADVENTURE ── */
-  dlIndianaJones:{icon:'🪨',iconClass:'icon-tc',title:'Indiana Jones Adventure',time:'Adventureland · 46″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A jeep ride through the Temple of the Forbidden Eye. Bumpy, loud, and dark in places — worth flagging for Greta so there are no surprises. Greta clears the 46″ height requirement at 47″. One of the signature Disneyland attractions and only found here.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">⚠️ MEREDITH TO WRITE — Tap-in copy: book Big Thunder Mountain Railroad immediately. Look for a return window after 11:30am.<br><br>If it\'s 9:30am and you haven\'t tapped in yet — you\'re now eligible to book your next LL. Open the app and book from the list below.<br><br><strong>Today\'s LL priorities — scan from top, book the first one available:</strong><ol class="rope-drop-list" style="margin-top:8px;"><li>Indiana Jones Adventure</li><li>Matterhorn Bobsleds <em>(only if you missed it at rope drop)</em></li><li>Big Thunder Mountain Railroad</li><li>Mickey &amp; Minnie\'s Runaway Railway</li></ol></div></div>',rowId:'d1-indiana-jones'},
+  dlIndianaJones:{icon:'🪨',iconClass:'icon-tc',title:'Indiana Jones Adventure',time:'Adventureland · 46″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="prose-p">A jeep ride through the Temple of the Forbidden Eye. Bumpy, loud, and dark in places — worth flagging for Greta so there are no surprises. Greta clears the 46″ height requirement at 47″. A Disneyland original — the Temple of the Forbidden Eye does not exist at any other Disney park.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">Open the Disneyland app and book Big Thunder Mountain Railroad. Aim for a return window after 11:30am so it clears the princess meet and Royal Theatre show.<br><br><strong>Today\'s LL priorities — scan from top, book the first available:</strong><ol class="rope-drop-list" style="margin-top:8px;"><li>Big Thunder Mountain Railroad <em>(look for a post-11:30am window)</em></li><li>Matterhorn Bobsleds <em>(only if you didn\'t ride at rope drop)</em></li><li>Mickey &amp; Minnie\'s Runaway Railway <em>(only if you didn\'t ride at rope drop)</em></li></ol></div></div>',rowId:'d1-indiana-jones'},
 
   /* ── ROYAL HALL PRINCESS MEET ── */
-  dlRoyalHall:{icon:'👑',iconClass:'icon-sky',title:'Princess Meet — Royal Hall',time:'Fantasy Faire · Fantasyland · Opens 10:00am',tags:'<span class="tag tag-meet">👋 Character Meet</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">Three princesses on rotation inside Royal Hall. The meet opens at 10:00am. Get in line by 9:30am — one adult queues while the other takes Greta to explore Fantasy Faire nearby. The Royal Theatre and the wishing well are steps away. When the line starts moving, bring Greta to join.</div><div class="section-divider"></div><div class="prose-p">Longest waits hit late morning through mid-afternoon — the 9:30am arrival is the right move. The princess rotation in July has historically included Cinderella, Snow White, and Ariel. ⚠️ Verify current rotation in the Disneyland app before the trip.</div><div class="callout"><div class="callout-label">While you wait in line</div><div class="callout-text">Mobile order lunch at Jolly Holiday Bakery via the Disneyland app. Order about an hour before you want to eat — after Big Thunder is the right window.</div></div>',rowId:'d1-royal-hall'},
+  dlRoyalHall:{icon:'👑',iconClass:'icon-sky',title:'Princess Meet — Royal Hall',time:'Fantasy Faire · Fantasyland · Opens 10:00am',tags:'<span class="tag tag-meet">👋 Character Meet</span>',body:'<div class="prose-p">Three princesses on rotation inside Royal Hall. The meet opens at 10:00am. Get in line by 9:30am — one adult queues while the other takes Greta to explore Fantasy Faire nearby. The Royal Theatre and the wishing well are steps away. When the line starts moving, bring Greta to join.</div><div class="section-divider"></div><div class="prose-p">Longest waits hit late morning through mid-afternoon — the 9:30am arrival is the right move. Disney does not publish the rotation in advance. A sign posted outside the entrance lists who is inside that day. The lineup historically includes Cinderella, Snow White, Ariel, Aurora, Belle, and Rapunzel, but who you get is not guaranteed.</div><div class="callout"><div class="callout-label">While you wait in line</div><div class="callout-text">Mobile order lunch at Jolly Holiday Bakery via the Disneyland app. Order about an hour before you want to eat — after Big Thunder is the right window.</div></div>',rowId:'d1-royal-hall'},
 
   /* ── MOBILE ORDER JOLLY HOLIDAY ── */
 dlMobileOrderJolly:{icon:'📱',iconClass:'icon-gold',title:'Mobile order — Jolly Holiday Bakery',time:'Order 1 hour before you want to eat',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="prose-p">Open the Disneyland app, tap Order Food, find Jolly Holiday Bakery Café on Main Street U.S.A. Select your items and choose an arrival window for when you want to pick up.</div><div class="callout"><div class="callout-label">Good time to order</div><div class="callout-text">While in the Royal Hall line, or right after Indiana Jones taps in.</div></div>',rowId:'d1-mobile-jolly'},
 
   /* ── STORYTELLING AT ROYAL THEATRE ── */
-  dlRoyalTheatre:{icon:'🎭',iconClass:'icon-show',title:'Storytelling at Royal Theatre',time:'Fantasy Faire · 10:55am',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A live theatrical show in the Fantasy Faire courtyard retelling a Disney princess story. Performed by royal storytellers in period costume. The show runs approximately 20 minutes with about 30 minutes of queue time beforehand — arrive at 10:55am. ⚠️ Verify current show story and runtime before ship.</div>',rowId:'d1-royal-theatre'},
+  dlRoyalTheatre:{icon:'🎭',iconClass:'icon-show',title:'Storytelling at Royal Theatre',time:'Fantasy Faire · 10:55am',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="prose-p">Two rotating 20-minute shows performed in an open-air semicircle theater seating about 300. Mr. Smythe and Mr. Jones play all the supporting roles in fast-paced, comedic retellings of Beauty and the Beast and Tangled. Each show features the actual princess — Belle or Rapunzel — alongside a live pianist. The shows alternate throughout the day.</div><div class="section-divider"></div><div class="prose-p">No dedicated queue. Arrive at the posted showtime and find a seat on the backless benches. After the show, Rapunzel or Belle stays in the theater for photos and autographs.</div>',rowId:'d1-royal-theatre'},
 
   /* ── BIG THUNDER MOUNTAIN RAILROAD ── */
-  dlBigThunder:{icon:'⛰️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Frontierland · 38″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-ll">⚡ Rolling LL</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="prose-p">A mine train coaster through the red rock canyons of Frontierland. No drops, no inversions — the thrill is speed and banking through the canyon. The theming is the main event.</div><div class="section-divider"></div><div class="prose-p">Height requirement is 38 inches. Standby builds fast and stays high all day so the Rolling LL is doing real work here.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">⚠️ MEREDITH TO WRITE — What should they book next after tapping Big Thunder? List remaining Day 1 LL priorities here.</div></div>',rowId:'d1-big-thunder'},
+  dlBigThunder:{icon:'⛰️',iconClass:'icon-tc',title:'Big Thunder Mountain Railroad',time:'Frontierland · 38″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-ll">⚡ Rolling LL</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="prose-p">A mine train coaster through the red rock canyons of Frontierland. No drops, no inversions. The thrill is speed, tight turns, and the canyon scenery — the theming carries the whole thing. 38\u2033 height requirement, Greta clears at 47\u2033.</div><div class="section-divider"></div><div class="prose-p">Standby builds fast and holds all day. The Rolling LL is doing real work here.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">Open the app and book from this list. Lunch and the hotel break are coming up — nothing after needs LL. Use this on a reride or something you haven\'t done yet.<br><br><strong>Today\'s LL priorities:</strong><ol class="rope-drop-list" style="margin-top:8px;"><li>Peter Pan\'s Flight — waits hold at 20+ minutes all day regardless of crowd level. Best use of an afternoon LL on a light day.</li><li>Indiana Jones Adventure — a reride if the first time felt too fast.</li><li>Mickey &amp; Minnie\'s Runaway Railway <em>(if you didn\'t get it at rope drop)</em></li></ol></div></div>',rowId:'d1-big-thunder'},
 
   /* ── JOLLY HOLIDAY BAKERY LUNCH ── */
-  dlJollyHoliday:{icon:'🥐',iconClass:'icon-gold',title:'Jolly Holiday Bakery',time:'Main Street U.S.A. · Quick Service',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">Mary Poppins-themed café on Main Street with sandwiches, soups, salads, and pastries. Indoor seating available. Pick up your mobile order and find a table — good spot to sit down and recharge before the midday break. ⚠️ Menu details and food copy need Meredith review.</div>',rowId:'d1-jolly-holiday'},
+  dlJollyHoliday:{icon:'🥐',iconClass:'icon-gold',title:'Jolly Holiday Bakery',time:'Main Street U.S.A. · Quick Service',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="prose-p">Mary Poppins-themed café on Main Street with sandwiches, soups, salads, and pastries. Indoor seating available. Pick up your mobile order and find a table — good spot to sit down and recharge before the midday break. ⚠️ Menu details and food copy need Meredith review.</div>',rowId:'d1-jolly-holiday'},
 
   dlMobileOrderRedRose:{icon:'📱',iconClass:'icon-gold',title:'Mobile order — Red Rose Taverne',time:'Late afternoon · Order 1 hour before dinner',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="prose-p">Open the Disneyland app, tap Order Food, find Red Rose Taverne in Fantasyland. Select your items and choose a 7:00pm pickup window. Order now so everything is ready when you arrive for dinner before Paint the Night.</div>',rowId:'d1-mobile-red-rose'},
 
   /* ── RED ROSE TAVERNE DINNER ── */
-  dlRedRoseTaverne:{icon:'🌹',iconClass:'icon-gold',title:'Dinner — Red Rose Taverne',time:'Fantasyland · Quick Service · 7:00pm',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">Beauty and the Beast-themed quick service in Fantasyland. Mobile order via the Disneyland app. Pick up at 7:00pm and eat at the outdoor tables nearby, or find a spot inside. ⚠️ Menu details and food copy need Meredith review before ship.</div><div class="section-divider"></div><div class="prose-p">After dinner, make your way toward the It\'s a Small World Esplanade. You want to be in position by 8:15pm for the 8:45pm parade.</div>',rowId:'d1-red-rose'},
+  dlRedRoseTaverne:{icon:'🌹',iconClass:'icon-gold',title:'Dinner — Red Rose Taverne',time:'Fantasyland · Quick Service · 7:00pm',tags:'<span class="tag tag-food">📱 Mobile Order</span>',body:'<div class="prose-p">Beauty and the Beast-themed quick service in Fantasyland. Mobile order via the Disneyland app. Pick up at 7:00pm and eat at the outdoor tables nearby, or find a spot inside. ⚠️ Menu details and food copy need Meredith review before ship.</div><div class="section-divider"></div><div class="prose-p">After dinner, make your way toward the It\'s a Small World Esplanade. You want to be in position by 8:15pm for the 8:45pm parade.</div>',rowId:'d1-red-rose'},
 
   /* ── PAINT THE NIGHT ── */
-  dlPaintTheNight:{icon:'✨',iconClass:'icon-show',title:'Paint the Night',time:'8:45pm · Position by 8:15pm',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to review before ship</div></div><div class="prose-p">A fully LED nighttime parade with over 1.5 million points of light. Tinker Bell leads, followed by Monsters Inc., Cars, and other floats.</div><div class="section-divider"></div><div class="prose-p"><strong>Where to stand:</strong> Head to the raised patio overlooking the It\'s a Small World Esplanade. Arrive at least 30 minutes before the parade — by 8:15pm. After the parade passes, move down to the Esplanade and face It\'s a Small World for the best view of the finale.</div>'  ,rowId:'d1-paint-the-night'},
+  dlPaintTheNight:{icon:'✨',iconClass:'icon-show',title:'Paint the Night',time:'8:45pm · Position by 8:15pm',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="prose-p">A fully LED nighttime parade with over 1.5 million points of light. Tinker Bell leads, followed by Monsters Inc., Cars, and other floats.</div><div class="section-divider"></div><div class="prose-p"><strong>Where to stand:</strong> Head to the raised patio overlooking the It\'s a Small World Esplanade. Arrive at least 30 minutes before the parade — by 8:15pm. After the parade passes, move down to the Esplanade and face It\'s a Small World for the best view of the finale.</div>',rowId:'d1-paint-the-night'},
 
   /* ── DAY 2 DRAWERS ── */
 
-  d2GateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Roger Rabbit LL',time:'First thing through the gate · 8:00am',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The moment your ticket scans at the gate, open the Disneyland app. Buy Lightning Lane Multi Pass first. It\'s not available for purchase until after you scan in. Once purchased, book Roger Rabbit\'s Car Toon Spin immediately. LL availability for Roger Rabbit goes fast on a CL6 Saturday.</div><div class="section-divider"></div><div class="prose-p">Your Roger Rabbit return window will land around mid-afternoon. Head to the rope drop sequence once you\'ve booked.</div>',rowId:'d2-gate-entry'},
+  d2GateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Roger Rabbit LL, opt. Rise',time:'First thing through the gate · 8:00am',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span>',body:'<div class="prose-p">The moment your ticket scans at the gate, open the Disneyland app. Book Roger Rabbit\'s Car Toon Spin immediately — LL availability fills quickly regardless of crowd level.</div><div class="section-divider"></div><div class="prose-p">Your Roger Rabbit return window will land around mid-afternoon. Head to the rope drop sequence once you\'ve booked.</div><div class=\"section-divider\"></div><div class=\"callout\"><div class=\"callout-label\">Optional — decide now</div><div class=\"callout-text\"><strong>Rise of the Resistance Lightning Lane Single Pass ($20–26/person)</strong><br><br>Rise of the Resistance is Single Pass only — it cannot be booked with Multi Pass. Buy the Single Pass now before inventory sells out. Availability goes quickly on any day.<br><br>The ride is a fully immersive, multi-room experience. 40\u2033 height requirement, Greta clears at 47\u2033. Worth it if the budget allows. If you skip it, standby waits run 60–90 minutes and don\'t improve.</div></div>',rowId:'d2-gate-entry'},
 
-  d2RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disneyland Park · Park opens 8:00am',tags:'',body:'<div class="prose-p">Work through in order. If a ride has a line, skip it and move on. Crowds build faster on a CL6 Saturday than they did yesterday.</div><ol class="rope-drop-list"><li><strong>Tiana\'s Bayou Adventure</strong> — 4 minutes at 8am, 60 minutes by midday. The biggest wait gap in the park today. This is the one to get first.</li><li><strong>Buzz Lightyear Astro Blasters</strong> — 5 minutes at rope drop, 29 minutes by midday. Easy to walk on now; a 30-minute wait by late morning. Quick stop after Tiana\'s.</li><li><strong>Millennium Falcon: Smugglers Run</strong> — 3 minutes at rope drop but builds to 34 minutes by 10am and stays flat all afternoon. Third in the sequence because it\'s the fastest ramp after the opening window closes.</li><li><strong>Haunted Mansion</strong> — 10 minutes at rope drop, 40 minutes by late morning. Biggest capacity of the four — move here after Smugglers Run while waits are still low.</li></ol><div class="callout"><div class="callout-label">Source</div><div class="callout-text">Wait time data from Thrill Data (thrill-data.com) historical average profiles for Disneyland. Actual waits on July 11 will vary — CL6 days typically run below historical average for the first hour.</div></div>',rowId:'d2-rope-drop-priorities'},
+  d2RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disneyland Park · Park opens 8:00am',tags:'',body:'<div class="callout"><div class="callout-label">Arrival and LL booking</div><div class="callout-text">Aim to be at the park gates by <strong>7:30am</strong>. The park opens at 8:00am — you cannot scan in or book Lightning Lane until the gates open. The moment you scan in, open the Disneyland app immediately and book Roger Rabbit\'s Car Toon Spin before doing anything else. Do not walk toward the rides first.</div></div><div class="section-divider"></div><div class="prose-p">Work through in order. If a ride has a line, skip it and move on. Waits still build through the morning even on a light day — the rope drop window is real.</div><ol class="rope-drop-list"><li><strong>Tiana\'s Bayou Adventure</strong> — 4 minutes at 8am, 60 minutes by midday. The biggest wait gap in the park today. This is the one to get first.</li><li><strong>Buzz Lightyear Astro Blasters</strong> — 5 minutes at rope drop, 29 minutes by midday. Easy to walk on now; a 30-minute wait by late morning. Quick stop after Tiana\'s.</li><li><strong>Millennium Falcon: Smugglers Run</strong> — 3 minutes at rope drop but builds to 34 minutes by 10am and stays flat all afternoon. Third in the sequence because it\'s the fastest ramp after the opening window closes.</li><li><strong>Haunted Mansion</strong> — 10 minutes at rope drop, 40 minutes by late morning. Biggest capacity of the four — move here after Smugglers Run while waits are still low.</li></ol><div class="callout"><div class="callout-label">Source</div><div class="callout-text">Wait time data from Thrill Data (thrill-data.com) historical average profiles for Disneyland. Actual waits on July 11 will run below these numbers — July 11 is forecast as a CL2 day, meaning conditions will be lighter than historical averages suggest.</div></div>',rowId:'d2-rope-drop-priorities'},
 
   d2Tiana:{icon:'🌿',iconClass:'icon-tc',title:'Tiana\'s Bayou Adventure',time:'New Orleans Square · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">Disney\'s newest Disneyland ride — a bayou boat journey through the world of The Princess and the Frog. No height requirement.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">You will get wet</div><div class="callout-text">This ride gets riders genuinely soaked — the interior drops are often worse than the finale. Bring a small trash bag for wet clothes or pick up a poncho at a park shop before you board. Front and back rows tend to get the most water.</div></div><div class="section-divider"></div><div class="callout"><div class="callout-label">Heads up for Greta</div><div class="callout-text">The drop comes at the end. It\'s short but steep and arrives with less warning than the buildup suggests.</div></div>',rowId:'d2-tiana'},
 
   d2Buzz:{icon:'🚀',iconClass:'icon-tc',title:'Buzz Lightyear Astro Blasters',time:'Tomorrowland · No height requirement',tags:'',body:'<div class="prose-p">An interactive shooting ride where everyone competes for the highest score against Emperor Zurg. Each rider gets a blaster. Targets are embedded in the ride vehicle and scenery throughout. No height requirement.</div>',rowId:'d2-buzz'},
 
-  d2SmugglersRun:{icon:'🚀',iconClass:'icon-tc',title:'Millennium Falcon: Smugglers Run',time:'Star Wars: Galaxy\'s Edge · 40″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">This really feels like you\'re flying in a spaceship. The scale and detail are impeccable. Your family is your crew and every seat has a job. Pilots steer, gunners shoot, engineers keep the ship running. What your crew does actually changes how the mission goes.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">Worth knowing before boarding</div><div class="callout-text">Pilots have the most control, engineers the least. Worth sorting out before anyone argues over seats.</div></div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚠️ Verify before shipping</div><div class="callout-text">Confirm which mission is currently running at Disneyland and update this drawer with the mission name before delivery.</div></div>',rowId:'d2-smugglers'},
+  d2SmugglersRun:{icon:'🚀',iconClass:'icon-tc',title:'Millennium Falcon: Smugglers Run',time:'Star Wars: Galaxy\'s Edge · 40″ height requirement · Greta clears at 47″',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">This really feels like you\'re flying in a spaceship. The scale and detail are impeccable. Your family is your crew and every seat has a job. Pilots steer, gunners shoot, engineers keep the ship running. What your crew does actually changes how the mission goes.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">Worth knowing before boarding</div><div class="callout-text">Pilots steer left/right and up/down. Gunners shoot. Engineers pick the destination, manage repairs, and can call Grogu. With the new mission, every seat has real stakes — worth assigning roles before you board.</div></div><div class="section-divider"></div><div class="callout"><div class="callout-label">The new mission</div><div class="callout-text">The Mandalorian and Grogu mission launched May 22, 2026. Your crew tracks down ex-Imperial bounties across a destination you choose before launch — Tatooine, Bespin, Coruscant, or Endor. Engineers now interact with Grogu and pick the destination. No two rides play out exactly the same.</div></div>',rowId:'d2-smugglers'},
 
   d2HauntedMansion:{icon:'👻',iconClass:'icon-tc',title:'Haunted Mansion',time:'New Orleans Square · No height requirement',tags:'<span class="tag tag-must">⭐ Top Pick</span>',body:'<div class="prose-p">The theming of this ride from start to finish is phenomenal. You move through a house haunted with ghosts of all times singing, dancing, and spooking. Despite being 50 years old (with some notable updates), it really holds up.</div><div class="section-divider"></div><div class="prose-p">This can be too spooky for young kids. Sensitive little ones may find it genuinely scary rather than fun-scary. The scariest part is the pre-show stretching room — it\'s a real elevator and the floor descends before the ride begins. If you\'re worried, ask a cast member at the entrance; they can route you around it to the boarding area. After that, it\'s silly spooky, but better to play it safe if you\'re on the fence.</div>',rowId:'d2-haunted'},
 
@@ -1014,9 +1220,39 @@ dlMobileOrderJolly:{icon:'📱',iconClass:'icon-gold',title:'Mobile order — Jo
 
   d2RogerRabbit:{icon:'🐇',iconClass:'icon-tc',title:'Roger Rabbit\'s Car Toon Spin',time:'Mickey\'s Toontown · No height requirement',tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span>',body:'<div class="prose-p">A spinning dark ride through the cartoon world of Who Framed Roger Rabbit. No height requirement. A wheel in the center of your ride vehicle controls how fast it rotates. Toontown theming throughout.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">Open the Disneyland app and book your next LL from the priority list below. Scan from the top and book the first one with an available window.<br><br><strong>Today\'s LL priorities:</strong><ol class="rope-drop-list" style="margin-top:8px;"><li>Tiana\'s Bayou Adventure <em>(if you didn\'t get it at rope drop)</em></li><li>Millennium Falcon: Smugglers Run <em>(if you didn\'t get it at rope drop)</em></li><li>Haunted Mansion <em>(if you didn\'t get it at rope drop)</em></li><li>Dealer\'s choice — whatever you loved most on Day 1</li></ol></div></div>',rowId:'d2-roger-rabbit'},
 
-  d2Dinner:{icon:'🍽️',iconClass:'icon-gold',title:'Dinner — Hotel or Docking Bay 7',time:'Flexible · No reservation needed',tags:'',body:'<div class="prose-p">Two options. Docking Bay 7 is the quick-service restaurant inside Galaxy\'s Edge with Star Wars-themed food. Mobile order through the Disneyland app. Positioned in the park for an easy walk back to Frontierland for Fantasmic.</div><div class="section-divider"></div><div class="prose-p">If the group wants to head back to the hotel first, the shuttle from Zone 14 runs every 20 minutes.</div><div class="callout"><div class="callout-label">Timing note</div><div class="callout-text">You need to be in the Rancho del Zocalo Fantasmic! viewing area before 9:05pm. Build in 20 minutes to walk from wherever you eat to Frontierland and check in with your voucher.</div></div>',rowId:'d2-dinner'},
+  d2Dinner:{icon:'🍽️',iconClass:'icon-gold',title:'Dinner — Hotel or Docking Bay 7',time:'Flexible · No reservation needed',tags:'',body:'<div class="prose-p">Two options. Docking Bay 7 is the quick-service restaurant inside Galaxy\'s Edge with Star Wars-themed food. Mobile order through the Disneyland app. Positioned in the park for an easy walk back to Frontierland for Fantasmic.</div><div class="section-divider"></div><div class="prose-p">If the group wants to head back to the hotel first, the midday shuttle from Zone 14 runs once per hour, on the hour. Check the live tracker at myhmrbus.com before heading out.</div><div class="callout"><div class="callout-label">Timing note</div><div class="callout-text">You need to be in the Rancho del Zocalo Fantasmic! viewing area before 9:05pm. Build in 20 minutes to walk from wherever you eat to Frontierland and check in with your voucher.</div></div>',rowId:'d2-dinner'},
 
   d2Fantasmic:{icon:'🎇',iconClass:'icon-show',title:'Fantasmic!',time:'Rivers of America · Frontierland · 9:05pm',tags:'<span class="tag tag-show">🎭 Show</span>',body:'<div class="prose-p">A 27-minute nighttime show on the Rivers of America. Sorcerer Mickey battles Disney villains using fire, water projections, live performers, and a floating stage at the center of the river.</div><div class="section-divider"></div><div class="prose-p">Your Rancho del Zocalo dining package voucher covers reserved seating in the Rancho viewing section on the left side of the viewing area. Check in with a cast member at the Frontierland entrance to the viewing zone before the show begins.</div><div class="callout"><div class="callout-label">Get there early</div><div class="callout-text">Aim to be checked in and seated by 8:45pm. The reserved area fills from the front — arriving early gets you a better row within your section.</div></div>',rowId:'d2-fantasmic'},
+
+  /* ── DAY 3 DRAWERS — DCA ── */
+
+  d3GateEntry:{icon:'🎟️',iconClass:'icon-tc',title:'Scan in — book Guardians, opt. Radiator',time:'First thing through the gate · 8:00am',tags:'<span class=\"tag tag-ll\">⚡ Lightning Lane</span>',body:'<div class=\"prose-p\">The moment your ticket scans at the gate, open the Disneyland app. Open the Disneyland app and book Guardians of the Galaxy: Mission BREAKOUT! immediately.</div><div class=\"section-divider\"></div><div class=\"callout\"><div class=\"callout-label\">Optional — decide now</div><div class=\"callout-text\"><strong>Radiator Springs Racers Lightning Lane Single Pass</strong><br><br>RSR is the park\'s highest-wait attraction all day. Standby runs 35–60 minutes on a CL3 day and doesn\'t improve as the day goes on. Single Pass ($20–26/person) lets your family ride together without the wait.<br><br>If the budget allows and riding RSR together matters, buy it now before heading to rope drop. It sells out. If standby is fine, skip it and plan for the wait after the Guardians LL window.</div></div>',rowId:'d3-gate-entry'},
+
+  d3RopeDropPriorities:{icon:'🏃',iconClass:'icon-tc',title:'Rope Drop Priorities',time:'Disney California Adventure · Park opens 8:00am',tags:'',body:'<div class=\"callout\"><div class=\"callout-label\">Arrival and LL booking</div><div class=\"callout-text\">Aim to be at the park gates by <strong>7:30am</strong>. The park opens at 8:00am — you cannot scan in or book Lightning Lane until the gates open. The moment you scan in, open the Disneyland app immediately and book Guardians of the Galaxy before doing anything else. Do not walk toward the rides first.</div></div><div class=\"section-divider\"></div><div class=\"prose-p\">Work through in order. If a ride has a line, skip it and move on.</div><ol class=\"rope-drop-list\"><li><strong>WEB SLINGERS: A Spider-Man Adventure</strong> — 24 minutes at rope drop, 45+ minutes by 10am. Avengers Campus fills fast from open.</li><li><strong>Soarin\' Across America</strong> — 15 minutes at rope drop, 40+ minutes by 10am. High capacity but demand is real. Walk-on window is short.</li><li><strong>Toy Story Midway Mania!</strong> — 14 minutes at rope drop, 43+ minutes by 10am. Move here from Grizzly Peak while waits are still low.</li><li><strong>Goofy\'s Sky School</strong> — Short wait all morning. Worth doing while you\'re in Paradise Gardens on the way to Toy Story.</li><li><strong>The Little Mermaid + Mater\'s Junkyard Jamboree</strong> — Near walk-on all day. Do them on the way to the Guardians LL window if the timing works.</li></ol><div class=\"callout\"><div class=\"callout-label\">Source</div><div class=\"callout-text\">Wait time data from queue-times.com historical average profiles for Disney California Adventure. Actual waits on July 12 will run below historical averages — July 12 is forecast as a CL3 day.</div></div>',rowId:'d3-rope-drop-priorities'},
+
+  d3WebSlingers:{icon:'🕷️',iconClass:'icon-tc',title:'WEB SLINGERS: A Spider-Man Adventure',time:'Avengers Campus · No height requirement',tags:'<span class=\"tag tag-must\">⭐ Top Pick</span>',body:'<div class=\"prose-p\">An interactive ride where guests sling webs at rogue Spider-Bots using hand gestures. No controller, no props. Cameras in the vehicle track arm movements. Guests wear 3D glasses. No height requirement.</div><div class=\"section-divider\"></div><div class=\"prose-p\">Competitive scoring runs throughout. High replay value if scores matter to your group.</div>',rowId:'d3-web-slingers'},
+
+  d3Soarin:{icon:'🌄',iconClass:'icon-tc',title:'Soarin\' Across America',time:'Grizzly Peak · 40″ height requirement · Greta clears at 47″',tags:'<span class=\"tag tag-must\">⭐ Top Pick</span>',body:'<div class=\"prose-p\">A hang-gliding simulator over iconic American landmarks. Guests sit in rows that lift up in front of a giant curved screen. The new film (opened May 26, 2026) covers the United States for the country\'s 250th anniversary. Scent effects match each scene. 40″ height requirement.</div><div class=\"section-divider\"></div><div class=\"prose-p\">Front row puts no one\'s feet in the frame. Worth requesting if availability allows.</div>',rowId:'d3-soarin'},
+
+  d3ToyStory:{icon:'🎯',iconClass:'icon-tc',title:'Toy Story Midway Mania!',time:'Pixar Pier · No height requirement',tags:'<span class=\"tag tag-must\">⭐ Top Pick</span>',body:'<div class=\"prose-p\">A 3D carnival shooting game through five Toy Story-themed midway sequences. Guests wear 3D glasses and aim at targets that react in real time. Vehicles seat two riders back-to-back. No height requirement.</div><div class=\"section-divider\"></div><div class=\"prose-p\">Scores are tracked per rider. The final game — Woody\'s Roundup — is worth significantly more points than the earlier rounds.</div>',rowId:'d3-toy-story'},
+
+  d3GoofySkySchool:{icon:'✈️',iconClass:'icon-tc',title:'Goofy\'s Sky School',time:'Paradise Gardens Park · 42″ height requirement · Greta clears at 47″',tags:'',body:'<div class=\"prose-p\">A compact wild mouse coaster where Goofy teaches you to fly his way. Tight turns and near-edge moments throughout, with cartoon instructional posters lining the course. 42″ height requirement. Short ride with more energy than it looks from the ground.</div>',rowId:'d3-goofy'},
+
+  d3LittleMermaid:{icon:'🐚',iconClass:'icon-tc',title:'The Little Mermaid: Ariel\'s Undersea Adventure',time:'Paradise Gardens Park · No height requirement',tags:'',body:'<div class=\"prose-p\">A clamshell dark ride through scenes from The Little Mermaid with songs and animatronics throughout. No height requirement. Slow and gentle. The Ursula animatronic at full scale is genuinely impressive.</div>',rowId:'d3-little-mermaid'},
+
+  d3MatersJamboree:{icon:'🚜',iconClass:'icon-tc',title:'Mater\'s Junkyard Jamboree',time:'Cars Land · No height requirement',tags:'',body:'<div class=\"prose-p\">Tractor vehicles whip through a figure-eight track to Mater\'s commentary and country music. More lateral force than the setup suggests. No height requirement. Worth doing while you\'re already in Cars Land.</div>',rowId:'d3-maters'},
+
+  d3GuardiansLL:{icon:'🔮',iconClass:'icon-tc',title:'Guardians of the Galaxy: Mission BREAKOUT!',time:'Avengers Campus · 40″ height requirement · Greta clears at 47″',tags:'<span class=\"tag tag-ll\">⚡ Lightning Lane</span><span class=\"tag tag-tapin\">⚡ Tap in — then rebook</span>',body:'<div class=\"prose-p\">A drop tower with randomized drop sequences built into a pop soundtrack. Each ride uses a different sequence — the result is genuinely different each time. The premise: Rocket needs your help breaking the Guardians out of the Collector\'s fortress. 40″ height requirement.</div><div class=\"section-divider\"></div><div class=\"callout\"><div class=\"callout-label\">⚡ When you tap in</div><div class=\"callout-text\">Open the Disneyland app and book your next LL. On a CL3 day waits will be manageable, but these are worth stacking for an afternoon reride:<ol class=\"rope-drop-list\" style=\"margin-top:8px;\"><li>WEB SLINGERS: A Spider-Man Adventure — highest replay value in Avengers Campus</li><li>Toy Story Midway Mania! — waits hold through the afternoon; LL saves 30+ minutes</li></ol></div></div>',rowId:'d3-guardians'},
+
+  d3RSR:{icon:'🏎️',iconClass:'icon-tc',title:'Radiator Springs Racers',time:'Cars Land · 40″ height requirement · Greta clears at 47″',tags:'<span class=\"tag tag-must\">⭐ Top Pick</span>',body:'<div class=\"prose-p\">The signature DCA attraction. Starts as a dark ride through Radiator Springs, then opens into a race against a second vehicle at 40mph through Ornament Valley. Two cars run parallel tracks — the winner is chosen at random. 40″ height requirement.</div><div class=\"section-divider\"></div><div class=\"prose-p\">The queue weaves through Cars Land and is worth walking slowly. The rockwork and theming are among Disney\'s best anywhere.</div><div class=\"section-divider\"></div><div class=\"callout\"><div class=\"callout-label\">Single rider line</div><div class=\"callout-text\">RSR has a single rider line that typically runs 20–30 minutes when standby is 60+ minutes. Single riders are placed with other parties and won\'t ride together. For families riding as a group, standby or the Lightning Lane Single Pass are the options.</div></div>',rowId:'d3-rsr'},
+
+  d3SpiderManShow:{icon:'🕸️',iconClass:'icon-show',title:'The Amazing Spider-Man!',time:'Avengers Campus · Outdoor stage in front of WEB SLINGERS · 10:30am · Shows 10:00am–12:30pm and 2:00pm–4:30pm, every 30 min',tags:'<span class=\"tag tag-show\">🎭 Show</span>',body:'<div class=\"callout\"><div class=\"prose-p\">A stuntronic show performed on the rooftop and walls of the WEB building, right outside WEB SLINGERS. A robotic Spider-Man — not a human performer — swings, flips, and somersaults above the rooftop before landing. Shows run every 30 minutes: 10:00am–12:30pm, then 2:00pm–4:30pm. The 10:30am show fits coming out of the rope drop sequence.</div><div class=\"section-divider\"></div><div class=\"prose-p\">Check the Disneyland app for the confirmed show name before the trip.</div>',rowId:'d3-spiderman-show'},
+
+  d3AnimationAcademy:{icon:'✏️',iconClass:'icon-sky',title:'Animation Academy',time:'Hollywood Land · Check Disneyland app for session times',tags:'<span class=\"tag tag-opt\">○ Optional</span>',body:'<div class=\"prose-p\">A guided drawing class where a Disney animator walks the group through drawing a classic Disney character. All supplies provided. Seated theater with drawing boards. Sessions run about 25 minutes and are free with park admission.</div><div class=\"section-divider\"></div><div class=\"prose-p\">Check the Disneyland app for the current session schedule and which character is being drawn. Sessions run throughout the day.</div><div class=\"callout\"><div class=\"callout-label\">Anna &amp; Elsa character meet</div><div class=\"callout-text\">Anna and Elsa meet guests in Hollywood Land near the Animation Building. Check the Disneyland app for exact location and times on the day. Check the Disneyland app for confirmed times on the day.</div></div>',rowId:'d3-animation-academy'},
+
+  d3Lunch:{icon:'🥪',iconClass:'icon-gold',title:'Lunch — Fiddler, Fifer &amp; Practical Cafe',time:'Pixar Pier · Quick Service · Mobile Order',tags:'<span class=\"tag tag-food\">📱 Mobile Order</span>',body:'<div class=\"prose-p\">Three Little Pigs-themed quick service on Pixar Pier. Mobile order through the Disneyland app. Sandwiches, salads, and lighter options.</div><div class=\"section-divider\"></div><div class=\"prose-p\">Order 30–45 minutes before you want to eat. A good time to place the order is right after the Spider-Man show while you\'re still in the Avengers Campus area.</div>',rowId:'d3-lunch'},
+
+  d3OptionsInterstitial:{icon:'🎠',iconClass:'icon-sky',title:'Low-Key Options · Pick What Fits',time:'Afternoon · No agenda',tags:'',body:'<div class=\"prose-p\">Morning is done. Pick what fits the energy level.</div><div class=\"section-divider\"></div><div class=\"prose-p\"><strong>Redwood Creek Challenge Trail</strong> — An outdoor trail in Grizzly Peak with rope bridges, climbing structures, and caves. No wait, no height requirement. Good for burning off energy after lunch.</div><div class=\"section-divider\"></div><div class=\"prose-p\"><strong>Mickey\'s PhilharMagic</strong> — A 4D film with Mickey, Donald, and a full Disney song score. Air conditioned, seated, about 12 minutes. Good afternoon reset if the group needs to sit.</div><div class=\"section-divider\"></div><div class=\"prose-p\"><strong>Ghirardelli Soda Fountain &amp; Chocolate Shop</strong> — On Pixar Pier. Hot fudge sundaes. No planning required.</div><div class=\"section-divider\"></div><div class=\"prose-p\"><strong>Reride anything</strong> — On a CL3 day, afternoon waits on secondary rides will be short. WEB SLINGERS, Toy Story, Soarin\' — all worth a second pass if the morning went fast.</div>',rowId:'d3-options'},
 
   /* ── AFTERNOON OPTIONS INTERSTITIAL — Days 1 & 2 (shared) ── */
   dlOptionsInterstitial:{icon:'🌀',iconClass:'icon-sky',title:'Low-Key Options · Pick What Fits',time:'No waits · Do any, all, or none',tags:'',body:'<div class="prose-p">Use this window however fits the group. All of these are low-wait and easy to cut short.</div><div class="section-divider"></div><div class="prose-p"><strong>🚂 Disneyland Railroad</strong><br>A steam-powered train that circles the whole park. Board at any of four stations. A full loop takes about 18 minutes and passes through the Grand Canyon and dinosaur diorama scenes mid-ride. No wait outside the morning rush.</div><div class="section-divider"></div><div class="prose-p"><strong>🍵 Mad Tea Party</strong><br>Spinning teacups in Fantasyland. No height requirement. A wheel in the center of each cup controls the rotation. Waits are typically under 10 minutes in the afternoon.</div><div class="section-divider"></div><div class="prose-p"><strong>🚗 Autopia</strong><br>Tomorrowland. A guided track where each car can be steered but stays in its lane. No height requirement. Waits are short in the afternoon.</div><div class="section-divider"></div><div class="prose-p"><strong>🐘 Dumbo the Flying Elephant</strong><br>For whatever reason, young kids absolutely love this one. Sweet and nostalgic. You fly in circles and control how high your elephant goes. No height requirement. ⚠️ The WDW version has a hidden indoor playground in the queue — unverified whether the Disneyland version does. Verify before adding that detail.</div><div class="section-divider"></div><div class="prose-p"><strong>🌍 It\'s a Small World</strong><br>A Disneyland classic and a reliable crowd pleaser for little ones. The costumes and set are beautiful. The song is an earworm; if you don\'t want it stuck in your head for the rest of the day, it might be worth a skip. The queue can look long but it moves fast; it\'s one of the highest capacity rides in the park.</div><div class="section-divider"></div><div class="prose-p"><strong>🏴‍☠️ Pirate\'s Lair on Tom Sawyer Island</strong><br>A free-roaming exploration island in the middle of the Rivers of America. Caves, rope bridges, and pirate theming. A raft crossing of about 5 minutes each way gets you there. Plan 30 to 45 minutes total. Check the Disneyland app for current operating hours before heading over.</div>',rowId:'d1-options'},
@@ -1026,14 +1262,14 @@ dlMobileOrderJolly:{icon:'📱',iconClass:'icon-gold',title:'Mobile order — Jo
 
 var sosItems={
   missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: cast members see this frequently and handle this well. Find a cast member immediately and report it. It\'s helpful to take a photo in the morning of what they\'re wearing. If you need to describe them quickly, you\'ll have both ready. A description goes out park-wide by radio the moment you do. That cast member will help reunite you.</div><div class="section-divider"></div><div class="prose-p">Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that\'s the fastest path back to each other.</div>'},
-  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid in every park handles minor issues, free, on the spot. Ask any cast member for the nearest one.</div><div class="section-divider"></div><div class="prose-p">⚠️ AI COPY — Meredith to verify Anaheim-area urgent care providers and phone numbers before ship.<br><br><strong>1. In-park First Aid</strong> — cast members will direct you. Free, no appointment.<br><br><strong>2. Urgent care near Anaheim</strong> — [VERIFY: Anaheim urgent care providers, addresses, hours, and phone numbers before ship. WDW-specific providers removed.]</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid immediately. Call 911 if it\'s severe.</div></div>'},
+  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid is in every park — cast members will direct you. Free, no appointment, handles minor issues on the spot.</div><div class="section-divider"></div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid immediately. Call 911 if it\'s severe.</div></div>'},
   breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Check the app first',body:'<div class="prose-p">Disney often automatically converts your Lightning Lane to an anytime pass when a ride goes down. Look for a notification in MDE before doing anything else.</div><div class="section-divider"></div><div class="prose-p">If no automatic conversion, find a cast member at the ride entrance and ask them to note the issue on your account. What they can offer varies but it\'s always worth asking.</div>'},
   meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Step away from whatever queue or area you\'re in. Find space first, then assess. Every park has a Baby Care Center with AC, rocking chairs, changing tables, and a quiet feeding room — cast members will point you there.</div><div class="section-divider"></div><div class="prose-p"><strong>Quiet spots by park</strong></div><div class="prose-p"><strong>Magic Kingdom</strong><br>East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Seating, umbrellas, almost no foot traffic even on busy days.</div><div class="prose-p"><strong>EPCOT</strong><br>Benches outside Mission: SPACE — consistently quiet. The area near the Imagination pavilion restrooms is shaded and almost always calm. World Showcase pavilions have pockets off the main walkway — France and Japan tend to be the most peaceful.</div><div class="prose-p"><strong>Hollywood Studios</strong><br>Benches outside Walt Disney Presents — usually empty even at peak hours. Animation Courtyard between shows is quieter than the main boulevard.</div><div class="prose-p"><strong>Animal Kingdom</strong><br>Maharajah Jungle Trek in Asia — self-paced walking trail with shaded benches. The path between the Tree of Life and Discovery Island Trails is usually quiet.</div><div class="section-divider"></div><div class="prose-p">If it\'s past midday and the group is heading downhill, there\'s no penalty for leaving early. The hotel pool or room is always an option.</div>'},
   rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out, it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20 to 40 minutes then done. Duck into the nearest indoor ride or shop and wait it out.</div><div class="section-divider"></div><div class="prose-p">Hollywood Boulevard\'s connected shops let you walk the full main drag without going outside. EPCOT pavilions and Future World rides all have indoor queues. Right after the rain stops is a good time to ride outdoor attractions — crowds thin out fast.</div>'},
   heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun immediately',body:'<div class="prose-p">Find the nearest air-conditioned building and stay for at least 15 minutes. Cold water on wrists and the back of the neck helps quickly.</div><div class="section-divider"></div><div class="prose-p">Every park has a First Aid station with AC, free cold water, and a nurse on duty. Ask any cast member — they know exactly where it is.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If someone has stopped sweating, feels dizzy, or seems confused, go to First Aid right away. Do not wait it out. With young children especially, watch for unusual fussiness or a hot dry forehead.</div></div>'},
   behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Protect what matters most today',body:'<div class="prose-p">Lightning Lane return windows are the only hard fixed points. LL windows have more grace than the app shows — try scanning even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">Everything else is flexible. If the morning falls apart, pick the one experience that matters most and go straight to it. Check Today\'s Priorities on the boarding pass — those are the four things worth protecting.</div><div class="section-divider"></div><div class="prose-p">The midday break is a target, not a deadline. If Greta has energy, keep going. If she\'s done, leave early and rest longer.</div>'},
   phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your reservations are safe',body:'<div class="prose-p">Your Lightning Lanes and dining reservations live in your Disney account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some table-service restaurants, and First Aid usually has charging available. Guest Services near the entrance can print confirmations on paper if you need them.</div>'},
-  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>Disneyland Park</strong><br>Walt Disney\'s Enchanted Tiki Room — AC, 15 min show, everyone sits<br>Great Moments with Mr. Lincoln — AC, almost always empty, good rest stop<br>Main Street Cinema — AC, continuous short films, walk in and out freely</div><div class="section-divider"></div><div class="prose-p"><strong>Disney California Adventure</strong><br>Soarin\' Around the World — AC, seated, gentle film experience<br>Animation Academy — AC, quiet, relaxed activity for Greta<br>Redwood Creek Challenge Trail — shaded outdoor area, kids explore freely</div><div class="section-divider"></div><div class="prose-p"><strong>Or just go back</strong><br>No penalty for leaving early. The Hilton pool, the room, a proper rest. The day will not be ruined.</div><div class="callout"><div class="callout-label">⚠️ AI COPY — Meredith to verify before ship</div></div>'}
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>Disneyland Park</strong><br>Walt Disney\'s Enchanted Tiki Room — AC, 15 min show, everyone sits<br>Great Moments with Mr. Lincoln — AC, almost always empty, good rest stop<br>Main Street Cinema — AC, continuous short films, walk in and out freely</div><div class="section-divider"></div><div class="prose-p"><strong>Disney California Adventure</strong><br>Soarin\' Around the World — AC, seated, gentle film experience<br>Animation Academy — AC, quiet, relaxed activity for Greta<br>Redwood Creek Challenge Trail — shaded outdoor area, kids explore freely</div><div class="section-divider"></div><div class="prose-p"><strong>Or just go back</strong><br>No penalty for leaving early. The Hilton pool, the room, a proper rest. The day will not be ruined.</div>'}
 };
 
 // ── CORE FUNCTIONS ────────────────────────────────────────────
@@ -1093,8 +1329,6 @@ function closeAll(){
   document.getElementById('wkDrawer').classList.remove('open');
   document.getElementById('sosDrawer').classList.remove('open');
   document.getElementById('bagDrawer').classList.remove('open');
-  document.getElementById('charsDrawer').classList.remove('open');
-  document.getElementById('entDrawer').classList.remove('open');
   document.getElementById('overlay').classList.remove('open');
   showSOS();
 }
@@ -1166,75 +1400,32 @@ function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(r
 function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
 function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveDown(r,d);};})(row,dayIdx);});}
 
+// ── SORTABLE INIT ────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof Sortable === 'undefined') return;
+  [0, 1, 2].forEach(function(dayIdx) {
+    var el = document.getElementById('timeline-' + dayIdx);
+    if (!el) return;
+    Sortable.create(el, {
+      handle: '.drag-handle',
+      animation: 150,
+      ghostClass: 'sortable-ghost',
+      chosenClass: 'sortable-chosen'
+    });
+  });
+});
+
 // ── BAG DATA ──────────────────────────────────────────────────────
 var bagItems=[
-  'Sunscreen — reapply mid-day',
+  'Sunscreen',
   'Hats for everyone',
-  'Greta\'s Mickey ears',
   'Portable phone charger + cable',
   'Water bottles',
   'Snacks for Greta',
-  'Wipes',
-  'Change of clothes for Greta',
-  'MDE app open on all phones',
-  'Shuttle pass (myhmrbus.com Zone 14)'
+  'Sanitation wipes',
+  'Disneyland app open on all phones',
+  'Shuttle pass — buy at myhmrbus.com · Zone 14 pickup at Disneyland · runs hourly midday, every 30 min mornings and evenings'
 ];
-
-// ── CHARACTERS DATA (per-day) ─────────────────────────────────
-var charsData=[
-  /* Day 1 — Royal Hall */
-  {title:'Princess Meet',sub:'Fantasy Faire · Royal Hall',note:'⚠️ Verify current princess rotation before ship. July rotation historically includes Cinderella, Snow White, and Ariel — confirm in the Disneyland app closer to the trip.',rows:[{name:'Royal Hall',loc:'Fantasy Faire · Fantasyland',text:'Three princesses on rotation. Arrive by 9:30am and get in line — meet opens at 10am. One adult can queue while the others explore Fantasy Faire nearby.'}]},
-  /* Day 2 stub */
-  {title:'Characters',sub:'Day 2',note:'Day 2 character content coming after Day 1 review.',rows:[]},
-  /* Day 3 stub */
-  {title:'Characters',sub:'Day 3 · DCA',note:'Anna and Elsa meet at Disney Animation building in Hollywood Land, DCA. Mid-afternoon is the better window — lines are longest at opening.',rows:[{name:'Anna & Elsa',loc:'Disney Animation · Hollywood Land',text:'Mid-afternoon visit recommended. Same building as Animation Academy.'}]}
-];
-
-// ── ENTERTAINMENT DATA (per-day) ──────────────────────────────
-var entData=[
-  /* Day 1 — Disneyland */
-  {title:'Day 1 Entertainment',sub:'Royal Theatre · Paint the Night',note:'⚠️ Confirm showtimes in the Disneyland app the morning of.',rows:[{name:'Storytelling at Royal Theatre',loc:'Fantasy Faire · Fantasyland',body:'Live performance retelling a Disney princess story. Part of the Fantasy Faire experience. ⚠️ AI copy — Meredith to review.',time:'10:55am'},{name:'Paint the Night',loc:'Disneyland Park · Main Street',body:'LED-lit nighttime parade with over 1.5 million points of light. Tinker Bell leads, followed by Monsters Inc., Cars, and princess floats. Position at the IASW Esplanade patio by 8:15pm for the 8:45pm parade. ⚠️ AI copy — Meredith to review.',time:'8:45pm'}]},
-  /* Day 2 stub */
-  {title:'Day 2 Entertainment',sub:'Bluey · Fantasmic!',note:'Day 2 entertainment content coming after Day 1 review.',rows:[]},
-  /* Day 3 stub */
-  {title:'Day 3 Entertainment',sub:'DCA',note:'Day 3 entertainment content coming after Day 1 review.',rows:[]}
-];
-
-function openCharsDrawer(dayIdx){
-  var p=document.getElementById('charsPill-'+dayIdx);
-  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
-  setTimeout(function(){
-    var d=charsData[dayIdx];
-    document.getElementById('charsDrawerTitle').textContent=d.title;
-    document.getElementById('charsDrawerSub').textContent=d.sub;
-    var html='<div class="note-block">'+d.note+'</div>';
-    d.rows.forEach(function(r){
-      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
-    });
-    document.getElementById('charsDrawerBody').innerHTML=html;
-    document.getElementById('charsDrawer').classList.add('open');
-    document.getElementById('overlay').classList.add('open');
-    hideSOS();
-  },120);
-}
-
-function openEntDrawer(dayIdx){
-  var p=document.getElementById('entPill-'+dayIdx);
-  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
-  setTimeout(function(){
-    var d=entData[dayIdx];
-    document.getElementById('entDrawerTitle').textContent=d.title;
-    document.getElementById('entDrawerSub').textContent=d.sub;
-    var html='<div class="note-block">'+d.note+'</div>';
-    d.rows.forEach(function(r){
-      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
-    });
-    document.getElementById('entDrawerBody').innerHTML=html;
-    document.getElementById('entDrawer').classList.add('open');
-    document.getElementById('overlay').classList.add('open');
-    hideSOS();
-  },120);
-}
 
 function openBagDrawer(dayIdx){
   var el=document.getElementById('bagDrawer');
