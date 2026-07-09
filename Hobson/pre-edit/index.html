@@ -157,6 +157,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
         <span class="bp-chip" onclick="scrollToSection('sec-beforeyouarrive')">Before You Arrive</span>
         <span class="bp-chip" onclick="scrollToSection('sec-lightninglane')">Lightning Lane</span>
         <span class="bp-chip" onclick="scrollToSection('sec-ropedrop')">Rope Drop</span>
+        <span class="bp-chip" onclick="scrollToSection('sec-virtualqueues')">Virtual Queues</span>
         <span class="bp-chip" onclick="scrollToSection('sec-dining')">Dining</span>
         <span class="bp-chip" onclick="scrollToSection('sec-packing')">Packing</span>
         <span class="bp-chip" onclick="scrollToSection('sec-logistics')">Family Logistics</span>
@@ -273,7 +274,23 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 
   <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
 
-  <!-- ═══ SECTION 4 · DINING ═══ -->
+  <!-- ═══ SECTION 4 · VIRTUAL QUEUES ═══ -->
+  <div class="section-block" id="sec-virtualqueues">
+    <div class="section-head">
+      <div class="section-title">Virtual Queues</div>
+    </div>
+    <div class="row-group">
+      <div class="drawer-row" onclick="openDrawer('virtualqueue')">
+        <div class="dr-icon">📲</div>
+        <div class="dr-content"><div class="dr-title">What they are and when they appear</div></div>
+        <div class="dr-chev">›</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-divider-notch"><div class="sdn-notch sdn-notch-l"></div><div class="sdn-dash"></div><div class="sdn-notch sdn-notch-r"></div></div>
+
+  <!-- ═══ SECTION 5 · DINING ═══ -->
   <div class="section-block" id="sec-dining">
     <div class="section-head">
       <div class="section-title">Dining</div>
@@ -559,7 +576,7 @@ var drawers = {
       </div>
       <div class="callout">
         <div class="callout-label">Multi Pass — Animal Kingdom has no tiers</div>
-        <div class="callout-text">1. <strong>Kilimanjaro Safaris</strong> — no minimum height, the genuine heart of Animal Kingdom and can have long waits midday<br><br>2. <strong>Expedition Everest</strong> (44" / 112cm min) — thrilling coaster, same height caveat as Flight of Passage<br><br>3. <strong>DINOSAUR</strong> (40" / 102cm min) — intense dark ride, worth having the Lightning Lane</div>
+        <div class="callout-text">1. <strong>Kilimanjaro Safaris</strong> — no minimum height, the genuine heart of Animal Kingdom and can have long waits midday<br><br>2. <strong>Expedition Everest</strong> (44" / 112cm min) — thrilling coaster, same height caveat as Flight of Passage<br><br>3. <strong>Na'vi River Journey</strong> — no minimum height, smooth and beautiful, consistently popular in Pandora</div>
       </div>
 
       <div class="section-divider"></div>
@@ -581,7 +598,7 @@ var drawers = {
     title: 'What it is and what it costs',
     body: `
       <div class="prose-p">Disney charges extra to skip the lines on popular rides. Every ride still has a free standby queue — Lightning Lane is the paid fast lane on top of that.</div>
-      <div class="prose-p">There are two products:</div>
+      <div class="prose-p">There are three options:</div>
       <div class="ll-option-card">
         <div class="ll-option-name">Multi Pass <span>Most days</span></div>
         <div class="ll-option-price">~$22–45 per person per day (varies by date — July is typically at the higher end)</div>
@@ -591,6 +608,11 @@ var drawers = {
         <div class="ll-option-name">Single Pass <span>Key rides only</span></div>
         <div class="ll-option-price">~$11–25 per person per ride</div>
         <div class="ll-option-desc">Covers a small number of the most popular rides that aren't included in Multi Pass — Seven Dwarfs Mine Train, TRON, Rise of the Resistance, Avatar Flight of Passage. Buy up to two per day.</div>
+      </div>
+      <div class="ll-option-card">
+        <div class="ll-option-name">Premier Pass <span>Skip it</span></div>
+        <div class="ll-option-price">Up to $449 per person at Magic Kingdom</div>
+        <div class="ll-option-desc">Covers every Lightning Lane in the park with no scheduling. It can cost more than the park ticket itself. Multi Pass plus one well-chosen Single Pass gets you the same result for a fraction of the price.</div>
       </div>
       <div class="callout">
         <div class="callout-label">Worth it in July?</div>
@@ -656,6 +678,10 @@ var drawers = {
         <div class="callout-label">Return windows push later as the day goes</div>
         <div class="callout-text">A Slinky Dog Dash window at 9am is far better than one at 4pm. Speed matters in the morning. After about 2pm the urgency drops — windows are later but the crowds thin too.</div>
       </div>
+      <div class="callout">
+        <div class="callout-label">Running late for a return window?</div>
+        <div class="callout-text">Return windows stay valid for up to two hours past the listed end time. A 3:00–4:00pm window can be tapped in until 4:59pm — a ride that looks missed often isn't.</div>
+      </div>
     `
   },
 
@@ -668,6 +694,19 @@ var drawers = {
       <div class="callout">
         <div class="callout-label">Everyone still needs a Lightning Lane if you're using one</div>
         <div class="callout-text">Rider Swap doesn't come with a free ride — it just lets the waiting adult skip the standby line when it's their turn.</div>
+      </div>
+    `
+  },
+
+  virtualqueue: {
+    icon: '📲',
+    title: 'What they are and when they appear',
+    body: `
+      <div class="prose-p">Virtual queues replace the standby line for a small number of experiences. Instead of waiting physically, you join a digital queue through MDE and return when your group is called. Disney used them widely for several years but has largely moved away from them — as of July 2026, no rides at your three parks require one.</div>
+      <div class="prose-p">Disney does bring them back for brand-new openings during peak demand windows. If one appears during your trip, here's how it works: there are two daily join windows, 7am (from anywhere) and 10am (you must already be inside the park). Both fill within seconds. You get one attempt per window, per day.</div>
+      <div class="callout">
+        <div class="callout-label">If one appears during your trip</div>
+        <div class="callout-text">Open MDE → tap the park → tap the attraction → Join Virtual Queue. Have everyone in your party linked in MDE before the drop time. The 7am window is the more reliable of the two — you can join from the hotel before you leave.</div>
       </div>
     `
   },
@@ -726,20 +765,19 @@ var drawers = {
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Magic Kingdom</strong></div>
-      <div class="prose-p">Pinocchio Village Haus — quick service with a view into It's a Small World. Good pizza, great location for a quick indoor sit. Mobile order and grab a table by the window.<br><br>Pecos Bill Tall Tale Inn — Mexican-style bowls and nachos in Frontierland, large space, usually manageable at mobile order. One of the better quick service options in the park.<br><br>Columbia Harbour House — Liberty Square, upstairs is usually quieter. Good fish and chips option if you want something familiar. More seating than most.</div>
-      <div class="prose-p"><em>Table service walk-up worth trying:</em> The Crystal Palace overlooks Cinderella Castle and occasionally has walk-up availability. It's a character meal with Winnie the Pooh characters — the girls would love it if a slot comes up.</div>
+      <div class="prose-p"><strong>Pinocchio Village Haus</strong> — quick service with a view into It's a Small World. Good pizza, great location for a quick indoor sit. Mobile order and grab a table by the window.<br><br><strong>Pecos Bill Tall Tale Inn</strong> — Mexican-style bowls and nachos in Frontierland, large space, usually manageable at mobile order. One of the better quick service options in the park.<br><br><strong>Columbia Harbour House</strong> — Liberty Square, upstairs is usually quieter. Good fish and chips option if you want something familiar. More seating than most.</div>
 
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Animal Kingdom</strong></div>
-      <div class="prose-p">Flame Tree Barbecue — one of the best quick service restaurants at Disney World, full stop. Outdoor seating overlooking Discovery River, genuinely good smoked meats. Mobile order and grab a waterfront table.<br><br>Satu'li Canteen — Pandora, themed to the Avatar world. Rice bowls, grain bowls, protein options. One of the more interesting quick service menus in any park. Kids tend to eat well here.<br><br>Yak &amp; Yeti Local Food Cafes — quick counter adjacent to the table service restaurant in Asia. Chicken bowls, fast, usually fast to pick up.</div>
-      <div class="prose-p"><em>Table service worth trying as a walk-up:</em> Tiffins, inside Animal Kingdom, gets more consistent praise than almost anywhere else at Disney World — considered one of the best restaurants on property. It's quieter in AK than other parks. Worth checking walk-up availability midday.</div>
+      <div class="prose-p"><strong>Flame Tree Barbecue</strong> — one of the best quick service restaurants at Disney World, full stop. Outdoor seating overlooking Discovery River, genuinely good smoked meats. Mobile order and grab a waterfront table.<br><br><strong>Satu'li Canteen</strong> — Pandora, themed to the Avatar world. Rice bowls, grain bowls, protein options. One of the more interesting quick service menus in any park. Kids tend to eat well here.<br><br><strong>Yak &amp; Yeti Local Food Cafes</strong> — quick counter adjacent to the table service restaurant in Asia. Chicken bowls, fast, usually fast to pick up.</div>
+      <div class="prose-p"><strong>Tiffins</strong> — table service inside Animal Kingdom, gets more consistent praise than almost anywhere else at Disney World. It's quieter in AK than other parks. Worth checking walk-up availability midday.</div>
 
       <div class="section-divider"></div>
 
       <div class="prose-p"><strong>Hollywood Studios</strong></div>
-      <div class="prose-p">Woody's Lunch Box — Toy Story Land, counter service with grilled cheese, pop tarts, and comfort food. Lines can be long in July — mobile order is essential here.<br><br>ABC Commissary — large indoor quick service, usually one of the easier pickups at the park. Good for a fast sit-down lunch in the AC.<br><br>The Trolley Car Café — Starbucks in the park for anyone who needs a proper coffee in the morning before tackling Toy Story Land.</div>
-      <div class="prose-p"><em>Table service worth experiencing:</em> 50's Prime Time Café — servers are in character as your aunt or mum and will give the girls (and adults) good-natured grief for elbows on the table. The kids will find it either hilarious or alarming. Occasionally has walk-up availability.</div>
+      <div class="prose-p"><strong>Woody's Lunch Box</strong> — Toy Story Land, counter service with grilled cheese, pop tarts, and comfort food. Lines can be long in July — mobile order is essential here.<br><br><strong>ABC Commissary</strong> — large indoor quick service, usually one of the easier pickups at the park. Good for a fast sit-down lunch in the AC.<br><br><strong>The Trolley Car Café</strong> — Starbucks in the park for anyone who needs a proper coffee in the morning before tackling Toy Story Land.</div>
+      <div class="prose-p"><strong>50's Prime Time Café</strong> — table service where servers are in character as your aunt or mum and will give the girls (and adults) good-natured grief for elbows on the table. The kids will find it either hilarious or alarming. Occasionally has walk-up availability.</div>
     `
   },
 
@@ -896,16 +934,15 @@ var drawers = {
     icon: '🎪',
     title: 'Keeping kids happy in lines',
     body: `
-      <div class="prose-p">The ride is five minutes. The standby queue might be forty-five. That's where July park days get hard.</div>
-      <div class="prose-p"><strong>Disney's queues help:</strong> Seven Dwarfs Mine Train has gem-sorting games built into the queue walls. Haunted Mansion's queue has interactive tombstones and stretching rooms. Many rides at Animal Kingdom have genuinely beautiful theming that makes the wait feel shorter — Avatar's queue is one of the most impressive in any park.</div>
-      <div class="prose-p"><strong>Hidden Mickeys:</strong> The three-circle Mickey shape is hidden throughout queues, ride vehicles, and backgrounds in every park. Download the Hidden Mickeys app before the trip and give the girls a mission. It works.</div>
+      <div class="prose-p"><strong>Disney's queues are designed to be experienced.</strong> Seven Dwarfs Mine Train has gem-sorting games built into the queue walls. Haunted Mansion's queue has interactive tombstones and stretching rooms. Avatar Flight of Passage has some of the most detailed theming in any theme park — the queue genuinely earns the wait. Point things out as you walk through.</div>
+      <div class="prose-p"><strong>Hidden Mickeys:</strong> The three-circle Mickey shape is hidden throughout queues, ride vehicles, and backgrounds in every park. Download the Hidden Mickeys app before the trip and give the girls a mission.</div>
       <div class="callout">
         <div class="callout-label">What to carry for lines</div>
-        <div class="callout-text">A snack that only comes out in line. One small activity each girl hasn't seen before the trip. A downloaded show as a last resort. Keep it simple — the theming does most of the work.</div>
+        <div class="callout-text">A snack that only comes out in line. One small activity each girl hasn't seen before the trip. A downloaded episode as a last resort. Keep it simple — the theming does most of the work on the longest waits.</div>
       </div>
       <div class="callout">
-        <div class="callout-label">The real solution</div>
-        <div class="callout-text">Lightning Lane. A well-planned Lightning Lane day means you're rarely in a standby queue longer than 20–30 minutes. The lines that feel longest in July are usually the ones where Lightning Lane wasn't used.</div>
+        <div class="callout-label">On Lightning Lane</div>
+        <div class="callout-text">A day with Multi Pass used well typically means standby queues of 20–30 minutes or less for most of what you ride. The longest waits tend to be on rides where Lightning Lane wasn't available or wasn't pre-booked.</div>
       </div>
     `
   },
@@ -937,7 +974,6 @@ var drawers = {
       <div class="prose-p">
         Avatar Flight of Passage — <strong>44" / 112cm</strong><br>
         Expedition Everest — <strong>44" / 112cm</strong><br>
-        DINOSAUR — <strong>40" / 102cm</strong><br>
         Kali River Rapids — <strong>38" / 97cm</strong><br>
         Kilimanjaro Safaris — no minimum<br>
         Na'vi River Journey — no minimum<br>
