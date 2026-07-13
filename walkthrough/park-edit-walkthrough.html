@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Park Edit — How it works</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   PARK EDIT WALKTHROUGH PLAYER
+   Two files deploy together in the same folder:
+     park-edit-walkthrough.html  (this file)
+     mcarthur-video.html         (interaction-locked copy of the demo)
+   Full cut by default. Short cut: ?cut=short
+   ============================================================ */
+:root{
+  --cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;
+  --border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;
+  --shadow:#C4A898;--bezel:#2C2420;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);}
+
+.stage-outer{max-width:520px;margin:0 auto;padding:28px 16px 40px;}
+.act-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--terracotta);text-align:center;min-height:14px;margin-bottom:10px;opacity:0;transition:opacity .5s;}
+.act-eyebrow.show{opacity:1;}
+
+/* ---- phone ---- */
+.stage{position:relative;margin:0 auto;}
+.phone{position:relative;margin:0 auto;border-radius:38px;background:var(--bezel);padding:10px;box-shadow:0 18px 50px rgba(44,36,32,.28),0 3px 10px rgba(44,36,32,.18);}
+.phone-screen{position:relative;border-radius:29px;overflow:hidden;background:var(--cream);}
+.scaler{position:absolute;top:0;left:0;width:390px;transform-origin:top left;}
+.app-frame{display:block;width:390px;border:0;background:var(--cream);}
+
+/* ---- Act 1: the Pre-Edit document layer ---- */
+.preedit{position:absolute;inset:0;width:390px;background:var(--cream);overflow:hidden;opacity:0;pointer-events:none;transition:opacity .7s;}
+.preedit.show{opacity:1;}
+.preedit-scroll{height:100%;overflow:hidden;}
+.pe-header{padding:26px 20px 16px;border-bottom:1px solid var(--border);}
+.pe-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.pe-title{font-family:'Playfair Display',Georgia,serif;font-size:32px;font-weight:700;line-height:1;margin-bottom:7px;}
+.pe-title span{color:var(--terracotta);}
+.pe-tagline{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);}
+.pe-chips-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin:16px 18px 8px;}
+.pe-chips{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px;}
+.pe-chip{font-size:11px;font-weight:500;background:#fff;border:1.5px solid var(--border);border-radius:999px;padding:5px 11px;box-shadow:2px 2px 0 var(--shadow);}
+.pe-chip.hot{border-color:var(--terracotta);color:var(--terracotta);}
+.pe-body{padding:18px;}
+.pe-section-title{font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;margin-bottom:2px;}
+.pe-section-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:14px;}
+.ll-option-card{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:10px;transition:box-shadow .5s,border-color .5s,transform .5s;}
+.ll-option-card.hero-hold{border-color:var(--terracotta);box-shadow:4px 4px 0 var(--shadow);transform:translateY(-2px);}
+.ll-option-name{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.ll-option-name span{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.13em;text-transform:uppercase;color:var(--terracotta);border:1px solid var(--terracotta);border-radius:999px;padding:2px 8px;}
+.ll-option-price{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:6px;}
+.ll-option-desc{font-size:13px;line-height:1.65;color:var(--muted);}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin:14px 0;}
+.callout-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.callout-text{font-size:13px;line-height:1.7;color:var(--text);}
+.picks-block{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:3px 3px 0 var(--shadow);margin-top:14px;}
+.picks-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:6px;}
+.picks-value{font-size:13.5px;font-weight:500;line-height:1.5;}
+.picks-sub{font-family:'Playfair Display',Georgia,serif;font-size:11.5px;font-style:italic;color:var(--muted);margin-top:3px;}
+
+/* ---- touch dot ---- */
+.dot{position:absolute;width:34px;height:34px;border-radius:50%;background:rgba(232,115,74,.42);border:2px solid rgba(232,115,74,.85);left:0;top:0;transform:translate(-50%,-50%) scale(0);pointer-events:none;z-index:40;transition:left .55s cubic-bezier(.4,0,.2,1),top .55s cubic-bezier(.4,0,.2,1),transform .28s;}
+.dot.visible{transform:translate(-50%,-50%) scale(1);}
+.dot.press{transform:translate(-50%,-50%) scale(.62);}
+
+/* ---- closing veil / line / end card ---- */
+.veil{position:absolute;inset:0;background:var(--cream);opacity:0;pointer-events:none;transition:opacity 1s;z-index:50;display:flex;align-items:center;justify-content:center;padding:24px;}
+.veil.show{opacity:1;pointer-events:auto;}
+.closing-line{font-family:'Playfair Display',Georgia,serif;font-size:32px;font-weight:700;line-height:1.22;text-align:center;opacity:0;transform:translateY(8px);transition:opacity .9s,transform .9s;}
+.closing-line.show{opacity:1;transform:none;}
+.endcard{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;pointer-events:none;transition:opacity .8s;z-index:51;background:var(--cream);}
+.endcard.show{opacity:1;pointer-events:auto;}
+.ec-mark{font-family:'Playfair Display',Georgia,serif;font-size:30px;font-weight:700;}
+.ec-mark span{color:var(--terracotta);}
+.ec-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.ec-cta{display:inline-block;background:var(--terracotta);color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:13px 26px;border-radius:14px;box-shadow:3px 3px 0 #C45A2E;margin-top:6px;}
+.ec-cta:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.ec-replay{background:none;border:1.5px solid var(--border);border-radius:14px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;padding:9px 18px;cursor:pointer;}
+
+/* ---- captions ---- */
+.caption-wrap{max-width:440px;margin:18px auto 0;text-align:center;min-height:64px;padding:0 8px;}
+.caption{font-family:'Playfair Display',Georgia,serif;font-size:17px;line-height:1.45;color:var(--text);opacity:0;transform:translateY(6px);transition:opacity .45s,transform .45s;}
+.caption.show{opacity:1;transform:none;}
+
+/* ---- progress ---- */
+.progress{max-width:200px;height:3px;background:var(--border);border-radius:2px;margin:16px auto 0;overflow:hidden;}
+.progress-fill{height:100%;width:0;background:var(--terracotta);border-radius:2px;}
+
+/* ---- play overlay (reduced motion / pre-start) ---- */
+.play-overlay{position:absolute;inset:0;z-index:60;background:rgba(253,248,244,.62);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
+.play-overlay.show{opacity:1;pointer-events:auto;}
+.play-btn{width:72px;height:72px;border-radius:50%;border:none;background:var(--terracotta);color:#fff;font-size:26px;cursor:pointer;box-shadow:0 8px 24px rgba(232,115,74,.45);display:flex;align-items:center;justify-content:center;}
+.fallback-link{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted);}
+.fallback-link a{color:var(--terracotta);}
+</style>
+</head>
+<body>
+
+<div class="stage-outer">
+  <div class="act-eyebrow" id="eyebrow"></div>
+
+  <div class="stage" id="stage">
+    <div class="phone" id="phone">
+      <div class="phone-screen" id="screen">
+        <div class="scaler" id="scaler">
+          <iframe class="app-frame" id="app" src="mcarthur-video.html" title="The Park Edit demo, animated walkthrough"></iframe>
+
+          <!-- ═══ ACT 1 · PRE-EDIT DOCUMENT LAYER ═══
+               ⚠️ NEW DEMO-FACING CONTENT — REQUIRES MEREDITH REVIEW.
+               Sources: card copy verbatim from shipped Hobson Pre-Edit (llwhat drawer
+               + grace period callout) except where marked ADAPTED. -->
+          <div class="preedit" id="preedit">
+            <div class="preedit-scroll" id="peScroll">
+              <div class="pe-header">
+                <div class="pe-family">The McArthur Family</div>
+                <div class="pe-title">The Pre-<span>Edit.</span></div>
+                <div class="pe-tagline">Walt Disney World · Your trip, before the trip.</div>
+              </div>
+              <div class="pe-chips-label">What's in here</div>
+              <div class="pe-chips">
+                <!-- ADAPTED: Hobson chip set minus trip-specific "July Weather" -->
+                <span class="pe-chip">Before You Arrive</span>
+                <span class="pe-chip hot">Lightning Lane</span>
+                <span class="pe-chip">Rope Drop</span>
+                <span class="pe-chip">Virtual Queues</span>
+                <span class="pe-chip">Dining</span>
+                <span class="pe-chip">Packing</span>
+                <span class="pe-chip">Family Logistics</span>
+              </div>
+              <div class="pe-body">
+                <div class="pe-section-title">Lightning Lane</div>
+                <div class="pe-section-sub">What it is and what it costs</div>
+                <div class="prose-p">Disney charges extra to skip the lines on popular rides. Every ride still has a free standby queue — Lightning Lane is the paid fast lane on top of that.</div>
+                <div class="ll-option-card">
+                  <div class="ll-option-name">Multi Pass <span>Most days</span></div>
+                  <!-- ADAPTED: dropped Hobson's July-specific clause for the date-neutral demo -->
+                  <div class="ll-option-price">~$22–45 per person per day (varies by date)</div>
+                  <div class="ll-option-desc">Covers the majority of popular rides. You pre-book up to 3 rides before your visit and keep rolling bookings throughout the day.</div>
+                </div>
+                <div class="ll-option-card">
+                  <div class="ll-option-name">Single Pass <span>Key rides only</span></div>
+                  <div class="ll-option-price">~$11–25 per person per ride</div>
+                  <div class="ll-option-desc">Covers a small number of the most popular rides that aren't included in Multi Pass. Buy up to two per day.</div>
+                </div>
+                <div class="ll-option-card" id="premierCard">
+                  <div class="ll-option-name">Premier Pass <span>Skip it</span></div>
+                  <div class="ll-option-price">Up to $449 per person at Magic Kingdom</div>
+                  <div class="ll-option-desc">Covers every Lightning Lane in the park with no scheduling. It can cost more than the park ticket itself. Multi Pass plus one well-chosen Single Pass gets you the same result for a fraction of the price.</div>
+                </div>
+                <div class="callout" id="graceCallout">
+                  <div class="callout-label">Grace period you'll want to know</div>
+                  <div class="callout-text">Your Lightning Lane return window stays valid for up to 119 minutes beyond the listed end time. If it says 3:00–4:00pm, you can tap in until 4:59pm. You have more flexibility than the app makes it look like.</div>
+                </div>
+                <div class="picks-block" id="picksBlock">
+                  <!-- ADAPTED: new labels; ride list matches the demo app's LL card verbatim -->
+                  <div class="picks-label">Your pre-booked Lightning Lanes</div>
+                  <div class="picks-value">Peter Pan's Flight · Buzz Lightyear · Big Thunder Mountain</div>
+                  <div class="picks-sub">Day 1 · Magic Kingdom · with the reasoning for each</div>
+                </div>
+                <div style="height:220px"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="dot" id="dot"></div>
+
+          <div class="veil" id="veil"><div class="closing-line" id="closingLine">Go as a parent.<br>Not a planner.</div></div>
+
+          <div class="endcard" id="endcard">
+            <div class="ec-mark">The Park.<span>Edit</span></div>
+            <div class="ec-sub">disneyparkedit.com</div>
+            <!-- ⚠️ VERIFY demo URL before deploy -->
+            <a class="ec-cta" href="/mcarthur/">Try the demo</a>
+            <button class="ec-replay" id="replayBtn">Watch again</button>
+          </div>
+
+          <div class="play-overlay" id="playOverlay">
+            <button class="play-btn" id="playBtn" aria-label="Play walkthrough">▶</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fallback-link" id="fallback" hidden>Prefer to explore yourself? <a href="/mcarthur/">Open the demo</a></div>
+  </div>
+
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="caption-wrap"><div class="caption" id="caption" aria-live="polite"></div></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var APP_W = 390, APP_H = 740;
+
+var stage = document.getElementById("stage");
+var phone = document.getElementById("phone");
+var screenEl = document.getElementById("screen");
+var scaler = document.getElementById("scaler");
+var app = document.getElementById("app");
+var preedit = document.getElementById("preedit");
+var peScroll = document.getElementById("peScroll");
+var dot = document.getElementById("dot");
+var veil = document.getElementById("veil");
+var closingLine = document.getElementById("closingLine");
+var endcard = document.getElementById("endcard");
+var caption = document.getElementById("caption");
+var eyebrow = document.getElementById("eyebrow");
+var progressFill = document.getElementById("progressFill");
+var playOverlay = document.getElementById("playOverlay");
+var playBtn = document.getElementById("playBtn");
+var replayBtn = document.getElementById("replayBtn");
+
+var isShort = /[?&]cut=short/.test(location.search);
+var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---- responsive scale ---- */
+function fit(){
+  var w = Math.min(APP_W, stage.parentElement.clientWidth - 20);
+  var s = w / APP_W;
+  phone.style.width = (w + 20) + "px";
+  screenEl.style.width = w + "px";
+  screenEl.style.height = Math.round(APP_H * s) + "px";
+  scaler.style.transform = "scale(" + s + ")";
+  app.style.height = APP_H + "px";
+  preedit.style.height = APP_H + "px";
+}
+window.addEventListener("resize", fit);
+fit();
+
+/* ---- helpers ---- */
+var timers = [];
+function at(ms, fn){ timers.push(setTimeout(fn, ms)); }
+function clearTimers(){ timers.forEach(clearTimeout); timers = []; }
+
+function cap(text){
+  caption.classList.remove("show");
+  timers.push(setTimeout(function(){
+    caption.textContent = text;
+    caption.classList.add("show");
+  }, 280));
+}
+function act(label){
+  if(!label){ eyebrow.classList.remove("show"); return; }
+  eyebrow.classList.remove("show");
+  timers.push(setTimeout(function(){ eyebrow.textContent = label; eyebrow.classList.add("show"); }, 300));
+}
+
+function cw(){ return app.contentWindow; }
+function cdoc(){ try { return app.contentWindow.document; } catch(e){ return null; } }
+
+/* dot lives inside the scaler, so element coordinates from the iframe
+   viewport map 1:1 with no scale math */
+function moveDotTo(el, cb){
+  var r = el.getBoundingClientRect();
+  dot.style.left = (r.left + r.width/2) + "px";
+  dot.style.top = (r.top + Math.min(r.height/2, 40)) + "px";
+  dot.classList.add("visible");
+  if(cb) timers.push(setTimeout(cb, 600));
+}
+function pressDot(cb){
+  dot.classList.add("press");
+  timers.push(setTimeout(function(){
+    dot.classList.remove("press");
+    if(cb) cb();
+  }, 260));
+}
+function hideDot(){ dot.classList.remove("visible","press"); }
+
+function tap(el, action){
+  if(!el) { if(action) action(); return; }
+  moveDotTo(el, function(){ pressDot(action); });
+}
+
+function appScrollToEl(el, offset){
+  if(!el) return;
+  var w = cw();
+  var top = el.getBoundingClientRect().top + w.scrollY - (offset == null ? 90 : offset);
+  w.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+}
+function findByText(root, sel, text){
+  var nodes = root.querySelectorAll(sel), best = null;
+  for(var i=0;i<nodes.length;i++){
+    if(nodes[i].textContent.indexOf(text) !== -1){
+      if(!best || nodes[i].textContent.length < best.textContent.length) best = nodes[i];
+    }
+  }
+  return best;
+}
+function smoothScroll(container, to, dur){
+  var from = container.scrollTop, start = null;
+  function step(ts){
+    if(start === null) start = ts;
+    var p = Math.min(1, (ts - start) / dur);
+    var e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2)/2;
+    container.scrollTop = from + (to - from) * e;
+    if(p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+/* simulated drag: tiki row moves above small world */
+function simulateDrag(){
+  var d = cdoc(); if(!d) return;
+  var tiki = d.getElementById("d0-tiki");
+  var small = d.getElementById("d0-smallworld");
+  if(!tiki || !small) return;
+  var handle = tiki.querySelector(".drag-handle") || tiki;
+  moveDotTo(handle, function(){
+    dot.classList.add("press");
+    var dy = small.getBoundingClientRect().top - tiki.getBoundingClientRect().top;
+    tiki.style.transition = "transform .7s cubic-bezier(.4,0,.2,1)";
+    small.style.transition = "transform .7s cubic-bezier(.4,0,.2,1)";
+    tiki.style.position = "relative"; tiki.style.zIndex = "5";
+    tiki.style.transform = "translateY(" + dy + "px)";
+    small.style.transform = "translateY(" + (-tiki.offsetHeight) + "px)";
+    dot.style.top = (parseFloat(dot.style.top) + dy) + "px";
+    timers.push(setTimeout(function(){
+      tiki.style.transition = ""; small.style.transition = "";
+      tiki.style.transform = ""; small.style.transform = "";
+      tiki.style.position = ""; tiki.style.zIndex = "";
+      small.parentNode.insertBefore(small, tiki);
+      dot.classList.remove("press");
+      timers.push(setTimeout(hideDot, 400));
+    }, 750));
+  });
+}
+
+/* ---- Act 1 layer control ---- */
+function showPreedit(){ preedit.classList.add("show"); }
+function hidePreedit(){ preedit.classList.remove("show"); }
+
+/* ============================================================
+   CUE LISTS — timings from approved script v5
+   ============================================================ */
+function fullCut(){
+  var d = cdoc(); if(!d) return;
+
+  /* Beat 1 — hook */
+  at(0,    function(){ act(""); cw().scrollTo(0,0); cap("This is a Park Edit."); });
+  at(3000, function(){ cap("Built for one family only. Yours."); });
+
+  /* Beat 2 — ACT 1: Pre-Edit arrives */
+  at(6000,  function(){ act("Act I · First, we teach you"); showPreedit(); peScroll.scrollTop = 0;
+                        cap("Weeks before you leave, your Pre-Edit teaches you how Disney actually works. Only what you need to know, nothing you don't."); });
+  at(9200,  function(){ smoothScroll(peScroll, document.getElementById("premierCard").offsetTop - 250, 1400); });
+  at(10500, function(){ cap("Lightning Lane, decoded. Including which upsells to skip."); });
+  at(11000, function(){ document.getElementById("premierCard").classList.add("hero-hold"); });
+
+  /* Beat 3 — ACT 1: rules Disney doesn't advertise */
+  at(15000, function(){ document.getElementById("premierCard").classList.remove("hero-hold");
+                        smoothScroll(peScroll, document.getElementById("graceCallout").offsetTop - 130, 1300);
+                        cap("The rules Disney doesn't advertise. The exact picks for your park days, with the reasoning."); });
+  at(18500, function(){ smoothScroll(peScroll, document.getElementById("picksBlock").offsetTop - 260, 1100); });
+  at(20000, function(){ cap("You show up already knowing how the day works."); });
+
+  /* Beat 4 — ACT 2: your day */
+  at(24000, function(){ act("Act II · Then, we run your day"); hidePreedit();
+                        cap("Then on park day, your Park Edit takes over."); });
+  at(25500, function(){ appScrollToEl(d.getElementById("d0-dwarfs"), 170); });
+  at(27800, function(){ appScrollToEl(d.querySelector(".midday-break"), 200); });
+  at(28500, function(){ cap("Every hour planned at your kids' pace. Naps included."); });
+
+  /* Beat 5 — tap anything + the intel */
+  at(33000, function(){ cap("Tap any stop for the full strategy.");
+                        appScrollToEl(d.getElementById("d0-dumbo"), 220); });
+  at(34200, function(){ tap(d.getElementById("d0-dumbo"), function(){ cw().openDrawer("mkdumbo"); hideDot(); }); });
+  at(37600, function(){ cw().closeAll(); });
+  at(38000, function(){ cap("Plus the intel other families walk right past: hidden playgrounds, the best coffee, quiet corners.");
+                        var row = d.querySelector('.ps-row[onclick^="openWorthKnowing"]');
+                        appScrollToEl(row, 240);
+                        timers.push(setTimeout(function(){
+                          tap(row, function(){ cw().openWorthKnowing(); hideDot(); });
+                        }, 700)); });
+  at(40300, function(){ var body = d.querySelector("#wkDrawer .drawer-body");
+                        var pg = findByText(body, "div", "Indoor playground");
+                        if(body && pg) smoothScroll(body, body.scrollTop + pg.getBoundingClientRect().top - body.getBoundingClientRect().top - 40, 900); });
+  at(42300, function(){ var body = d.querySelector("#wkDrawer .drawer-body");
+                        var cf = findByText(body, "div", "Best coffee");
+                        if(body && cf) smoothScroll(body, body.scrollTop + cf.getBoundingClientRect().top - body.getBoundingClientRect().top - 40, 900); });
+  at(44000, function(){ cw().closeAll(); });
+
+  /* Beat 6 — SOS */
+  at(44400, function(){ cap("And when the day goes sideways?"); });
+  at(45200, function(){ tap(d.getElementById("sosStickyBtn"), function(){ cw().openSOSMenu(); hideDot(); }); });
+  at(47800, function(){ cap("One tap. You know your next move. Not twenty minutes of scrolling forums in the sun."); });
+  at(48400, function(){ var row = d.querySelector('#sosDrawer [onclick*="meltdown"]');
+                        tap(row, function(){ cw().openSOSFromMenu("meltdown"); hideDot(); }); });
+  at(52600, function(){ cw().closeAll(); });
+
+  /* Beat 7 — plans shift, the guide flexes */
+  at(53000, function(){ cap("Running behind? Your priorities are already ranked.");
+                        var pr = d.querySelector(".ps-row.ps-expand");
+                        appScrollToEl(pr, 150);
+                        timers.push(setTimeout(function(){
+                          tap(pr, function(){ cw().togglePriorities(); hideDot(); });
+                        }, 700)); });
+  at(56600, function(){ appScrollToEl(d.getElementById("d0-tiki"), 260); });
+  at(57200, function(){ cap("Everything else moves when you need it to."); simulateDrag(); });
+
+  /* Beat 8 — close */
+  at(60500, function(){ act(""); cap("Taught before you leave. Guided while you're there."); veil.classList.add("show"); });
+  at(63000, function(){ caption.classList.remove("show"); closingLine.classList.add("show"); });
+  at(66500, function(){ endcard.classList.add("show"); });
+
+  runProgress(66500);
+}
+
+function shortCut(){
+  var d = cdoc(); if(!d) return;
+
+  at(0,     function(){ act(""); cw().scrollTo(0,0); cap("This is a Park Edit. Built for one family only. Yours."); });
+
+  at(5000,  function(){ act("Act I · First, we teach you"); showPreedit(); peScroll.scrollTop = 0;
+                        cap("First, your Pre-Edit teaches you how Disney works. Only what you need to know."); });
+  at(7800,  function(){ smoothScroll(peScroll, document.getElementById("premierCard").offsetTop - 250, 1300); });
+  at(9500,  function(){ cap("Including which upsells to skip.");
+                        document.getElementById("premierCard").classList.add("hero-hold"); });
+
+  at(14000, function(){ act("Act II · Then, we run your day"); hidePreedit();
+                        document.getElementById("premierCard").classList.remove("hero-hold");
+                        cap("Then your Park Edit runs the day. Planned at your kids' pace, naps included."); });
+  at(15500, function(){ appScrollToEl(d.getElementById("d0-dwarfs"), 170); });
+  at(18000, function(){ appScrollToEl(d.querySelector(".midday-break"), 200); });
+
+  at(22000, function(){ cap("Day goes sideways? One tap. You know your next move.");
+                        appScrollToEl(d.getElementById("d0-dumbo"), 220); });
+  at(23200, function(){ tap(d.getElementById("sosStickyBtn"), function(){ cw().openSOSMenu(); hideDot(); }); });
+  at(26200, function(){ var row = d.querySelector('#sosDrawer [onclick*="meltdown"]');
+                        tap(row, function(){ cw().openSOSFromMenu("meltdown"); hideDot(); }); });
+  at(30600, function(){ cw().closeAll(); });
+
+  at(31000, function(){ act(""); cap("Taught before you leave. Guided while you're there."); veil.classList.add("show"); });
+  at(33800, function(){ caption.classList.remove("show"); closingLine.classList.add("show"); });
+  at(37000, function(){ endcard.classList.add("show"); });
+
+  runProgress(37000);
+}
+
+/* ---- progress bar ---- */
+var progTimer = null;
+function runProgress(total){
+  var start = performance.now();
+  cancelAnimationFrame(progTimer);
+  function tick(ts){
+    var p = Math.min(1, (ts - start) / total);
+    progressFill.style.width = (p * 100) + "%";
+    if(p < 1) progTimer = requestAnimationFrame(tick);
+  }
+  progTimer = requestAnimationFrame(tick);
+}
+
+/* ---- lifecycle ---- */
+var started = false, appReady = false;
+
+function resetVisuals(){
+  clearTimers();
+  cancelAnimationFrame(progTimer);
+  progressFill.style.width = "0";
+  veil.classList.remove("show");
+  closingLine.classList.remove("show");
+  endcard.classList.remove("show");
+  caption.classList.remove("show");
+  eyebrow.classList.remove("show");
+  hidePreedit();
+  hideDot();
+  var pc = document.getElementById("premierCard");
+  if(pc) pc.classList.remove("hero-hold");
+}
+
+function play(){
+  resetVisuals();
+  playOverlay.classList.remove("show");
+  (isShort ? shortCut : fullCut)();
+}
+
+function replay(){
+  resetVisuals();
+  playOverlay.classList.remove("show");
+  started = false; appReady = false;
+  app.addEventListener("load", onAppLoad, { once: true });
+  app.contentWindow.location.reload();
+}
+
+function onAppLoad(){
+  /* a 404 page still fires load, so verify the app itself is present */
+  var ok = false, blocked = false;
+  try { ok = typeof app.contentWindow.openDrawer === "function"; }
+  catch(e){ ok = false; blocked = true; }
+  if(location.protocol === "file:") blocked = true;
+  if(!ok){
+    document.getElementById("fallback").hidden = false;
+    var err = document.createElement("div");
+    err.style.cssText = "position:absolute;inset:0;z-index:70;background:var(--cream);display:flex;align-items:center;justify-content:center;padding:30px;text-align:center;font-size:14px;line-height:1.7;color:var(--muted);";
+    err.textContent = blocked
+      ? "This page must be served over HTTP, not opened as a file. In VS Code, right-tap park-edit-walkthrough.html and choose Open with Live Server."
+      : "Couldn't find mcarthur-video.html. Both files must be in the same folder with their exact filenames.";
+    scaler.appendChild(err);
+    return;
+  }
+  appReady = true;
+  maybeStart();
+}
+
+function maybeStart(){
+  if(started || !appReady) return;
+  playOverlay.classList.add("show");
+  if(reducedMotion){
+    document.getElementById("fallback").hidden = false;
+    return;
+  }
+  if(inView){ started = true; timers.push(setTimeout(play, 400)); }
+}
+
+var inView = false;
+var io = new IntersectionObserver(function(entries){
+  inView = entries[0].isIntersecting && entries[0].intersectionRatio >= 0.25;
+  maybeStart();
+}, { threshold: [0, 0.25, 1] });
+io.observe(stage);
+
+playBtn.addEventListener("click", function(){ started = true; play(); });
+replayBtn.addEventListener("click", replay);
+app.addEventListener("load", onAppLoad, { once: true });
+})();
+</script>
+</body>
+</html>
