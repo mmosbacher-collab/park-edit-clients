@@ -23,9 +23,7 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);}
 
-.stage-outer{max-width:520px;margin:0 auto;padding:28px 16px 40px;}
-.act-eyebrow{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:var(--terracotta);text-align:center;min-height:14px;margin-bottom:10px;opacity:0;transition:opacity .5s;}
-.act-eyebrow.show{opacity:1;}
+.stage-outer{max-width:520px;margin:0 auto;padding:20px 16px 30px;}
 
 /* ---- phone ---- */
 .stage{position:relative;margin:0 auto;}
@@ -84,14 +82,16 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 .ec-cta:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
 .ec-replay{background:none;border:1.5px solid var(--border);border-radius:14px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12.5px;font-weight:500;padding:9px 18px;cursor:pointer;}
 
-/* ---- captions ---- */
-.caption-wrap{max-width:440px;margin:18px auto 0;text-align:center;min-height:64px;padding:0 8px;}
-.caption{font-family:'Playfair Display',Georgia,serif;font-size:17px;line-height:1.45;color:var(--text);opacity:0;transform:translateY(6px);transition:opacity .45s,transform .45s;}
+/* ---- captions: overlaid on the phone, story-style at the top ---- */
+.cap-overlay{position:absolute;top:10px;left:10px;right:10px;z-index:56;pointer-events:none;text-align:center;}
+.act-eyebrow{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;opacity:0;transition:opacity .5s;}
+.act-eyebrow.show{opacity:1;}
+.caption{display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:14.5px;line-height:1.42;color:var(--text);background:rgba(253,248,244,.94);border:1px solid var(--border);border-radius:12px;padding:9px 14px;box-shadow:0 4px 16px rgba(44,36,32,.14);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;transform:translateY(-6px);transition:opacity .45s,transform .45s;max-width:100%;}
 .caption.show{opacity:1;transform:none;}
 
-/* ---- progress ---- */
-.progress{max-width:200px;height:3px;background:var(--border);border-radius:2px;margin:16px auto 0;overflow:hidden;}
-.progress-fill{height:100%;width:0;background:var(--terracotta);border-radius:2px;}
+/* ---- progress: story bar along the phone's top edge ---- */
+.progress{position:absolute;top:0;left:0;right:0;height:3px;background:rgba(44,36,32,.12);z-index:57;overflow:hidden;}
+.progress-fill{height:100%;width:0;background:var(--terracotta);}
 
 /* ---- play overlay (reduced motion / pre-start) ---- */
 .play-overlay{position:absolute;inset:0;z-index:60;background:rgba(253,248,244,.62);backdrop-filter:blur(2px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
@@ -104,8 +104,6 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 <body>
 
 <div class="stage-outer">
-  <div class="act-eyebrow" id="eyebrow"></div>
-
   <div class="stage" id="stage">
     <div class="phone" id="phone">
       <div class="phone-screen" id="screen">
@@ -185,14 +183,16 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
             <button class="play-btn" id="playBtn" aria-label="Play walkthrough">▶</button>
           </div>
         </div>
+        <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="cap-overlay">
+          <div class="act-eyebrow" id="eyebrow"></div>
+          <div class="caption" id="caption" aria-live="polite"></div>
+        </div>
       </div>
     </div>
     <div class="fallback-link" id="fallback" hidden>Prefer to explore yourself? <a href="/mcarthur/">Open the demo</a></div>
   </div>
 
-  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
-
-  <div class="caption-wrap"><div class="caption" id="caption" aria-live="polite"></div></div>
 </div>
 
 <script>
@@ -223,8 +223,10 @@ var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matche
 
 /* ---- responsive scale ---- */
 function fit(){
-  var w = Math.min(APP_W, stage.parentElement.clientWidth - 20);
-  var s = w / APP_W;
+  var maxW = stage.parentElement.clientWidth - 20;
+  var maxH = window.innerHeight * 0.9 - 40; /* bezel allowance */
+  var s = Math.min(maxW / APP_W, maxH / APP_H, 1);
+  var w = APP_W * s;
   phone.style.width = (w + 20) + "px";
   screenEl.style.width = w + "px";
   screenEl.style.height = Math.round(APP_H * s) + "px";
