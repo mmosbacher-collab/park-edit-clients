@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Park Edit">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;My Park Edit&quot;,&quot;short_name&quot;:&quot;My Park Edit&quot;,&quot;start_url&quot;:&quot;/&quot;,&quot;scope&quot;:&quot;/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;orientation&quot;:&quot;portrait&quot;,&quot;background_color&quot;:&quot;#FDF8F4&quot;,&quot;theme_color&quot;:&quot;#EA6E38&quot;}">
+<title>The Park Edit · Hobson Family</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FDF8F4;--terracotta:#E8734A;--sky:#5B8FA8;--gold:#F2C94C;--border:#EDE5DC;--text:#2C2420;--muted:#8C7B72;--surface:#F5EFE8;--shadow:#C4A898;--done:#7AAE8E;--ice:#C8E8F4;--ice-text:#3A7A9A;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);max-width:390px;margin:0 auto;min-height:100vh;padding-bottom:100px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.brand-header{background:var(--cream);padding:28px 20px 20px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.brand-header::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(232,115,74,0.08) 0%,transparent 70%);}
+.brand-family{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.brand-name{font-family:'Playfair Display',Georgia,serif;font-size:36px;font-weight:700;color:var(--text);line-height:1;margin-bottom:8px;}
+.brand-name span{color:var(--terracotta);}
+.brand-tagline{font-size:13px;color:var(--muted);font-style:italic;font-family:'Playfair Display',Georgia,serif;}
+.wrap{padding:16px 16px 0;}
+.day-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.day-tabs::-webkit-scrollbar{display:none;}
+.day-tab{border-radius:10px;padding:7px 8px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.day-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.day-tab-label{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;}
+.day-tab.active .day-tab-label{color:rgba(255,255,255,0.7);opacity:1;}
+.day-tab-day{font-family:'Playfair Display',Georgia,serif;font-size:14px;font-weight:600;margin-top:1px;}
+.boarding-pass{border-radius:20px;overflow:visible;margin-bottom:16px;animation:fadeUp 0.5s ease both;}
+.bp-top{background:var(--terracotta);padding:18px 20px 22px;color:white;border-radius:20px 20px 0 0;position:relative;overflow:hidden;}
+.bp-top::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);}
+.park-name-row{display:flex;align-items:center;gap:7px;margin-bottom:8px;position:relative;z-index:1;flex-wrap:nowrap;min-width:0;}
+.park-day-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-left:2px;white-space:nowrap;flex-shrink:0;}
+.park-emoji{font-size:16px;line-height:1;}
+.park-name{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:0.04em;text-transform:uppercase;}
+.bp-day-name{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;line-height:1.15;margin-bottom:4px;position:relative;z-index:1;}
+.bp-park{font-size:12px;opacity:0.8;position:relative;z-index:1;}
+.bp-summary{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.2);font-family:'Playfair Display',Georgia,serif;font-size:13px;font-style:italic;opacity:0.9;line-height:1.5;position:relative;z-index:1;}
+.bp-divider{display:flex;align-items:center;background:var(--terracotta);}
+.bp-notch{width:18px;height:18px;background:var(--cream);flex-shrink:0;}
+.bp-notch-l{border-radius:0 9px 9px 0;margin-left:-1px;}
+.bp-notch-r{border-radius:9px 0 0 9px;margin-right:-1px;}
+.bp-dash{flex:1;border-top:2px dashed rgba(255,255,255,0.3);margin:0 3px;}
+.bp-bottom{background:white;border-radius:0 0 20px 20px;border:1px solid var(--border);border-top:none;overflow:hidden;padding-bottom:24px;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.schedule-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid var(--border);}
+.schedule-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);}
+.edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.bag-check-item{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-check-item:last-child{border-bottom:none;}
+.bag-check-box{width:20px;height:20px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.bag-check-item.checked .bag-check-box{background:var(--done);border-color:var(--done);}
+.bag-check-item.checked .bag-check-box::after{content:'✓';font-size:11px;color:white;font-weight:600;}
+.bag-check-item.checked .bag-check-label{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(140,123,114,0.4);}
+.bag-check-label{font-size:14px;color:var(--text);flex:1;line-height:1.5;}
+.packed-btn{display:block;width:calc(100% - 36px);margin:14px 18px 0;background:var(--terracotta);color:white;border:none;border-radius:10px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.bag-row-top{display:flex;align-items:center;gap:10px;padding:10px 18px;background:#FEFCFA;border-left:3px solid var(--terracotta);border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:opacity 0.3s ease,max-height 0.4s ease,padding 0.3s ease;}
+.bag-row-top.collapsing{opacity:0;max-height:0;padding-top:0;padding-bottom:0;border-bottom:none;overflow:hidden;}
+.bag-row-top-title{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.bag-row-top-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--terracotta);letter-spacing:0.1em;text-transform:uppercase;}
+.bag-row-bottom{display:flex;align-items:center;gap:8px;padding:8px 18px;border-top:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;opacity:0;transition:opacity 0.4s ease;}
+.pill-row{display:flex;gap:8px;padding:10px 14px;background:#FEFCFA;border-bottom:1px solid var(--border);}
+.bp-pill{flex:1;display:flex;align-items:center;gap:8px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:8px 10px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;min-width:0;}
+.bp-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.bp-pill-icon{font-size:14px;flex-shrink:0;}
+.bp-pill-text{flex:1;min-width:0;}
+.bp-pill-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.bp-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:10px;font-style:italic;color:var(--muted);display:block;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bp-pill-chev{font-size:12px;color:var(--muted);flex-shrink:0;}
+.bag-row-bottom.visible{opacity:1;}
+.bag-row-bottom-title{font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);flex:1;}
+.bag-row-done-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--done);letter-spacing:0.1em;text-transform:uppercase;}
+.done-edit-btn{font-size:11px;padding:4px 10px;border-radius:8px;border:1.5px solid var(--terracotta);background:var(--terracotta);color:white;cursor:pointer;font-family:'DM Sans',sans-serif;display:none;}
+.edit-mode .edit-btn{display:none;}
+.edit-mode .done-edit-btn{display:block;}
+.edit-banner{display:none;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;padding:7px 18px;background:var(--surface);border-bottom:1px solid var(--border);text-align:center;letter-spacing:0.04em;}
+.edit-mode .edit-banner{display:block;}
+.tl-item{display:flex;align-items:center;gap:10px;padding:10px 18px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.tl-item:last-child{border-bottom:none;}
+.tl-item.done{opacity:0.55;}
+.tl-item:active{background:var(--surface);}
+.tl-time{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);width:32px;flex-shrink:0;text-align:right;}
+.tl-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.tl-bolt{width:16px;flex-shrink:0;font-size:13px;line-height:1;text-align:center;}
+.tl-item-linked{border-bottom:none !important;}
+.dot-must{background:var(--terracotta);}
+.dot-ll{background:var(--sky);}
+.dot-show{background:#B088C0;}
+.dot-opt{background:var(--border);border:1.5px solid var(--muted);}
+.dot-food{background:var(--gold);}
+.dot-break{background:var(--done);}
+.tl-content{flex:1;min-width:0;}
+.tl-title-row{display:flex;align-items:center;gap:6px;margin-bottom:0;}
+.tl-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.3;text-decoration:underline;text-decoration-color:rgba(232,115,74,0.3);text-underline-offset:3px;text-decoration-thickness:1.5px;flex:1;}
+.dir-icons{display:flex;gap:4px;flex-shrink:0;}
+.dir-btn{background:none;border:none;cursor:pointer;padding:2px;opacity:0.65;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:opacity 0.15s;}
+.dir-btn:active{opacity:1;}
+.dir-legend{padding:10px 18px;background:var(--surface);border-bottom:1px solid var(--border);}
+.dir-legend-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-weight:600;}
+.dir-legend-row{display:flex;gap:18px;}
+.dir-legend-item{display:flex;align-items:center;gap:5px;}
+.dir-legend-text{font-size:11px;color:var(--text);}
+.tl-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;}
+.tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.05em;padding:2px 7px;border-radius:6px;}
+.tag-must{background:rgba(232,115,74,0.12);color:var(--terracotta);}
+.tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}.tag-tapin{background:rgba(196,96,58,0.12);color:#A04030;}
+.tag-opt{background:rgba(140,123,114,0.1);color:var(--muted);}
+.tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.tag-show{background:rgba(176,136,192,0.12);color:#8060A0;}
+.tag-meet{background:rgba(91,143,168,0.1);color:var(--sky);}
+.tag-ac{background:var(--ice);color:var(--ice-text);}
+.tag-split{background:rgba(122,174,142,0.15);color:#3A7A5A;}
+.done-check{width:18px;height:18px;border-radius:50%;background:var(--done);display:flex;align-items:center;justify-content:center;font-size:10px;color:white;flex-shrink:0;opacity:0;transition:opacity 0.3s;}
+.tl-item.done .done-check{opacity:1;}
+.fixed-label{display:none;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);background:var(--surface);padding:2px 7px;border-radius:10px;flex-shrink:0;}
+.edit-mode .tl-item.fixed .fixed-label{display:none;}
+.stepper{display:none;align-items:center;flex-shrink:0;border:1.5px solid var(--terracotta);border-radius:20px;overflow:hidden;box-shadow:2px 2px 0 var(--shadow);}
+.edit-mode .stepper{display:flex;}
+.step-btn{width:40px;height:40px;border:none;background:rgba(232,115,74,0.08);color:var(--terracotta);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.step-btn:disabled{opacity:0.2;cursor:default;pointer-events:none;}
+.step-divider{width:1px;height:18px;background:rgba(232,115,74,0.3);flex-shrink:0;}
+.midday-break{background:linear-gradient(135deg,rgba(122,174,142,0.12),rgba(122,174,142,0.06));border:1.5px solid rgba(122,174,142,0.4);border-radius:14px;padding:14px 16px;margin:10px 14px;position:relative;}
+.midday-break-top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.midday-icon{font-size:16px;}
+.midday-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:#3A7A5A;font-weight:600;}
+.midday-line{flex:1;height:1px;background:rgba(122,174,142,0.3);}
+.midday-text{font-size:13px;color:var(--text);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.time-break{display:flex;align-items:center;gap:10px;padding:8px 18px;}
+.time-break-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.time-break-line{flex:1;height:1px;background:var(--border);}
+.worth-pill{display:flex;align-items:center;gap:10px;background:white;border:1.5px solid var(--border);border-left:3px solid var(--terracotta);border-radius:10px;padding:9px 14px;margin-bottom:14px;cursor:pointer;box-shadow:3px 3px 0 var(--shadow);transition:box-shadow 0.12s,transform 0.12s;-webkit-tap-highlight-color:transparent;}
+.worth-pill.pressed{box-shadow:1px 1px 0 var(--shadow);transform:translate(2px,2px);}
+.worth-pill-icon{font-size:14px;flex-shrink:0;}
+.worth-pill-text{flex:1;}
+.worth-pill-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--text);display:block;margin-bottom:1px;}
+.worth-pill-sub{font-family:'Playfair Display',Georgia,serif;font-size:11px;font-style:italic;color:var(--muted);}
+.worth-pill-chev{font-size:13px;color:var(--muted);flex-shrink:0;}
+.overlay{position:fixed;inset:0;background:rgba(44,36,32,0);z-index:10;pointer-events:none;transition:background 0.5s ease;max-width:390px;margin:0 auto;}
+.overlay.open{background:rgba(44,36,32,0.45);pointer-events:all;}
+.drawer{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:390px;background:white;border-radius:24px 24px 0 0;z-index:20;transition:transform 0.55s cubic-bezier(0.16,1,0.3,1);padding-bottom:24px;box-shadow:0 -8px 40px rgba(44,36,32,0.15);}
+.drawer.open{transform:translateX(-50%) translateY(0);}
+.drawer-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0;}
+.drawer-header{padding:16px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px;}
+.drawer-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.icon-tc{background:rgba(232,115,74,0.12);}
+.icon-sky{background:rgba(91,143,168,0.12);}
+.icon-gold{background:rgba(242,201,76,0.15);}
+.icon-show{background:rgba(176,136,192,0.12);}
+.drawer-title-wrap{flex:1;}
+.drawer-title{font-family:'Playfair Display',Georgia,serif;font-size:19px;font-weight:600;color:var(--text);line-height:1.2;}
+.drawer-time{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.drawer-close{width:40px;height:40px;border-radius:50%;background:var(--surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;color:var(--muted);flex-shrink:0;-webkit-tap-highlight-color:transparent;}
+.drawer-tags{display:flex;gap:6px;padding:12px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;}
+.drawer-body{padding:18px 22px 0;overflow-y:auto;max-height:42vh;font-size:14px;line-height:1.75;color:var(--text);}
+.prose-p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.prose-p+.prose-p{margin-top:12px;}
+.prose-p em{font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+.section-divider{height:1px;background:rgba(232,115,74,0.25);margin:14px 0;}
+.callout{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:12px 14px;margin-top:16px;}
+.callout-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;}
+.callout-text{font-size:13px;line-height:1.65;color:var(--text);}
+.drawer-footer{padding:16px 22px 0;border-top:1px solid var(--border);margin-top:16px;}
+.done-btn{width:100%;padding:14px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--terracotta);color:white;box-shadow:3px 3px 0 #C45A2E;display:flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s;-webkit-tap-highlight-color:transparent;}
+.done-btn:active{transform:translateY(2px);box-shadow:1px 1px 0 #C45A2E;}
+.done-btn.completed{background:var(--done);box-shadow:3px 3px 0 #5A9070;}
+.wk-park-tabs{display:flex;gap:5px;padding:12px 18px;border-bottom:1px solid var(--border);overflow-x:auto;}
+.wk-park-tabs::-webkit-scrollbar{display:none;}
+.wk-park-tab{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;padding:5px 10px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;box-shadow:1px 1px 0 var(--shadow);-webkit-tap-highlight-color:transparent;}
+.wk-park-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;}
+.wk-body{padding:0 0 8px;overflow-y:auto;max-height:52vh;}
+.wk-group{padding:14px 22px 0;}
+.wk-group-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.wk-tip{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.wk-tip:last-child{border-bottom:none;}
+.wk-tip-emoji{font-size:16px;width:22px;text-align:center;flex-shrink:0;margin-top:1px;}
+.wk-tip-title{font-size:14px;font-weight:500;margin-bottom:3px;color:var(--text);}
+.wk-tip-text{font-size:13px;color:var(--muted);line-height:1.65;}
+.drawer-subtitle{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px;}
+.meet-row{padding:14px 22px;border-bottom:1px dashed var(--border);}
+.meet-row:last-child{border-bottom:none;}
+.meet-name{font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.meet-loc{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--terracotta);margin-bottom:8px;}
+.meet-text{font-size:13px;line-height:1.7;color:var(--text);}
+.note-block{margin:14px 22px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:'Playfair Display',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;}
+.sos-menu-row{display:flex;align-items:center;gap:14px;padding:14px 22px;border-bottom:1px dashed var(--border);cursor:pointer;background:#FEFCFA;border-left:3px solid transparent;-webkit-tap-highlight-color:transparent;}
+.sos-menu-row:last-child{border-bottom:none;}
+.sos-menu-emoji{font-size:20px;width:26px;text-align:center;flex-shrink:0;}
+.sos-menu-title{font-size:15px;font-weight:500;color:var(--text);flex:1;}
+.sos-menu-chev{font-size:16px;color:var(--border);}
+.sos-sticky-btn{position:fixed;bottom:24px;right:max(16px,calc(50% - 179px));width:52px;height:52px;border-radius:50%;background:var(--terracotta);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(232,115,74,0.4),3px 3px 0 #C45A2E;cursor:pointer;z-index:30;border:none;-webkit-tap-highlight-color:transparent;}
+.day-panel{display:none;}
+.day-panel.active{display:block;}
+.index-panel{display:none;}
+.index-panel.active{display:block;}
+.idx-section{margin-bottom:18px;}
+.idx-section-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:10px 16px 6px;border-bottom:1px solid var(--border);}
+.aag-cards{display:flex;flex-direction:column;gap:10px;padding:14px 16px;}
+.aag-card{background:white;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:3px 3px 0 var(--shadow);}
+.aag-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface);border-bottom:1px solid var(--border);}
+.aag-card-icon{font-size:16px;flex-shrink:0;}
+.aag-card-meta{flex:1;}
+.aag-card-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:2px;}
+.aag-card-title{font-family:'Playfair Display',Georgia,serif;font-size:15px;font-weight:600;color:var(--text);}
+.aag-card-body{padding:0;}
+.aag-row{display:flex;gap:10px;padding:11px 14px;border-bottom:1px dashed var(--border);align-items:flex-start;}
+.aag-row:last-child{border-bottom:none;}
+.aag-row-icon{font-size:15px;flex-shrink:0;width:22px;text-align:center;margin-top:1px;}
+.aag-row-value{font-size:13px;font-weight:500;color:var(--text);line-height:1.35;margin-bottom:2px;}
+.aag-row-sub{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.06em;color:var(--muted);margin-bottom:3px;}
+.aag-tag{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:0.05em;padding:2px 6px;border-radius:5px;display:inline-block;}
+.aag-tag-ll{background:rgba(91,143,168,0.12);color:var(--sky);}
+.aag-tag-sp{background:rgba(91,143,168,0.2);color:#2A6A8A;font-weight:600;}
+.aag-tag-food{background:rgba(242,201,76,0.18);color:#8C6A00;}
+.aag-tag-trip{background:rgba(232,115,74,0.1);color:var(--terracotta);}
+.idx-drawer-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px dashed var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background 0.12s;}
+.idx-drawer-row:last-child{border-bottom:none;}
+.idx-drawer-row:active{background:var(--surface);}
+.idx-drawer-icon{font-size:16px;width:24px;text-align:center;flex-shrink:0;}
+.idx-drawer-label{font-size:14px;font-weight:500;color:var(--text);flex:1;}
+.idx-drawer-chev{font-size:14px;color:var(--muted);flex-shrink:0;}
+.idx-tab{border-radius:10px;padding:7px 10px;text-align:center;flex-shrink:0;border:1.5px solid var(--border);background:white;box-shadow:3px 3px 0 var(--shadow);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.idx-tab.active{background:#5C3D2E;border-color:#5C3D2E;color:white;box-shadow:3px 3px 0 #3D2418;}
+.idx-tab-top{font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;opacity:0.5;display:block;}
+.idx-tab.active .idx-tab-top{color:rgba(255,255,255,0.7);opacity:1;}
+.idx-tab-bottom{font-family:'Playfair Display',Georgia,serif;font-size:13px;font-weight:600;display:block;margin-top:1px;}
+.stub-message{padding:40px 24px;text-align:center;}
+.stub-icon{font-size:36px;margin-bottom:12px;}
+.stub-title{font-family:'Playfair Display',Georgia,serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:8px;}
+.stub-body{font-size:13px;color:var(--muted);line-height:1.65;font-family:'Playfair Display',Georgia,serif;font-style:italic;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes checkPop{0%{transform:scale(0.5);opacity:0}70%{transform:scale(1.2);opacity:1}100%{transform:scale(1);opacity:1}}
+.tl-item.done .done-check.pop{animation:checkPop 0.35s cubic-bezier(0.22,1,0.36,1) both;}
+
+.priorities-strip{border-bottom:1.5px solid var(--border);}
+.ps-row{display:flex;align-items:center;gap:10px;padding:11px 16px;border-bottom:1px solid var(--border);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.ps-row:last-child{border-bottom:none;}
+.ps-row-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.ps-row-content{flex:1;min-width:0;}
+.ps-row-label{font-size:13px;font-weight:500;color:var(--text);display:block;}
+.ps-row-sub{font-size:11px;color:var(--muted);font-family:'Playfair Display',Georgia,serif;font-style:italic;display:block;margin-top:1px;}
+.ps-chev{font-size:16px;color:var(--terracotta);opacity:0.7;flex-shrink:0;transition:transform 0.2s;}
+.ps-chev.open{transform:rotate(90deg);}
+.ps-list{padding:4px 16px 10px 46px;display:none;}
+.ps-list.open{display:block;}
+.ps-item{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:13px;color:var(--text);}
+.ps-dot{width:8px;height:8px;border-radius:50%;background:var(--terracotta);flex-shrink:0;}
+.time-break-rope{display:flex;align-items:center;gap:10px;padding:8px 16px;background:rgba(196,96,58,0.06);cursor:pointer;-webkit-tap-highlight-color:transparent;}
+.time-break-rope:active{background:rgba(196,96,58,0.14);}
+.time-break-rope-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#C4603A;white-space:nowrap;font-weight:600;}
+.time-break-rope-line{flex:1;height:1px;background:rgba(196,96,58,0.25);}
+.time-break-rope-tap{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:#C4603A;opacity:0.7;flex-shrink:0;}
+.rope-drop-list{margin:12px 0 0 0;padding:0 0 0 18px;list-style:decimal;}
+.rope-drop-list li{font-size:14px;color:var(--text);line-height:1.5;margin-bottom:10px;padding-left:4px;}
+.rope-drop-list li strong{font-weight:600;}
+.drag-handle{cursor:grab;padding:2px 0 2px 8px;color:var(--shadow);flex-shrink:0;display:flex;align-items:center;touch-action:none;}
+.drag-handle:active{cursor:grabbing;}
+.tl-item.sortable-ghost{opacity:0.3;background:var(--surface);}
+.tl-item.sortable-chosen{background:var(--surface);box-shadow:0 3px 12px rgba(44,36,32,0.12);border-radius:8px;}
+.drawer-body p{font-size:14px;line-height:1.75;color:var(--text);margin-bottom:0;}
+.drawer-body p+p{margin-top:12px;}
+.drawer-tip{background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 10px 10px 0;padding:10px 14px;margin-top:14px;font-size:13px;line-height:1.65;color:var(--text);}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+</head>
+<body>
+
+<div class="brand-header">
+  <div class="brand-family">Hobson Family</div>
+  <div class="brand-name">The Park<span>.</span>Edit</div>
+  <div class="brand-tagline">Your Disney World guide, July 2026</div>
+</div>
+
+<div class="wrap">
+  <div class="day-tabs" id="dayTabs">
+    <div class="idx-tab" id="indexTab" onclick="switchIndex()"><span class="idx-tab-top">The</span><span class="idx-tab-bottom">Key</span></div>
+    <div class="day-tab active" id="dayTab-0" onclick="switchDay(0)">
+      <div class="day-tab-label">Day 1</div>
+      <div class="day-tab-day">🏰 MK</div>
+    </div>
+    <div class="day-tab" id="dayTab-1" onclick="switchDay(1)">
+      <div class="day-tab-label">Day 2</div>
+      <div class="day-tab-day">🦁 AK</div>
+    </div>
+    <div class="day-tab" id="dayTab-2" onclick="switchDay(2)">
+      <div class="day-tab-label">Day 3</div>
+      <div class="day-tab-day">🎬 HS</div>
+    </div>
+  </div>
+
+  <!-- DAY 1 -->
+  <div class="day-panel  active" id="dayPanel-0">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row">
+          <span class="park-day-label">Day 1</span>
+          <span class="park-emoji">🏰</span>
+          <span class="park-name">Magic Kingdom</span>
+        </div>
+        <div class="bp-day-name">The Classic Day</div>
+        <div class="bp-park">Fantasyland · Frontierland · Liberty Square · Adventureland</div>
+        <div class="bp-summary">Bus from All-Star to Magic Kingdom. Early Entry at 8:30a — be through security by 7:30a and walk straight to Seven Dwarfs Mine Train. Princess Fairytale Hall before 10:30a. Big Thunder Mountain via pre-booked Lightning Lane. Midday break at All-Star, then afternoon Fantasyland.</div>
+      </div>
+      <div class="bp-divider">
+        <div class="bp-notch bp-notch-l"></div>
+        <div class="bp-dash"></div>
+        <div class="bp-notch bp-notch-r"></div>
+      </div>
+      <div class="bp-bottom" id="sc-0">
+        <div class="pill-row">
+          <div class="bp-pill" id="charsPill-0" onclick="openCharsDrawer(0)">
+            <span class="bp-pill-icon">👋</span>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Characters</span>
+              <span class="bp-pill-sub">Who's out today</span>
+            </div>
+            <span class="bp-pill-chev">›</span>
+          </div>
+          <div class="bp-pill" id="entPill-0" onclick="openEntDrawer(0)">
+            <span class="bp-pill-icon">🎭</span>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Shows</span>
+              <span class="bp-pill-sub">Today's entertainment</span>
+            </div>
+            <span class="bp-pill-chev">›</span>
+          </div>
+        </div>
+          <div class="priorities-strip">
+            <div class="ps-row ps-expand" onclick="togglePriorities(0)">
+              <span class="ps-row-icon">⭐</span>
+              <div class="ps-row-content">
+                <span class="ps-row-label">Today's priorities</span>
+                <span class="ps-row-sub">If the day gets away from you, start here</span>
+              </div>
+              <span class="ps-chev" id="psChev-0">›</span>
+            </div>
+            <div class="ps-list" id="psList-0"><div class="ps-item"><span class="ps-dot"></span>Seven Dwarfs Mine Train</div><div class="ps-item"><span class="ps-dot"></span>Princess Fairytale Hall</div><div class="ps-item"><span class="ps-dot"></span>Big Thunder Mountain Railroad</div></div>
+            <div class="ps-row" onclick="openWorthKnowing()">
+              <span class="ps-row-icon">📍</span>
+              <div class="ps-row-content"><span class="ps-row-label">In-Park Intel</span></div>
+              <span class="ps-chev">›</span>
+            </div>
+            <div class="ps-row" onclick="openBagDrawer(0)">
+              <span class="ps-row-icon">🎒</span>
+              <div class="ps-row-content"><span class="ps-row-label">Park Bag</span></div>
+              <span class="ps-chev">›</span>
+            </div>
+          </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div></div>
+        <div class="dir-legend">
+          <div class="dir-legend-label">Getting Around</div>
+          <div class="dir-legend-row">
+            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="dir-legend-text">Tap the pin to open in Google Maps</span></div>
+          </div>
+        </div>
+        <div id="timeline-0">
+          <div class="tl-item fixed" id="mk-arrive" onclick="openDrawer('mkArrive')">
+            <div class="tl-time">7:00a</div>
+            <div class="tl-dot dot-break"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bus to Magic Kingdom</div></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Early Entry · 8:30a</div><div class="time-break-line"></div></div>
+          <div class="time-break-rope" onclick="openDrawer('mkRopeDropPriorities')"><div class="time-break-rope-label">🏃 Rope Drop Priorities</div><div class="time-break-rope-line"></div><div class="time-break-rope-tap">tap to open ›</div></div>
+          <div class="tl-item fixed" id="mk-minetrain" onclick="openDrawer('mkMineTrain')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Seven Dwarfs Mine Train</div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Single Pass</span></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-peterpan" onclick="openDrawer('mkPeterPan')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Peter Pan's Flight</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Peter+Pan+Flight+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-fairytalehall" onclick="openDrawer('mkFairytaleHall')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Princess Fairytale Hall · before 10:30a</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Princess+Fairytale+Hall+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-meet">👋 Character Meet</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-bigthunder" onclick="openDrawer('mkBigThunder')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Big Thunder Mountain Railroad</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Big+Thunder+Mountain+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-tapin">⚡ Tap in — then rebook</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-tiana" onclick="openDrawer('mkTiana')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Tiana's Bayou Adventure</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Tiana+Bayou+Adventure+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Rolling LL</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-buzz" onclick="openDrawer('mkBuzz')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Buzz Lightyear's Space Ranger Spin</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Buzz+Lightyear+Space+Ranger+Spin+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-pirates" onclick="openDrawer('mkPirates')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Pirates of the Caribbean</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Pirates+of+the+Caribbean+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-philharmagic" onclick="openDrawer('mkPhilharMagic')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Mickey's PhilharMagic</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=PhilharMagic+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Midday · 12:00p–4:00p</div><div class="time-break-line"></div></div>
+          <div class="midday-break">
+            <div class="midday-break-top"><span class="midday-icon">☀️</span><span class="midday-label">Midday Break</span><div class="midday-line"></div></div>
+            <div class="midday-text">12pm to 3pm is the hottest, most crowded part of the day. Head home, decompress and head back (if you want to!) late afternoon or early evening.</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Evening · Your Call</div><div class="time-break-line"></div></div>
+          <div class="tl-item" id="mk-haunted" onclick="openDrawer('mkHaunted')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Haunted Mansion</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Haunted+Mansion+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ll">⚡ Lightning Lane</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-enchantedbelle" onclick="openDrawer('mkEnchantedBelle')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Enchanted Tales with Belle</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Enchanted+Tales+with+Belle+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-carousel" onclick="openDrawer('mkCarousel')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Cinderella's Carousel</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Cinderella+Carousel+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-littlemermaid" onclick="openDrawer('mkLittleMermaid')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Under the Sea: Journey of the Little Mermaid</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Little+Mermaid+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-smallworld" onclick="openDrawer('mkSmallWorld')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">it's a small world</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=its+a+small+world+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-dumbo" onclick="openDrawer('mkDumbo')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Dumbo the Flying Elephant</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Dumbo+Flying+Elephant+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-parade" onclick="openDrawer('mkParade')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Festival of Fantasy Parade</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Festival+of+Fantasy+Parade+Magic+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-starlight" onclick="openDrawer('mkStarlight')">
+            <div class="tl-time">~9:00p</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Disney Starlight: Dream the Night Away</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Magic+Kingdom+Main+Street';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="mk-fireworks" onclick="openDrawer('mkFireworks')">
+            <div class="tl-time">~10:00p</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Happily Ever After Fireworks</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Magic+Kingdom+Fireworks';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item fixed" id="mk-bus-home" onclick="openDrawer('mkBusHome')">
+            <div class="tl-time">post-show</div>
+            <div class="tl-dot dot-break"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bus back to All-Star</div></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 2 -->
+  <div class="day-panel" id="dayPanel-1">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row">
+          <span class="park-day-label">Day 2</span>
+          <span class="park-emoji">🦁</span>
+          <span class="park-name">Animal Kingdom</span>
+        </div>
+        <div class="bp-day-name">Into the Wild</div>
+        <div class="bp-park">Pandora · Africa · Asia · Discovery Island</div>
+        <div class="bp-summary">Bus from All-Star to Animal Kingdom. Early Entry at 7:30a — head straight to Flight of Passage in Pandora. Animals are most active before 10am so Kilimanjaro Safaris follows immediately after. Midday break, then Festival of the Lion King, Expedition Everest, and evening safari.</div>
+      </div>
+      <div class="bp-divider">
+        <div class="bp-notch bp-notch-l"></div>
+        <div class="bp-dash"></div>
+        <div class="bp-notch bp-notch-r"></div>
+      </div>
+      <div class="bp-bottom" id="sc-1">
+        <div class="pill-row">
+          <div class="bp-pill" id="charsPill-1" onclick="openCharsDrawer(1)">
+            <span class="bp-pill-icon">👋</span>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Characters</span>
+              <span class="bp-pill-sub">Who's out today</span>
+            </div>
+            <span class="bp-pill-chev">›</span>
+          </div>
+          <div class="bp-pill" id="entPill-1" onclick="openEntDrawer(1)">
+            <span class="bp-pill-icon">🎭</span>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Shows</span>
+              <span class="bp-pill-sub">Today's entertainment</span>
+            </div>
+            <span class="bp-pill-chev">›</span>
+          </div>
+        </div>
+          <div class="priorities-strip">
+            <div class="ps-row ps-expand" onclick="togglePriorities(1)">
+              <span class="ps-row-icon">⭐</span>
+              <div class="ps-row-content">
+                <span class="ps-row-label">Today's priorities</span>
+                <span class="ps-row-sub">If the day gets away from you, start here</span>
+              </div>
+              <span class="ps-chev" id="psChev-1">›</span>
+            </div>
+            <div class="ps-list" id="psList-1"><div class="ps-item"><span class="ps-dot"></span>Flight of Passage</div><div class="ps-item"><span class="ps-dot"></span>Kilimanjaro Safaris</div><div class="ps-item"><span class="ps-dot"></span>Na'vi River Journey</div></div>
+            <div class="ps-row" onclick="openWorthKnowing()">
+              <span class="ps-row-icon">📍</span>
+              <div class="ps-row-content"><span class="ps-row-label">In-Park Intel</span></div>
+              <span class="ps-chev">›</span>
+            </div>
+            <div class="ps-row" onclick="openBagDrawer(1)">
+              <span class="ps-row-icon">🎒</span>
+              <div class="ps-row-content"><span class="ps-row-label">Park Bag</span></div>
+              <span class="ps-chev">›</span>
+            </div>
+          </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div></div>
+        <div class="dir-legend">
+          <div class="dir-legend-label">Getting Around</div>
+          <div class="dir-legend-row">
+            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="dir-legend-text">Tap the pin to open in Google Maps</span></div>
+          </div>
+        </div>
+        <div id="timeline-1">
+          <div class="tl-item fixed" id="ak-arrive" onclick="openDrawer('akArrive')">
+            <div class="tl-time">6:45a</div>
+            <div class="tl-dot dot-break"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bus to Animal Kingdom</div></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Early Entry · 7:30a</div><div class="time-break-line"></div></div>
+          <div class="time-break-rope" onclick="openDrawer('akRopeDropPriorities')"><div class="time-break-rope-label">🏃 Rope Drop Priorities</div><div class="time-break-rope-line"></div><div class="time-break-rope-tap">tap to open ›</div></div>
+          <div class="tl-item" id="ak-fop" onclick="openDrawer('akFOP')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Avatar Flight of Passage</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Flight+of+Passage+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-naviriver" onclick="openDrawer('akNaviRiver')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Na'vi River Journey</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Navi+River+Journey+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-safaris" onclick="openDrawer('akSafari')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Kilimanjaro Safaris</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Kilimanjaro+Safaris+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-gorillafalls" onclick="openDrawer('akGorillaFalls')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Gorilla Falls Exploration Trail</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Gorilla+Falls+Trail+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-lionking" onclick="openDrawer('akLionKing')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Festival of the Lion King</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Festival+of+the+Lion+King+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Midday · 12:30p–3:30p</div><div class="time-break-line"></div></div>
+          <div class="midday-break">
+            <div class="midday-break-top"><span class="midday-icon">☀️</span><span class="midday-label">Midday Break</span><div class="midday-line"></div></div>
+            <div class="midday-text">12pm to 3pm is the hottest, most crowded part of the day. Head home, decompress and head back (if you want to!) late afternoon or early evening.</div>
+          </div>
+          <div class="tl-item" id="ak-nemo" onclick="openDrawer('akNemo')">
+            <div class="tl-time">3:30p</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Finding Nemo: The Big Blue… and Beyond!</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Finding+Nemo+Musical+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-everest" onclick="openDrawer('akEverest')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Expedition Everest</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Expedition+Everest+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-kali" onclick="openDrawer('akKali')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Kali River Rapids</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Kali+River+Rapids+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="ak-zootopia" onclick="openDrawer('akZootopia')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Zootopia: Better Zoogether!</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Zootopia+Better+Zoogether+Animal+Kingdom';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item fixed" id="ak-bus-home" onclick="openDrawer('akBusHome')">
+            <div class="tl-time">~7:15p</div>
+            <div class="tl-dot dot-break"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bus back to All-Star</div></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAY 3 -->
+  <div class="day-panel" id="dayPanel-2">
+    <div class="boarding-pass">
+      <div class="bp-top">
+        <div class="park-name-row">
+          <span class="park-day-label">Day 3</span>
+          <span class="park-emoji">🎬</span>
+          <span class="park-name">Hollywood Studios</span>
+        </div>
+        <div class="bp-day-name">Lights, Camera, Action</div>
+        <div class="bp-park">Toy Story Land · Galaxy's Edge · Echo Lake · Sunset Boulevard</div>
+        <div class="bp-summary">Bus from All-Star to Hollywood Studios. Early Entry tap-in at 8:30a — head straight to Mickey & Minnie's Runaway Railway, then use the Alien Swirling Saucers tap-in move to unlock Millennium Falcon: Smugglers Run via Lightning Lane. The day closes with Beauty and the Beast and Fantasmic!</div>
+      </div>
+      <div class="bp-divider">
+        <div class="bp-notch bp-notch-l"></div>
+        <div class="bp-dash"></div>
+        <div class="bp-notch bp-notch-r"></div>
+      </div>
+      <div class="bp-bottom" id="sc-2">
+        <div class="pill-row">
+          <div class="bp-pill" id="charsPill-2" onclick="openCharsDrawer(2)">
+            <span class="bp-pill-icon">👋</span>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Characters</span>
+              <span class="bp-pill-sub">Who's out today</span>
+            </div>
+            <span class="bp-pill-chev">›</span>
+          </div>
+          <div class="bp-pill" id="entPill-2" onclick="openEntDrawer(2)">
+            <span class="bp-pill-icon">🎭</span>
+            <div class="bp-pill-text">
+              <span class="bp-pill-label">Shows</span>
+              <span class="bp-pill-sub">Today's entertainment</span>
+            </div>
+            <span class="bp-pill-chev">›</span>
+          </div>
+        </div>
+          <div class="priorities-strip">
+            <div class="ps-row ps-expand" onclick="togglePriorities(2)">
+              <span class="ps-row-icon">⭐</span>
+              <div class="ps-row-content">
+                <span class="ps-row-label">Today's priorities</span>
+                <span class="ps-row-sub">If the day gets away from you, start here</span>
+              </div>
+              <span class="ps-chev" id="psChev-2">›</span>
+            </div>
+            <div class="ps-list" id="psList-2"><div class="ps-item"><span class="ps-dot"></span>Mickey & Minnie's Runaway Railway</div><div class="ps-item"><span class="ps-dot"></span>Alien tap-in → Book Smugglers Run</div><div class="ps-item"><span class="ps-dot"></span>Slinky Dog Dash</div></div>
+            <div class="ps-row" onclick="openWorthKnowing()">
+              <span class="ps-row-icon">📍</span>
+              <div class="ps-row-content"><span class="ps-row-label">In-Park Intel</span></div>
+              <span class="ps-chev">›</span>
+            </div>
+            <div class="ps-row" onclick="openBagDrawer(2)">
+              <span class="ps-row-icon">🎒</span>
+              <div class="ps-row-content"><span class="ps-row-label">Park Bag</span></div>
+              <span class="ps-chev">›</span>
+            </div>
+          </div>
+        <div class="schedule-header"><div class="schedule-label">Today's Schedule</div></div>
+        <div class="dir-legend">
+          <div class="dir-legend-label">Getting Around</div>
+          <div class="dir-legend-row">
+            <div class="dir-legend-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span class="dir-legend-text">Tap the pin to open in Google Maps</span></div>
+          </div>
+        </div>
+        <div id="timeline-2">
+          <div class="tl-item fixed" id="hs-arrive" onclick="openDrawer('hsArrive')">
+            <div class="tl-time">7:35a</div>
+            <div class="tl-dot dot-break"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bus to Hollywood Studios</div></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Early Entry · 8:30a</div><div class="time-break-line"></div></div>
+          <div class="time-break-rope" onclick="openDrawer('hsRopeDropPriorities')"><div class="time-break-rope-label">🏃 Rope Drop Priorities</div><div class="time-break-rope-line"></div><div class="time-break-rope-tap">tap to open ›</div></div>
+          <div class="tl-item fixed" id="hs-mmrr" onclick="openDrawer('hsMMRR')">
+            <div class="tl-time">8:30a</div>
+            <div class="tl-dot dot-must"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Mickey & Minnie's Runaway Railway</div></div>
+          <div class="tl-tags"><span class="tag tag-must">⭐ Top Pick</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item fixed" id="hs-alien-tapin" onclick="openDrawer('hsAlienTapIn')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Alien Swirling Saucers — Tap In, Then Book Smugglers Run</div></div>
+          <div class="tl-tags"><span class="tag tag-must">Tap Now · Ride Later</span></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item fixed" id="hs-slinky" onclick="openDrawer('hsSlinky')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Slinky Dog Dash</div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="hs-tsm" onclick="openDrawer('hsTSM')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Toy Story Mania!</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Toy+Story+Mania+Hollywood+Studios';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="hs-galaxysedge" onclick="openDrawer('hsGalaxysEdge')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-opt"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Star Wars: Galaxy's Edge</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Galaxys+Edge+Hollywood+Studios';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="hs-smugglersrun" onclick="openDrawer('hsSmugglersRun')">
+            <div class="tl-time"></div>
+            <div class="tl-dot dot-ll"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Millennium Falcon: Smugglers Run</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Millennium+Falcon+Smugglers+Run+Hollywood+Studios';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-opt">○ Optional</span><span class="tag tag-ll">⚡ Rolling LL</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="time-break"><div class="time-break-label">Midday · 12:00p–3:30p</div><div class="time-break-line"></div></div>
+          <div class="midday-break">
+            <div class="midday-break-top"><span class="midday-icon">☀️</span><span class="midday-label">Midday Break</span><div class="midday-line"></div></div>
+            <div class="midday-text">12pm to 3pm is the hottest, most crowded part of the day. Head home, decompress and head back (if you want to!) late afternoon or early evening.</div>
+          </div>
+          <div class="tl-item" id="hs-beautybeast" onclick="openDrawer('hsBeautyBeast')">
+            <div class="tl-time">3:30p</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Beauty and the Beast Live on Stage</div><div class="dir-icons"><button class="dir-btn" onclick="event.stopPropagation();window.location='comgooglemaps://?q=Beauty+and+the+Beast+Live+on+Stage+Hollywood+Studios';"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="var(--sky)" opacity="0.25"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item" id="hs-fantasmic" onclick="openDrawer('hsFantasmic')">
+            <div class="tl-time">~8:00p</div>
+            <div class="tl-dot dot-show"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Fantasmic!</div></div>
+          <div class="tl-tags"><span class="tag tag-show">🎭 Show</span><span class="tag tag-opt">○ Optional</span></div>
+            </div>
+            <div class="drag-handle"><svg width="14" height="20" viewBox="0 0 14 20" fill="none"><circle cx="4" cy="4" r="1.8" fill="currentColor"/><circle cx="10" cy="4" r="1.8" fill="currentColor"/><circle cx="4" cy="10" r="1.8" fill="currentColor"/><circle cx="10" cy="10" r="1.8" fill="currentColor"/><circle cx="4" cy="16" r="1.8" fill="currentColor"/><circle cx="10" cy="16" r="1.8" fill="currentColor"/></svg></div>
+            <div class="done-check">✓</div>
+          </div>
+          <div class="tl-item fixed" id="hs-bus-home" onclick="openDrawer('hsBusHome')">
+            <div class="tl-time">post-show</div>
+            <div class="tl-dot dot-break"></div>
+            <div class="tl-content">
+              <div class="tl-title-row"><div class="tl-title">Bus back to All-Star</div></div>
+            </div>
+            <div class="fixed-label">fixed</div>
+            <div class="done-check">✓</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="index-panel" id="indexPanel">
+    <div class="idx-section">
+      <div class="idx-section-label">Trip at a Glance</div>
+      <div class="aag-cards">
+        <div class="aag-card">
+          <div class="aag-card-header"><span class="aag-card-icon">🏨</span><div class="aag-card-meta"><span class="aag-card-label">Your Trip</span><span class="aag-card-title">Disney's All-Star Resort</span></div></div>
+          <div class="aag-card-body">
+            <div class="aag-row"><span class="aag-row-icon">🚌</span><div><div class="aag-row-value">Bus to all parks</div><div class="aag-row-sub">No monorail · No Skyliner · Allow 30–40 min</div></div></div>
+            <div class="aag-row"><span class="aag-row-icon">👨‍👩‍👧‍👧</span><div><div class="aag-row-value">Adults + girls age 6 & 8</div><div class="aag-row-sub">Value resort · July visit · Peak season</div></div></div>
+            <div class="aag-row"><span class="aag-row-icon">🏰</span><div><div class="aag-row-value">Day 1 · Magic Kingdom</div><div class="aag-row-sub">Early Entry 8:30a · Mine Train · Princess Fairytale Hall · Big Thunder</div></div></div>
+            <div class="aag-row"><span class="aag-row-icon">🦁</span><div><div class="aag-row-value">Day 2 · Animal Kingdom</div><div class="aag-row-sub">Early Entry 7:30a · Flight of Passage · Na'vi River · Kilimanjaro Safaris</div></div></div>
+            <div class="aag-row"><span class="aag-row-icon">🎬</span><div><div class="aag-row-value">Day 3 · Hollywood Studios</div><div class="aag-row-sub">Early Entry 8:30a · MMRR · Alien tap-in → Smugglers Run · Slinky · Fantasmic!</div></div></div>
+          </div>
+        </div>
+        <div class="aag-card">
+          <div class="aag-card-header"><span class="aag-card-icon">⚡</span><div class="aag-card-meta"><span class="aag-card-label">Your Lightning Lane</span><span class="aag-card-title">Pre-select at 7am on booking day</span></div></div>
+          <div class="aag-card-body">
+            <div class="aag-row"><span class="aag-row-icon">🏰</span><div><div class="aag-row-value">Day 1 MK — Pre-select 3</div><div class="aag-row-sub">Big Thunder (Tier 1) · Buzz (Tier 2) · Haunted Mansion (Tier 2)</div><span class="aag-tag aag-tag-ll">Multi Pass</span></div></div>
+            <div class="aag-row"><span class="aag-row-icon">🏰</span><div><div class="aag-row-value">Day 1 MK — Single Pass</div><div class="aag-row-sub">Seven Dwarfs Mine Train</div><span class="aag-tag aag-tag-sp">Single Pass</span></div></div>
+            <div class="aag-row"><span class="aag-row-icon">🦁</span><div><div class="aag-row-value">Day 2 AK — Single Pass</div><div class="aag-row-sub">Flight of Passage</div><span class="aag-tag aag-tag-sp">Single Pass</span></div></div>
+            <div class="aag-row"><span class="aag-row-icon">🎬</span><div><div class="aag-row-value">Day 3 HS — Pre-select 3</div><div class="aag-row-sub">Slinky (Tier 1) · Toy Story Mania (Tier 2) · Alien Saucers (Tier 2 — throwaway)</div><span class="aag-tag aag-tag-ll">Multi Pass</span></div></div>
+          </div>
+        </div>
+        <div class="aag-card">
+          <div class="aag-card-header"><span class="aag-card-icon">🍽️</span><div class="aag-card-meta"><span class="aag-card-label">Your Dining</span><span class="aag-card-title">No reservations booked</span></div></div>
+          <div class="aag-card-body">
+            <div class="aag-row"><span class="aag-row-icon">🍽️</span><div><div class="aag-row-value">Counter service and resort dining</div><div class="aag-row-sub">No table service reservations or Disney Dining Plan for this trip</div></div></div>
+          </div>
+        </div>
+        <div class="aag-card">
+          <div class="aag-card-header"><span class="aag-card-icon">📏</span><div class="aag-card-meta"><span class="aag-card-label">Before You Go</span><span class="aag-card-title">Height requirements</span></div></div>
+          <div class="aag-card-body">
+            <div class="aag-row"><span class="aag-row-icon">⚠️</span><div><div class="aag-row-value">112cm / 44in — confirm 6yo</div><div class="aag-row-sub">Flight of Passage · Expedition Everest</div></div></div>
+            <div class="aag-row"><span class="aag-row-icon">✓</span><div><div class="aag-row-value">102cm / 40in — both girls likely fine</div><div class="aag-row-sub">Tiana's Bayou Adventure</div></div></div>
+            <div class="aag-row"><span class="aag-row-icon">✓</span><div><div class="aag-row-value">97cm / 38in — both girls fine</div><div class="aag-row-sub">Mine Train · Big Thunder · Slinky Dog · Kali River · Smugglers Run</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- HOME SCREEN INSTALL PROMPT -->
+<div id="homePrompt" style="display:none;position:fixed;bottom:96px;left:max(16px,calc(50% - 179px));right:max(16px,calc(50% - 179px));background:#fff;border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,0.13),0 2px 8px rgba(0,0,0,0.07);padding:22px 20px 18px;z-index:40;font-family:'DM Sans',sans-serif;">
+  <div style="font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:#2C1810;margin-bottom:8px;">Save to your home screen</div>
+  <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:#5C3D2E;line-height:1.5;margin-bottom:18px;">Tap the share icon in the Safari bar below, then “Add to Home Screen.” Opens full-screen with no browser in the way. Takes 10 seconds.</div>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <button onclick="dismissHomePrompt(true)" style="flex:1;background:#EA6E38;color:#fff;border:none;border-radius:10px;padding:12px 0;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;">Got it ✓</button>
+    <button onclick="dismissHomePrompt(false)" style="flex:0 0 auto;background:transparent;border:1.5px solid #C8B8A8;border-radius:10px;padding:12px 16px;font-family:'DM Mono',monospace;font-size:13px;color:#8C7B6E;cursor:pointer;">Maybe later</button>
+  </div>
+</div>
+
+<button class="sos-sticky-btn" id="sosStickyBtn" onclick="openSOSMenu()">🆘</button>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- SOS DRAWER -->
+<div class="drawer" id="sosDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">🆘</div><div class="drawer-title-wrap"><div class="drawer-title">Day Gone Sideways?</div><div class="drawer-time">Tap what's happening right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div style="overflow-y:auto;max-height:60vh;">
+    <div class="sos-menu-row" onclick="openSOSFromMenu('missing')"><span class="sos-menu-emoji">🚨</span><span class="sos-menu-title">Child goes missing</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('heat')"><span class="sos-menu-emoji">🥵</span><span class="sos-menu-title">Someone is overheating</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breakdown')"><span class="sos-menu-emoji">🎢</span><span class="sos-menu-title">Ride is broken down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('meltdown')"><span class="sos-menu-emoji">😭</span><span class="sos-menu-title">Someone is melting down</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('rain')"><span class="sos-menu-emoji">🌧️</span><span class="sos-menu-title">It's raining</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('behind')"><span class="sos-menu-emoji">⏰</span><span class="sos-menu-title">Running way behind</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('phone')"><span class="sos-menu-emoji">📵</span><span class="sos-menu-title">Phone died</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('medical')"><span class="sos-menu-emoji">🏥</span><span class="sos-menu-title">Medical or urgent care</span><span class="sos-menu-chev">›</span></div>
+    <div class="sos-menu-row" onclick="openSOSFromMenu('breather')"><span class="sos-menu-emoji">🛋️</span><span class="sos-menu-title">Need something easy right now</span><span class="sos-menu-chev">›</span></div>
+  </div>
+</div>
+
+<!-- ACTIVITY DRAWER -->
+<div class="drawer" id="activityDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon" id="drawerIcon"></div><div class="drawer-title-wrap"><div class="drawer-title" id="drawerTitle"></div><div class="drawer-time" id="drawerTime"></div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="drawer-tags" id="drawerTags"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer" id="drawerFooter"></div>
+</div>
+
+<!-- IN-PARK INTEL DRAWER -->
+<div class="drawer" id="wkDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header"><div class="drawer-icon icon-tc">📍</div><div class="drawer-title-wrap"><div class="drawer-title">In-Park Intel</div><div class="drawer-time">In the park, right now</div></div><button class="drawer-close" onclick="closeAll()">✕</button></div>
+  <div class="wk-park-tabs">
+    <div class="wk-park-tab active" onclick="switchWKPark(0,this)">🏰 MK</div>
+    <div class="wk-park-tab" onclick="switchWKPark(1,this)">🦁 AK</div>
+    <div class="wk-park-tab" onclick="switchWKPark(2,this)">🎬 HS</div>
+  </div>
+  <div class="wk-body" id="wkBody"></div>
+</div>
+
+<!-- BAG DRAWER -->
+<div class="drawer" id="bagDrawer" style="z-index:25;">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon">🎒</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title">Your park bag</div>
+      <div class="drawer-subtitle">Check before you leave the hotel</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="bagDrawerBody"></div>
+  <button class="packed-btn" onclick="packedUp()">Packed! 🎒</button>
+</div>
+
+<!-- CHARACTERS DRAWER (per-day content) -->
+<div class="drawer" id="charsDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-sky">👋</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="charsDrawerTitle">Characters</div>
+      <div class="drawer-subtitle" id="charsDrawerSub">Today's character notes</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="charsDrawerBody"></div>
+</div>
+
+<!-- ENTERTAINMENT DRAWER (per-day content) -->
+<div class="drawer" id="entDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-header">
+    <div class="drawer-icon icon-show">🎭</div>
+    <div class="drawer-title-wrap">
+      <div class="drawer-title" id="entDrawerTitle">Entertainment</div>
+      <div class="drawer-subtitle" id="entDrawerSub">Shows &amp; street acts</div>
+    </div>
+    <button class="drawer-close" onclick="closeAll()">✕</button>
+  </div>
+  <div class="drawer-body" id="entDrawerBody"></div>
+</div>
+
+<script>
+var STORAGE_KEY='__STORAGE_KEY__';
+function loadDone(){try{var s=localStorage.getItem(STORAGE_KEY);return s?new Set(JSON.parse(s)):new Set();}catch(e){return new Set();}}
+function saveDone(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify([...doneItems]));}catch(e){}}
+var doneItems=loadDone();
+var currentDay=0;
+// Generator should output editModes dynamically based on parkDays.length. Default covers 4 days.
+var editModes=[false,false,false]; // one entry per day — update if day count changes
+var currentWKPark=0;
+
+// ── INDEX DATA ────────────────────────────────────────────────
+function buildWKContent(idx){
+  var park=wkData[idx];
+  if(!park) return '';
+  var html='';
+  (park.groups||[]).forEach(function(group){
+    html+='<div class="wk-group"><div class="wk-group-label">'+(group.label||group.heading||'')+'</div>';
+    (group.tips||group.items||[]).forEach(function(tip){
+      if(typeof tip==='string'){
+        html+='<div class="wk-tip"><div class="wk-tip-text">'+tip+'</div></div>';
+      } else {
+        html+='<div class="wk-tip"><div class="wk-tip-emoji">'+(tip.e||'')+'</div><div><div class="wk-tip-title">'+(tip.t||'')+'</div><div class="wk-tip-text">'+(tip.d||'')+'</div></div></div>';
+      }
+    });
+    html+='</div>';
+  });
+  return html;
+}
+
+var indexData={
+  /* __INDEX_DATA__ */
+};
+
+// ── WORTH KNOWING DATA ────────────────────────────────────────
+var wkData=[{"park": "Magic Kingdom", "intro": "Magic Kingdom is the most walkable park from a pacing standpoint — the lands flow naturally from one to the next, and Fantasyland is the gravitational center for families with young kids.", "groups": [{"label": "Food & Drink", "tips": [{"e": "🍍", "t": "Dole Whip", "d": "Aloha Isle near the entrance to Adventureland. Pineapple soft-serve with a genuine cult following — worth trying at least once."}, {"e": "🥐", "t": "Gaston's Cinnamon Roll", "d": "Gaston's Tavern in Fantasyland. Genuinely enormous and well worth sharing. One of the most photographed snacks in the park."}, {"e": "🐟", "t": "Best quick-service lunch", "d": "Columbia Harbour House — seafood, sandwiches, lighter options. Go upstairs if you can, it's noticeably quieter and has great views of Liberty Square."}, {"e": "💧", "t": "Free water", "d": "Any quick-service counter will give you a cup of ice water at no charge. Just ask."}, {"e": "📱", "t": "Mobile ordering", "d": "Use it wherever available in MDE. Order 30–45 minutes before you're hungry. Noon is peak chaos — eating slightly before or after makes everything easier."}]}, {"label": "Comfort & Logistics", "tips": [{"e": "🛝", "t": "Stroller parking", "d": "Every ride has a designated stroller parking area outside the entrance. Cast members may move strollers but always keep them together. Put something bright or distinctive on yours."}, {"e": "🤫", "t": "Quiet spots", "d": "East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Umbrellas, seating, almost no foot traffic. Good for a moment to regroup without the noise of the main path."}, {"e": "🧒", "t": "Baby Care Center", "d": "Next to the Crystal Palace on Main Street. Air conditioned, rocking chairs, proper changing tables, microwave. Ask any cast member to point you there."}, {"e": "🌧️", "t": "Rain", "d": "Florida afternoon rain arrives fast and passes fast — usually 20–40 minutes. Duck into the nearest shop or ride and wait it out. Main Street shops connect end to end so you can walk the whole length without stepping outside."}]}, {"label": "Getting There & Back", "tips": [{"e": "🚌", "t": "Bus from All-Star", "d": "All-Star buses run directly to Magic Kingdom. Allow 30–40 minutes from your room to the park gate. Depart early — there's no faster option from a value resort and buses run on Disney's schedule, not yours."}, {"e": "🏰", "t": "After fireworks — go right", "d": "After Happily Ever After, turn right toward Tomorrowland rather than walking straight down Main Street. The Tomorrowland bridge to the bus stop is far less congested and you'll wait significantly less."}]}, {"label": "Where to Eat · No Reservation", "tips": [{"e": "🐟", "t": "Columbia Harbour House", "d": "Seafood and sandwiches upstairs in Liberty Square. Quieter than most MK dining options."}, {"e": "🍍", "t": "Aloha Isle", "d": "Dole Whip and pineapple drinks near Adventureland entrance."}, {"e": "🥐", "t": "Gaston's Tavern", "d": "Giant cinnamon rolls and LeFou's Brew in Fantasyland. Worth the stop."}]}]}, {"park": "Animal Kingdom", "intro": "Animal Kingdom rewards an early morning. The animals are most active before the heat sets in, so Safari is the first move. By midday the heat is real and there's less shelter than anywhere else — which is a good reason to be out by then.", "groups": [{"label": "Food & Drink", "tips": [{"e": "☕", "t": "Best coffee", "d": "Creature Comforts on Discovery Island — Disney Starbucks. Right at the heart of the park. Use the Starbucks app for mobile order, not MDE."}, {"e": "🍖", "t": "Best quick-service lunch", "d": "Flame Tree Barbecue on Discovery Island — one of the best quick-service spots in any Disney park. Smoked ribs, pulled pork, chicken. Outdoor seating with views of the water. Mobile order available."}, {"e": "🥘", "t": "Harambe Market", "d": "African-inspired quick service in the Africa section — good if you're staying in that area after the Safari. Ribs, chicken, corn. Strong options for the whole group."}, {"e": "💧", "t": "Free water", "d": "Any quick-service counter will provide ice water at no charge. AK heat is real — use this constantly."}]}, {"label": "Comfort & Logistics", "tips": [{"e": "🧒", "t": "Baby Care Center", "d": "On Discovery Island near the bridge to Africa. Easiest to find of the four parks."}, {"e": "🌳", "t": "No playground right now", "d": "The Boneyard closed in September 2025. Gorilla Falls Trail and the indoor Zootopia show inside the Tree of Life theater are the best alternatives for younger kids."}, {"e": "🛒", "t": "Stroller rental", "d": "At the entrance just past the tapstiles. AK strollers are the same as the other parks."}, {"e": "🤫", "t": "Quiet spots", "d": "The path between the Tree of Life and the Discovery Island Trails loop is usually quiet. Maharajah Jungle Trek in Asia is a self-paced walking trail with multiple shaded benches."}, {"e": "☀️", "t": "Heat is real here", "d": "AK has less indoor space than the other three parks. By midday it gets uncomfortable fast. Africa has the most shade if you need to stay a little longer."}]}, {"label": "Getting There & Leaving", "tips": [{"e": "🚌", "t": "Disney bus", "d": "Bus service runs from all Disney resorts to Animal Kingdom. Allow 30–45 minutes from most resort areas.", "conditional": "transport:bus"}]}, {"label": "Where to Eat · No Reservation", "tips": [{"e": "🍖", "t": "Flame Tree Barbecue", "d": "Discovery Island. One of the best quick-service spots at any Disney park. Mobile order available."}, {"e": "🥘", "t": "Harambe Market", "d": "Africa. African-inspired quick service — good if you're already in that area after the Safari."}, {"e": "☕", "t": "Creature Comforts", "d": "Starbucks on Discovery Island. Use Starbucks app."}]}]}, {"park": "Hollywood Studios", "intro": "Hollywood Studios is built around two big immersive worlds — Star Wars and Toy Story. The park is smaller than it looks on a map, which makes it very walkable once you know where the lands are.", "groups": [{"label": "Food & Drink", "tips": [{"e": "☕", "t": "Best coffee", "d": "Trolley Car Café on Hollywood Boulevard — Starbucks inside a vintage trolley building, right at the park entrance. Use the Starbucks app for mobile order, not MDE."}, {"e": "🌯", "t": "Ronto Wrap", "d": "Ronto Roasters in Galaxy's Edge. Roasted pork, grilled sausage, slaw, peppercorn sauce in a warm pita. One of the most talked-about quick-service items at any Disney park."}, {"e": "🥪", "t": "Woody's Lunch Box", "d": "Quick-service walk-up window in Toy Story Land. Grilled cheese, breakfast bowls, lunch box tarts. Mobile order through MDE. Easiest food stop if you're staying in Toy Story Land."}, {"e": "💧", "t": "Free water", "d": "Any quick-service counter will provide ice water at no charge."}]}, {"label": "Comfort & Logistics", "tips": [{"e": "🧒", "t": "Baby Care Center", "d": "Tucked between Guest Relations and the Hollywood Brick Wall photo spot, near the park entrance. AC, changing tables, feeding chairs, microwave."}, {"e": "🛒", "t": "Stroller parking in Toy Story Land", "d": "Toy Story Land stroller parking fills up early. Get there in the first 30 minutes after rope drop and you won't have a problem. Put something distinctive on yours."}, {"e": "🤫", "t": "Quiet spots", "d": "The benches outside Walt Disney Presents are usually empty even at peak. The Animation Courtyard between shows is calmer than the main boulevard."}, {"e": "☔", "t": "Rain coverage", "d": "Hollywood Boulevard's connected shops let you walk the full main drag without going outside. Good place to wait out a Florida afternoon shower."}]}, {"label": "Where to Eat · No Reservation", "tips": [{"e": "🌯", "t": "Ronto Roasters", "d": "Galaxy's Edge. Ronto Wrap is the must-order."}, {"e": "🥪", "t": "Woody's Lunch Box", "d": "Toy Story Land. Grilled cheese, breakfast items, mobile order available."}, {"e": "☕", "t": "Trolley Car Café", "d": "Starbucks on Hollywood Boulevard at park entrance. Use Starbucks app."}]}]}];
+
+function buildWKContent(idx){
+  var park=wkData[idx];
+  if(!park) return '';
+  var html='';
+  if(park.intro){
+    html+='<div class="wk-group"><div style="margin:14px 0 12px;background:var(--surface);border-left:3px solid var(--terracotta);border-radius:0 8px 8px 0;padding:10px 12px;font-family:\'Playfair Display\',Georgia,serif;font-size:12px;font-style:italic;color:var(--muted);line-height:1.6;">'+park.intro+'</div></div>';
+  }
+  (park.groups||[]).forEach(function(group){
+    html+='<div class="wk-group"><div class="wk-group-label">'+(group.label||'')+'</div>';
+    (group.tips||[]).forEach(function(tip){
+      if(typeof tip==='string'){
+        html+='<div class="wk-tip"><div class="wk-tip-text">'+tip+'</div></div>';
+      } else {
+        html+='<div class="wk-tip"><div class="wk-tip-emoji">'+(tip.e||'')+'</div><div><div class="wk-tip-title">'+(tip.t||'')+'</div><div class="wk-tip-text">'+(tip.d||'')+'</div></div></div>';
+      }
+    });
+    html+='</div>';
+  });
+  return html;
+}
+
+// ── ACTIVITY DATA ─────────────────────────────────────────────
+var activities={
+  /* Flights — standard stub, populate per client. One prose-p per booking, section-dividers between. Callouts for logistics flags. */
+  flights:{icon:'✈️',iconClass:'icon-sky',title:'Flights',time:'[Date] · Getting to [Destination]',tags:'',body:'<div class="prose-p">[Flight details — one block per booking]</div>',rowId:'d0-flights'},
+  /* Memory Maker — place on departure day after flight items, under "After Your Trip" time-break. Update expiry date (45 days from first park day). */
+  parkExit:{icon:'🗺️',iconClass:'icon-sky',title:'Leaving [PARK NAME]',time:'[EXIT TIME] · Head to the exit now',tags:'',body:'<div class="prose-p">Time to head out. The exit is [EXIT DIRECTIONS — e.g. straight down Main Street toward the gates / through Galaxy\'s Edge to the main entrance]. Your rideshare drop zone is [PICKUP LOCATION].</div><div class="section-divider"></div><div class="prose-p">If you have a dining reservation or next stop: [NEXT DESTINATION AND TIMING].</div><div class="callout"><div class="callout-label">Before you leave</div><div class="callout-text">Check MDE for any remaining Lightning Lane windows you haven\'t used. Unused windows expire when the park closes.</div></div>',rowId:'[DAY]-park-exit'},
+  memoryMakerReminder:{icon:'📸',iconClass:'icon-sky',title:'Download your Memory Maker photos',time:'After your trip',tags:'',body:'<div class="prose-p">Your Memory Maker photos expire 45 days from the date each photo was taken, not 45 days from the end of the trip. The clock started on [FIRST PARK DAY DATE].</div><div class="section-divider"></div><div class="prose-p">Open My Disney Experience, go to PhotoPass, and download everything. Once downloaded the photos are yours to keep forever. Disney offers a one-time 15-day extension if you miss the window, but don\'t count on it.</div><div class="callout"><div class="callout-label">Set a reminder now</div><div class="callout-text">Photos from this trip expire on or around [EXPIRY DATE]. Download before then.</div></div>',rowId:'departure-memory-maker'},
+
+  /* ── MAGIC KINGDOM ── */
+  /* ✓ mkArrive, mkBusHome = AI-generated, approved by Meredith */
+  /* ✓ mkMineTrain, mkDumbo, mkTiana, mkBigThunder, mkBuzz, mkPirates, mkPhilharMagic, mkHaunted, mkParade, mkFireworks = library verbatim */
+  mkArrive: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus to Magic Kingdom',
+    time:'Depart All-Star 7:00a',
+    tags:'',
+    body:`<p>Your bus departs All-Star at 7:00a. Magic Kingdom is a direct route — no transfers. Allow 30–40 minutes door to gates.</p>
+    <p style="margin-top:10px">Magic Kingdom's Early Entry window is 8:30a–9:00a (30 minutes before the 9:00a public opening). Being through security by 7:45–8:00a puts you near the front of the pack waiting for the rope to drop at 8:30a — the walk to Mine Train takes about 10 minutes from the entrance once you're in.</p>
+    <div class="drawer-tip">All-Star bus stops are in front of the main lobby. Magic Kingdom buses are clearly signposted.</div>`
+  },
+  mkMineTrain: {
+    icon:'⛏️',iconClass:'icon-tc',
+    title:'Seven Dwarfs Mine Train',
+    time:'Rope drop',
+    tags:['⭐ Top Pick','⚡ Single Pass','38\" / 97cm'],
+    tagTypes:['tag-must','tag-ll'],
+    body:`<p>This is one of the most popular rides at Magic Kingdom. The theming is exceptional: detailed animatronics, a beautifully designed queue, and a smooth ride through the dwarfs’ mine with Snow White scenes woven throughout. It’s part roller coaster, part dark ride, which gives it broad appeal across ages. Height requirement is 38\".</p>
+    <p style="margin-top:10px">If you’re staying onsite, rope drop this during Early Entry and skip the Lightning Lane purchase. If you don’t have Early Entry, the Lightning Lane Single Pass is worth it. Standby waits regularly hit 60 to 90 minutes and don’t ease much throughout the day.</p>`
+  },
+  mkDumbo: {
+    icon:'🐘',iconClass:'icon-sky',
+    title:'Dumbo the Flying Elephant',
+    time:'Right after Mine Train',
+    tags:['⭐ Top Pick'],
+    tagTypes:['tag-must'],
+    body:`<p>For whatever reason, young kids absolutely love this one. It is very sweet and nostalgic. You fly in circles and control how high your elephant goes. No height requirement — all kids ride. Near walk-on first thing in the morning, so do it then if you have a kid who wants to do this! If the line is too long, Astro Orbiter and the Magic Carpets of Aladdin have the same basic structure.</p>
+    <p style="margin-top:10px">Hidden playground! There is an indoor area attached to the queue with slides, climbing net and a toddler section. Kids can play in the AC while adults hold the spot in line. Most people walk right past this without noticing it.</p>`
+  },
+  /* ✓ mkPeterPan = library verbatim */
+  mkPeterPan: {
+    icon:'🧶',iconClass:'icon-sky',
+    title:"Peter Pan's Flight",
+    time:'Morning · standby early',
+    tags:['○ Optional'],
+    tagTypes:['tag-opt'],
+    body:`<p>Take a beautiful ride over London and Neverland in your own pirate ship. This is a beloved ride, particularly for young ones (teens might find it a bit dull). With little kids, Lightning Lane is worth it here as the line gets long quickly, even in the morning.</p>`
+  },
+  mkTiana: {
+    icon:'🐊',iconClass:'icon-tc',
+    title:'Tiana’s Bayou Adventure',
+    time:'Via Lightning Lane',
+    tags:['⭐ Top Pick','⚡ Lightning Lane','40\" / 102cm'],
+    tagTypes:['tag-must','tag-ll'],
+    body:`<p>Disney’s newest Magic Kingdom ride — a bayou boat journey through the world of The Princess and the Frog. Opened in 2024, replacing Splash Mountain. Beautiful, immersive, and a genuine princess experience for young kids.</p>
+    <p style="margin-top:10px">Height requirement is 40 inches. Book this as your Tier 1 Multi Pass pre-selection. Standby builds fast after 10am and doesn’t ease much. Use the Lightning Lane entrance when your window opens.</p>
+    <p style="margin-top:10px">This ride ends with a significant drop and everyone gets wet. Bring a small trash bag for wet clothes so you can keep moving through the day.</p>`
+  },
+  mkBigThunder: {
+    icon:'🚂',iconClass:'icon-tc',
+    title:'Big Thunder Mountain Railroad',
+    time:'Via Lightning Lane',
+    tags:['⭐ Top Pick','⚡ Lightning Lane','38\" / 97cm'],
+    tagTypes:['tag-must','tag-ll'],
+    body:`<p>A mine train coaster through the red rock canyons of Frontierland. Returned to Tier 1 status in May 2026 following a 16-month refurbishment. No drops, no inversions — the thrill is speed and banking through the canyon. The theming is the main event.</p>
+    <p style="margin-top:10px">Height requirement is 38 inches. Book via Lightning Lane Multi Pass. Standby stays high all day; demand has been especially strong since the refurb reopening.</p>
+    <div class="callout"><div class="callout-label">⚡ When you tap in</div><div class="callout-text">Open MDE immediately and book Tiana's Bayou Adventure — it sells out by 9:15am. If Tiana's window is gone, book Buzz Lightyear next. You have about 2 minutes from tap-in before the best windows disappear.</div></div>`
+  },
+  mkBuzz: {
+    icon:'🚀',iconClass:'icon-sky',
+    title:"Buzz Lightyear’s Space Ranger Spin",
+    time:'Via Lightning Lane',
+    tags:'<span class="tag tag-ll">⚡ Lightning Lane</span><span class="tag tag-ac">❄️ AC</span>',
+    rowId:'mk-buzz',
+    body:`<p>This tends to be a hit with everyone in the family. You use laser blasters to shoot at robot enemies, and people can get competitive! Worth noting: Buzz is seeing unusually high Lightning Lane demand in 2026 due to a refurbishment.</p>`
+  },
+  mkPirates: {
+    icon:'🏴',iconClass:'icon-sky',
+    title:'Pirates of the Caribbean',
+    time:'Short standby',
+    tags:['○ Optional'],
+    tagTypes:['tag-opt'],
+    body:`<p>One of the best rides in Magic Kingdom with no height requirement. A boat ride through pirate scenes that’s dark, atmospheric, and has two small drops at the very start. Worth mentioning the drops before you get on — they’re very gentle but come out of nowhere if you’re not expecting them. After that it’s completely flat and slow the rest of the way through.</p>`
+  },
+  mkPhilharMagic: {
+    icon:'🎭',iconClass:'icon-show',
+    title:'Mickey’s PhilharMagic',
+    time:'12 min · no wait',
+    tags:['○ Optional','🎭 Show','❄️ AC'],
+    tagTypes:['tag-opt','tag-show','tag-ac'],
+    body:`<p>A 12-minute 4D show squarely aimed at little kids with classic Disney songs, Mickey and Donald, wind and bubble effects. No height requirement, virtually no wait, and fully air conditioned. For parents and older kids it’s a good excuse to sit down. Worth knowing: it’s louder than it looks and the 4D effects can spook toddlers who aren’t expecting them.</p>`
+  },
+  mkHaunted: {
+    icon:'👻',iconClass:'icon-sky',
+    title:'Haunted Mansion',
+    time:'Short wait in the evening',
+    tags:['○ Optional'],
+    tagTypes:['tag-opt'],
+    body:`<p>The theming of this ride from start to finish is phenomenal. You move through a house haunted with ghosts of all times singing, dancing and spooking. Despite being 50 years old (with some notable updates), it really holds up.</p>
+    <p style="margin-top:10px">All of that being said, this can be too spooky for young kids. Sensitive little ones may find it genuinely scary rather than fun-scary. The scariest part is the pre-show stretching room (octagonal, striped room). If you’re worried, ask a cast member at the entrance — they can let you bypass it and go straight to the ride. After that, it’s silly spooky, but better to play it safe if you’re on the fence.</p>
+    <div class="drawer-tip">The exterior of Haunted Mansion is currently under refurbishment — expect scaffolding and construction wrap on the outside. The ride itself is fully operational.</div>`
+  },
+  /* ✓ mkEnchantedBelle = AI-generated, approved by Meredith — retagged Optional per locked decision */
+  /* ✓ mkFairytaleHall = AI-generated, approved by Meredith */
+  /* ✓ mkCarousel, mkLittleMermaid = library verbatim */
+  mkFairytaleHall: {
+    icon:'👑',iconClass:'icon-show',
+    title:'Princess Fairytale Hall',
+    time:'Morning · before 10:30a',
+    tags:['👋 Character Meet'],
+    tagTypes:['tag-meet'],
+    body:`<p>Meet Disney Princesses in Cinderella Castle. Princess Fairytale Hall is a standby-only character meet — no Lightning Lane, no pre-booking. You queue and meet two princesses per visit, typically Cinderella and Rapunzel in one hall, Aurora and Tiana in the other. Check My Disney Experience on the day for current pairings.</p>
+    <p style="margin-top:10px">Before 10:30am is the sweet spot — waits are shortest in the early morning window. Plan 30–45 minutes including the queue.</p>
+    <div class="drawer-tip">The interaction with each princess is personal and unhurried — this is not a quick handshake situation. Cast members do a full introduction and the princesses engage directly with each child. Bring autograph books if the girls want signatures.</div>`
+  },
+  mkEnchantedBelle: {
+    icon:'🌹',iconClass:'icon-show',
+    title:'Enchanted Tales with Belle',
+    time:'New Fantasyland · check showtime in MDE',
+    tags:['🎭 Show','○ Optional'],
+    tagTypes:['tag-show','tag-opt'],
+    body:`<p>Not a ride — a live storytelling experience where the audience becomes part of the story. Children are cast as characters from Beauty and the Beast and act out scenes alongside Belle when she appears at the end. It runs continuously throughout the day in short sessions of about 20 minutes.</p>
+    <p style="margin-top:10px">This skews younger — it's a great fit if your 6-year-old is into dress-up and pretend play, but worth knowing your 8-year-old may find the format a little babyish for her age. Good one to make optional based on how the girls are feeling that day rather than building it in as a must-do.</p>
+    <div class="drawer-tip">Arrive a few minutes before the next session starts. Cast members at the entrance will take the girls inside and assign their roles — the more enthusiastically they put their hands up, the better the part they get.</div>`
+  },
+  mkCarousel: {
+    icon:'🎠',iconClass:'icon-show',
+    title:"Cinderella's Carousel",
+    time:'No wait · walk straight on',
+    tags:['○ Optional'],
+    tagTypes:['tag-opt'],
+    body:`<p>While this isn’t a must do, it’s another one that young kids enjoy more than you would expect because of the setting. Plus, there’s never more than a five minute wait (don’t do it if there is!). Cinderella’s Castle makes a great backdrop for a photo if you’re sitting together!</p>`
+  },
+  mkLittleMermaid: {
+    icon:'🧜',iconClass:'icon-sky',
+    title:'Under the Sea: Journey of the Little Mermaid',
+    time:'No wait · AC',
+    tags:['○ Optional','❄️ AC'],
+    tagTypes:['tag-opt','tag-ac'],
+    body:`<p>A slow, gentle clamshell ride through the story of The Little Mermaid. No height requirement, fully indoor and air-conditioned. The animatronics are on the sparser side as this is an older ride, but the movie’s music still stands up.</p>
+    <p style="margin-top:10px">The Ursula cave scene is darker and a bit creepy — just a heads up for sensitive little ones.</p>
+    <p style="margin-top:10px">Worth doing if you have a Little Mermaid fan in the group, particularly younger kids. Skip the Lightning Lane. This ride almost never has a meaningful wait, and if it’s over 15 minutes, it’s not worth stressing over.</p>`
+  },
+  mkParade: {
+    icon:'🎡',iconClass:'icon-show',
+    title:'Festival of Fantasy Parade',
+    time:'Confirm showtime day-of in MDE',
+    tags:['🎭 Show'],
+    tagTypes:['tag-show'],
+    body:`<p>This isn’t a standard character wave-from-a-float parade. The floats are enormous and elaborately designed, with live performers, dancers, and original music composed specifically for the parade. Little kids tend to love it. The Maleficent dragon float alone is worth seeing — one of the most impressive pieces of parade engineering Disney has ever built.</p>
+    <p style="margin-top:10px">Best spot: Stay near Town Square at the park entrance. It’s the least crowded section of the route and characters interact with guests right at ground level. The first float takes about 15-20 minutes to reach Town Square from where the parade starts, so plan accordingly.</p>`
+  },
+  mkStarlight: {
+    icon:'✨',iconClass:'icon-show',
+    title:'Disney Starlight: Dream the Night Away',
+    time:'~9:00p — confirm day-of in MDE',
+    tags:['🎭 Show','○ Optional'],
+    tagTypes:['tag-show','tag-opt'],
+    body:`<p>Magic Kingdom's new nighttime parade — the first since the Main Street Electrical Parade ended in 2016. Illuminated floats travel down Main Street through Liberty Square and Frontierland, with scenes from Moana, Peter Pan, Frozen, Encanto, and more, all tied together by the Blue Fairy's magic. About 12 minutes to pass any single viewing spot.</p>
+    <p style="margin-top:10px">This runs about an hour before Happily Ever After. Doing both makes for a very late night with two young kids — it's genuinely optional. Main Street and Liberty Square are the best viewing spots.</p>`
+  },
+  mkFireworks: {
+    icon:'🎆',iconClass:'icon-tc',
+    title:'Happily Ever After Fireworks',
+    time:'~10:00p — confirm day-of in MDE',
+    tags:['🎆 ~10pm','○ Optional'],
+    tagTypes:['tag-show','tag-opt'],
+    body:`<p>Widely regarded as one of the best fireworks shows in the world. It came back by popular demand and earns it — Disney's greatest musical hits, images and scenes projected directly onto the castle, lasers, and incredible fireworks. This is now running later in the evening (~10pm) to make room for Disney Starlight beforehand — worth weighing against bedtime for a 6 and 8 year old on a three-park trip. It runs 18 minutes, which may be longer than you'd expect, so plan accordingly.</p>
+    <p style="margin-top:10px">Where to watch: The hub in front of the castle gives you the best view of the images projected onto the castle. Main Street closer to the entrance gives a slightly smaller view but a much easier exit when it ends — which matters a lot with tired kids at 10pm. Pick your priority.</p>`
+  },
+  mkBusHome: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus Back to All-Star',
+    time:'Post-fireworks, ~10:20p',
+    tags:'',
+    body:`<p>After fireworks head toward Tomorrowland rather than back down Main Street — it’s far less congested and you’ll reach the bus stops well ahead of the crowd. All-Star is a direct bus from the main depot.</p>
+    <div class="drawer-tip">Post-fireworks buses are frequent but busy. If the queue looks enormous, give it 20 minutes — a lot of guests clear out fast.</div>`
+  },
+
+  /* ── ANIMAL KINGDOM ── */
+  akArrive: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus to Animal Kingdom',
+    time:'Depart All-Star 6:45a',
+    tags:'',
+    body:`<p>Animal Kingdom bus from All-Star Resort — 20–30 minute journey. It's a direct route from the All-Star bus stops. Depart by 6:45a to arrive before Early Entry at 7:30a — Animal Kingdom's Early Entry runs an hour earlier than the other parks since the park itself opens at 8:00a instead of 9:00a.</p>
+    <p style="margin-top:10px">Early Entry at Animal Kingdom is especially valuable today — Flight of Passage wait times can hit 90+ minutes by 9:30a. Getting on within the first 30 minutes of Early Entry is the difference between a 15-minute wait and an hour-plus queue.</p>
+    <div class="drawer-tip">Tip: Have breakfast in the resort before you go — dining options inside AK at rope drop are limited.</div>`
+  },
+  akFOP: {
+    icon:'🪐',iconClass:'icon-tc',
+    title:'Flight of Passage',
+    time:'~10–20min at rope drop',
+    tags:['Must-Do','Multi Pass','112cm / 44in'],
+    tagTypes:['tag-must','tag-ll','tag-ac'],
+    body:`<p>The best theme park attraction in the world, in Meredith's experience. You're mounted on a banshee, soaring over Pandora — the visuals, the physical sensation, the smell effects. It is extraordinary.</p>
+    <p style="margin-top:10px"><strong>Height requirement: 112cm (44in).</strong> This is borderline for the 6-year-old — confirm her exact height before the trip. If she's 112cm she's fine; if she's 110cm she won't be allowed on. Measure carefully at home.</p>
+    <p style="margin-top:10px">The 8-year-old should be fine. If the 6yo can't ride, one adult stays with her at the Swap Return area while the other takes the 8yo, then they swap — no re-queuing needed. Ask a cast member at the entrance for the "Rider Switch" pass.</p>
+    <div class="drawer-tip">Tip: Head here first, the moment Early Entry begins. This is the single biggest priority of Day 2.</div>`
+  },
+  akNavi: {
+    icon:'🌊',iconClass:'icon-sky',
+    title:"Na'vi River Journey",
+    time:'~20min at rope drop',
+    tags:['Both girls','No height min'],
+    tagTypes:['tag-opt','tag-ac'],
+    body:`<p>A gentle float through Pandora's bioluminescent forest. No height requirement — perfect for the 6-year-old, especially if she missed Flight of Passage. Beautiful, peaceful, and genuinely spectacular visually.</p>
+    <p style="margin-top:10px">The Shaman of Songs animatronic at the end is considered one of the most technically advanced Disney has ever built. Even adults are wowed.</p>
+    <p style="margin-top:10px">Do this immediately after FOP while Pandora queues are still manageable — both rides are in the same land.</p>
+    <div class="drawer-tip">Tip: If it's very busy, waits for Na'vi can hit 45+ minutes. Lightning Lane Multi Pass is an option but usually not necessary if you're there at rope drop.</div>`
+  },
+  akEverest: {
+    icon:'🏔️',iconClass:'icon-tc',
+    title:'Expedition Everest',
+    time:'~20–35min typical',
+    tags:['Must-Do','Single Pass','112cm / 44in'],
+    tagTypes:['tag-must','tag-ll','tag-ac'],
+    body:`<p>A world-class roller coaster — forward, backward, in the dark, with an enormous drop and a yeti. This is a genuine adult thrill ride. Height minimum 112cm (44in).</p>
+    <p style="margin-top:10px">Same height check situation as Flight of Passage for the 6yo. If she's borderline, this one she's more likely to find frightening even if she qualifies — it's significantly more intense than Mine Train.</p>
+    <p style="margin-top:10px">The 8yo should love it. Lightning Lane Single Pass is available and often worth it at Animal Kingdom — Everest waits can spike to 60+ minutes in the afternoon.</p>
+    <div class="drawer-tip">Tip: The backwards section surprises everyone the first time. Tell the girls it goes backwards at one point so the surprise doesn't become a fright.</div>`
+  },
+  akTrek: {
+    icon:'🦍',iconClass:'icon-sky',
+    title:'Gorilla Falls Exploration Trail',
+    time:'30–45min self-guided',
+    tags:['Both girls','Free roam'],
+    tagTypes:['tag-opt'],
+    body:`<p>Animal Kingdom's real animals are one of its greatest selling points — and Gorilla Falls Trail delivers. Gorillas, hippos, naked mole rats, meerkats, exotic birds. It's genuinely like a world-class zoo crossed with a theme park.</p>
+    <p style="margin-top:10px">Best visited mid-morning (9:30–10:30a) before the heat makes the animals retreat to shade. The girls can set the pace — follow whatever catches their attention.</p>
+    <p style="margin-top:10px">No wait, no height requirement. A completely different pace from the ride queue experience and one of the more educational things you'll do all trip.</p>
+    <div class="drawer-tip">Tip: Ask a cast member near the gorilla habitat about what the gorillas are up to that morning — they often share fascinating real-time updates.</div>`
+  },
+  akLunch: {
+    icon:'🦒',iconClass:'icon-gold',
+    title:'Lunch — Flame Tree BBQ or Satu\'li',
+    time:'11:30a–12:30p',
+    tags:['Food Stop','Counter Service'],
+    tagTypes:['tag-food','tag-opt'],
+    body:`<p><strong>Flame Tree Barbecue</strong> is one of Walt Disney World's best counter service restaurants — smoked ribs, pulled pork, chicken, gorgeous outdoor seating overlooking Discovery River. Get there before noon to beat the rush.</p>
+    <p style="margin-top:10px"><strong>Satu'li Canteen</strong> in Pandora is a great alternative — healthy grain bowls, noodles, unusual options. Air-conditioned interior. The kids' menu has simpler options.</p>
+    <p style="margin-top:10px">No reservations needed for either. Mobile order via My Disney Experience recommended — especially at Satu'li, which gets very busy.</p>
+    <div class="drawer-tip">Tip: Flame Tree has the most beautiful outdoor setting in any Disney park — but in July heat, Satu'li's AC wins on comfort.</div>`
+  },
+  akBreak: {
+    icon:'🌡️',iconClass:'icon-sky',
+    title:'Midday Break — Pool Time',
+    time:'12:30–3:30p',
+    tags:['Heat break','Essential'],
+    tagTypes:['tag-ac','tag-must'],
+    body:`<p>Animal Kingdom's midday heat is particularly brutal — the park is heavily forested but the humidity makes it feel oppressive by noon. Afternoon thunderstorms are almost guaranteed in July from 2–4p, and the park can get very wet very quickly.</p>
+    <p style="margin-top:10px">Head back to All-Star by 12:30p, swim at the resort pool, rest in the air conditioning. Return to the park by 4:00p for the best of the afternoon — Kali River Rapids for cooling off, evening wildlife, and the Tree of Life awakenings at dusk.</p>
+    <div class="drawer-tip">Tip: If you don't want to leave, find indoor AC refuge in Pandora (Satu'li seating area) or Discovery Island Trails. But the pool break is genuinely better.</div>`
+  },
+  akKali: {
+    icon:'💦',iconClass:'icon-sky',
+    title:'Kali River Rapids',
+    time:'~20–35min, get wet',
+    tags:['Both girls','97cm / 38in'],
+    tagTypes:['tag-opt','tag-ac'],
+    body:`<p>A circular raft ride through whitewater — you will get soaked, there are no guarantees about where on the raft you sit, and in July heat it's absolutely glorious. Height minimum 97cm (38in).</p>
+    <p style="margin-top:10px">Do this in the afternoon when it doesn't matter if everyone is wet for the rest of the day. Morning Kali means soggy shoes all day.</p>
+    <p style="margin-top:10px">The environmental theming about deforestation is surprisingly powerful — older children often notice and ask good questions about it.</p>
+    <div class="drawer-tip">Tip: Lockers near the entrance are free for the duration of your ride. Put phones, cameras, and wallets in one — raft rides have a way of soaking everything in range.</div>`
+  },
+  akSafari: {
+    icon:'🦁',iconClass:'icon-tc',
+    title:'Kilimanjaro Safaris',
+    time:'~25–40min — go late afternoon',
+    tags:['Must-Do','All ages'],
+    tagTypes:['tag-must'],
+    body:`<p>The jewel of Animal Kingdom — a genuine open-vehicle safari through 50 acres of African savannah with free-roaming lions, elephants, giraffes, rhinos, zebras, and more. This is unlike any other theme park experience.</p>
+    <p style="margin-top:10px">Best time: late afternoon (4:30–5:30p) when the animals are more active and the golden light is beautiful. Morning safaris are fine but midday heat means animals shelter in shade.</p>
+    <p style="margin-top:10px">The girls will love this — it's genuinely the closest most children get to a real African safari. No height requirement, all ages.</p>
+    <div class="drawer-tip">Tip: Sit on the right side of the vehicle for more frequent sightings — the lion habitat is on the right. Window seats give the best photo opportunities.</div>`
+  },
+  akTOL: {
+    icon:'🌳',iconClass:'icon-sky',
+    title:'Tree of Life & Discovery Island',
+    time:'Dusk — 6:30–7:30p',
+    tags:['Both girls','Evening magic'],
+    tagTypes:['tag-opt'],
+    body:`<p>The Tree of Life comes alive at dusk — the hundreds of carved animals in its trunk are lit beautifully, and the "Tree of Life Awakenings" projections run periodically after dark. These are brief (3–4 minute) projection shows on the trunk that are genuinely breathtaking.</p>
+    <p style="margin-top:10px">Discovery Island Trails surrounding the Tree of Life are home to lemurs, kangaroos, and tortoises — a peaceful end-of-day wander. Check the schedule for the Awakenings timing and position yourselves near the tree a few minutes early.</p>
+    <div class="drawer-tip">Tip: Animal Kingdom closes earlier than other parks — check the closing time in My Disney Experience. It's typically 7:30–8:00p in July. Plan your exit accordingly.</div>`
+  },
+  akExit: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus Back to All-Star',
+    time:'Park close',
+    tags:['Direct bus'],
+    tagTypes:[],
+    body:`<p>Animal Kingdom is one of the easier parks to exit — the main bus depot is close to the gate and buses are frequent. All-Star Resort is a direct route.</p>
+    <p style="margin-top:10px">Animal Kingdom closes earlier than other parks (often 7:30–8p in July), so you'll be back at the resort at a reasonable hour. Consider a late dinner at the All-Star food court if the girls are hungry — it stays open late.</p>
+    <div class="drawer-tip">Tip: Pick up any Animal Kingdom merchandise on your way out — the shops near the gate have the best selection and you won't want to carry bags all day.</div>`
+  },
+
+  /* ✓ akLionKing = AI-generated, approved by Meredith */
+  akLionKing: {
+    icon:'🦁',iconClass:'icon-show',
+    title:'Festival of the Lion King',
+    time:'Multiple shows daily — check MDE',
+    tags:'',
+    rowId:'ak-lionking',
+    body:`<p>A live musical show in theatre-in-the-round — acrobats, singers, giant puppets, and the full Lion King score. One of the best live shows in any theme park. Air-conditioned theatre. Runs multiple times daily.</p>
+    <p style="margin-top:10px">Arrive 20 minutes early for a good seat. The theatre fills up fast, especially in the afternoon when guests are coming back from the midday break.</p>
+    <div class="drawer-tip">The performers sometimes bring audience members into the show — the girls may get picked if they're visibly enthusiastic near the front.</div>`
+  },
+
+  /* ── HOLLYWOOD STUDIOS ── */
+  /* ✓ hsArrive, hsFantasmic, hsBusHome = AI-generated, approved by Meredith */
+  /* ✓ hsGalaxysEdge, hsBeautyBeast = swapped to approved copy from Santagati shipped file */
+  /* ✓ hsAlienTapIn = logic + copy approved by Meredith (Santagati throwaway pattern) */
+  /* ✓ hsMMRR, hsSlinky, hsTSM, hsSmugglersRun = library verbatim */
+  hsArrive: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus to Hollywood Studios',
+    time:'Depart All-Star 7:35a',
+    tags:'',
+    body:`<p>Hollywood Studios bus from All-Star — approximately 20–25 minutes. Depart by 7:35a to be through security with time to spare before Early Entry opens at 8:30a (30 minutes before the 9:00a public opening).</p>
+    <p style="margin-top:10px">Today\'s morning is front-loaded and sequenced. Runaway Railway at rope drop, then the Alien tap-in to unlock Millennium Falcon: Smugglers Run via Lightning Lane. Get those two done before 10:30am and the rest of the day opens up.</p>
+    <div class="drawer-tip">Tip: When you enter the park, Runaway Railway is straight ahead on the main path — no turns needed.</div>`
+  },
+  hsMMRR: {
+    icon:'⭐',iconClass:'icon-tc',
+    title:'Mickey & Minnie\'s Runaway Railway',
+    time:'Rope drop',
+    tags:['⭐ Top Pick','❄️ AC'],
+    tagTypes:['tag-must','tag-ac'],
+    body:`<p>The only Mickey ride at Walt Disney World, and it\'s a good one. You watch a short cartoon in the theater before the screen literally opens up and you step into the animated world. From there, it\'s a trackless ride through a series of cartoon scenes, the car waltzes at one point, and the whole thing is genuinely impressive in a way that surprises a lot of adults.</p>
+    <p style="margin-top:10px">No height requirement. Kids love it, parents are impressed by it.</p>
+    <p style="margin-top:10px">Good rope drop target — waits build fast. If you have young kids and aren\'t using Lightning Lane on rides elsewhere, it\'s worth grabbing.</p>
+    <div class="drawer-tip">The moment the screen opens is loud — it happens at the end of the intro when the train crashes through. Worth a heads up for kids who startle easily.</div>`
+  },
+  hsAlienTapIn: {
+    icon:'⚡',iconClass:'icon-sky',
+    title:'Alien Swirling Saucers — Tap In, Then Book Smugglers Run',
+    time:'Immediately after Runaway Railway',
+    tags:'<span class="tag tag-must">Tap Now · Ride Later</span>',
+    body:`<p>This is the move that gets you a second Tier 1 ride without spending a second Tier 1 pre-book slot. Here\'s the sequence:</p>
+    <p style="margin-top:10px"><strong>Step 1.</strong> Walk to Alien Swirling Saucers in Toy Story Land and tap your MagicBand or ticket at the Lightning Lane entry — this is your pre-booked Tier 2 throwaway pick.</p>
+    <p style="margin-top:10px"><strong>Step 2.</strong> The moment you tap in, open My Disney Experience and book Millennium Falcon: Smugglers Run. Tapping into Alien removes the tier restriction — Smugglers Run is now available as your next pick, even though it's normally Tier 1.</p>
+    <p style="margin-top:10px"><strong>Step 3.</strong> Ride Alien. It\'s short. Then head to Smugglers Run when your window opens. Slinky Dog Dash is already pre-booked separately as your other Tier 1 pick — no need to unlock it.</p>
+    <div class="drawer-tip">Have the app open before you tap. The booking window is available immediately after tap-in and Smugglers Run windows go fast.</div>`
+  },
+  hsSlinky: {
+    icon:'⭐',iconClass:'icon-tc',
+    title:'Slinky Dog Dash',
+    time:'Via Lightning Lane',
+    tags:['⭐ Top Pick','⚡ Lightning Lane'],
+    tagTypes:['tag-must','tag-ll'],
+    body:`<p>A short but genuine roller coaster. People underestimate how fast this thing moves. In the queue you are toy-sized in Andy\'s backyard, and the scale of everything around you sells it completely. Slinky Dog himself talks to you through the whole ride which is a great added detail.</p>
+    <p style="margin-top:10px">For kids who want a little thrill but haven\'t done a real coaster yet, this is a great entry point. If there\'s any trepidation, skip it; it moves faster than it looks from the ground.</p>
+    <p style="margin-top:10px">Good rope drop target if you\'re not using Lightning Lane on other rides first. Waits build fast.</p>
+    <p style="margin-top:10px">Multi Pass, Tier 1. Grab it early.</p>
+    <div class="drawer-tip">38" height requirement. The ride moves faster than it appears from the outside, so it might be harder for kids who meet the height requirement but are on the fence about coasters.</div>`
+  },
+  hsTSM: {
+    icon:'⭐',iconClass:'icon-sky',
+    title:'Toy Story Mania!',
+    time:'Via Lightning Lane',
+    tags:['⭐ Top Pick','⚡ Lightning Lane','❄️ AC'],
+    tagTypes:['tag-must','tag-ll','tag-ac'],
+    body:`<p>A carnival-style shooting game where you and the ride vehicle do the work — you\'re pulling a slingshot and firing at targets while the car moves between game screens. Every Toy Story character shows up across the different scenes and the targets have point values, which means adults get competitive fast. I always try to hunt down the high-value targets hiding in each scene — you can look them up before you go, but honestly it\'s also just fun to smash everything.</p>
+    <p style="margin-top:10px">No height requirement, air conditioned, fun for every age in the group.</p>
+    <p style="margin-top:10px">Multi Pass is worth grabbing if you have young kids and aren\'t prioritizing Tower of Terror or Rock \'n\' Roller Coaster with your selections.</p>`
+  },
+  hsGalaxysEdge: {
+    icon:'🚀',iconClass:'icon-tc',
+    title:'Star Wars: Galaxy\'s Edge',
+    time:'Worth 20 minutes',
+    tags:['○ Optional'],
+    tagTypes:['tag-opt'],
+    body:`<p>Even if you don't ride anything, this land is worth walking through. It's the most immersive themed environment Disney has ever built — a full alien planet called Batuu, with market stalls, cantinas, live characters, and the Millennium Falcon sitting right there in full scale. The detail is extraordinary.</p>
+    <p style="margin-top:10px">The Halcyon cargo port, Black Spire Outpost market, and Oga's Cantina are all worth pausing for. Kids tend to stop cold when they see the Falcon for the first time. That reaction is real regardless of whether they've seen the films.</p>
+    <div class="callout"><div class="callout-label">Characters</div><div class="callout-text">Rey, Chewbacca, Vi Moradi, and First Order stormtroopers all appear roaming the land — no meet-and-greet line, just encounters. Cast members in character will interact with anyone who engages them.</div></div>`
+  },
+  hsSmugglersRun: {
+    icon:'⭐',iconClass:'icon-sky',
+    title:'Millennium Falcon: Smugglers Run',
+    time:'Via Lightning Lane or standby',
+    tags:['○ Optional','⚡ Lightning Lane'],
+    tagTypes:['tag-opt','tag-ll'],
+    body:`<p>This really feels like you\'re flying in a spaceship. The scale and detail are impeccable. This is a fun one because your family is your crew, and every seat has a job. Pilots steer, gunners shoot, engineers keep the ship running. The newest mission features Mando and Grogu. What your crew does actually changes how the mission goes.</p>
+    <p style="margin-top:10px">Lines are running longer than usual right now. Grab Multi Pass.</p>
+    <div class="drawer-tip">Pilots have the most control, engineers the least. Worth knowing before anyone argues over seats.</div>`
+  },
+  hsBeautyBeast: {
+    icon:'🌹',iconClass:'icon-show',
+    title:'Beauty and the Beast Live on Stage',
+    time:'~3:30p — confirm showtime day-of',
+    tags:['🎭 Show'],
+    tagTypes:['tag-show'],
+    body:`<p>A 25-minute condensed version of the film with live performers, Belle, Gaston, and the full cast. Outdoor theatre on Sunset Boulevard. Colourful and gentle — good for younger kids. Arrive 10 minutes before showtime for a seat.</p>
+    <p style="margin-top:10px">Check My Disney Experience for today's showtimes before you leave the resort — the afternoon shows tend to fill.</p>
+    <div class="drawer-tip">The theatre is called Theater of the Stars, and it's covered but not air conditioned. In July heat, later afternoon shows are more comfortable than midday ones since the direct sun has shifted off the seating area by then.</div>`
+  },
+  hsFantasmic: {
+    icon:'🎆',iconClass:'icon-tc',
+    title:'Fantasmic!',
+    time:'~8:00p — confirm day-of in MDE',
+    tags:['🎭 Show','○ Optional'],
+    tagTypes:['tag-show','tag-opt'],
+    body:`<p>The Hollywood Studios nighttime spectacular. Mickey\'s dream sequence is taken over by Disney villains — water screens, projections, live performers on floating barges, pyrotechnics, and about 30 minutes of it. The amphitheater holds nearly 7,000 people.</p>
+    <p style="margin-top:10px">Capacity isn\'t usually the issue. Getting a good seat is. Arrive 30–40 minutes early. Center fills fastest. Sections to the sides still have strong sightlines but some of the water screen effects read better from center.</p>
+    <div class="drawer-tip">The villain sequence is loud and dramatic. It resolves triumphantly — but worth a heads up if anyone is sensitive to sudden sound effects or darkness.</div>`
+  },
+  hsBusHome: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus Back to All-Star',
+    time:'Post-Fantasmic, ~8:45p',
+    tags:'',
+    body:`<p>Direct bus from the Hollywood Studios depot back to All-Star. Post-Fantasmic buses run frequently but the stop is busy — expect a short wait. About 20–25 minutes back to the resort.</p>
+    <div class="drawer-tip">The All-Star food court stays open late. Last night of the trip — the ice cream case is right there.</div>`
+  }
+,
+  mkRopeDropPriorities: {
+    icon:'🏃',iconClass:'icon-tc',
+    title:'Magic Kingdom · Rope Drop Priorities',
+    time:'Early Entry 8:30a',
+    tags:'',
+    rowId:'mk-rope-drop',
+    body:`<p style="font-size:14px;font-weight:500;margin-bottom:10px;">In order. Go straight here.</p>
+    <ol class="rope-drop-list">
+      <li><strong>Seven Dwarfs Mine Train</strong> — Single Pass pre-booked. Walk straight to it the moment you tap in.</li>
+      <li><strong>Peter Pan's Flight</strong> — Standby immediately after Mine Train. The early window is your best shot all day.</li>
+      <li><strong>Princess Fairytale Hall</strong> — Opens at 9:00am. Queue before it opens if you can.</li>
+      <li><strong>Big Thunder Mountain</strong> — Pre-booked Tier 1 LL. After tapping, immediately try to book Tiana rolling (gone by 9:15am).</li>
+    </ol>
+    <div class="callout"><div class="callout-label">LL note</div><div class="callout-text">Big Thunder is your Tier 1 pre-select. Tiana is Tier 1 too — book it as your first rolling pick the moment you tap Big Thunder. Tiana LL sells out by 9:15am. If you miss it, standby mid-morning is around 35–40 minutes.</div></div>`
+  },
+  akRopeDropPriorities: {
+    time:'Early Entry 7:30a',
+    tags:'',
+    rowId:'ak-rope-drop',
+    body:`<p style="font-size:14px;font-weight:500;margin-bottom:10px;">In order. Pandora first — both rides.</p>
+    <ol class="rope-drop-list">
+      <li><strong>Flight of Passage</strong> — The single biggest priority of the day. Walk straight to Pandora the moment Early Entry opens. Wait at rope drop: 10–20 min. By 9:30a: 90+ min.</li>
+      <li><strong>Na'vi River Journey</strong> — Right after FOP. Both rides are in the same land. Do them back to back before Pandora crowds build.</li>
+      <li><strong>Kilimanjaro Safaris</strong> — Animals are most active before 10am. Head here third.</li>
+    </ol>
+    <div class="callout"><div class="callout-label">Height check</div><div class="callout-text">Flight of Passage and Expedition Everest both require 112cm / 44in. Confirm the 6-year-old's height before the trip. If she's borderline, ask for Rider Switch at the entrance — no re-queuing needed.</div></div>`
+  },
+  hsRopeDropPriorities: {
+    icon:'🏃',iconClass:'icon-tc',
+    title:'Hollywood Studios · Rope Drop Priorities',
+    time:'Early Entry 8:30a',
+    tags:'',
+    rowId:'hs-rope-drop',
+    body:`<p style="font-size:14px;font-weight:500;margin-bottom:10px;">Tap in at 8:30a. In order:</p>
+    <ol class="rope-drop-list">
+      <li><strong>Mickey & Minnie's Runaway Railway</strong> — Walk straight to it from the park entrance. Rope drop wait: 5–10 min. By 10am: 40–50 min.</li>
+      <li><strong>Alien Swirling Saucers — tap in</strong> — Immediately after MMRR. Tap your pre-booked LL. The moment you scan in, open MDE and book Millennium Falcon: Smugglers Run. Tier restrictions drop on tap-in.</li>
+      <li><strong>Millennium Falcon: Smugglers Run</strong> — Redeem your Lightning Lane window. This is why you did the tap-in move — a second Tier 1 ride without spending a second Tier 1 slot.</li>
+    </ol>
+    <div class="callout"><div class="callout-label">Pre-booked picks (book at 7am day-of)</div><div class="callout-text">1. Slinky Dog Dash (Tier 1) · 2. Toy Story Mania (Tier 2) · 3. Alien Swirling Saucers (Tier 2 — throwaway, tap-in move)</div></div>`
+  },
+  mkSmallWorld: {
+    icon:'🌍',iconClass:'icon-sky',
+    title:"it's a small world",
+    time:'Afternoon · walk straight on',
+    tags:'',
+    rowId:'mk-smallworld',
+    body:`<p>Every Disney princess appears in it. Fully indoor and air-conditioned, a slow boat ride through countries of the world with singing dolls. No height requirement, virtually no wait in the afternoon.</p>
+    <p style="margin-top:10px">The song will be stuck in everyone's head for the rest of the trip. This is unavoidable and non-negotiable.</p>`
+  },
+  akNaviRiver: {
+    icon:'🌊',iconClass:'icon-sky',
+    title:"Na'vi River Journey",
+    time:'Right after Flight of Passage',
+    tags:'',
+    rowId:'ak-naviriver',
+    body:`<p>A gentle float through Pandora's bioluminescent forest. No height requirement — perfect for the 6-year-old, especially if she missed Flight of Passage. Beautiful, peaceful, and genuinely spectacular visually.</p>
+    <p style="margin-top:10px">The Shaman of Songs animatronic at the end is considered one of the most technically advanced Disney has ever built. Even adults are wowed.</p>
+    <p style="margin-top:10px">Do this immediately after FOP while Pandora queues are still manageable — both rides are in the same land.</p>`
+  },
+  akGorillaFalls: {
+    icon:'🦍',iconClass:'icon-sky',
+    title:'Gorilla Falls Exploration Trail',
+    time:'30–45 min · self-guided',
+    tags:'',
+    rowId:'ak-gorillafalls',
+    body:`<p>Animal Kingdom's real animals are one of its greatest selling points — and Gorilla Falls Trail delivers. Gorillas, hippos, naked mole rats, meerkats, exotic birds. Genuinely like a world-class zoo crossed with a theme park.</p>
+    <p style="margin-top:10px">No wait, no height requirement. A completely different pace from the ride queue experience and one of the more educational things you'll do all trip.</p>`
+  },
+  akNemo: {
+    icon:'🐟',iconClass:'icon-show',
+    title:"Finding Nemo: The Big Blue… and Beyond!",
+    time:'Afternoon · check showtime in MDE',
+    tags:'',
+    rowId:'ak-nemo',
+    body:`<p>Live show with puppets, performers, and screens. Good for the girls. Air-conditioned theatre. Multiple shows daily — check My Disney Experience for times.</p>`
+  },
+  akZootopia: {
+    icon:'🦊',iconClass:'icon-show',
+    title:'Zootopia: Better Zoogether!',
+    time:'Check showtime in MDE',
+    tags:'',
+    rowId:'ak-zootopia',
+    body:`<p>A 9-minute 4D show inside the Tree of Life, featuring Judy Hopps and Nick Wilde. Air-conditioned, all ages, and a perfect low-effort afternoon option. Check My Disney Experience for the schedule.</p>`
+  },
+  akBusHome: {
+    icon:'🚌',iconClass:'icon-sky',
+    title:'Bus Back to All-Star',
+    time:'Park close ~7:30p',
+    tags:'',
+    rowId:'ak-bus-home',
+    body:`<p>Animal Kingdom closes earlier than other parks — typically 7:30–8pm in July. Bus to All-Star is direct and frequent.</p>
+    <div class="callout"><div class="callout-label">Tip</div><div class="callout-text">Pick up any Animal Kingdom merchandise on your way out — the shops near the gate have the best selection.</div></div>`
+  },
+};
+
+
+
+var sosItems={
+  missing:{icon:'🚨',iconClass:'icon-tc',title:'Child Goes Missing',time:'Do not search on your own',body:'<div class="prose-p">The good news: cast members see this frequently and handle this well. Find a cast member immediately and report it. It\'s helpful to take a photo in the morning of what they\'re wearing. If you need to describe them quickly, you\'ll have both ready. A description goes out park-wide by radio the moment you do. That cast member will help reunite you.</div><div class="section-divider"></div><div class="prose-p">Children under 10 are escorted directly to the Baby Care Center. Children 10 and over go to Guest Relations. Having your phone number somewhere on your child is helpful — you can get tattoos that do this, write with a marker, or come up with another way. If your child knows to find someone in a Disney uniform and say your name, that\'s the fastest path back to each other.</div>'},
+  medical:{icon:'🏥',iconClass:'icon-tc',title:'Medical or Urgent Care',time:'In order of speed and convenience',body:'<div class="prose-p">First Aid in every park handles minor issues, free, on the spot. Ask any cast member for the nearest one.</div><div class="section-divider"></div><div class="prose-p"><strong>1. AdventHealth In-Room Care</strong> — nurse comes to your hotel room. 8am to 8pm. About 2 hours wait. Call <a href="tel:8773261463" style="color:var(--terracotta);">877-326-1463</a>.<br><br><strong>2. iCare Urgent Care</strong> — 24/7. About 90 min start to finish. Call <a href="tel:4078585422" style="color:var(--terracotta);">407-858-5422</a>.<br><br><strong>3. AdventHealth Urgent Care Celebration</strong> — 24/7, free transport from resort. Call <a href="tel:4079645499" style="color:var(--terracotta);">407-964-5499</a>.<br><br><strong>4. Buena Vista Walk-In Clinic</strong> — 7:45am to 8pm weekdays, 7:45am to 5pm weekends. 10 min drive. Call <a href="tel:4074651110" style="color:var(--terracotta);">407-465-1110</a>.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If anyone has stopped sweating, feels dizzy, or seems confused, go to First Aid first. Call 911 if it\'s severe.</div></div>'},
+  breakdown:{icon:'🎢',iconClass:'icon-tc',title:'Ride is Broken Down',time:'Check the app first',body:'<div class="prose-p">Disney often automatically converts your Lightning Lane to an anytime pass when a ride goes down. Look for a notification in MDE before doing anything else.</div><div class="section-divider"></div><div class="prose-p">If no automatic conversion, find a cast member at the ride entrance and ask them to note the issue on your account. What they can offer varies but it\'s always worth asking.</div>'},
+  meltdown:{icon:'😭',iconClass:'icon-sky',title:'Someone is Melting Down',time:'Get out of the crowd first',body:'<div class="prose-p">Step away from whatever queue or area you\'re in. Find space first, then assess. Every park has a Baby Care Center with AC, rocking chairs, changing tables, and a quiet feeding room — cast members will point you there.</div><div class="section-divider"></div><div class="prose-p"><strong>Quiet spots by park</strong></div><div class="prose-p"><strong>Magic Kingdom</strong><br>East Center Street — the hidden alley just past Uptown Jewelers off Main Street. Seating, umbrellas, almost no foot traffic even on busy days.</div><div class="prose-p"><strong>EPCOT</strong><br>Benches outside Mission: SPACE — consistently quiet. The area near the Imagination pavilion restrooms is shaded and almost always calm. World Showcase pavilions have pockets off the main walkway — France and Japan tend to be the most peaceful.</div><div class="prose-p"><strong>Hollywood Studios</strong><br>Benches outside Walt Disney Presents — usually empty even at peak hours. Animation Courtyard between shows is quieter than the main boulevard.</div><div class="prose-p"><strong>Animal Kingdom</strong><br>Maharajah Jungle Trek in Asia — self-paced walking trail with shaded benches. The path between the Tree of Life and Discovery Island Trails is usually quiet.</div><div class="section-divider"></div><div class="prose-p">If it\'s past midday and the group is heading downhill, there\'s no penalty for leaving early. The hotel pool or room is always an option.</div>'},
+  rain:{icon:'🌧️',iconClass:'icon-sky',title:"It's Raining",time:'Wait it out, it passes fast',body:'<div class="prose-p">Florida rain is usually heavy for 20 to 40 minutes then done. Duck into the nearest indoor ride or shop and wait it out.</div><div class="section-divider"></div><div class="prose-p">Hollywood Boulevard\'s connected shops let you walk the full main drag without going outside. EPCOT pavilions and Future World rides all have indoor queues. Right after the rain stops is a good time to ride outdoor attractions — crowds thin out fast.</div>'},
+  heat:{icon:'🥵',iconClass:'icon-tc',title:'Someone is Overheating',time:'Get out of the sun immediately',body:'<div class="prose-p">Find the nearest air-conditioned building and stay for at least 15 minutes. Cold water on wrists and the back of the neck helps quickly.</div><div class="section-divider"></div><div class="prose-p">Every park has a First Aid station with AC, free cold water, and a nurse on duty. Ask any cast member — they know exactly where it is.</div><div class="callout"><div class="callout-label">Important</div><div class="callout-text">If someone has stopped sweating, feels dizzy, or seems confused, go to First Aid right away. Do not wait it out. With young children especially, watch for unusual fussiness or a hot dry forehead.</div></div>'},
+  behind:{icon:'⏰',iconClass:'icon-sky',title:'Running Way Behind',time:'Protect what matters most today',body:'<div class="prose-p">Your Single Pass times are the only hard fixed points. Single Pass windows have more grace than the app shows — often up to an hour past the listed window. Try scanning even if it looks expired.</div><div class="section-divider"></div><div class="prose-p">Everything else is flexible. If the morning falls apart, pick the one ride that matters most and walk straight to it. Skip the warm-up rides without guilt.</div><div class="section-divider"></div><div class="prose-p">Out-by-1pm is a target, not a deadline. If JR is happy and the day is going well, push to 1:30. If he\'s done at 11:30, leave at 11:30.</div>'},
+  phone:{icon:'📵',iconClass:'icon-sky',title:'Phone Died',time:'Your reservations are safe',body:'<div class="prose-p">Your Lightning Lanes and dining reservations live in your Disney account, not your phone. Any cast member at a restaurant or attraction can pull them up by name.</div><div class="section-divider"></div><div class="prose-p">Charging spots: near park entrances, some table-service restaurants, and First Aid usually has charging available. Guest Services near the entrance can print confirmations on paper if you need them.</div>'},
+  breather:{icon:'🛋️',iconClass:'icon-sky',title:'Need Something Easy Right Now',time:'Low effort, everyone sits down',body:'<div class="prose-p"><strong>EPCOT</strong><br>Spaceship Earth — 15 min ride, all dark and quiet, AC<br>Living with the Land — slow boat, gentle, almost never a wait<br>Gran Fiesta Tour (Mexico) — slow boat, AC, opens with World Showcase at 11am<br>ImageWorks play area — soft floors, AC, behind the Figment ride</div><div class="section-divider"></div><div class="prose-p"><strong>Hollywood Studios</strong><br>Frozen Sing-Along — 30 min seated show, AC, kids can sing along<br>Walt Disney Presents — air-conditioned walk-through, almost always empty</div><div class="section-divider"></div><div class="prose-p"><strong>Animal Kingdom</strong><br>Festival of the Lion King — 30 min show, AC, big production<br>Gorilla Falls Trail — self-paced shaded walk<br>Zootopia: Better Zoogether! — 9 min seated show inside the Tree of Life</div><div class="section-divider"></div><div class="prose-p"><strong>Or just go back</strong><br>There is no penalty for leaving early. The hotel pool, the room, a proper rest. The day will not be ruined.</div>'}
+};
+
+// ── CORE FUNCTIONS ────────────────────────────────────────────
+function switchDay(idx){
+  currentDay=idx;
+  currentWKPark=idx;
+  document.querySelectorAll('.day-panel').forEach(function(p,i){p.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.day-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  document.querySelectorAll('.wk-park-tab').forEach(function(t,i){t.classList.toggle('active',i===idx);});
+  document.getElementById('indexTab').classList.remove('active');
+  document.getElementById('indexPanel').classList.remove('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+}
+
+function switchIndex(){
+  document.querySelectorAll('.day-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.day-panel').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('indexTab').classList.add('active');
+  document.getElementById('indexPanel').classList.add('active');
+}
+
+function openDrawer(key,callerRowId){
+  hideSOS();
+  var item=activities[key];
+  if(!item)return;
+  document.getElementById('drawerIcon').textContent=item.icon;
+  document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+  document.getElementById('drawerTitle').textContent=item.title;
+  document.getElementById('drawerTime').textContent=item.time;
+  document.getElementById('drawerTags').innerHTML=item.tags||'';
+  document.getElementById('drawerBody').innerHTML=item.body;
+  var effectiveRowId=callerRowId||item.rowId;
+  var isDone=doneItems.has(effectiveRowId);
+  document.getElementById('drawerFooter').innerHTML='<button class="done-btn'+(isDone?' completed':'')+'" onclick="toggleDone(\''+effectiveRowId+'\')">'+(isDone?'✓ Done':'✓ Mark as Done')+'</button>';
+  document.getElementById('activityDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function toggleDone(rowId){
+  var el=document.getElementById(rowId);
+  if(doneItems.has(rowId)){
+    doneItems.delete(rowId);
+    if(el){el.classList.remove('done');var dc=el.querySelector('.done-check');if(dc)dc.classList.remove('pop');}
+  } else {
+    doneItems.add(rowId);
+    if(el){el.classList.add('done');var dc=el.querySelector('.done-check');if(dc){dc.classList.remove('pop');void dc.offsetWidth;dc.classList.add('pop');}}
+  }
+  saveDone();
+  var btn=document.querySelector('#drawerFooter .done-btn');
+  if(btn){btn.classList.toggle('completed',doneItems.has(rowId));btn.textContent=doneItems.has(rowId)?'✓ Done':'✓ Mark as Done';}
+}
+
+function closeAll(){
+  document.getElementById('activityDrawer').classList.remove('open');
+  document.getElementById('wkDrawer').classList.remove('open');
+  document.getElementById('sosDrawer').classList.remove('open');
+  document.getElementById('bagDrawer').classList.remove('open');
+  document.getElementById('charsDrawer').classList.remove('open');
+  document.getElementById('entDrawer').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  showSOS();
+}
+function hideSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='0';b.style.pointerEvents='none';}}
+function showSOS(){var b=document.getElementById('sosStickyBtn');if(b){b.style.opacity='1';b.style.pointerEvents='';}}
+function openSOSMenu(){hideSOS();document.getElementById('sosDrawer').classList.add('open');document.getElementById('overlay').classList.add('open');}
+function openSOSFromMenu(key){document.getElementById('sosDrawer').classList.remove('open');setTimeout(function(){openSOS(key);},150);}
+
+function openWorthKnowing(){
+  var pill=document.querySelector('.day-panel.active .worth-pill-btn');
+  if(pill){pill.classList.add('pressed');setTimeout(function(){pill.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    document.getElementById('wkBody').innerHTML=buildWKContent(currentWKPark);
+    document.getElementById('wkDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function switchWKPark(idx,tab){
+  currentWKPark=idx;
+  document.querySelectorAll('.wk-park-tab').forEach(function(t){t.classList.remove('active');});
+  tab.classList.add('active');
+  document.getElementById('wkBody').innerHTML=buildWKContent(idx);
+  document.getElementById('wkBody').scrollTop=0;
+}
+
+function openSOSMenu(){
+  hideSOS();
+  document.getElementById('sosDrawer').classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+}
+
+function openSOSFromMenu(key){
+  var item=sosItems[key];
+  if(!item)return;
+  document.getElementById('sosDrawer').classList.remove('open');
+  setTimeout(function(){
+    document.getElementById('drawerIcon').textContent=item.icon;
+    document.getElementById('drawerIcon').className='drawer-icon '+(item.iconClass||'icon-tc');
+    document.getElementById('drawerTitle').textContent=item.title;
+    document.getElementById('drawerTime').textContent=item.time;
+    document.getElementById('drawerTags').innerHTML='';
+    document.getElementById('drawerBody').innerHTML=item.body;
+    document.getElementById('drawerFooter').innerHTML='';
+    document.getElementById('activityDrawer').classList.add('open');
+  },200);
+}
+
+// Stepper pattern — confirmed working (Mosbacher v3_9, May 2026)
+// Requires: id="sc-N" on each <div class="bp-bottom"> in day panel HTML (added by generator)
+function togglePriorities(dayIdx){
+  var list=document.getElementById('psList-'+dayIdx);
+  var chev=document.getElementById('psChev-'+dayIdx);
+  if(!list||!chev)return;
+  var open=list.classList.toggle('open');
+  chev.classList.toggle('open',open);
+}
+function toggleEdit(dayIdx){
+  editModes[dayIdx]=!editModes[dayIdx];
+  var on=editModes[dayIdx];
+  var sc=document.getElementById('sc-'+dayIdx);
+  if(!sc)return;
+  sc.classList.toggle('edit-mode',on);
+  if(on){updateSteppers(dayIdx);}
+}
+function getMovable(dayIdx){return Array.prototype.slice.call(document.querySelectorAll('#timeline-'+dayIdx+' .tl-item:not(.fixed)'));}
+function moveUp(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx<=0)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx-1].parentNode.insertBefore(row,all[idx-1]);updateSteppers(dayIdx);}catch(e){}}
+function moveDown(row,dayIdx){try{var all=getMovable(dayIdx);var idx=all.indexOf(row);if(idx>=all.length-1)return;row.classList.add('moving');setTimeout(function(){row.classList.remove('moving');},200);all[idx+1].parentNode.insertBefore(all[idx+1],row);updateSteppers(dayIdx);}catch(e){}}
+function updateSteppers(dayIdx){var all=getMovable(dayIdx);all.forEach(function(row,idx){var btns=row.querySelectorAll('.step-btn');if(btns.length<2)return;btns[0].disabled=(idx===0);btns[1].disabled=(idx===all.length-1);btns[0].onclick=btns[0].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveUp(r,d);};})(row,dayIdx);btns[1].onclick=btns[1].disabled?null:(function(r,d){return function(e){e.stopPropagation();moveDown(r,d);};})(row,dayIdx);});}
+
+// ── BAG DATA ──────────────────────────────────────────────────────
+var bagItems=[
+
+  'High-SPF sunscreen (SPF 50+ minimum) — bring more than you think',
+  'Refillable water bottles × 4 — free water refills at any counter service',
+  'Cooling towels or small misting fans',
+  'Light rain ponchos × 4 — July storms are daily. Park ponchos cost £15+ each',
+  'Comfortable walking shoes — Disney parks average 20,000+ steps per day',
+  'Small dry bag for phones/wallets (essential for water rides)',
+  'Portable phone charger / power bank — My Disney Experience kills batteries',
+  'Kids\' pain relief + any prescriptions',
+  'Autograph books + Sharpie marker × 2 (park pens always run out)',
+  'Light change of clothes for each girl (post water-ride backup)',
+  'Snacks from the supermarket — park snacks are expensive',
+  'Anti-chafing balm — July heat + miles of walking = uncomfortable without it',
+  'Hat or sun cap for each family member',
+  'Camera or confirm phone camera is cleared + charged'
+];
+
+// ── CHARACTERS DATA (per-day) ─────────────────────────────────
+var charsData=[
+
+  {
+    title:'Magic Kingdom',
+    sub:'Character schedule',
+    note:'Magic Kingdom has the best character lineup of any Disney park. Always verify times in My Disney Experience on the day.',
+    rows:[
+      {name:'Mickey & Minnie Mouse',loc:'Town Square Theatre · Main Street',text:'Most reliable meet in WDW. Indoor, air-conditioned. Expect 30–45 min queue. Worth it for the girls.'},
+      {name:'Rapunzel & Tiana',loc:'Princess Fairytale Hall · Fantasyland',text:'Indoor princess meets. Two separate queues. Air-conditioned.'},
+      {name:'Buzz Lightyear & Woody',loc:'Storybook Circus or roaming',text:'Check My Disney Experience for current location — roaming character locations change daily.'},
+      {name:'Merida',loc:'Fairytale Garden · Fantasyland',text:'Merida does a storytelling session here. Check schedule in app for times.'},
+      {name:'Tinker Bell',loc:'Town Square — varies',text:'Often appears in Town Square for photo ops. Check character schedule in My Disney Experience.'}
+    ]
+  },
+  {
+    title:'Animal Kingdom',
+    sub:'Character schedule',
+    note:'Animal Kingdom character meets are more limited but the unique characters make it special.',
+    rows:[
+      {name:'Mickey & Minnie (Safari)',loc:'Adventurers Outpost · Discovery Island',text:'A dual meet — both Mickey and Minnie together in safari gear. Unique to Animal Kingdom. Indoor, AC.'},
+      {name:'Kevin (from Up!)',loc:'Near Up! A Great Bird Adventure',text:'Kevin is a rare character meet — a giant bird. The girls will find her hilarious. Check schedule.'},
+      {name:'Russell & Dug (from Up!)',loc:'Near Discovery Island',text:'Appears before/after the Up! Bird Adventure show — good excuse to catch both show and meet.'},
+      {name:'Pocahontas',loc:'Discovery Island — check app',text:"One of the rarer princess meets in all of WDW. If she's out, worth prioritising."},
+      {name:'Wilderness Explorers',loc:'Discovery Island HQ',text:'The girls can earn Explorer badges by completing challenges across the park.'}
+    ]
+  },
+  {
+    title:'Hollywood Studios',
+    sub:'Character schedule',
+    note:'Hollywood Studios has some of the most unique and exclusive character meets, particularly Star Wars and Toy Story.',
+    rows:[
+      {name:'Buzz Lightyear & Woody',loc:'Toy Story Land',text:'Outdoor meet in Toy Story Land. Check times carefully — they take breaks frequently in July heat.'},
+      {name:'Rey',loc:"Star Wars Launch Bay or Galaxy's Edge",text:'Rey meets are very popular — expect 30–45 min queues.'},
+      {name:'Chewbacca',loc:"Galaxy's Edge",text:'Chewie appears in Black Spire Outpost — roaming character, check the app for confirmed times.'},
+      {name:'Olaf',loc:'Launch Bay area',text:"Frozen's Olaf is a crowd favourite with younger children — the 6yo will love this one."},
+      {name:'Disney Junior characters',loc:'Check schedule',text:'Vampirina, Doc McStuffins and others appear if the girls are Disney Junior fans.'}
+    ]
+  }
+];
+
+// ── ENTERTAINMENT DATA (per-day) ──────────────────────────────
+var entData=[
+
+  {
+    title:'Magic Kingdom',
+    sub:'Shows & entertainment',
+    note:'Magic Kingdom has the richest entertainment lineup — parades, fireworks, and live music throughout the day.',
+    rows:[
+      {name:'Disney Starlight: Dream the Night Away',loc:'~9:00p — confirm day-of',text:'Magic Kingdom\'s new nighttime parade — illuminated floats down Main Street through Liberty Square and Frontierland. About 12 minutes to pass a given spot. Optional — running it plus fireworks makes for a very late night with young kids.'},
+      {name:'Happily Ever After Fireworks',loc:'~10:00p — confirm day-of',text:'The must-see event of Day 1, now running later (~10pm) to make room for Disney Starlight beforehand. 18 minutes of castle projections, fireworks, and Disney film scores. Watch from the Hub or Main Street. Arrive by 9:30p for good viewing.'},
+      {name:'Festival of Fantasy Parade',loc:'~3:00p — confirm day-of',text:'A spectacular afternoon parade down Main Street with floats, costumes, and dancers. Position near Town Square end for the best spot.'},
+      {name:'Move It! Shake It! Dance & Play It!',loc:'Late morning — check app',text:'Interactive street party on Main Street — the girls can dance with characters. Check the app for timing.'},
+      {name:'Main Street musicians',loc:'Throughout the day',text:'Live music at various spots along Main Street all day — barbershop quartets, marching bands, and the Dapper Dans.'}
+    ]
+  },
+  {
+    title:'Animal Kingdom',
+    sub:'Shows & entertainment',
+    note:'Animal Kingdom has a strong live entertainment programme focused on nature, storytelling, and conservation.',
+    rows:[
+      {name:'Tree of Life Awakenings',loc:'After dusk · every 10–15 min',text:'Short projection show on the Tree of Life trunk at dusk — only 3–4 minutes but genuinely magical. Multiple showings.'},
+      {name:'Festival of the Lion King',loc:'Multiple times daily',text:'A spectacular live musical show in theatre-in-the-round. Acrobats, singers, giant puppets. One of the best live shows in any theme park. Arrive 20 min early.'},
+      {name:"Finding Nemo: The Big Blue and Beyond",loc:'Multiple times daily',text:'Live show with puppets, performers and screens. Good for the girls. Air-conditioned theatre.'},
+      {name:"Up! A Great Bird Adventure",loc:'Multiple times daily',text:'Live show with Russell and Dug from Up!, featuring live birds of prey. Character meet after most shows.'},
+      {name:'Harambe Village entertainment',loc:'Throughout the day',text:'Live African drummers and dancers in the Africa section. Spontaneous and authentic.'}
+    ]
+  },
+  {
+    title:'Hollywood Studios',
+    sub:'Shows & entertainment',
+    note:'Hollywood Studios has some of the most technically impressive live shows — Fantasmic! is a genuine must-see.',
+    rows:[
+      {name:'Fantasmic!',loc:'~8:00p — confirm day-of',text:'The Day 3 signature experience. Mickey battles Disney villains with water screens, projections, live performers and fireworks. 30 minutes. Arrive 35–40 min early for center seating.'},
+      {name:'Indiana Jones Epic Stunt Spectacular',loc:'Multiple times — check app',text:'Live stunt show using Raiders of the Lost Ark scenes. Explosions, car chases, fight choreography. Air-conditioned indoor theatre. Audience volunteers possible!'},
+      {name:'Beauty and the Beast Live on Stage',loc:'Multiple times daily',text:'A live stage production with full costumes, sets, and the complete score. On Sunset Boulevard. Afternoon shows recommended.'},
+      {name:"For the First Time in Forever: A Frozen Sing-Along",loc:'Multiple times daily',text:'A comedic and musical Frozen sing-along in an air-conditioned theatre. Great midday option.'}
+    ]
+  }
+];
+
+function openCharsDrawer(dayIdx){
+  var p=document.getElementById('charsPill-'+dayIdx);
+  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    var d=charsData[dayIdx];
+    document.getElementById('charsDrawerTitle').textContent=d.title;
+    document.getElementById('charsDrawerSub').textContent=d.sub;
+    var html='<div class="note-block">'+d.note+'</div>';
+    (d.rows||[]).forEach(function(r){
+      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
+    });
+    document.getElementById('charsDrawerBody').innerHTML=html;
+    document.getElementById('charsDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function openEntDrawer(dayIdx){
+  var p=document.getElementById('entPill-'+dayIdx);
+  if(p){p.classList.add('pressed');setTimeout(function(){p.classList.remove('pressed');},150);}
+  setTimeout(function(){
+    var d=entData[dayIdx];
+    document.getElementById('entDrawerTitle').textContent=d.title;
+    document.getElementById('entDrawerSub').textContent=d.sub;
+    var html='<div class="note-block">'+d.note+'</div>';
+    (d.rows||[]).forEach(function(r){
+      html+='<div class="meet-row"><div class="meet-name">'+r.name+'</div><div class="meet-loc">'+r.loc+'</div><div class="meet-text">'+r.text+'</div></div>';
+    });
+    document.getElementById('entDrawerBody').innerHTML=html;
+    document.getElementById('entDrawer').classList.add('open');
+    document.getElementById('overlay').classList.add('open');
+    hideSOS();
+  },120);
+}
+
+function openBagDrawer(dayIdx){
+  var el=document.getElementById('bagDrawer');
+  var body=document.getElementById('bagDrawerBody');
+  el._dayIdx=dayIdx;
+  body.innerHTML='';
+  bagItems.forEach(function(item,i){
+    var key='bag-item-'+i;
+    var div=document.createElement('div');
+    div.className='bag-check-item'+(localStorage.getItem(key)==='1'?' checked':'');
+    div.innerHTML='<div class="bag-check-box"></div><span class="bag-check-label">'+item+'</span>';
+    div.addEventListener('click',function(){
+      div.classList.toggle('checked');
+      localStorage.setItem(key,div.classList.contains('checked')?'1':'0');
+    });
+    body.appendChild(div);
+  });
+  el.classList.add('open');
+  document.getElementById('overlay').classList.add('open');
+  hideSOS();
+}
+
+function packedUp(){
+  closeAll();
+}
+
+(function(){
+  for(var i=0;i<bagItems.length;i++){
+    var key='bag-item-'+i;
+    if(localStorage.getItem(key)==='1'){
+      var el=document.getElementById('bagDrawer');
+      if(!el)return;
+      var items=el.querySelectorAll('.bag-check-item');
+      if(items[i])items[i].classList.add('checked');
+    }
+  }
+})();
+
+// ── INIT ──────────────────────────────────────────────────────
+doneItems.forEach(function(id){
+  var el=document.getElementById(id);
+  if(el)el.classList.add('done');
+});
+document.getElementById('wkBody').innerHTML=buildWKContent(0);
+</script>
+
+<script>
+(function() {
+  var FLAG = 'pe-home-prompt-dismissed';
+  var isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (isStandalone) return;
+  if (localStorage.getItem(FLAG)) return;
+  var el = document.getElementById('homePrompt');
+  if (!el) return;
+  setTimeout(function() { el.style.display = 'block'; }, 2000);
+})();
+
+function dismissHomePrompt(permanent) {
+  var el = document.getElementById('homePrompt');
+  if (el) el.style.display = 'none';
+  if (permanent) localStorage.setItem('pe-home-prompt-dismissed', '1');
+}
+</script>
+</body>
+</html>
