@@ -84,9 +84,9 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
 
 /* ---- captions: overlaid on the phone, story-style at the top ---- */
 .cap-overlay{position:absolute;top:10px;left:10px;right:10px;z-index:56;pointer-events:none;text-align:center;}
-.act-eyebrow{font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);margin-bottom:5px;opacity:0;transition:opacity .5s;}
+.act-eyebrow{display:inline-block;font-family:'DM Mono',monospace;font-size:8.5px;letter-spacing:0.2em;text-transform:uppercase;color:var(--terracotta);background:#FFFDFB;border:1px solid var(--border);border-radius:999px;padding:4px 11px;box-shadow:0 3px 10px rgba(44,36,32,.16);margin-bottom:6px;opacity:0;transition:opacity .5s;}
 .act-eyebrow.show{opacity:1;}
-.caption{display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:14.5px;line-height:1.42;color:var(--text);background:rgba(253,248,244,.94);border:1px solid var(--border);border-radius:12px;padding:9px 14px;box-shadow:0 4px 16px rgba(44,36,32,.14);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);opacity:0;transform:translateY(-6px);transition:opacity .45s,transform .45s;max-width:100%;}
+.caption{display:inline-block;font-family:'Playfair Display',Georgia,serif;font-size:14.5px;line-height:1.42;color:var(--text);background:#FFFDFB;border:1.5px solid var(--border);border-radius:12px;padding:10px 15px;box-shadow:0 6px 22px rgba(44,36,32,.22);opacity:0;transform:translateY(-6px);transition:opacity .45s,transform .45s;max-width:100%;}
 .caption.show{opacity:1;transform:none;}
 
 /* ---- progress: story bar along the phone's top edge ---- */
@@ -191,6 +191,7 @@ body{background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--text);
       </div>
     </div>
     <div class="fallback-link" id="fallback" hidden>Prefer to explore yourself? <a href="/mcarthur/">Open the demo</a></div>
+    <div style="text-align:center;font-family:'DM Mono',monospace;font-size:8px;letter-spacing:.14em;color:var(--shadow);margin-top:8px;">BUILD 7 · SOLID CAPTION CARDS</div>
   </div>
 
 </div>
@@ -486,12 +487,15 @@ function play(){
 function replay(){
   resetVisuals();
   playOverlay.classList.remove("show");
-  started = false; appReady = false;
+  started = false; appReady = false; appLoadHandled = false;
   app.addEventListener("load", onAppLoad, { once: true });
   app.contentWindow.location.reload();
 }
 
+var appLoadHandled = false;
 function onAppLoad(){
+  if(appLoadHandled) return;
+  appLoadHandled = true;
   /* a 404 page still fires load, so verify the app itself is present */
   var ok = false, blocked = false;
   try { ok = typeof app.contentWindow.openDrawer === "function"; }
@@ -531,6 +535,10 @@ io.observe(stage);
 playBtn.addEventListener("click", function(){ started = true; play(); });
 replayBtn.addEventListener("click", replay);
 app.addEventListener("load", onAppLoad, { once: true });
+/* cached iframes can finish before the listener attaches; catch up if so */
+try {
+  if (app.contentWindow && app.contentWindow.document && app.contentWindow.document.readyState === "complete") onAppLoad();
+} catch(e){ /* cross-origin: the load listener plus guard will handle it */ }
 })();
 </script>
 </body>
