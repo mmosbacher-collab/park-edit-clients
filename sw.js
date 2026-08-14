@@ -31,7 +31,10 @@ self.addEventListener('fetch', function(e) {
   // Network-first for the walkthrough video only: it's under active
   // iteration, so always try the network first and fall back to cache
   // only if offline. Every other client folder keeps cache-first below.
-  if (e.request.url.indexOf('/walkthrough/') !== -1) {
+  var url;
+  try { url = new URL(e.request.url); } catch (err) { return; }
+
+  if (url.pathname.indexOf('/walkthrough/') === 0) {
     e.respondWith(
       fetch(e.request).then(function(response) {
         return caches.open(CACHE).then(function(cache) {
@@ -39,7 +42,9 @@ self.addEventListener('fetch', function(e) {
           return response;
         });
       }).catch(function() {
-        return caches.match(e.request);
+        return caches.match(e.request).then(function(cached) {
+          return cached || new Response('', { status: 408 });
+        });
       })
     );
     return;
